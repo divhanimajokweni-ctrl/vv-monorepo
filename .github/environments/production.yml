@@ -1,0 +1,8 @@
+name: Production Environment
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+deploy: true

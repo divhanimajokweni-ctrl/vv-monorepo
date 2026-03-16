@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-app: #f9fafb;
+  --bg-card: #ffffff;
+  --text-main: #111827;
+  --text-muted: #575f69;
+  --accent-ubuntu: #059669;
+  --safety-buffer: #d97706;
+  --surface: #ffffff;
+  --surface-2: #f3f4f6;
+  --text: #1f2937;
+  --muted: #4b5563;
+  --muted-2: #6b7280;
+  --border: #e5e7eb;
+  --accent-sage: #5a7a5a;
+  --accent-gold: #a18027;
+  --accent-clay: #b5694e;
+}
+
+[data-theme='dark'] {
+  --bg-app: #0f172a;
+  --bg-card: #1e293b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent-ubuntu: #34d399;
+  --safety-buffer: #fbbf24;
+  --surface: #1A1C1B;
+  --surface-2: #252826;
+  --text: #FDFCFB;
+  --muted: #9EA39F;
+  --border: #3A3D3B;
+  --accent-sage: #8CA082;
+  --accent-gold: #fbbf24;
+  --accent-clay: #C07B5B;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --surface: #1A1C1B;
+    --surface-2: #252826;
+    --text: #FDFCFB;
+    --muted: #9EA39F;
+    --border: #3A3D3B;
+    --accent-sage: #8CA082;
+    --accent-gold: #fbbf24;
+    --accent-clay: #C07B5B;
+  }
+}
+
+body {
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+@layer components {
+  .up-card {
+    @apply bg-[var(--surface-2)] border border-[var(--border)] rounded-xl p-4;
+    aspect-ratio: auto;
+    min-width: 0;
+  }
+
+  .up-card img {
+    @apply object-cover w-full h-full;
+  }
+
+  .up-kicker {
+    @apply text-[var(--muted)] uppercase tracking-wider text-xs;
+  }
+
+  .up-border-gradient {
+    @apply border border-transparent;
+    background: linear-gradient(var(--surface-2), var(--surface-2)) padding-box,
+                linear-gradient(135deg, var(--accent-sage), var(--accent-gold)) border-box;
+  }
+
+  .up-pill {
+    @apply px-4 py-2 rounded-full border border-[color:var(--border)] text-xs font-black uppercase tracking-widest transition-all;
+  }
+
+  .transform-gpu {
+    transform: translateZ(0);
+  }
+}

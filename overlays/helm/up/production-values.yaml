@@ -1,0 +1,9 @@
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: api.up.<LB_IP>.sslip.io     # Replace <LB_IP> with your cluster LB IP
+      paths:
+        - path: /
+          pathType: Prefix

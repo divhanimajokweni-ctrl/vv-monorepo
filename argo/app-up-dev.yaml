@@ -1,0 +1,22 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: up-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/divhanimajokweni-ctrl/you-are-the-lead-systems-engineer-responsible-for-generating-code-for-the-ubuntu-pools-platform.-you.git
+    targetRevision: main
+    path: helm
+    helm:
+      valueFiles:
+        - ../overlays/helm/up/dev-values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: up-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

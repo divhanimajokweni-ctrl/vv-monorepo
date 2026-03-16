@@ -1,0 +1,9 @@
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: api-dev.up.<LB_IP>.nip.io   # Replace <LB_IP> with your cluster LB IP
+      paths:
+        - path: /
+          pathType: Prefix

@@ -1,0 +1,170 @@
+name: Continuous Audit
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      entityType:
+        description: 'Entity type to audit'
+        required: false
+        default: ''
+      entityId:
+        description: 'Specific entity ID to audit'
+        required: false
+        default: ''
+  push:
+    branches: [main]
+    paths:
+      - 'src/lib/events/**'
+      - 'src/lib/ledger/**'
+  pull_request:
+    paths:
+      - 'src/lib/events/**'
+      - 'src/lib/ledger/**'
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  hash-chain-verification:
+    name: Hash Chain Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Run hash chain verification
+        run: |
+          bun run src/lib/events/hasher.ts --verify
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Check for orphans
+        run: |
+          bun run src/lib/events/hasher.ts --orphan-check
+
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          path: .
+          output-file: sbom.spdx.json
+
+      - name: Upload SBOM as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.spdx.json
+
+  compliance-gates:
+    name: Compliance Gates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Run typecheck
+        run: bun run typecheck
+
+      - name: Run lint
+        run: bun run lint
+
+      - name: Run tests
+        run: bun run test
+
+      - name: Check for PII in event payloads
+        run: |
+          bun run scripts/pii-linter.ts
+
+  incident-check:
+    name: Check for open incidents
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Check for unresolved incidents
+        run: |
+          bun run scripts/check-incidents.ts
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        continue-on-error: true
+
+  cosign-signature:
+    name: Sign releases with Cosign
+    runs-on: ubuntu-latest
+    needs: [hash-chain-verification, compliance-gates]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3
+
+      - name: Sign artifacts
+        run: |
+          cosign sign --key cosign.key ${{ github.sha }}
+        env:
+          COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
+        continue-on-error: true
+
+  deploy:
+    name: Deploy to Vercel
+    runs-on: ubuntu-latest
+    needs: [hash-chain-verification, compliance-gates, cosign-signature]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+
+  audit-summary:
+    name: Audit Summary
+    needs: [hash-chain-verification, compliance-gates, incident-check]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Generate audit report
+        run: |
+          echo "## Audit Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Hash Chain Verification" >> $GITHUB_STEP_SUMMARY
+          echo "- Status: ${{ needs.hash-chain-verification.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Compliance Gates" >> $GITHUB_STEP_SUMMARY
+          echo "- Status: ${{ needs.compliance-gates.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Incident Check" >> $GITHUB_STEP_SUMMARY
+          echo "- Status: ${{ needs.incident-check.result }}" >> $GITHUB_STEP_SUMMARY
