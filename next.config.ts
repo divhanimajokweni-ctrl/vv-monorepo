@@ -3,6 +3,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   serverExternalPackages: [],
+  turbopack: {
+    root: process.cwd(),
+  },
+  allowedDevOrigins: ["*.replit.dev", "*.worf.replit.dev"],
   images: {
     remotePatterns: [
       {
@@ -32,7 +36,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'X-Frame-Options',
-            value: 'DENY',
+            value: 'SAMEORIGIN',
           },
           {
             key: 'X-XSS-Protection',
