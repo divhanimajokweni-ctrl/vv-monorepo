@@ -1,0 +1,68 @@
+ Download the UP pack
+UP Overlays + ArgoCD pack (ZIP):
+[up-overlays-argocd-pack-20260316.zip]
+What’s inside:
+
+up-overlays-argocd-pack-20260316.zip
+
+├─ overlays/
+
+│ └─ helm/
+
+│ └─ up/
+
+│ ├─ dev-values.yaml # NGINX ingress, dev host: api-dev.up.<LB_IP>.nip.io
+
+│ └─ production-values.yaml # NGINX ingress, prod host: api.up.<LB_IP>.sslip.io
+
+├─ argo/
+
+│ ├─ app-up-dev.yaml # Argo Application → namespace: up-dev
+
+│ └─ app-up-production.yaml # Argo Application → namespace: up-production
+
+├─ .github/
+
+│ ├─ CODEOWNERS # Maintainer ownership
+
+│ └─ BRANCH_PROTECTION.md # Manual policy instructions
+
+├─ PR_BODY.md # Paste into your PR
+
+└─ INSTRUCTIONS.md # How to apply
+
+You can also preview the top-level docs:
+
+[INSTRUCTIONS.md]
+[PR_BODY.md]
+[README-PACKAGE.md]
+How to apply (UP repo)
+Target repo: https://github.com/divhanimajokweni-ctrl/you-are-the-lead-systems-engineer-responsible-for-generating-code-for-the-ubuntu-pools-platform.-you (Per‑app GitOps — Argo watches the UP repo)
+
+Unzip into the UP repo root:
+unzip up-overlays-argocd-pack-20260316.zip -d .
+
+git add .
+
+git commit -m "chore(up): add Helm overlays (dev/prod) + ArgoCD Applications + governance"
+
+Replace <LB_IP> in:
+overlays/helm/up/dev-values.yaml → api-dev.up.<LB_IP>.nip.io
+overlays/helm/up/production-values.yaml → api.up.<LB_IP>.sslip.io
+Create Argo Applications (Per‑app GitOps):
+kubectl apply -n argocd -f argo/app-up-dev.yaml
+
+kubectl apply -n argocd -f argo/app-up-production.yaml
+
+ArgoCD will watch the UP repo on main, syncing the helm chart with the specified valueFiles.
+
+Open a PR and paste PR_BODY.md as the description.
+(Optional) Apply repo policies
+Follow .github/BRANCH_PROTECTION.md to set:
+Require PRs with reviews, status checks passing, signed commits, linear history, dismiss stale approvals, block force pushes.
+What this gives UP right away
+Zero‑DNS friction dev env with .nip.io / .sslip.io
+NGINX ingress class (aligned with your architecture)
+Clean GitOps for up-dev and up-production namespaces
+Clear ownership and branch protection defaults
+/git push PR
