@@ -1,0 +1,17 @@
+replicaCount: 2
+image:
+  repository: ghcr.io/safegrid/brain-api # Update to your actual registry
+  pullPolicy: IfNotPresent
+  tag: "latest" # This will be automated
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi

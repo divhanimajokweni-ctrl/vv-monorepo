@@ -1,3 +1,10 @@
+replicaCount: 1
+resources:
+  limits:
+    memory: 256Mi
+# Dev-specific env vars (e.g., sandbox API keys)
+extraEnv:
+  NODE_ENV: development
 
 ingress:
   enabled: true
