@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
   --bg-app: #f9fafb;
@@ -59,27 +57,42 @@ body {
 
 @layer components {
   .up-card {
-    @apply bg-[var(--surface-2)] border border-[var(--border)] rounded-xl p-4;
+    background-color: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1rem;
     aspect-ratio: auto;
     min-width: 0;
   }
 
   .up-card img {
-    @apply object-cover w-full h-full;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
   }
 
   .up-kicker {
-    @apply text-[var(--muted)] uppercase tracking-wider text-xs;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.75rem;
   }
 
   .up-border-gradient {
-    @apply border border-transparent;
+    border: 1px solid transparent;
     background: linear-gradient(var(--surface-2), var(--surface-2)) padding-box,
                 linear-gradient(135deg, var(--accent-sage), var(--accent-gold)) border-box;
   }
 
   .up-pill {
-    @apply px-4 py-2 rounded-full border border-[color:var(--border)] text-xs font-black uppercase tracking-widest transition-all;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    border: 1px solid var(--border);
+    font-size: 0.75rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.15s ease;
   }
 
   .transform-gpu {
