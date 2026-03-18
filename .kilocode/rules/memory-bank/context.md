@@ -8,6 +8,11 @@ The Trust Enhancement phase adds mechanisms to prevent reputation inflation and 
 
 ## Recently Completed
 
+- [x] **CI/CD Workflow Fixes** (2026-03-18)
+  - Fixed CodeQL security scan with proper init/autobuild steps
+  - Removed conflicting package-lock.json for bun compatibility
+  - Added DATABASE_URL to build job to prevent connection failures
+  - Resolved Vercel deployment 404 by ensuring build completes with env vars
 - [x] **CI Pipeline Fixes** (2026-03-18)
   - Installed missing lucide-react dependency
   - Fixed unescaped quotes in UbuntuDashboard.tsx for ESLint compliance
@@ -521,6 +526,7 @@ The Trust Enhancement phase adds mechanisms to prevent reputation inflation and 
 
 | Date | Changes |
 |------|---------|
+| 2026-03-18 | Fixed CI/CD workflow: CodeQL init, removed package-lock.json, added DATABASE_URL to build; resolved Vercel 404 and deployment failures |
 | 2026-03-18 | Fixed CI pipeline failures: installed lucide-react, escaped JSX quotes, removed broken submodule; pushed fixes for successful Vercel deployment |
 | 2026-03-17 | Created extensive README.md with comprehensive documentation: conceptualization & philosophy, architecture overview, codebase structure, getting started, development guide, feature integration, testing, scaling strategies, deployment, future aspirations, and troubleshooting |
 | 2026-03-13 | Phase 13 Trust Enhancement: Reputation friction (decay, diversity, max influence), Invite chains with guardrails, Portable economic passports, Village economic mirror, Living village activity loop |
