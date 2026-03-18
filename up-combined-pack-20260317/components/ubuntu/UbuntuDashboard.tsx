@@ -178,9 +178,9 @@ const UbuntuDashboard: React.FC<UbuntuDashboardProps> = ({
       <header className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-2xl font-black text-slate-900">Ubuntu Dashboard</h1>
-          <p className="text-slate-500 italic text-sm mt-0.5">
-            "I am because we are." — Welcome, {villagerName}
-          </p>
+            <p className="text-slate-500 italic text-sm mt-0.5">
+              &ldquo;I am because we are.&rdquo; — Welcome, {villagerName}
+            </p>
         </div>
         <div className="flex items-center gap-2">
           {lindiweActive && (
@@ -268,12 +268,12 @@ const UbuntuDashboard: React.FC<UbuntuDashboardProps> = ({
           <div>
             <p className="text-sm font-bold text-slate-800">Lindiwe says:</p>
             <p className="text-sm text-slate-600 mt-0.5 italic">
-              "{score > 700
+              &ldquo;{score > 700
                 ? 'The village is proud of your contribution. Your lending rate has been adjusted in your favour.'
                 : score > 400
                   ? 'You are building trust with the village. Keep contributing consistently.'
                   : 'Every contribution counts. The village is here to support you as you grow.'
-              }"
+              }&rdquo;
             </p>
           </div>
         </div>

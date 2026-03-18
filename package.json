@@ -37,6 +37,7 @@
     "d3-time-format": "^4.1.0",
     "drizzle-orm": "^0.45.1",
     "framer-motion": "^12.36.0",
+    "lucide-react": "^0.577.0",
     "next": "^16.1.6",
     "opencode-ai": "^1.2.27",
     "postcss": "^8.5.8",
