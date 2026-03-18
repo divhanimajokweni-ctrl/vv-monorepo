@@ -1,0 +1,36 @@
+# Ubuntu Pools — Dev Overlay (South Africa: nip.io DNS)
+replicaCount: 1
+
+image:
+  tag: "dev-latest"
+
+ingress:
+  hosts:
+    - host: up.dev.54.76.201.220.nip.io
+      paths:
+        - path: /
+          pathType: Prefix
+  # sslip.io alternative:
+  # - host: up.dev.54.76.201.220.sslip.io
+
+autoscaling:
+  enabled: false
+
+resources:
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+  requests:
+    cpu: "250m"
+    memory: "256Mi"
+
+env:
+  - name: NODE_ENV
+    value: "development"
+  - name: NEXT_TELEMETRY_DISABLED
+    value: "1"
+  - name: LOG_LEVEL
+    value: "debug"
+
+lindiwe:
+  internalUrl: "http://lindiwe-ai.up-dev.svc.cluster.local"

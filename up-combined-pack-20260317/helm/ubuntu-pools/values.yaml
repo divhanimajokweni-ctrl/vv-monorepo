@@ -1,0 +1,75 @@
+# Ubuntu Pools — Default Helm Values
+
+replicaCount: 2
+
+image:
+  repository: ghcr.io/divhanimajokweni-ctrl/ubuntu-pools
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets:
+  - name: ghcr-pull-secret
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000   # Next.js default
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+  hosts:
+    - host: up.54.76.201.220.nip.io
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+# Lindiwe AI sidecar config
+lindiwe:
+  enabled: true
+  internalUrl: "http://lindiwe-ai.up-dev.svc.cluster.local"
+
+# Ubuntu Backbone (Supabase)
+backbone:
+  url: ""          # Set via secret
+  anonKey: ""      # Set via secret
+
+resources:
+  limits:
+    cpu: "1000m"
+    memory: "1Gi"
+  requests:
+    cpu: "500m"
+    memory: "512Mi"
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 20
+  targetCPUUtilizationPercentage: 65
+
+env:
+  - name: NODE_ENV
+    value: "production"
+  - name: NEXT_TELEMETRY_DISABLED
+    value: "1"
+
+livenessProbe:
+  httpGet:
+    path: /api/health
+    port: 3000
+  initialDelaySeconds: 30
+  periodSeconds: 30
+
+readinessProbe:
+  httpGet:
+    path: /api/health
+    port: 3000
+  initialDelaySeconds: 10
+  periodSeconds: 15
