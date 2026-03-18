@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: up-dev
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: ubuntu-pools
+    environment: dev
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/divhanimajokweni-ctrl/ubuntu-pools
+    targetRevision: develop
+    path: helm/ubuntu-pools
+    helm:
+      valueFiles:
+        - ../../overlays/helm/up/dev-values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: up-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  revisionHistoryLimit: 5

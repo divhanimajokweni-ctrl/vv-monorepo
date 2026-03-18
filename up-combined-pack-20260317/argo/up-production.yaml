@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: up-production
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: ubuntu-pools
+    environment: production
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/divhanimajokweni-ctrl/ubuntu-pools
+    targetRevision: main
+    path: helm/ubuntu-pools
+    helm:
+      valueFiles:
+        - ../../overlays/helm/up/prod-values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: up-production
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 3
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 5m
+  revisionHistoryLimit: 10
