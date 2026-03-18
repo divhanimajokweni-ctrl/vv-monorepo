@@ -9,6 +9,7 @@ const eslintConfig = [
       ".next/**",
       ".cache/**",
       "quickstart/**",
+      ".local/**",
     ],
   },
 ];

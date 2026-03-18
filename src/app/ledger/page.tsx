@@ -228,7 +228,7 @@ export default function LedgerPage() {
                 </h1>
                 <p className="mt-3 text-sm text-[color:var(--muted)]">
                   Your gateway to pool creation, management, and all collective financial tools.
-                  The "Holy Grail" of social capital in action.
+                  The &ldquo;Holy Grail&rdquo; of social capital in action.
                 </p>
               </div>
               <div className="hidden sm:flex items-center gap-2">
@@ -336,7 +336,7 @@ export default function LedgerPage() {
                       <p className="text-sm font-black text-[color:var(--accent-gold)] mb-3">Yield Generation</p>
                       <p className="text-xs text-[color:var(--muted)] leading-relaxed">
                         Your safety net generates yield while waiting to be deployed. 
-                        This is the "Holy Grail" of social capital — money that works for the community.
+                        This is the &ldquo;Holy Grail&rdquo; of social capital — money that works for the community.
                       </p>
                     </div>
 
