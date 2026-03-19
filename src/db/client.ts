@@ -23,6 +23,7 @@ import postgres from "postgres";
 import * as schema from "./schema";
 import * as schemaCredit from "./schema-credit";
 import * as schemaVillage from "./schema-village";
+import * as schemaGames from "./schema-games";
 
 const isProduction = process.env.NODE_ENV === "production";
 const isVercel = !!process.env.VERCEL;
@@ -62,7 +63,7 @@ function getSqlClient() {
 
 function getDb() {
   return drizzle(getSqlClient(), {
-    schema: { ...schema, ...schemaCredit, ...schemaVillage },
+    schema: { ...schema, ...schemaCredit, ...schemaVillage, ...schemaGames },
     logger: process.env.NODE_ENV === "development",
   });
 }
