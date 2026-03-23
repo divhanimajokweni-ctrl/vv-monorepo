@@ -522,6 +522,34 @@ bun lint
 
 Visit `http://localhost:5000` to access the platform.
 
+### Ubuntu Games Dashboard
+
+The platform includes a Financial Intelligence Arcade with educational games:
+
+```bash
+# Access the games dashboard
+curl http://localhost:5000/api/games
+
+# View available games
+curl http://localhost:5000/games
+```
+
+**Available Games:**
+- **Ubuntu Monopoly** - Collective ownership mechanics
+- **Pool Simulator** - ROSCA management simulation
+- **Credit Ladder** - Credit score building
+- **The Commons** - Resource management game
+- **Market Maker** - Bulk procurement negotiation
+
+**Dashboard Component:**
+Import the Ubuntu Games Dashboard in any page:
+```tsx
+import { UbuntuGamesDashboard } from '@/components/dashboard/UbuntuGamesDashboard';
+
+<UbuntuGamesDashboard />  // Full mode
+<UbuntuGamesDashboard compact />  // Compact mode
+```
+
 ---
 
 ## Development Guide

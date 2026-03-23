@@ -9,6 +9,10 @@ import { gameSessions, gameEvents, type GameSession } from '@/db/schema-games';
 import { eq, and } from 'drizzle-orm';
 import { createEventEmitter } from '@/lib/events/emitter';
 
+type FixNullToUndefined<T> = {
+  [K in keyof T]: T[K] extends null ? undefined : T[K];
+};
+
 let eventEmitter: ReturnType<typeof createEventEmitter> | null = null;
 function getEventEmitter() {
   if (!eventEmitter) eventEmitter = createEventEmitter(db);
@@ -53,7 +57,25 @@ export async function startSession(
      occurredAt: new Date().toISOString(),
    });
  
-  return { session: session as unknown as GameSession, initialState };
+   const mappedSession: GameSession = {
+    id: session.id,
+    memberId: session.memberId,
+    gameId: session.gameId,
+    status: session.status,
+    startedAt: session.startedAt,
+    completedAt: session.completedAt ?? undefined,
+    durationMs: session.durationMs ?? undefined,
+    stateSnapshot: session.stateSnapshot as GameState | undefined,
+    finalScore: session.finalScore ?? undefined,
+    prestigeAwarded: session.prestigeAwarded,
+    isMultiplayer: session.isMultiplayer,
+    villageId: session.villageId ?? undefined,
+    metadata: session.metadata ?? undefined,
+    createdAt: session.createdAt,
+    updatedAt: session.updatedAt,
+  };
+  
+  return { session: mappedSession, initialState };
 }
  
 export async function submitAction(
@@ -142,7 +164,7 @@ function hashGameEvent(
   return crypto.createHash('sha256').update(data).digest('hex');
 }
  
-function buildInitialState(gameId: GameId): GameState {
+export function buildInitialState(gameId: GameId): GameState {
   const bases: Record<GameId, Partial<GameState>> = {
     ubuntu_monopoly:  { maxRounds: 20, phase: 'property_phase', data: { properties: [], villagefund: 0, syndicates: [] } },
     pool_simulator:   { maxRounds: 12, phase: 'setup',          data: { members: [], buffer: 0, health: 100 } },

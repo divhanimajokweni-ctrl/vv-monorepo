@@ -44,14 +44,16 @@ export interface GameSession {
   gameId:         GameId;
   status:         GameStatus;
   startedAt:      Date;
-  completedAt:    Date | null;
+  completedAt?:   Date;
   durationMs?:    number;
   stateSnapshot?: GameState;
   finalScore?:    number;
   prestigeAwarded: number;
   isMultiplayer:  boolean;
-  villageId:      string | null;
+  villageId?:     string;
   metadata?:      unknown;
+  createdAt:      Date;
+  updatedAt:      Date;
 }
  
 // ── Game State (generic, each game extends this) ──────────────────────────────
