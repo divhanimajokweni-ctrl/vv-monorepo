@@ -4,7 +4,7 @@ expertMode = true
 
 [nix]
 channel = "stable-25_05"
-packages = ["lms", "undollar", "kubernetes", "scc"]
+packages = ["lms", "undollar", "kubernetes", "scc", "gemini-cli"]
 
 [[ports]]
 localPort = 1455
@@ -14,16 +14,12 @@ localPort = 3000
 
 [[ports]]
 localPort = 3001
-externalPort = 3002
 
 [[ports]]
 localPort = 4983
-externalPort = 3000
-exposeLocalhost = true
 
 [[ports]]
 localPort = 5000
-externalPort = 5000
 
 [[ports]]
 localPort = 8000
@@ -52,11 +48,10 @@ args = "Start application"
 [[workflows.workflow]]
 name = "Start application"
 author = "agent"
+mode = "sequential"
 
 [[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npm run dev"
-waitForPort = 5000
+task = "packager.installForAll"
 
 [workflows.workflow.metadata]
 outputType = "webview"

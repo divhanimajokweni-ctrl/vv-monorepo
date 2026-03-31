@@ -598,3 +598,31 @@ export type NewGovernanceEnforcementRule = typeof governanceEnforcementRules.$in
 export type ProposalStatus = (typeof proposalStatusEnum.enumValues)[number];
 export type VoteType = (typeof voteTypeEnum.enumValues)[number];
 export type VoterType = (typeof voterTypeEnum.enumValues)[number];
+
+// =============================================================================
+// SAFE STAKES SCHEMA
+// =============================================================================
+
+export const stakeStatusEnum = pgEnum("stake_status", [
+  "ACTIVE",
+  "RELEASED",
+  "PENALIZED",
+]);
+
+export const stakes = pgTable(
+  "stakes",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id").notNull(), // Clerk user ID
+    amount: integer("amount").notNull(), // Ubuntu Score amount staked
+    status: stakeStatusEnum("status").notNull().default("ACTIVE"),
+    createdAt: timestamptz("created_at").notNull().defaultNow(),
+  },
+  (table) => ({
+    userIdx: index("idx_stakes_user").on(table.userId),
+    statusIdx: index("idx_stakes_status").on(table.status),
+  })
+);
+
+export type Stake = typeof stakes.$inferSelect;
+export type NewStake = typeof stakes.$inferInsert;

@@ -10,6 +10,7 @@ const eslintConfig = [
       ".cache/**",
       "quickstart/**",
       ".local/**",
+      "safegrid-ops-full.jsx",
     ],
   },
 ];
