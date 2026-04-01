@@ -1,0 +1,270 @@
+Let me check what's actually deployable right now before I tell you what to do.You're in action mode — I'll give you the full answer without waiting. Based on your stack, here's exactly what you do, sequenced from today.
+
+---
+
+## The honest frame first
+
+For 200 waitlist people you do **not** need Kafka, Redis, or pgvector running on day one. Those are Phase 2 intelligence features. What the waitlist needs is:
+
+**Registration → Pool membership → Dashboard → Contribution tracking**
+
+That's a React app + Node.js API + PostgreSQL. You can have that live in **under 48 hours** using the stack below. Here's the full deploy plan.
+
+------
+
+## Exact steps — execute in this order
+
+### Step 1: GitHub (30 minutes)
+
+If your code isn't on GitHub yet, do this first. Everything else connects to it.
+
+```bash
+# In your project root
+git init
+git add .
+git commit -m "chore: initial commit — Ubuntu Pools MVP"
+gh repo create ubuntu-pools --private --source=. --push
+# or create on github.com and push manually
+```
+
+Your repo needs two permanent branches:
+```bash
+git checkout -b dev
+git push origin dev
+# main = production, dev = staging, feature/* = work branches
+```
+
+---
+
+### Step 2: Supabase — two projects (45 minutes)
+
+Go to supabase.com. Create **two separate projects**: `ubuntu-pools-dev` and `ubuntu-pools-prod`. Never share a database between dev and prod.
+
+In each project, run this schema in the SQL editor:
+
+```sql
+-- Users / auth handled by Supabase Auth automatically
+
+-- Pools
+CREATE TABLE pools (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  target_amount DECIMAL(12,2) NOT NULL,
+  current_amount DECIMAL(12,2) DEFAULT 0,
+  status TEXT DEFAULT 'open', -- open | funded | active | closed
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  pool_round INTEGER DEFAULT 1
+);
+
+-- Pool memberships
+CREATE TABLE pool_members (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  pool_id UUID REFERENCES pools(id),
+  user_id UUID REFERENCES auth.users(id),
+  stake_amount DECIMAL(12,2) NOT NULL,
+  joined_at TIMESTAMPTZ DEFAULT NOW(),
+  status TEXT DEFAULT 'active', -- active | withdrawn | pending
+  UNIQUE(pool_id, user_id)
+);
+
+-- Contributions / transactions
+CREATE TABLE contributions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  pool_id UUID REFERENCES pools(id),
+  user_id UUID REFERENCES auth.users(id),
+  amount DECIMAL(12,2) NOT NULL,
+  type TEXT NOT NULL, -- stake | redirect | withdrawal | payout
+  reference TEXT, -- PayShap / EFT reference
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Waitlist
+CREATE TABLE waitlist (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email TEXT UNIQUE NOT NULL,
+  name TEXT,
+  phone TEXT,
+  stokvel_coordinator BOOLEAN DEFAULT FALSE,
+  joined_at TIMESTAMPTZ DEFAULT NOW(),
+  converted BOOLEAN DEFAULT FALSE
+);
+
+-- Row Level Security — users see only their own data
+ALTER TABLE pool_members ENABLE ROW LEVEL SECURITY;
+ALTER TABLE contributions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users see own memberships" ON pool_members
+  FOR ALL USING (auth.uid() = user_id);
+
+CREATE POLICY "Users see own contributions" ON contributions
+  FOR ALL USING (auth.uid() = user_id);
+```
+
+Save the two connection strings — you'll need them as env vars.
+
+---
+
+### Step 3: Railway — Node.js API (30 minutes)
+
+Go to railway.app. Connect your GitHub repo. Create two services: one pointing to `dev` branch, one to `main`.
+
+Your `package.json` needs a start script:
+```json
+{
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "ts-node-dev src/index.ts",
+    "build": "tsc"
+  }
+}
+```
+
+Create a `railway.toml` in your repo root:
+```toml
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "npm start"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+```
+
+Set these environment variables in Railway (for each service separately):
+
+```bash
+# Production service env vars
+DATABASE_URL=postgresql://...  # from Supabase prod
+SUPABASE_URL=https://xxx.supabase.co
+SUPABASE_SERVICE_KEY=eyJ...    # service role key (not anon)
+JWT_SECRET=your-secret-min-32-chars
+NODE_ENV=production
+PORT=3000
+CORS_ORIGIN=https://ubuntupools.app
+
+# Dev service env vars — same keys, different values
+NODE_ENV=development
+CORS_ORIGIN=https://dev.ubuntupools.app
+DATABASE_URL=postgresql://...  # from Supabase dev
+```
+
+---
+
+### Step 4: Vercel — React frontend (20 minutes)
+
+Go to vercel.com. Import your GitHub repo.
+
+Set **two environments** in Vercel project settings:
+
+```bash
+# Production (main branch)
+VITE_API_URL=https://your-api.railway.app
+VITE_SUPABASE_URL=https://xxx.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJ...  # anon key (safe to expose)
+
+# Preview (dev branch)
+VITE_API_URL=https://your-api-dev.railway.app
+VITE_SUPABASE_URL=https://yyy.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJ...  # dev project anon key
+```
+
+In Vercel settings → Domains, add:
+- `ubuntupools.app` → production (main branch)
+- `dev.ubuntupools.app` → preview (dev branch)
+
+---
+
+### Step 5: Resend — email for waitlist (15 minutes)
+
+Go to resend.com. Free tier sends 3,000 emails/month — enough for 200 people many times over.
+
+```bash
+npm install resend
+```
+
+```typescript
+// src/services/email.ts
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+export async function sendWaitlistConfirmation(email: string, name: string) {
+  await resend.emails.send({
+    from: 'Ubuntu Pools <hello@ubuntupools.app>',
+    to: email,
+    subject: 'You\'re on the Ubuntu Pools waitlist — umuntu ngumuntu ngabantu',
+    html: `
+      <h2>Sawubona ${name},</h2>
+      <p>You're confirmed on the Ubuntu Pools waitlist. 
+         We're launching our first pool in Gqeberha soon.</p>
+      <p>We'll notify you when your pool is ready to join.</p>
+      <p>— Mino & the Ubuntu Pools team</p>
+    `
+  });
+}
+```
+
+---
+
+### Step 6: Convert the waitlist (the actual work)
+
+Once deployed, you need a simple API endpoint to import your 200 people:
+
+```typescript
+// POST /api/waitlist/import  (admin only — call this once)
+router.post('/waitlist/import', requireAdmin, async (req, res) => {
+  const { emails } = req.body; // array of { email, name, phone }
+  
+  for (const person of emails) {
+    await supabase.from('waitlist').upsert(person, { onConflict: 'email' });
+    await sendWaitlistConfirmation(person.email, person.name);
+  }
+  
+  res.json({ imported: emails.length });
+});
+```
+
+---
+
+### Step 7: Your dev workflow from day one
+
+```bash
+# Daily flow
+git checkout dev
+git pull origin dev
+
+# Work on a feature
+git checkout -b feature/pool-dashboard
+# ... code ...
+git push origin feature/pool-dashboard
+
+# Vercel auto-creates a preview URL — test it
+# When it works:
+git checkout dev
+git merge feature/pool-dashboard
+git push origin dev   # → deploys to dev.ubuntupools.app
+
+# When dev is stable and tested:
+git checkout main
+git merge dev
+git push origin main  # → deploys to ubuntupools.app (PRODUCTION)
+```
+
+**Rule: nothing goes to `main` that hasn't been tested on `dev` first. Ever.**
+
+---
+
+## What the 200 people need on launch day
+
+Before you send a single email, make sure these four things work end to end in production:
+
+1. They can open `ubuntupools.app`, register with email, and get a confirmation email
+2. They can log in and see a dashboard showing their pool status
+3. They can see the pool they've been assigned to (even if it says "opening soon")
+4. There is a clear next step — a button, a WhatsApp link, a date — so they don't arrive and bounce
+
+That's it. No Kafka. No Redis. No AI. **That comes after the first 200 people are in the system and the first pool is funded.** Ship the thing that works, then layer the intelligence on top.
+
+---
+
+What's your current blocker — is it the code itself, the domain, or the environment setup? Tell me where you're actually stuck and we go straight there.

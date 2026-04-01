@@ -4,7 +4,7 @@ expertMode = true
 
 [nix]
 channel = "stable-25_05"
-packages = ["lms", "undollar", "kubernetes", "scc", "gemini-cli"]
+packages = ["lms", "undollar", "kubernetes", "scc", "gemini-cli", "ollama"]
 
 [[ports]]
 localPort = 1455
@@ -14,6 +14,9 @@ localPort = 3000
 
 [[ports]]
 localPort = 3001
+
+[[ports]]
+localPort = 3484
 
 [[ports]]
 localPort = 4983
