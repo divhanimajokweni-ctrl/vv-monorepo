@@ -1,0 +1,65 @@
+# Local development stack with Ollama for inference testing.
+# Run: docker-compose -f docker-compose.local.yml up
+version: "3.9"
+services:
+# ── Local Inference (Ollama + Gemma 4) ──────────────────────────
+ollama:
+image: ollama/ollama:latest
+container_name: lindiwe-local
+ports:
+- "11434:11434"
+volumes:
+- ollama_models:/root/.ollama
+environment:
+- OLLAMA_HOST=0.0.0.0
+deploy:
+resources:
+reservations:
+devices:
+- driver: nvidia
+count: all
+capabilities: [gpu] # Enables NVIDIA Tensor Core acceleration
+healthcheck:
+test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+interval: 10s
+timeout: 5s
+retries: 5
+# ── Model puller (runs once on startup) ────────────────────────
+model-init:
+image: curlimages/curl:latest
+depends_on:
+ollama:
+condition: service_healthy
+command: >
+curl -X POST http://ollama:11434/api/pull
+-d '{"model":"gemma3:4b","stream":false}'
+restart: "no"
+# ── Existing services (unchanged) ───────────────────────────────
+postgres:
+image: pgvector/pgvector:pg16
+environment:
+POSTGRES_DB: safegrid_dev
+POSTGRES_USER: safegrid
+POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+volumes:
+- pg_data:/var/lib/postgresql/data
+ports:
+- "5432:5432"
+redis:
+image: redis:7-alpine
+ports:
+- "6379:6379"
+kafka:
+image: apache/kafka:3.7.0
+environment:
+KAFKA_NODE_ID: 1
+KAFKA_PROCESS_ROLES: broker,controller
+KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9093"
+KAFKA_LISTENERS: "PLAINTEXT://:9092,CONTROLLER://:9093"
+KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://localhost:9092"
+KAFKA_LOG_DIRS: /var/lib/kafka/data
+ports:
+- "9092:9092"
+volumes:
+ollama_models:
+pg_data:

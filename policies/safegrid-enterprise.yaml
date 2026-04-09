@@ -1,0 +1,51 @@
+# NeMoClaw policy configuration for SafeGrid enterprise deployments.
+# Enforces data residency — all inference stays on-premise.
+name: safegrid-enterprise-policy
+version: "1.0"
+description: "SafeGrid enterprise data residency policy (POPIA compliant)"
+inference:
+# Permitted model targets
+allowed_backends:
+- type: local_ollama
+endpoint: "${LOCAL_INFERENCE_ENDPOINT}"
+models:
+- "gemma3:4b"
+- "gemma3:27b"
+# Explicitly blocked — no cloud inference for any sensitive task
+blocked_backends:
+- type: anthropic_api
+reason: "POPIA: camera metadata must not leave client premises"
+- type: openai_api
+- type: any_cloud
+# Task routing enforcement
+task_policies:
+alert_classify:
+backend: local_ollama
+fallback: block # BLOCK — never cloud, never skip
+audit_log: true
+threat_score:
+backend: local_ollama
+fallback: block
+audit_log: true
+ubuntu_score:
+backend: local_ollama
+fallback: block
+audit_log: true
+data_handling:
+# No PII or camera footage in prompts
+strip_pii: true
+camera_id_hashing: sha256
+location_data: anonymize # grid-square only, not coordinates
+# Retain inference logs locally for POPIA audit
+audit_log_path: "/var/log/safegrid/inference-audit.jsonl"
+audit_retention_days: 365
+guardrails:
+# Prevent prompt injection via camera metadata
+max_prompt_length: 2048
+reject_patterns:
+- "ignore previous instructions"
+- "system prompt"
+- "you are now"
+output_validation:
+expected_format: json
+schema_enforcement: strict

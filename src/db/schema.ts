@@ -22,6 +22,7 @@ import {
   integer,
   char,
   boolean,
+  decimal,
   uniqueIndex,
   index,
 } from "drizzle-orm/pg-core";
@@ -631,23 +632,14 @@ export type NewStake = typeof stakes.$inferInsert;
 // UBUNTU SCORE SCHEMA
 // =============================================================================
 
-export const ubuntuScores = pgTable(
-  "ubuntu_scores",
-  {
-    id: uuid("id").defaultRandom().primaryKey(),
-    memberId: uuid("member_id").notNull().references(() => members.id),
-    composite: integer("composite").notNull(),
-    factors: jsonb("factors"),
-    trend: text("trend"),
-    nudge: text("nudge"),
-    nextMilestone: text("next_milestone"),
-    inferredLocally: boolean("inferred_locally").notNull().default(false),
-    computedAt: timestamptz("computed_at").notNull().defaultNow(),
-  },
-  (table) => ({
-    memberIdx: index("idx_ubuntu_scores_member").on(table.memberId),
-  })
-);
+export const ubuntuScores = pgTable('ubuntu_scores', {
+  id:        uuid('id').primaryKey().defaultRandom(),
+  userId:    uuid('user_id').notNull().unique(),
+  score:     integer('score').default(0),
+  tier:      integer('tier').default(1),
+  lastEvent: text('last_event'),
+  updatedAt: timestamptz('updated_at').defaultNow(),
+});
 
 export const stokvels = pgTable(
   "stokvels",
@@ -672,20 +664,18 @@ export const members = pgTable(
   })
 );
 
-export const contributions = pgTable(
-  "contributions",
-  {
-    id: uuid("id").defaultRandom().primaryKey(),
-    memberId: uuid("member_id").references(() => members.id),
-    amountZar: bigint("amount_zar", { mode: "number" }).notNull(),
-    contributedAt: timestamptz("created_at").notNull().defaultNow(),
-    onTime: boolean("on_time").notNull().default(true),
-    status: text("status").notNull().default("completed"),
-  },
-  (table) => ({
-    memberIdx: index("idx_contributions_member").on(table.memberId),
-  })
-);
+export const contributions = pgTable('contributions', {
+  id:          uuid('id').primaryKey().defaultRandom(),
+  poolId:      uuid('pool_id').notNull().references(() => pools.id),
+  userId:      uuid('user_id').notNull(),
+  amount:      decimal('amount', { precision: 12, scale: 2 }).notNull(),
+  type:        text('type').notNull(), // stake | redirect | withdrawal | payout | reserve
+  reference:   text('reference'),
+  status:      text('status').default('pending'),
+  createdAt:   timestamptz('created_at').defaultNow(),
+  confirmedAt: timestamptz('confirmed_at'),
+  metadata:    jsonb('metadata').default({}),
+});
 
 // =============================================================================
 // SECURITY SCHEMA
@@ -739,3 +729,74 @@ export type NewIncident = typeof incidents.$inferInsert;
 
 export type Policy = typeof policies.$inferSelect;
 export type NewPolicy = typeof policies.$inferInsert;
+
+// =============================================================================
+// POOLS SCHEMA
+// =============================================================================
+
+export const pools = pgTable('pools', {
+  id:            uuid('id').primaryKey().defaultRandom(),
+  name:          text('name').notNull(),
+  description:   text('description'),
+  targetAmount:  decimal('target_amount', { precision: 12, scale: 2 }).notNull(),
+  currentAmount: decimal('current_amount', { precision: 12, scale: 2 }).default('0'),
+  minStake:      decimal('min_stake',      { precision: 12, scale: 2 }).default('500'),
+  status:        text('status').default('open'),
+  poolRound:     integer('pool_round').default(1),
+  lockInMonths:  integer('lock_in_months').default(6),
+  expectedYield: decimal('expected_yield', { precision: 5, scale: 2 }).default('15.00'),
+  createdAt:     timestamptz('created_at').defaultNow(),
+  opensAt:       timestamptz('opens_at'),
+  closesAt:      timestamptz('closes_at'),
+  metadata:      jsonb('metadata').default({}),
+});
+
+export const waitlist = pgTable('waitlist', {
+  id:                 uuid('id').primaryKey().defaultRandom(),
+  email:              text('email').unique().notNull(),
+  name:               text('name'),
+  phone:              text('phone'),
+  location:           text('location'),
+  stokvelCoordinator: boolean('stokvel_coordinator').default(false),
+  poolPreference:     uuid('pool_preference').references(() => pools.id),
+  joinedAt:           timestamptz('joined_at').defaultNow(),
+  confirmed:          boolean('confirmed').default(false),
+  converted:          boolean('converted').default(false),
+  convertedAt:        timestamptz('converted_at'),
+  source:             text('source').default('waitlist'),
+  notes:              text('notes'),
+});
+
+export const poolMembers = pgTable('pool_members', {
+  id:          uuid('id').primaryKey().defaultRandom(),
+  poolId:      uuid('pool_id').notNull().references(() => pools.id),
+  userId:      uuid('user_id').notNull(), // references auth.users — Clerk/Supabase auth
+  stakeAmount: decimal('stake_amount', { precision: 12, scale: 2 }).notNull(),
+  joinedAt:    timestamptz('joined_at').defaultNow(),
+  status:      text('status').default('active'),
+}, (t) => ({
+  uniqueMembership: uniqueIndex('pool_members_pool_user_unique').on(t.poolId, t.userId),
+}));
+
+export const payouts = pgTable('payouts', {
+  id:          uuid('id').primaryKey().defaultRandom(),
+  poolId:      uuid('pool_id').notNull().references(() => pools.id),
+  userId:      uuid('user_id').notNull(),
+  amount:      decimal('amount', { precision: 12, scale: 2 }).notNull(),
+  period:      text('period').notNull(),
+  status:      text('status').default('pending'),
+  processedAt: timestamptz('processed_at'),
+  createdAt:   timestamptz('created_at').defaultNow(),
+});
+
+export const consentLog = pgTable('consent_log', {
+  id:          uuid('id').primaryKey().defaultRandom(),
+  userId:      uuid('user_id'),
+  email:       text('email'),
+  consentType: text('consent_type').notNull(),
+  granted:     boolean('granted').notNull(),
+  ipHash:      text('ip_hash'),
+  createdAt:   timestamptz('created_at').defaultNow(),
+});
+
+

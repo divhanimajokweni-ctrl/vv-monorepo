@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import type { GameDefinition } from '@/lib/games/types';
 
 interface UbuntuGamesDashboardProps {
@@ -38,12 +39,12 @@ export function UbuntuGamesDashboard({ compact = false }: UbuntuGamesDashboardPr
             <h3 className="font-black text-[color:var(--text)]">Ubuntu Games</h3>
           </div>
           {!compact && (
-            <a 
-              href="/games" 
+            <Link
+              href="/games"
               className="text-xs font-medium text-[color:var(--accent-sage)] hover:underline"
             >
-              View All →
-            </a>
+              View All Games →
+            </Link>
           )}
         </div>
       </div>
