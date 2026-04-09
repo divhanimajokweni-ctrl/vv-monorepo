@@ -626,3 +626,116 @@ export const stakes = pgTable(
 
 export type Stake = typeof stakes.$inferSelect;
 export type NewStake = typeof stakes.$inferInsert;
+
+// =============================================================================
+// UBUNTU SCORE SCHEMA
+// =============================================================================
+
+export const ubuntuScores = pgTable(
+  "ubuntu_scores",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    memberId: uuid("member_id").notNull().references(() => members.id),
+    composite: integer("composite").notNull(),
+    factors: jsonb("factors"),
+    trend: text("trend"),
+    nudge: text("nudge"),
+    nextMilestone: text("next_milestone"),
+    inferredLocally: boolean("inferred_locally").notNull().default(false),
+    computedAt: timestamptz("computed_at").notNull().defaultNow(),
+  },
+  (table) => ({
+    memberIdx: index("idx_ubuntu_scores_member").on(table.memberId),
+  })
+);
+
+export const stokvels = pgTable(
+  "stokvels",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    name: text("name").notNull(),
+    description: text("description"),
+    createdAt: timestamptz("created_at").notNull().defaultNow(),
+  }
+);
+
+export const members = pgTable(
+  "members",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    stokvelId: uuid("stokvel_id").references(() => stokvels.id),
+    userId: uuid("user_id").notNull(),
+    joinedAt: timestamptz("joined_at").notNull().defaultNow(),
+  },
+  (table) => ({
+    stokvelIdx: index("idx_members_stokvel").on(table.stokvelId),
+  })
+);
+
+export const contributions = pgTable(
+  "contributions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    memberId: uuid("member_id").references(() => members.id),
+    amountZar: bigint("amount_zar", { mode: "number" }).notNull(),
+    contributedAt: timestamptz("created_at").notNull().defaultNow(),
+    onTime: boolean("on_time").notNull().default(true),
+    status: text("status").notNull().default("completed"),
+  },
+  (table) => ({
+    memberIdx: index("idx_contributions_member").on(table.memberId),
+  })
+);
+
+// =============================================================================
+// SECURITY SCHEMA
+// =============================================================================
+
+export const incidentStatusEnum = pgEnum("incident_status", [
+  "OPEN",
+  "INVESTIGATING",
+  "RESOLVED",
+  "CLOSED",
+]);
+
+export const incidents = pgTable(
+  "incidents",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    title: text("title").notNull(),
+    description: text("description"),
+    status: incidentStatusEnum("status").notNull().default("OPEN"),
+    createdAt: timestamptz("created_at").notNull().defaultNow(),
+    updatedAt: timestamptz("updated_at").notNull().defaultNow(),
+  }
+);
+
+export const policies = pgTable(
+  "policies",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    name: text("name").notNull(),
+    description: text("description"),
+    content: jsonb("content"),
+    active: boolean("active").notNull().default(true),
+    createdAt: timestamptz("created_at").notNull().defaultNow(),
+  }
+);
+
+export type UbuntuScore = typeof ubuntuScores.$inferSelect;
+export type NewUbuntuScore = typeof ubuntuScores.$inferInsert;
+
+export type Stokvel = typeof stokvels.$inferSelect;
+export type NewStokvel = typeof stokvels.$inferInsert;
+
+export type Member = typeof members.$inferSelect;
+export type NewMember = typeof members.$inferInsert;
+
+export type Contribution = typeof contributions.$inferSelect;
+export type NewContribution = typeof contributions.$inferInsert;
+
+export type Incident = typeof incidents.$inferSelect;
+export type NewIncident = typeof incidents.$inferInsert;
+
+export type Policy = typeof policies.$inferSelect;
+export type NewPolicy = typeof policies.$inferInsert;
