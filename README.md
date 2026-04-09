@@ -448,7 +448,7 @@ Before beginning development, ensure your environment meets these requirements:
 | Tool | Version | Purpose |
 |------|---------|---------|
 | **Bun** | Latest | Package manager and runtime (REQUIRED) |
-| **Node.js** | 20+ | JavaScript runtime |
+| **Node.js** | 18+ | JavaScript runtime |
 | **PostgreSQL** | 14+ | Primary database |
 | **Redis** | 7+ | Caching and rate limiting |
 
@@ -461,44 +461,37 @@ Before beginning development, ensure your environment meets these requirements:
 | Upstash | Rate limiting | Development |
 | Stitch | Banking (South Africa) | Production |
 | OpenClaw | Command & control | Production |
+| Anthropic | AI inference | Production |
 
 ### Quick Start
 
 Follow these steps to get the platform running locally:
 
 ```bash
-# 1. Clone and navigate to the project
-cd ubuntu-pools
+# 1. Clone the repository
+git clone https://github.com/divhanimajokweni-ctrl/you-are-the-lead-systems-engineer-responsible-for-generating-code-for-the-ubuntu-pools-platform.-you.git
+cd you-are-the-lead-systems-engineer-responsible-for-generating-code-for-the-ubuntu-pools-platform.-you
 
-# 2. Install dependencies (auto-fixes known vulnerabilities)
+# 2. Install dependencies
 bun install
 
-# 3. Copy environment template
+# 3. Set up environment variables
 cp .env.local.example .env.local
-
-# 4. Configure environment variables in .env.local
-# Required variables:
-# DATABASE_URL=postgresql://user:pass@localhost:5432/ubuntu_pools
+# Edit .env.local with your configuration:
+# DATABASE_URL=postgresql://user:password@localhost:5432/ubuntu_pools
 # CLERK_SECRET_KEY=sk_test_...
-# SENTRY_DSN=...
-# UPSTASH_REDIS_REST_URL=...
-# UPSTASH_REDIS_REST_TOKEN=...
-# STITCH_CLIENT_ID=...
-# STITCH_SECRET_KEY=...
-# OPENCLAW_API_KEY=...
+# ANTHROPIC_API_KEY=...
+# And other required variables
 
-# 5. Set up the database
-# Option A: Run migrations manually
-psql $DATABASE_URL < src/db/migrations/0001_phase1_foundation.sql
-psql $DATABASE_URL < src/db/migrations/0002_village_os.sql
-psql $DATABASE_URL < src/db/migrations/0003_cpme.sql
-psql $DATABASE_URL < src/db/migrations/0004_trust_enhancement.sql
-psql $DATABASE_URL < src/db/migrations/0005_security_controls.sql
+# 4. Set up the database
+# Option A: Use Drizzle commands
+bun db:generate
+bun db:migrate
 
-# Option B: Use Docker Compose (recommended)
+# Option B: Use Docker Compose
 docker-compose up -d postgres redis
 
-# 6. Run the development server
+# 5. Run the development server
 bun dev
 ```
 
@@ -520,7 +513,7 @@ bun typecheck
 bun lint
 ```
 
-Visit `http://localhost:5000` to access the platform.
+Visit `http://localhost:3000` to access the platform.
 
 ### Ubuntu Games Dashboard
 
@@ -528,10 +521,10 @@ The platform includes a Financial Intelligence Arcade with educational games:
 
 ```bash
 # Access the games dashboard
-curl http://localhost:5000/api/games
+curl http://localhost:3000/api/games
 
 # View available games
-curl http://localhost:5000/games
+curl http://localhost:3000/games
 ```
 
 **Available Games:**
@@ -1096,6 +1089,8 @@ export async function GET(request: Request) {
 ---
 
 ## Deployment
+
+> For detailed deployment, scaling, and operations guides, see [OPERATIONS.md](./OPERATIONS.md).
 
 ### Environment Setup
 

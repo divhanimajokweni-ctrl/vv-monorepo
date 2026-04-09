@@ -23,6 +23,11 @@ The Trust Enhancement phase adds mechanisms to prevent reputation inflation and 
   - Added local Docker Compose configuration for development environment
   - Updated environment variables and dependencies
   - Prepared packages and policies directories for modular architecture
+- [x] **Documentation Updates** (2026-04-09)
+  - Updated README.md with current repository URL and deployment instructions
+  - Standardized port configurations and environment setup
+  - Added reference to OPERATIONS.md for detailed deployment guides
+  - Updated OPERATIONS.md with correct repository URLs
 - [x] **SafeGrid Integration Guide Created** (2026-03-31)
   - Generated comprehensive SAFE_GRID_INTEGRATION.md with step-by-step instructions
   - Covers Go implementation for Tier 3 suppression, Steward vouching, authentication, database setup, Redis caching, API versioning, testing, deployment, and monitoring

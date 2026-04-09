@@ -115,7 +115,7 @@ bun run dev
 
 1. Open:
 ```
-https://gitpod.io/#https://github.com/divhanimajokweni-ctrl/you-are-the-lead-systems-engineer-responsible-for-generating-code-for-the-ubuntu-pools-platform.-you
+https://gitpod.io/#https://github.com/divhanimajokweni-ctrl/generating-code-for-the-ubuntu-pools-platform-you
 ```
 
 2. Sign in with GitHub
