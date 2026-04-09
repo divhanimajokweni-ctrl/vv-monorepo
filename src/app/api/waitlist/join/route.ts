@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db/client';
 import { waitlist } from '@/db/schema';
-import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { sendEmail } from '@/lib/email';
 
 export async function POST(req: NextRequest) {
   // POPIA gate — must be explicit in header
@@ -50,10 +48,10 @@ export async function POST(req: NextRequest) {
   }
 
   // Confirmation email — non-blocking
-  try {
-    await resend.emails.send({
+  const emailResult = await sendEmail(
+    {
       from:    'Ubuntu Pools <hello@ubuntupools.app>',
-      to:      cleanEmail,
+      to:      [cleanEmail],
       subject: `You're on the Ubuntu Pools waitlist, ${name}`,
       html: `
         <div style="font-family:sans-serif;max-width:520px;margin:0 auto;color:#1a1a1a">
@@ -79,9 +77,12 @@ export async function POST(req: NextRequest) {
           </div>
         </div>
       `,
-    });
-  } catch (emailErr) {
-    console.error('[waitlist/join] Email failed (non-fatal):', emailErr);
+    },
+    `waitlist-confirmation/${cleanEmail}`
+  );
+
+  if (!emailResult.success) {
+    console.error('[waitlist/join] Email failed (non-fatal):', emailResult.error);
   }
 
   return NextResponse.json(
