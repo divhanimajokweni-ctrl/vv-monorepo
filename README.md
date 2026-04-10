@@ -96,6 +96,7 @@ Ubuntu Pools follows a microservices-inspired architecture within a monorepo, en
 │  │ - /api/events     - /api/villages    - /api/credit             ││
 │  │ - /api/ledger    - /api/sovereignty  - /api/cpme               ││
 │  │ - /api/matchmaker - /api/backbone   - /api/passport           ││
+│  │ - /api/redis      - /api/health      - /api/games             ││
 │  └─────────────────────────────────────────────────────────────────┘│
 └─────────────────────────────────────────────────────────────────────┘
                                    │
@@ -1723,6 +1724,7 @@ MIT License - See LICENSE file for details.
 | `/api/mirror` | GET | Village economic mirror |
 | `/api/activity` | GET | Activity feed |
 | `/api/reputation` | GET | Trust scores |
+| `/api/redis` | POST | Redis data retrieval |
 
 ---
 
