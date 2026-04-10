@@ -20,6 +20,27 @@
 
 ---
 
+## Recent Developments (2026)
+
+### Phase 13 Complete — Trust Enhancement
+The platform has completed Phase 13, implementing advanced trust mechanisms including reputation friction, invite chains, and portable economic passports. This phase focuses on preventing reputation inflation and enabling secure, portable economic credentials across the Ubuntu ecosystem.
+
+### Latest Integrations
+- **Resend Email Service**: Bidirectional email functionality with webhook endpoints for automated responses. Domain verification initiated for ubuntuvvlcc.com.
+- **Redis Caching**: Integrated Redis for session management and high-performance data caching.
+- **GrowthBook Feature Flags**: Implemented feature flag system for controlled rollouts and A/B testing.
+- **Vercel Deployment**: Production deployment on Vercel with domain configurations.
+
+### Current Status
+- **Deployment**: Live on Vercel (workspace-fawn-alpha.vercel.app)
+- **Database**: PostgreSQL with Drizzle ORM
+- **Authentication**: Clerk integration
+- **Email**: Resend with domain verification in progress
+- **Caching**: Redis via Upstash
+- **Monitoring**: Sentry integration
+
+---
+
 ## Conceptualization & Philosophy
 
 ### The African Philosophy of Ubuntu
@@ -459,10 +480,12 @@ Before beginning development, ensure your environment meets these requirements:
 |---------|---------|--------------|
 | Clerk | Authentication | Development |
 | Sentry | Error tracking | Development |
-| Upstash | Rate limiting | Development |
+| Upstash | Redis caching | Development |
+| Resend | Email service | Development |
 | Stitch | Banking (South Africa) | Production |
 | OpenClaw | Command & control | Production |
 | Anthropic | AI inference | Production |
+| GrowthBook | Feature flags | Optional |
 
 ### Quick Start
 
@@ -481,7 +504,10 @@ cp .env.local.example .env.local
 # Edit .env.local with your configuration:
 # DATABASE_URL=postgresql://user:password@localhost:5432/ubuntu_pools
 # CLERK_SECRET_KEY=sk_test_...
+# RESEND_API_KEY=re_...  # Get from Resend dashboard
 # ANTHROPIC_API_KEY=...
+# UPSTASH_REDIS_REST_URL=https://...
+# UPSTASH_REDIS_REST_TOKEN=...
 # And other required variables
 
 # 4. Set up the database
@@ -1121,14 +1147,31 @@ CLERK_SECRET_KEY=sk_live_...
 SENTRY_DSN=https://...
 UPSTASH_REDIS_REST_URL=https://...
 UPSTASH_REDIS_REST_TOKEN=...
+RESEND_API_KEY=re_...
 STITCH_CLIENT_ID=...
 STITCH_SECRET_KEY=...
 OPENCLAW_API_KEY=...
+
+# Optional Features
+GROWTHBOOK_CLIENT_KEY=...  # For feature flags
+GROWTHBOOK_API_HOST=https://api.growthbook.io  # Default
 
 # Security
 NODE_ENV=production
 ENABLE_RATE_LIMITING=true
 LOG_LEVEL=warn
+```
+
+### Vercel Deployment
+The platform is currently deployed on Vercel:
+
+- **Primary Domain**: workspace-fawn-alpha.vercel.app (valid configuration)
+- **Custom Domain**: ubuntupools-vvlcc.app (pending DNS verification)
+- **Email Domain**: ubuntuvvlcc.com (Resend verification initiated)
+
+To deploy updates:
+```bash
+bun typecheck && bun lint && git add -A && git commit -m "feat: description" && git push
 ```
 
 ### Docker Deployment

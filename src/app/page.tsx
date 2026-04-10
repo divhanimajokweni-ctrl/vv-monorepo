@@ -14,7 +14,12 @@ function genCode(name: string) {
 export default function LandingPage() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [refCode, setRefCode] = useState('');
+  const [refCode, setRefCode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return new URLSearchParams(window.location.search).get('ref') || '';
+    }
+    return '';
+  });
   const [consent, setConsent] = useState(false);
   const [counter, setCounter] = useState(47);
   const [toastMsg, setToastMsg] = useState('');
@@ -23,6 +28,7 @@ export default function LandingPage() {
   const [successHidden, setSuccessHidden] = useState(true);
   const [myRefLink, setMyRefLink] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [initialToastShown, setInitialToastShown] = useState(false);
 
   function showToastFunc(msg: string) {
     setToastMsg(msg);
@@ -31,12 +37,16 @@ export default function LandingPage() {
   }
 
   useEffect(() => {
-    const refParam = new URLSearchParams(window.location.search).get('ref');
-    if (refParam) {
-      setRefCode(refParam);
-      showToastFunc("Referral code applied: " + refParam);
+    if (refCode && !initialToastShown) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setToastMsg("Referral code applied: " + refCode);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 2500);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setInitialToastShown(true);
     }
-  }, []);
+  }, [refCode, initialToastShown]);
 
   function handleJoin() {
     if (!name.trim()) {
