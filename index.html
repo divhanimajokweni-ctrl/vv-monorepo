@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Ubuntu Pools — Community Savings & Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/dodopayments-checkout@latest/dist/index.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --ubuntu-green: #1D9E75;
+      --ubuntu-dark: #085041;
+      --ubuntu-light: #E1F5EE;
+      --ubuntu-gold: #EF9F27;
+      --ubuntu-gold-light: #FAEEDA;
+      --dodo-blue: #0066FF;
+      --dodo-blue-light: #EEF3FF;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f5f5f3;
+      --bg-tertiary: #eeede9;
+      --text-primary: #1a1a18;
+      --text-secondary: #5f5e5a;
+      --text-tertiary: #888780;
+      --border-tertiary: rgba(0, 0, 0, 0.12);
+      --border-secondary: rgba(0, 0, 0, 0.22);
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-primary: #1e1e1c;
+        --bg-secondary: #2a2a28;
+        --bg-tertiary: #333331;
+        --text-primary: #f0efe9;
+        --text-secondary: #b4b2a9;
+        --text-tertiary: #888780;
+        --border-tertiary: rgba(255, 255, 255, 0.12);
+        --border-secondary: rgba(255, 255, 255, 0.22);
+        --dodo-blue-light: #0a1a33;
+      }
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    /* main public view */
+    .page {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+    }
+
+    .brand {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 1rem;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--ubuntu-light);
+      color: var(--ubuntu-dark);
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 1.25rem;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      line-height: 1.2;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 span {
+      color: var(--ubuntu-green);
+    }
+
+    .tagline {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      border-left: 3px solid var(--ubuntu-green);
+      padding-left: 1rem;
+      font-style: italic;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 2rem;
+    }
+
+    .stat {
+      background: var(--bg-primary);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1rem;
+      text-align: center;
+      border: 0.5px solid var(--border-tertiary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stat-num {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--ubuntu-green);
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .pool-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 1.25rem;
+    }
+
+    .pool-tab {
+      background: var(--bg-primary);
+      border: 0.5px solid var(--border-tertiary);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+    }
+
+    .pool-tab:hover {
+      border-color: var(--ubuntu-green);
+    }
+
+    .pool-tab.active {
+      border: 2px solid var(--ubuntu-green);
+      box-shadow: 0 0 0 3px rgba(29, 158, 117, 0.08);
+    }
+
+    .pool-tab-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 4px;
+    }
+
+    .pool-tab-title {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .card {
+      background: var(--bg-primary);
+      border: 0.5px solid var(--border-tertiary);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+    }
+
+    .stake-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .stake-btn {
+      padding: 10px 8px;
+      border-radius: var(--radius-md);
+      border: 0.5px solid var(--border-secondary);
+      background: var(--bg-secondary);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+    }
+
+    .stake-btn:hover,
+    .stake-btn.selected {
+      border: 2px solid var(--ubuntu-green);
+      background: var(--ubuntu-light);
+      color: var(--ubuntu-dark);
+    }
+
+    .dodo-box {
+      background: var(--dodo-blue-light);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1rem;
+      display: flex;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 13px;
+      border-radius: var(--radius-md);
+      background: var(--ubuntu-green);
+      border: none;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: var(--ubuntu-dark);
+    }
+
+    .btn-dodo {
+      width: 100%;
+      padding: 13px;
+      background: var(--dodo-blue);
+      border: none;
+      color: white;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: var(--radius-md);
+      border: 0.5px solid var(--border-secondary);
+      background: var(--bg-secondary);
+      font-size: 14px;
+      color: var(--text-primary);
+      font-family: inherit;
+      margin-bottom: 12px;
+    }
+
+    .consent-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .consent-row input {
+      width: auto;
+      margin-top: 3px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--ubuntu-dark);
+      color: white;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-size: 13px;
+      transition: transform 0.2s;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ADMIN PANEL (protected by basic auth simulation - simple password) */
+    .admin-panel {
+      max-width: 1400px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background: var(--bg-primary);
+      border-radius: var(--radius-lg);
+      display: none;
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--bg-secondary);
+      padding: 1rem;
+      border-radius: var(--radius-md);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--border-tertiary);
+    }
+
+    .status-paid {
+      color: var(--ubuntu-green);
+      font-weight: 500;
+    }
+
+    button.small {
+      padding: 4px 12px;
+      font-size: 12px;
+      margin: 2px;
+    }
+
+    .friction-item {
+      background: var(--ubuntu-gold-light);
+      border-left: 4px solid var(--ubuntu-gold);
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
+      border-radius: 8px;
+    }
+
+    @media (max-width: 700px) {
+      table,
+      thead,
+      tbody,
+      th,
+      td,
+      tr {
+        display: block;
+      }
+      td {
+        position: relative;
+        padding-left: 50%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PUBLIC FRONTEND -->
+<div id="publicApp" class="page">
+  <div class="brand">Vaguely Vanity LLC</div>
+  <span class="hero-tag">Gqeberha · Eastern Cape · Pilot Pool Open</span>
+  <h1>"<span>Umuntu ngumuntu</span> ngabantu"</h1>
+  <p class="tagline">Community savings built on Ubuntu philosophy. Stake from R500. Earn together. Governed by the group, not a bank.</p>
+
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num" id="counter">53</div><div class="stat-label">Waiting</div></div>
+    <div class="stat"><div class="stat-num">R500</div><div class="stat-label">Min. stake</div></div>
+    <div class="stat"><div class="stat-num" id="pilot-spots">10</div><div class="stat-label">Pilot spots</div></div>
+  </div>
+
+  <div id="form-section">
+    <div class="pool-tabs">
+      <div class="pool-tab" id="tab-waitlist" onclick="selectTab('waitlist')"><div class="pool-tab-label">Option 1</div><div class="pool-tab-title">Join waitlist</div><span class="pool-tab-badge">Free</span></div>
+      <div class="pool-tab active" id="tab-pilot" onclick="selectTab('pilot')"><div class="pool-tab-label">Option 2</div><div class="pool-tab-title">Pilot Pool</div><span class="pool-tab-badge">Live · 10 spots</span></div>
+    </div>
+
+    <!-- waitlist form -->
+    <div class="card" id="form-waitlist" style="display:none">
+      <input type="text" id="wl-name" placeholder="Full name">
+      <input type="tel" id="wl-phone" placeholder="WhatsApp number">
+      <input type="text" id="wl-ref" placeholder="Referral code (optional)">
+      <div class="consent-row"><input type="checkbox" id="wl-popia"> <label>I consent to POPIA processing.</label></div>
+      <button class="btn-primary" onclick="handleWaitlist()">Join waitlist</button>
+    </div>
+
+    <!-- pilot pool form -->
+    <div class="card" id="form-pilot">
+      <input type="text" id="pp-name" placeholder="Full name">
+      <input type="tel" id="pp-phone" placeholder="WhatsApp number">
+      <div class="stake-grid" id="stake-buttons">
+        <div class="stake-btn selected" data-stake="500">R500</div>
+        <div class="stake-btn" data-stake="1000">R1,000</div>
+        <div class="stake-btn" data-stake="2000">R2,000</div>
+      </div>
+      <div class="dodo-box">🔒 Payments by Dodo Payments – secure overlay checkout</div>
+      <input type="text" id="pp-ref" placeholder="Referral code">
+      <div class="consent-row"><input type="checkbox" id="pp-popia"> <label>I consent and understand my monthly stake will be collected.</label></div>
+      <button class="btn-dodo" id="payNowBtn">Pay securely with Dodo</button>
+      <button class="btn-primary" style="background:#aaa; margin-top:8px;" onclick="selectTab('waitlist')">Join waitlist instead</button>
+    </div>
+
+    <div class="card" style="cursor:pointer" onclick="openWhatsAppGroup()">
+      <strong>📱 Join WhatsApp community →</strong> Get updates, meet pool members
+    </div>
+  </div>
+
+  <div id="success-waitlist" class="hidden card"><div id="wl-success-content"></div></div>
+  <div id="success-payment" class="hidden card"><div id="payment-success-content"></div></div>
+  <div class="footer" style="font-size:11px; text-align:center; margin-top:2rem;">Pro Installations Pty Ltd — Vaguely Vanity LLC — POPIA compliant</div>
+</div>
+
+<!-- ADMIN DASHBOARD (password: ubuntu2025) -->
+<div id="adminPanel" class="admin-panel">
+  <div class="admin-header"><h2>🛠️ Ubuntu Pools Admin</h2><button onclick="logoutAdmin()" style="background:#ccc;padding:6px 12px;">Logout</button></div>
+  <div id="adminStats" class="stats-grid"></div>
+  <div class="card"><h3>📋 Pilot Members</h3><div id="membersTable"></div></div>
+  <div class="card"><h3>💰 Payout Queue</h3><div id="payoutQueue"></div></div>
+  <div class="card"><h3>📝 Friction Log (Product Roadmap)</h3><div id="frictionLogList"></div><button class="btn-primary" onclick="showFrictionModal()">+ Log friction point</button></div>
+</div>
+
+<div id="frictionModal" style="display:none; position:fixed; top:0;left:0;right:0;bottom:0; background:rgba(0,0,0,0.6); justify-content:center;align-items:center;z-index:2000;"><div style="background:var(--bg-primary); padding:1.5rem; border-radius:16px; max-width:400px; margin:auto; margin-top:20vh;"><h3>Log friction</h3><input type="text" id="frictionMember" placeholder="Member name"><textarea id="frictionDesc" rows="2" placeholder="Exact words / hesitation"></textarea><select id="frictionStage"><option>Signup</option><option>Payment</option><option>WhatsApp</option><option>Payout</option></select><select id="frictionPriority"><option>High</option><option>Medium</option><option>Low</option></select><button onclick="saveFriction()" class="btn-primary">Save</button><button onclick="closeFrictionModal()" style="margin-top:8px;">Cancel</button></div></div>
+
+<div id="toastMsg" class="toast"></div>
+
+<script>
+  // --------------------- CONFIG -------------------------
+  const WA_NUMBER = '27761234567';     // Replace with your actual WhatsApp business number (SA format)
+  const WA_GROUP_LINK = 'https://chat.whatsapp.com/KjLmNpQrStUvWxYz'; // Replace
+  const BASE_URL = window.location.origin;
+  // DODO LINKS (replace after Dodo product creation)
+  const DODO_LINKS = {
+    500: 'https://pay.dodopayments.com/buy/pdt_demo_500',
+    1000: 'https://pay.dodopayments.com/buy/pdt_demo_1000',
+    2000: 'https://pay.dodopayments.com/buy/pdt_demo_2000'
+  };
+  // Initialize Dodo Payments overlay checkout
+  DodoPaymentsCheckout.DodoPayments.Initialize({
+    mode: "test", // Change to 'live' for production
+    displayType: "overlay",
+    onEvent: (event) => {
+      console.log("Checkout event:", event);
+      switch (event.event_type) {
+        case "checkout.opened":
+          console.log("Checkout opened");
+          break;
+        case "checkout.closed":
+          console.log("Checkout closed");
+          // Check if payment was successful by checking URL or session
+          processPaymentReturn();
+          break;
+        case "checkout.error":
+          console.error("Checkout error:", event.data?.message);
+          showToast("Payment error: " + (event.data?.message || "Unknown error"));
+          break;
+        case "checkout.redirect":
+          console.log("Checkout redirecting");
+          break;
+      }
+    },
+  });
+  // ---------- IN-MEMORY STORAGE (persists within session, demo ready + localstorage backup) ----------
+  let members = JSON.parse(localStorage.getItem('ubuntu_members') || '[]');
+  let payouts = JSON.parse(localStorage.getItem('ubuntu_payouts') || '[]');
+  let frictionLogs = JSON.parse(localStorage.getItem('ubuntu_friction') || '[]');
+  let waitlistCount = parseInt(localStorage.getItem('ubuntu_waitlistCount') || '53');
+  let pilotSpots = parseInt(localStorage.getItem('ubuntu_pilotSpots') || '10');
+
+  function persistData() {
+    localStorage.setItem('ubuntu_members', JSON.stringify(members));
+    localStorage.setItem('ubuntu_payouts', JSON.stringify(payouts));
+    localStorage.setItem('ubuntu_friction', JSON.stringify(frictionLogs));
+    localStorage.setItem('ubuntu_waitlistCount', waitlistCount);
+    localStorage.setItem('ubuntu_pilotSpots', pilotSpots);
+  }
+
+  function showToast(msg) { const t = document.getElementById('toastMsg'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
+
+  let selectedStake = 500;
+  function initStakeSelect() { document.querySelectorAll('.stake-btn').forEach(btn => { btn.addEventListener('click', function() { document.querySelectorAll('.stake-btn').forEach(b=>b.classList.remove('selected')); this.classList.add('selected'); selectedStake = parseInt(this.dataset.stake); }); }); }
+
+  function selectTab(tab) {
+    document.getElementById('form-waitlist').style.display = tab === 'waitlist' ? 'block' : 'none';
+    document.getElementById('form-pilot').style.display = tab === 'pilot' ? 'block' : 'none';
+    document.getElementById('tab-waitlist').classList.toggle('active', tab === 'waitlist');
+    document.getElementById('tab-pilot').classList.toggle('active', tab === 'pilot');
+  }
+
+  function genReferralCode(name) { return (name.slice(0,3).toUpperCase() || 'UBU') + Math.floor(1000+Math.random()*9000); }
+
+  async function handleWaitlist() {
+    let name = document.getElementById('wl-name').value.trim();
+    let phone = document.getElementById('wl-phone').value.trim();
+    let popia = document.getElementById('wl-popia').checked;
+    if (!name || !phone || !popia) { showToast('Please fill name, phone and accept POPIA'); return; }
+    waitlistCount++; pilotSpots = Math.max(0, pilotSpots);
+    persistData();
+    let refCode = genReferralCode(name);
+    let shareLink = `${BASE_URL}?ref=${refCode}`;
+    document.getElementById('counter').innerText = waitlistCount;
+    document.getElementById('pilot-spots').innerText = pilotSpots;
+    document.getElementById('form-section').classList.add('hidden');
+    document.getElementById('success-waitlist').classList.remove('hidden');
+    document.getElementById('wl-success-content').innerHTML = `<div style="text-align:center"><div>✅ You're on the waitlist!</div><p>Referral link: <strong>${shareLink}</strong></p><button class="btn-primary" onclick="copyToClipboard('${shareLink}')">Copy link</button><button class="btn-dodo" style="margin-top:8px" onclick="window.open('https://wa.me/?text=${encodeURIComponent('Join Ubuntu Pools waitlist: '+shareLink)}','_blank')">Share on WhatsApp</button></div>`;
+    // log frictionless
+    await fetch('/api/log-webhook', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({event:'waitlist',name,phone})}).catch(e=>console.log);
+    showToast('Waitlist saved');
+  }
+
+  function handlePilotPayment() {
+    let name = document.getElementById('pp-name').value.trim();
+    let phone = document.getElementById('pp-phone').value.trim();
+    let popia = document.getElementById('pp-popia').checked;
+    if (!name || !phone || !popia) { showToast('Please fill in all details and accept consent'); return; }
+    let stake = selectedStake;
+    let dodoUrl = DODO_LINKS[stake];
+    if (!dodoUrl || dodoUrl.includes('demo')) { showToast('⚠️ Dodo product links not configured — replace DODO_LINKS with real buy links'); return; }
+    let successUrl = `${BASE_URL}?payment_success=true&name=${encodeURIComponent(name)}&stake=${stake}&phone=${encodeURIComponent(phone)}`;
+    let checkoutUrl = dodoUrl + (dodoUrl.includes('?') ? '&' : '?') + `redirect_url=${encodeURIComponent(successUrl)}&customer_name=${encodeURIComponent(name)}`;
+    sessionStorage.setItem('pendingStake', stake);
+    sessionStorage.setItem('pendingName', name);
+    sessionStorage.setItem('pendingPhone', phone);
+    // Use overlay checkout instead of redirect
+    DodoPaymentsCheckout.DodoPayments.Checkout.open({
+      checkoutUrl: checkoutUrl
+    });
+  }
+
+  // process return from Dodo
+  function processPaymentReturn() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('payment_success') === 'true') {
+      let name = urlParams.get('name') || sessionStorage.getItem('pendingName') || 'Member';
+      let stake = parseInt(urlParams.get('stake') || sessionStorage.getItem('pendingStake') || '500');
+      let phone = urlParams.get('phone') || sessionStorage.getItem('pendingPhone') || 'unknown';
+      let existing = members.find(m => m.name === name && m.phone === phone);
+      if (!existing) {
+        let newMember = { id: Date.now().toString(), name, phone, stake, payment_status: 'paid', joined: new Date().toISOString(), paid_out: false, referral_code: genReferralCode(name) };
+        members.push(newMember);
+        payouts.push({ id: newMember.id, member_name: name, amount: stake, expected_date: null, status: 'pending' });
+        pilotSpots = Math.max(0, pilotSpots-1);
+        persistData();
+        document.getElementById('pilot-spots').innerText = pilotSpots;
+        // send admin whatsapp alert simulation (webhook in real)
+        showToast(`✅ Payment recorded for ${name}`);
+      }
+      document.getElementById('form-section').classList.add('hidden');
+      document.getElementById('success-payment').classList.remove('hidden');
+      let shareLink = `${BASE_URL}?ref=${genReferralCode(name)}`;
+      document.getElementById('payment-success-content').innerHTML = `<div style="text-align:center"><div>🎉 R${stake} stake confirmed!</div><p>${name}, you're in the pilot pool. Mihle will WhatsApp you.</p><p>Referral link: <strong>${shareLink}</strong></p><button class="btn-primary" onclick="copyToClipboard('${shareLink}')">Copy link</button></div>`;
+      window.history.replaceState({}, '', BASE_URL);
+    }
+  }
+
+  function copyToClipboard(text) { navigator.clipboard.writeText(text); showToast('Copied!'); }
+  function openWhatsAppGroup() { window.open(WA_GROUP_LINK, '_blank'); }
+
+  // ---------------- ADMIN DASHBOARD (password protected) ----------------
+  function checkAdminAuth() {
+    let pwd = prompt("Admin access required. Enter password:");
+    if (pwd === "ubuntu2025") {
+      document.getElementById('publicApp').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'block';
+      renderAdminDashboard();
+    } else if (pwd !== null) { alert("Wrong password"); }
+  }
+  function logoutAdmin() { document.getElementById('adminPanel').style.display = 'none'; document.getElementById('publicApp').style.display = 'block'; }
+
+  function renderAdminDashboard() {
+    const totalStake = members.reduce((s,m)=>s+(m.stake||0),0);
+    const paidMembers = members.filter(m=>m.payment_status==='paid').length;
+    document.getElementById('adminStats').innerHTML = `
+      <div class="stat-card"><div class="stat-num">${members.length}</div><div>Total Members</div></div>
+      <div class="stat-card"><div class="stat-num">${paidMembers}</div><div>Paid</div></div>
+      <div class="stat-card"><div class="stat-num">R${totalStake.toLocaleString()}</div><div>Pool Volume</div></div>
+      <div class="stat-card"><div class="stat-num">${payouts.filter(p=>p.status==='pending').length}</div><div>Pending Payouts</div></div>
+    `;
+    document.getElementById('membersTable').innerHTML = `<table><tr><th>Name</th><th>WhatsApp</th><th>Stake</th><th>Status</th><th>Action</th></tr>${
+      members.map(m => `<tr><td>${m.name}</td><td>${m.phone}</td><td>R${m.stake}</td><td class="status-paid">${m.payment_status}</td><td><button class="small" onclick="markPayout('${m.id}')">Schedule payout</button></td></tr>`).join('')
+    }</table>`;
+    document.getElementById('payoutQueue').innerHTML = `<table><tr><th>Member</th><th>Amount</th><th>Status</th><th>Mark complete</th></tr>${
+      payouts.map(p => `<tr><td>${p.member_name}</td><td>R${p.amount}</td><td>${p.status}</td><td>${p.status==='pending'? `<button class="small" onclick="completePayout('${p.id}')">✓ Paid out</button>`:'Done'}</td></tr>`).join('')
+    }</table>`;
+    document.getElementById('frictionLogList').innerHTML = frictionLogs.map(f => `<div class="friction-item"><strong>${f.date} | ${f.stage} | ${f.priority}</strong><br/>${f.desc}<br/><em>Fix idea: ${f.potential_fix || 'Not yet'}</em></div>`).join('');
+  }
+
+  window.markPayout = function(id) {
+    let member = members.find(m=>m.id===id);
+    if(member && !member.paid_out) {
+      let existingPayout = payouts.find(p=>p.id===id);
+      if(existingPayout) existingPayout.status='pending';
+      else payouts.push({id, member_name:member.name, amount:member.stake, status:'pending'});
+      persistData();
+      renderAdminDashboard();
+      showToast('Payout scheduled');
+    }
+  };
+  window.completePayout = function(payoutId) {
+    let p = payouts.find(p=>p.id===payoutId);
+    if(p) { p.status='completed'; let member = members.find(m=>m.id===payoutId); if(member) member.paid_out=true; persistData(); renderAdminDashboard(); showToast('Payout completed');}
+  };
+  function showFrictionModal() { document.getElementById('frictionModal').style.display = 'flex'; }
+  function closeFrictionModal() { document.getElementById('frictionModal').style.display = 'none'; }
+  window.saveFriction = function() {
+    let desc = document.getElementById('frictionDesc').value;
+    let member = document.getElementById('frictionMember').value;
+    let stage = document.getElementById('frictionStage').value;
+    let priority = document.getElementById('frictionPriority').value;
+    if(!desc) { showToast('Describe friction'); return; }
+    frictionLogs.unshift({ date: new Date().toLocaleString(), member_name: member, stage, priority, desc, potential_fix: '' });
+    persistData();
+    closeFrictionModal();
+    if(document.getElementById('adminPanel').style.display==='block') renderAdminDashboard();
+    showToast('Friction logged → product roadmap');
+  };
+
+  // Fake webhook endpoint simulation for friction/ google sheets: just logs locally but works offline-ready
+  window.initAdminShortcut = () => { 
+    let urlParams = new URLSearchParams(window.location.search);
+    if(urlParams.get('admin') === 'ubuntu') checkAdminAuth();
+  };
+
+  // global event binding
+  document.getElementById('payNowBtn')?.addEventListener('click', handlePilotPayment);
+  initStakeSelect();
+  processPaymentReturn();
+  document.getElementById('counter').innerText = waitlistCount;
+  document.getElementById('pilot-spots').innerText = pilotSpots;
+  window.selectTab = selectTab;
+  window.handleWaitlist = handleWaitlist;
+  window.copyToClipboard = copyToClipboard;
+  window.openWhatsAppGroup = openWhatsAppGroup;
+  window.showFrictionModal = showFrictionModal;
+  window.closeFrictionModal = closeFrictionModal;
+  window.logoutAdmin = logoutAdmin;
+
+  // if admin param exists
+  if(window.location.search.includes('admin=ubuntu')) checkAdminAuth();
+  // Manual friction logging support from admin console
+  window.renderAdminDashboard = renderAdminDashboard;
+  persistData();
+</script>
+</body>
+</html>
