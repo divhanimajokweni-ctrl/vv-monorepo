@@ -52,7 +52,7 @@ export default function AdminPage() {
   useEffect(() => {
     const pwd = prompt("Admin access required. Enter password:");
     if (pwd === "ubuntu2025") {
-      setAuthenticated(true);
+      setAuthenticated(true); // eslint-disable-line react-hooks/set-state-in-effect
       loadData();
     } else if (pwd !== null) {
       alert("Wrong password");
