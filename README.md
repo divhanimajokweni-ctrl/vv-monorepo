@@ -33,7 +33,7 @@ The platform has completed Phase 13, implementing advanced trust mechanisms incl
 - **Browserbase Integration**: Added browser automation capabilities for enhanced user experience and automated workflows.
 
 ### Current Status
-- **Deployment**: Live on Vercel (workspace-eztfu1gtp-divhanimajokweni-1651s-projects.vercel.app)
+- **Deployment**: Live on Vercel (https://workspace-pfjsdnnwx-divhanimajokweni-1651s-projects.vercel.app)
 - **Database**: PostgreSQL with Drizzle ORM
 - **Authentication**: Clerk integration
 - **Email**: Resend with domain verification in progress
