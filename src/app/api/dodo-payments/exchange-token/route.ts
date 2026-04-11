@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getStitchProvider } from '@/lib/bank-provider/stitch';
+import { getDodoPaymentsProvider } from '@/lib/bank-provider/dodo-payments';
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const provider = getStitchProvider();
+    const provider = getDodoPaymentsProvider();
     const { accessToken, itemId } = await provider.exchangeToken(public_token);
 
     const connection = {
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
       connection,
     });
   } catch (error) {
-    console.error('Stitch exchange-token error:', error);
+    console.error('Dodo Payments exchange-token error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Failed to exchange token' },
       { status: 500 }

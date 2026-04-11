@@ -155,7 +155,7 @@ Ubuntu Pools follows a microservices-inspired architecture within a monorepo, en
 │  └─────────────┘  └─────────────┘  └─────────────┘  └────────────┘ │
 │                                                                      │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌────────────┐ │
-│  │  Upstash   │  │   Stitch    │  │  OpenClaw   │  │  Clerk     │ │
+│  │  Upstash   │  │ Dodo Payments│  │  OpenClaw   │  │  Clerk     │ │
 │  │ (Rate Limit)│  │ (Banking)  │  │ (Command)   │  │ (Auth)     │ │
 │  └─────────────┘  └─────────────┘  └─────────────┘  └────────────┘ │
 └─────────────────────────────────────────────────────────────────────┘
@@ -275,7 +275,7 @@ src/lib/
 │
 ├── bank-provider/              # Banking abstraction
 │   ├── index.ts               # Provider interface
-│   ├── stitch.ts              # Stitch integration
+│   ├── dodo-payments.ts        # Dodo Payments integration
 │   └── types.ts               # Banking types
 │
 ├── cache/                      # Caching layer
@@ -316,7 +316,7 @@ src/lib/
 │   │   ├── gateway.ts        # API gateway
 │   │   ├── event-handlers.ts # Event handlers
 │   │   └── index.ts
-│   └── stitch/               # Stitch banking
+│   └── dodo-payments/         # Dodo Payments integration
 │       ├── provider.ts
 │       └── index.ts
 │
@@ -487,7 +487,7 @@ Before beginning development, ensure your environment meets these requirements:
 | Sentry | Error tracking | Development |
 | Upstash | Redis caching | Development |
 | Resend | Email service | Development |
-| Stitch | Banking (South Africa) | Production |
+| Dodo Payments | Payment processing | Production |
 | OpenClaw | Command & control | Production |
 | Anthropic | AI inference | Production |
 | GrowthBook | Feature flags | Optional |
@@ -887,7 +887,7 @@ export class NewBankAdapter implements BankProvider {
 import { NewBankAdapter } from './newbank';
 
 export const providers = {
-  stitch: new StitchAdapter(),
+  'dodo-payments': new DodoPaymentsAdapter(),
   newbank: new NewBankAdapter(),
 };
 ```
@@ -1153,8 +1153,8 @@ SENTRY_DSN=https://...
 UPSTASH_REDIS_REST_URL=https://...
 UPSTASH_REDIS_REST_TOKEN=...
 RESEND_API_KEY=re_...
-STITCH_CLIENT_ID=...
-STITCH_SECRET_KEY=...
+DODO_PAYMENTS_CLIENT_ID=...
+DODO_PAYMENTS_CLIENT_SECRET=...
 OPENCLAW_API_KEY=...
 
 # Optional Features

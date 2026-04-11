@@ -1,14 +1,14 @@
 import { BankProvider, BankProviderType } from './types';
-import { StitchProvider, getStitchProvider } from './stitch';
+import { DodoPaymentsProvider, getDodoPaymentsProvider } from './dodo-payments';
 
 export function getBankProvider(type?: BankProviderType): BankProvider {
-  const providerType = type || (process.env.BANK_PROVIDER as BankProviderType) || 'stitch';
-  
+  const providerType = type || (process.env.BANK_PROVIDER as BankProviderType) || 'dodo-payments';
+
   switch (providerType) {
-    case 'stitch':
-      return getStitchProvider();
+    case 'dodo-payments':
+      return getDodoPaymentsProvider();
     case 'plaid':
-      throw new Error('Plaid has been deprecated. Please use Stitch or Ozow.');
+      throw new Error('Plaid has been deprecated. Please use Dodo Payments.');
     case 'ozow':
       throw new Error('Ozow integration coming soon.');
     case 'manual':
@@ -19,16 +19,16 @@ export function getBankProvider(type?: BankProviderType): BankProvider {
 }
 
 export function getActiveProviderName(): string {
-  return process.env.BANK_PROVIDER || 'stitch';
+  return process.env.BANK_PROVIDER || 'dodo-payments';
 }
 
 export const PROVIDER_FEATURES = {
-  stitch: {
-    name: 'Stitch',
-    description: 'Open banking for South Africa',
-    features: ['Instant EFT', 'Bank Verification', 'Transaction Sync', 'POPIA Compliant'],
+  'dodo-payments': {
+    name: 'Dodo Payments',
+    description: 'Comprehensive payment processing and banking integration',
+    features: ['Instant EFT', 'Bank Verification', 'Transaction Sync', 'Payment Processing', 'POPIA Compliant'],
     supportedBanks: ['Capitec', 'Standard Bank', 'FNB', 'Nedbank', 'ABSA', 'TymeBank', 'Discovery'],
-    fees: 'Low (Local ZAR)',
+    fees: 'Competitive (Local ZAR)',
     latency: 'Near-instant',
   },
   ozow: {

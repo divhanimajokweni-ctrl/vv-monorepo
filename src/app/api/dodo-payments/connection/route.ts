@@ -1,6 +1,6 @@
 /**
- * Ubuntu Pools — Stitch Bank Connection API
- * 
+ * Ubuntu Pools — Dodo Payments Bank Connection API
+ *
  * Security fixes applied:
  * - Authentication required
  * - Access token ownership validation
@@ -9,12 +9,12 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getStitchProvider } from '@/lib/bank-provider/stitch';
+import { getDodoPaymentsProvider } from '@/lib/bank-provider/dodo-payments';
 import { requireAuth } from '@/lib/auth/middleware';
 import { eq } from 'drizzle-orm';
 import { db } from '@/db/client';
 
-const STITCH_LINKED_ACCOUNTS_TABLE = 'stitch_linked_accounts';
+const DODO_PAYMENTS_LINKED_ACCOUNTS_TABLE = 'dodo_payments_linked_accounts';
 
 const RATE_LIMIT_WINDOW = 60 * 1000;
 const MAX_REQUESTS_PER_WINDOW = 10;
@@ -53,7 +53,7 @@ function sanitizeAction(action: string | null): string | null {
 
 async function validateTokenOwnership(userId: string, accessToken: string): Promise<boolean> {
   try {
-    const provider = getStitchProvider();
+    const provider = getDodoPaymentsProvider();
     const accounts = await provider.getAccounts(accessToken);
     return accounts.length > 0;
   } catch {
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const provider = getStitchProvider();
+    const provider = getDodoPaymentsProvider();
 
     switch (action) {
       case 'disconnect':
@@ -125,7 +125,7 @@ export async function POST(request: NextRequest) {
         );
     }
   } catch (error) {
-    console.error('[POST /api/stitch/connection] Error:', error);
+    console.error('[POST /api/dodo-payments/connection] Error:', error);
     return NextResponse.json(
       { error: 'INTERNAL_ERROR', message: 'Failed to manage connection' },
       { status: 500 }

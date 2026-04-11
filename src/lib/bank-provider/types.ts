@@ -88,14 +88,14 @@ export interface BankProviderConfig {
   redirectUri?: string;
 }
 
-export type BankProviderType = 'plaid' | 'stitch' | 'ozow' | 'manual';
+export type BankProviderType = 'plaid' | 'dodo-payments' | 'ozow' | 'manual';
 
-export const BankDataSourceSchema = z.enum(['instagram', 'tiktok', 'stitch', 'ozow', 'manual']);
+export const BankDataSourceSchema = z.enum(['instagram', 'tiktok', 'dodo-payments', 'ozow', 'manual']);
 
 export function getProviderName(type: BankProviderType): string {
   const names: Record<BankProviderType, string> = {
     plaid: 'Plaid',
-    stitch: 'Stitch',
+    'dodo-payments': 'Dodo Payments',
     ozow: 'Ozow',
     manual: 'Manual Entry',
   };

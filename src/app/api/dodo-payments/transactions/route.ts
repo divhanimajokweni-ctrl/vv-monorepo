@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getStitchProvider } from '@/lib/bank-provider/stitch';
+import { getDodoPaymentsProvider } from '@/lib/bank-provider/dodo-payments';
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,8 +12,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const provider = getStitchProvider();
-    
+    const provider = getDodoPaymentsProvider();
+
     const result = await provider.getTransactions(
       access_token,
       start_date || '2024-01-01',
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
       accounts: result.accounts,
     });
   } catch (error) {
-    console.error('Stitch transactions error:', error);
+    console.error('Dodo Payments transactions error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Failed to fetch transactions' },
       { status: 500 }

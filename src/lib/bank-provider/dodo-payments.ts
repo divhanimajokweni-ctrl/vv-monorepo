@@ -1,12 +1,12 @@
 import { BankProvider, BankProviderConfig, BankAccount, BankTransaction, BankConnection } from './types';
 
-const STITCH_API_BASE = {
-  sandbox: 'https://api.sandbox.stitch.com',
-  development: 'https://api.stitch.com',
-  production: 'https://api.stitch.com',
+const DODO_PAYMENTS_API_BASE = {
+  sandbox: 'https://api.sandbox.dodo-payments.com',
+  development: 'https://api.dodo-payments.com',
+  production: 'https://api.dodo-payments.com',
 };
 
-const SA_BANKS = [
+const SUPPORTED_BANKS = [
   { id: 'capitec', name: 'Capitec Bank' },
   { id: 'standard_bank', name: 'Standard Bank' },
   { id: 'fnb', name: 'First National Bank' },
@@ -17,16 +17,16 @@ const SA_BANKS = [
   { id: 'investec', name: 'Investec' },
 ];
 
-export class StitchProvider implements BankProvider {
-  readonly name = 'Stitch';
-  readonly supportedBanks = SA_BANKS.map(b => b.name);
+export class DodoPaymentsProvider implements BankProvider {
+  readonly name = 'Dodo Payments';
+  readonly supportedBanks = SUPPORTED_BANKS.map(b => b.name);
   
   private config: BankProviderConfig;
   private baseUrl: string;
 
   constructor(config: BankProviderConfig) {
     this.config = config;
-    this.baseUrl = STITCH_API_BASE[config.environment];
+    this.baseUrl = DODO_PAYMENTS_API_BASE[config.environment];
   }
 
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
@@ -42,7 +42,7 @@ export class StitchProvider implements BankProvider {
     
     if (!response.ok) {
       const error = await response.json().catch(() => ({ message: 'Unknown error' }));
-      throw new Error(error.message || `Stitch API error: ${response.status}`);
+      throw new Error(error.message || `Dodo Payments API error: ${response.status}`);
     }
 
     return response.json();
@@ -157,23 +157,23 @@ export class StitchProvider implements BankProvider {
   }
 }
 
-let stitchProviderInstance: StitchProvider | null = null;
+let dodoPaymentsProviderInstance: DodoPaymentsProvider | null = null;
 
-export function getStitchProvider(): StitchProvider {
-  if (!stitchProviderInstance) {
+export function getDodoPaymentsProvider(): DodoPaymentsProvider {
+  if (!dodoPaymentsProviderInstance) {
     const config: BankProviderConfig = {
-      clientId: process.env.STITCH_CLIENT_ID || '',
-      clientSecret: process.env.STITCH_CLIENT_SECRET || '',
-      environment: (process.env.STITCH_ENV || 'sandbox') as 'sandbox' | 'development' | 'production',
-      redirectUri: process.env.STITCH_REDIRECT_URI,
+      clientId: process.env.DODO_PAYMENTS_CLIENT_ID || '',
+      clientSecret: process.env.DODO_PAYMENTS_CLIENT_SECRET || '',
+      environment: (process.env.DODO_PAYMENTS_ENV || 'sandbox') as 'sandbox' | 'development' | 'production',
+      redirectUri: process.env.DODO_PAYMENTS_REDIRECT_URI,
     };
-    
+
     if (!config.clientId || !config.clientSecret) {
-      throw new Error('Stitch credentials not configured. Please set STITCH_CLIENT_ID and STITCH_CLIENT_SECRET');
+      throw new Error('Dodo Payments credentials not configured. Please set DODO_PAYMENTS_CLIENT_ID and DODO_PAYMENTS_CLIENT_SECRET');
     }
-    
-    stitchProviderInstance = new StitchProvider(config);
+
+    dodoPaymentsProviderInstance = new DodoPaymentsProvider(config);
   }
-  
-  return stitchProviderInstance;
+
+  return dodoPaymentsProviderInstance;
 }
