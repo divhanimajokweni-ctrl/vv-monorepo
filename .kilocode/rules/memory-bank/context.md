@@ -69,3 +69,12 @@ The Trust Enhancement phase adds mechanisms to prevent reputation inflation and 
   - Set up Terraform infrastructure for RDS with logical replication in AWS Cape Town
   - Configured centralized secret management via AWS Secrets Manager
   - Aligned authentication patterns for Clerk JWT sharing between systems
+- [x] **README Updated** (2026-04-10)
+  - Added Recent Developments section with Phase 13 completion and latest integrations
+  - Updated deployment section with Vercel info and Resend domain status
+  - Added Resend API key to environment setup and service requirements
+  - Fixed lint error in landing page component for setState in useEffect
+- [x] **Browserbase Integration Added** (2026-04-11)
+  - Installed @browserbasehq/sdk for browser automation
+  - Created API route at src/app/api/browserbase/route.ts for session creation
+  - Environment variables BROWSERBASE_API_KEY and BROWSERBASE_PROJECT_ID ready for configuration

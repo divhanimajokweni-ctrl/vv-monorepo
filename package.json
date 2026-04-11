@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@anthropic-ai/claude-code": "^2.1.97",
+    "@browserbasehq/sdk": "^2.10.0",
     "@chat-adapter/state-memory": "^4.24.0",
     "@clerk/nextjs": "^7.0.4",
     "@kilocode/app-builder-db": "github:Kilo-Org/app-builder-db#main",
