@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db/client';
 import { waitlist } from '@/db/schema';
 import { sendEmail } from '@/lib/email';
+import { getWhatsAppProvider } from '@/lib/integrations/whatsapp';
 
 export async function POST(req: NextRequest) {
   // POPIA gate — must be explicit in header
@@ -85,8 +86,21 @@ export async function POST(req: NextRequest) {
     console.error('[waitlist/join] Email failed (non-fatal):', emailResult.error);
   }
 
+  // WhatsApp community messaging — non-blocking
+  if (phone) {
+    try {
+      const whatsAppProvider = getWhatsAppProvider();
+      // Send welcome message asynchronously
+      whatsAppProvider.sendWelcomeMessage(phone).catch(error => {
+        console.error('[waitlist/join] WhatsApp failed (non-fatal):', error);
+      });
+    } catch (error) {
+      console.error('[waitlist/join] WhatsApp setup failed (non-fatal):', error);
+    }
+  }
+
   return NextResponse.json(
-    { success: true, message: "You're on the waitlist. Check your email for confirmation." },
+    { success: true, message: "You're on the waitlist. Check your email and WhatsApp for confirmation." },
     { status: 201 }
   );
 }

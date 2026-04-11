@@ -2,7 +2,7 @@ import { lindiweAI, getVillagePulse, type LindiweReasoningResult, type SafetyBuf
 import { calculateUbuntuScore, calculatePoolHealthFromInput, type MemberContributionHistory, type PoolHealthInput } from '../services/credit-service';
 import { generateProsperityOpportunity, type MatchmakerInput } from '../services/matchmaker';
 import { sovereigntyProxy, type SanitizedProfile } from '../services/sovereignty-proxy';
-import { getStitchProvider } from '../bank-provider/stitch';
+import { getDodoPaymentsProvider } from '../bank-provider/dodo-payments';
 import type { BankTransaction } from '../bank-provider/types';
 import { openClawGateway, type OpenClawNotification } from '../openclaw/gateway';
 
@@ -93,7 +93,7 @@ export class UbuntuBackbone {
   }
 
   async syncMemberData(memberId: string, accessToken: string): Promise<MemberBackboneProfile> {
-    const provider = getStitchProvider();
+    const provider = getDodoPaymentsProvider();
     
     const transactions = await provider.getTransactions(
       accessToken,

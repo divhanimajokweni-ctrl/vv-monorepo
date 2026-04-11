@@ -121,7 +121,7 @@ Ubuntu Pools follows a microservices-inspired architecture within a monorepo, en
 │  │ - /api/ledger    - /api/sovereignty  - /api/cpme               ││
 │  │ - /api/matchmaker - /api/backbone   - /api/passport           ││
 │  │ - /api/redis      - /api/browserbase - /api/health             ││
-│  │ - /api/games                                                      ││
+│  │ - /api/whatsapp   - /api/games                                    ││
 │  └─────────────────────────────────────────────────────────────────┘│
 └─────────────────────────────────────────────────────────────────────┘
                                    │
@@ -155,7 +155,7 @@ Ubuntu Pools follows a microservices-inspired architecture within a monorepo, en
 │  └─────────────┘  └─────────────┘  └─────────────┘  └────────────┘ │
 │                                                                      │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌────────────┐ │
-│  │  Upstash   │  │ Dodo Payments│  │  OpenClaw   │  │  Clerk     │ │
+│  │  Upstash   │  │ Dodo Payments│  │  OpenClaw   │  │ WhatsApp   │ │
 │  │ (Rate Limit)│  │ (Banking)  │  │ (Command)   │  │ (Auth)     │ │
 │  └─────────────┘  └─────────────┘  └─────────────┘  └────────────┘ │
 └─────────────────────────────────────────────────────────────────────┘
@@ -313,6 +313,7 @@ src/lib/
 │
 ├── integrations/               # External integrations
 │   ├── openclaw/             # OpenClaw gateway
+│   ├── whatsapp/             # WhatsApp integration
 │   │   ├── gateway.ts        # API gateway
 │   │   ├── event-handlers.ts # Event handlers
 │   │   └── index.ts
@@ -489,6 +490,7 @@ Before beginning development, ensure your environment meets these requirements:
 | Resend | Email service | Development |
 | Dodo Payments | Payment processing | Production |
 | OpenClaw | Command & control | Production |
+| WhatsApp | Community messaging | Production |
 | Anthropic | AI inference | Production |
 | GrowthBook | Feature flags | Optional |
 
@@ -1155,6 +1157,9 @@ UPSTASH_REDIS_REST_TOKEN=...
 RESEND_API_KEY=re_...
 DODO_PAYMENTS_CLIENT_ID=...
 DODO_PAYMENTS_CLIENT_SECRET=...
+WHATSAPP_API_KEY=...
+WHATSAPP_PHONE_NUMBER_ID=...
+WHATSAPP_COMMUNITY_GROUP_ID=...
 OPENCLAW_API_KEY=...
 
 # Optional Features
