@@ -33,14 +33,15 @@ The platform has completed Phase 13, implementing advanced trust mechanisms incl
 - **Browserbase Integration**: Added browser automation capabilities for enhanced user experience and automated workflows.
 
 ### Current Status
-- **Deployment**: Live on Vercel (https://workspace-5cnv93f8j-divhanimajokweni-1651s-projects.vercel.app)
-- **Custom Domain**: https://ubuntupools-vvlcc.app
+- **Deployment**: Live on Vercel (https://workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app)
+- **Custom Domain**: https://workspace-fawn-alpha.vercel.app
 - **Database**: PostgreSQL with Drizzle ORM
 - **Authentication**: Clerk integration
 - **Email**: Resend with domain verification in progress
 - **Caching**: Redis via Upstash
 - **Monitoring**: Sentry integration
-- **Browser Automation**: Browserbase integration for enhanced automation
+- **Browser Automation**: Browserbase integration
+- **Community Messaging**: WhatsApp Business API integration for enhanced automation
 
 ---
 
