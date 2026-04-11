@@ -10,6 +10,11 @@ openclaw-skills
 *.md
 !README.md
 .env*
+.local
+.config
+.pythonlibs
+.next
+*.log
 !package.json
 !bun.lockb
 !next.config.ts
@@ -17,3 +22,4 @@ openclaw-skills
 !tailwind.config.js
 !postcss.config.mjs
 !eslint.config.mjs
+!.vercelignore
