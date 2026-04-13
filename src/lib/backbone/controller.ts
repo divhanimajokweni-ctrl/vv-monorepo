@@ -5,6 +5,10 @@ import { sovereigntyProxy, type SanitizedProfile } from '../services/sovereignty
 import { getDodoPaymentsProvider } from '../bank-provider/dodo-payments';
 import type { BankTransaction } from '../bank-provider/types';
 import { openClawGateway, type OpenClawNotification } from '../openclaw/gateway';
+import { promotionLogs } from '@/db/schema-village';
+import { db } from '@/db/client';
+import { ubuntuScores } from '@/db/schema';
+import { eq } from 'drizzle-orm';
 
 export interface BackboneConfig {
   safetyBufferTarget: number;
@@ -277,7 +281,83 @@ export class UbuntuBackbone {
       } else {
         profile.riskLevel = 'critical';
       }
+
+      // Check for automatic Contributor promotion (Novice → Contributor)
+      this.checkAutomaticContributorPromotion(memberId, profile);
+
+      // Check for Guardian nomination (Steward → Guardian)
+      this.checkGuardianNomination(memberId, profile);
     }
+  }
+
+  private async checkAutomaticContributorPromotion(memberId: string, profile: MemberBackboneProfile): Promise<void> {
+    // Automatic promotion: Novice (0-19) → Contributor (20-39)
+    // Requires: High behavioral score AND game signals indicating readiness
+    if (profile.ubuntuScore >= 0 && profile.ubuntuScore <= 19) {
+      if (profile.behavioralScore && profile.behavioralScore >= 70) {
+        // Automatic promotion to Contributor level
+        await this.executePromotion(memberId, 'novice', 'contributor', 'AUTOMATED', profile.gameSignals);
+        console.log(`Member ${memberId} automatically promoted to Contributor level`);
+      }
+    }
+  }
+
+  private async checkGuardianNomination(memberId: string, profile: MemberBackboneProfile): Promise<void> {
+    // Guardian nomination: Steward (40-59) → Guardian (60-79)
+    // Requires: High stewardship potential AND leadership index from games
+    if (profile.ubuntuScore >= 40 && profile.ubuntuScore <= 59) {
+      if (profile.gameSignals?.stewardship_potential && profile.gameSignals.stewardship_potential > 75) {
+        // Create nomination for social validation (Phase 15 implementation)
+        await this.createGuardianNomination(memberId, profile.gameSignals);
+        console.log(`Member ${memberId} nominated for Guardian promotion`);
+      }
+    }
+  }
+
+  private async executePromotion(
+    memberId: string,
+    oldLevel: string,
+    newLevel: string,
+    path: string,
+    gameSignals?: GameBehavioralSignals
+  ): Promise<void> {
+    // Set appropriate score for new level
+    const newScore = newLevel === 'contributor' ? 25 : 65;
+
+    // Update the member's Ubuntu score in the database
+    await db.update(ubuntuScores)
+      .set({
+        score: newScore,
+        updatedAt: new Date()
+      })
+      .where(eq(ubuntuScores.userId, memberId));
+
+    // Log the promotion
+    await db.insert(promotionLogs).values({
+      memberId,
+      oldLevel,
+      newLevel,
+      path,
+      gameSignals,
+    });
+
+    // Update profile in memory
+    const profile = this.memberProfiles.get(memberId);
+    if (profile) {
+      profile.ubuntuScore = newScore;
+    }
+  }
+
+  private async createGuardianNomination(memberId: string, gameSignals: GameBehavioralSignals): Promise<void> {
+    // This creates a nomination that requires social validation (Phase 15)
+    // For now, we'll log it - full implementation would create a proposal
+    await db.insert(promotionLogs).values({
+      memberId,
+      oldLevel: 'steward',
+      newLevel: 'guardian',
+      path: 'SOCIAL_VOTE',
+      gameSignals,
+    });
   }
 
   getAuditTrail(limit: number = 50): BackboneAuditEntry[] {

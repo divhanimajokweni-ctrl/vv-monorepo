@@ -515,29 +515,40 @@ export const villageRelations = pgTable(
   "village_relations",
   {
     id: uuid("id").defaultRandom().primaryKey(),
-    fromVillageId: uuid("from_village_id")
-      .notNull()
-      .references(() => villages.id, { onDelete: "cascade" }),
-    toVillageId: uuid("to_village_id")
-      .notNull()
-      .references(() => villages.id, { onDelete: "cascade" }),
-    relationType: text("relation_type").notNull(),
-    description: text("description"),
-    tradeVolume: bigint("trade_volume", { mode: "number" }).notNull().default(0),
-    isActive: boolean("is_active").notNull().default(true),
-    createdAt: timestamptz("created_at").notNull().defaultNow(),
+    sourceVillageId: uuid("source_village_id").references(() => villages.id, { onDelete: "cascade" }),
+    targetVillageId: uuid("target_village_id").references(() => villages.id, { onDelete: "cascade" }),
+    relationType: text("relation_type").notNull(), // 'trade', 'alliance', 'federation'
+    establishedAt: timestamptz("established_at").defaultNow(),
+    metadata: jsonb("metadata"),
   },
   (table) => ({
-    fromVillageIdx: index("idx_village_relations_from").on(table.fromVillageId),
-    toVillageIdx: index("idx_village_relations_to").on(table.toVillageId),
-    relationUnique: uniqueIndex("village_relations_unique").on(
-      table.fromVillageId,
-      table.toVillageId,
-      table.relationType
-    ),
+    sourceTargetIdx: uniqueIndex("village_relations_source_target_idx").on(table.sourceVillageId, table.targetVillageId),
   })
 );
 
+// =============================================================================
+// PROMOTION SYSTEM
+// =============================================================================
+
+export const promotionLogs = pgTable(
+  "promotion_logs",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    memberId: text("member_id").references(() => villageMembers.id),
+    oldLevel: text("old_level").notNull(), // 'novice', 'contributor', 'steward', 'guardian', 'archivist'
+    newLevel: text("new_level").notNull(),
+    path: text("path").notNull(), // 'AUTOMATED' or 'SOCIAL_VOTE'
+    votedBy: jsonb("voted_by"), // Array of Guardian IDs if social validation required
+    gameSignals: jsonb("game_signals"), // Associated game telemetry data
+    timestamp: timestamptz("timestamp").defaultNow(),
+  },
+  (table) => ({
+    memberTimestampIdx: index("promotion_logs_member_timestamp_idx").on(table.memberId, table.timestamp),
+  })
+);
+
+// =============================================================================
+// TYPES
 // =============================================================================
 // TYPE EXPORTS
 // =============================================================================
@@ -595,3 +606,7 @@ export type ProcurementStatus = (typeof procurementStatusEnum.enumValues)[number
 export type InvestmentStatus = (typeof investmentStatusEnum.enumValues)[number];
 export type InsuranceStatus = (typeof insuranceStatusEnum.enumValues)[number];
 export type ClaimStatus = (typeof claimStatusEnum.enumValues)[number];
+
+// Promotion system types
+export type PromotionLog = typeof promotionLogs.$inferSelect;
+export type NewPromotionLog = typeof promotionLogs.$inferInsert;
