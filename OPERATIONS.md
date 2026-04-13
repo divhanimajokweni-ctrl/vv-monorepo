@@ -607,6 +607,9 @@ For global scaling:
 | `websocket_connections` | Active WebSocket connections | > 10k |
 | `db_query_time` | Database query execution time | > 200ms |
 | `error_rate` | Percentage of failed requests | > 1% |
+| `game_session_duration` | Time spent in game sessions | > 30min |
+| `telemetry_signal_count` | Behavioural signals extracted per session | < 1 avg |
+| `sovereignty_erasure_rate` | Game history erasure requests | Monitor trends |
 
 ### Dashboard Panels
 
@@ -617,6 +620,9 @@ For global scaling:
 - WebSocket connection count
 - API response times (p95, p99)
 - Trust graph computation time
+- Game session completion rate
+- Behavioural signal extraction success rate
+- Sovereignty erasure request volume
 ```
 
 ### WebSocket Heartbeat

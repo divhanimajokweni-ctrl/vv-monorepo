@@ -3,8 +3,9 @@
 ## Current State
 
 **Phase 13 Status**: ✅ Complete — Trust Enhancement (Reputation Friction, Invite Chains, Portable Passports)
+**Phase 14 Status**: ✅ Complete — Schema Migration and Lindiwe Signal Mapping
 
-The Trust Enhancement phase adds mechanisms to prevent reputation inflation and enable portable economic credentials.
+Phase 14 implements game telemetry integration with Lindiwe AI, ensuring proper separation of concerns between game prestige and core Ubuntu scores, while maintaining POPIA compliance for data sovereignty.
 
 ## Recently Completed
 
@@ -113,3 +114,12 @@ The Trust Enhancement phase adds mechanisms to prevent reputation inflation and 
   - Successfully deployed to Vercel: https://workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app
   - API endpoint `/api/whatsapp/join` tested and functional
   - Ready for real WhatsApp Business API credentials to be configured
+- [x] **Schema Migration and Lindiwe Signal Mapping Completed** (2026-04-13)
+  - Verified Prestige Score separation in schema-games.ts (no leakage into Ubuntu Score)
+  - Implemented Lindiwe Telemetry Hook mapping game events to MemberBackboneProfile
+  - Added GameBehavioralSignals interface with risk_appetite, cooperative_quotient, stress_response, leadership_index, overextension, knowledge_score, stewardship_potential
+  - Updated backbone controller with updateMemberGameSignals method
+  - Integrated SovereigntyProxy for game telemetry data erasure (POPIA compliance)
+  - Added /api/sovereignty/erase-games endpoint for members to forget game history
+  - Members can erase game telemetry without losing real-world pool standing
+  - Passed lint and typecheck validation

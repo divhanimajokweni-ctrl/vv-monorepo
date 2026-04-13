@@ -1,10 +1,10 @@
 # Current Operations Scope
 
-> Last Updated: 2026-04-11
+> Last Updated: 2026-04-13
 
 ## Active Development Phase
 
-**Enterprise Infrastructure Improvements** - Phase 1
+**Phase 15: Financial Intelligence Arcade Launch** - Ready for development
 
 ---
 
@@ -143,6 +143,27 @@ TypeCheck   : ✅ Pass
 | `src/lib/audit/index.ts` | New |
 | `OPERATIONS.md` | Updated |
 | `package.json` | Updated (added @upstash/ratelimit, db:seed script) |
+
+### 16. Schema Migration and Lindiwe Signal Mapping (Phase 14)
+- **Files**: `src/db/schema-games.ts`, `src/lib/games/telemetry.ts`, `src/lib/backbone/controller.ts`, `src/lib/services/sovereignty-proxy.ts`
+- **API Endpoints**: `/api/sovereignty/erase-games`
+- **Status**: 🟢 Completed
+- **Purpose**: Game telemetry integration with behavioural signal extraction for Lindiwe AI
+- **Features**:
+  - Isolated game prestige scoring (no leakage to Ubuntu Score)
+  - Behavioural signal mapping (risk_appetite, stewardship_potential, etc.)
+  - POPIA-compliant game history erasure
+  - SovereigntyProxy integration for privacy controls
+- **Files Created/Modified**:
+  | File | Change Type |
+  |------|-------------|
+  | `src/db/schema-games.ts` | Updated (prestigeScores table isolation) |
+  | `src/lib/games/telemetry.ts` | New (signal extraction and backbone integration) |
+  | `src/lib/backbone/controller.ts` | Updated (GameBehavioralSignals interface, updateMemberGameSignals method) |
+  | `src/lib/services/sovereignty-proxy.ts` | Updated (eraseGameTelemetry method) |
+  | `src/app/api/sovereignty/erase-games/route.ts` | New |
+  | `README.md` | Updated (Phase 14 documentation) |
+  | `OPERATIONS_SCOPE.md` | Updated (current status) |
 
 ---
 

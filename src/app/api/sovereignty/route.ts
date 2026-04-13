@@ -20,6 +20,10 @@ const ingestSchema = z.object({
 
 const configureSchema = SovereigntySettingsSchema;
 
+const eraseGamesSchema = z.object({
+  memberId: z.string().uuid(),
+});
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -64,9 +68,22 @@ export async function POST(request: NextRequest) {
         result.data.content,
         result.data.source
       );
-      
+
       const profile = sovereigntyProxy.getSanitizedProfile(result.data.memberId);
       return NextResponse.json({ tags, profile });
+    }
+
+    if (request.nextUrl.pathname.endsWith('/erase-games')) {
+      const result = eraseGamesSchema.safeParse(body);
+      if (!result.success) {
+        return NextResponse.json(
+          { error: 'Invalid request', details: result.error.issues },
+          { status: 400 }
+        );
+      }
+
+      const erasureResult = await sovereigntyProxy.eraseGameTelemetry(result.data.memberId);
+      return NextResponse.json(erasureResult);
     }
 
     return NextResponse.json({ error: 'Invalid endpoint' }, { status: 404 });

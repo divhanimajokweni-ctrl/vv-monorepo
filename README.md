@@ -22,8 +22,11 @@
 
 ## Recent Developments (2026)
 
+### Phase 14 Complete — Schema Migration and Lindiwe Signal Mapping
+The platform has completed Phase 14, implementing comprehensive game telemetry integration with Lindiwe AI. This phase establishes the foundation for behavioural intelligence processing while maintaining strict separation between game prestige and core Ubuntu scores. Games now generate rich behavioural signals that feed into Lindiwe's credit model and governance role assessment.
+
 ### Phase 13 Complete — Trust Enhancement
-The platform has completed Phase 13, implementing advanced trust mechanisms including reputation friction, invite chains, and portable economic passports. This phase focuses on preventing reputation inflation and enabling secure, portable economic credentials across the Ubuntu ecosystem.
+The platform previously completed Phase 13, implementing advanced trust mechanisms including reputation friction, invite chains, and portable economic passports. This phase focuses on preventing reputation inflation and enabling secure, portable economic credentials across the Ubuntu ecosystem.
 
 ### Latest Integrations
 - **Resend Email Service**: Bidirectional email functionality with webhook endpoints for automated responses. Domain verification initiated for ubuntuvvlcc.com.
@@ -31,6 +34,8 @@ The platform has completed Phase 13, implementing advanced trust mechanisms incl
 - **GrowthBook Feature Flags**: Implemented feature flag system for controlled rollouts and A/B testing.
 - **Vercel Deployment**: Production deployment on Vercel with domain configurations.
 - **Browserbase Integration**: Added browser automation capabilities for enhanced user experience and automated workflows.
+- **WhatsApp Business API**: Community messaging integration with rate-limited automated group management.
+- **Lindiwe Game Telemetry**: Behavioural signal extraction from financial literacy games with SovereigntyProxy integration.
 
 ### Current Status
 - **Deployment**: Live on Vercel (https://workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app)
@@ -42,6 +47,8 @@ The platform has completed Phase 13, implementing advanced trust mechanisms incl
 - **Monitoring**: Sentry integration
 - **Browser Automation**: Browserbase integration
 - **Community Messaging**: WhatsApp Business API integration for enhanced automation
+- **Game Telemetry**: Lindiwe AI integration with behavioural signal processing
+- **Data Sovereignty**: POPIA-compliant game history erasure functionality
 
 ---
 
@@ -122,7 +129,7 @@ Ubuntu Pools follows a microservices-inspired architecture within a monorepo, en
 │  │ - /api/ledger    - /api/sovereignty  - /api/cpme               ││
 │  │ - /api/matchmaker - /api/backbone   - /api/passport           ││
 │  │ - /api/redis      - /api/browserbase - /api/health             ││
-│  │ - /api/whatsapp   - /api/games                                    ││
+│  │ - /api/whatsapp   - /api/games       - /api/sovereignty/erase-games ││
 │  └─────────────────────────────────────────────────────────────────┘│
 └─────────────────────────────────────────────────────────────────────┘
                                    │
@@ -552,7 +559,7 @@ Visit `http://localhost:3000` to access the platform.
 
 ### Ubuntu Games Dashboard
 
-The platform includes a Financial Intelligence Arcade with educational games:
+The platform includes a Financial Intelligence Arcade with educational games and integrated behavioural telemetry:
 
 ```bash
 # Access the games dashboard
@@ -560,6 +567,16 @@ curl http://localhost:3000/api/games
 
 # View available games
 curl http://localhost:3000/games
+
+# Extract behavioural signals from game session
+curl -X POST http://localhost:3000/api/games/telemetry \
+  -H "Content-Type: application/json" \
+  -d '{"memberId":"user_123","sessionId":"session_456","gameId":"ubuntu_monopoly"}'
+
+# Erase game history (POPIA compliance)
+curl -X POST http://localhost:3000/api/sovereignty/erase-games \
+  -H "Content-Type: application/json" \
+  -d '{"memberId":"user_123"}'
 ```
 
 **Available Games:**
@@ -568,6 +585,22 @@ curl http://localhost:3000/games
 - **Credit Ladder** - Credit score building
 - **The Commons** - Resource management game
 - **Market Maker** - Bulk procurement negotiation
+
+**Behavioural Signals Extracted:**
+Each game session generates behavioural intelligence that feeds into Lindiwe AI:
+- **Risk Appetite** - Decision-making under uncertainty
+- **Cooperative Quotient** - Collective vs individual orientation
+- **Stress Response** - Decision quality under pressure
+- **Leadership Index** - Mediation and conflict resolution skills
+- **Overextension** - Risk management boundaries
+- **Knowledge Score** - Financial literacy assessment
+- **Stewardship Potential** - Governance readiness indicators
+
+**Privacy Compliance:**
+- Game telemetry can be erased without affecting pool standing
+- Signals are derived, not raw data
+- SovereigntyProxy integration ensures POPIA compliance
+- Audit trail maintained for regulatory purposes
 
 **Dashboard Component:**
 Import the Ubuntu Games Dashboard in any page:

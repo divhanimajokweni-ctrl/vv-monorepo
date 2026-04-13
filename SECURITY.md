@@ -32,6 +32,7 @@
 |--------|----------|------------|
 | PII leakage in event payloads | High | PII linter in CI pipeline (`scripts/pii-linter.ts`); sovereignty proxy for profile sanitization (`src/lib/services/sovereignty-proxy.ts`) |
 | Bank data exposure | High | Stitch integration uses token-based access; no raw credentials stored (`src/lib/integrations/stitch/`) |
+| Game telemetry behavioural leakage | Medium | Derived signals only (no raw decisions stored); POPIA-compliant erasure via SovereigntyProxy (`src/lib/services/sovereignty-proxy.ts`, `src/lib/games/telemetry.ts`) |
 
 ### Denial of Service
 

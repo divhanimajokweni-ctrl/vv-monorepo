@@ -8,6 +8,7 @@
  */
 import { db } from '@/db/client';
 import { gameTelemetry } from '@/db/schema-games';
+import { ubuntuBackbone, type GameBehavioralSignals } from '@/lib/backbone';
 import type { GameId, GameState, BehaviouralSignal, SessionTelemetry, SignalType } from './types';
  
 // ── Signal Extractors — one per game ──────────────────────────────────────────
@@ -132,8 +133,29 @@ const extractors: Partial<Record<GameId, SignalExtractor>> = {
   },
 };
  
+// ── Backbone Integration ──────────────────────────────────────────────────────
+
+async function updateBackboneProfileWithGameSignals(memberId: string): Promise<void> {
+  const aggregatedSignals = await buildFingerprint(memberId);
+
+  const gameSignals: GameBehavioralSignals = {
+    risk_appetite: aggregatedSignals.risk_appetite ?? 50,
+    cooperative_quotient: aggregatedSignals.cooperative_quotient ?? 50,
+    stress_response: aggregatedSignals.stress_response ?? 50,
+    leadership_index: aggregatedSignals.leadership_index ?? 50,
+    overextension: aggregatedSignals.overextension ?? 50,
+    knowledge_score: aggregatedSignals.knowledge_score ?? 50,
+    stewardship_potential: Math.round(
+      ((aggregatedSignals.leadership_index ?? 50) + (aggregatedSignals.cooperative_quotient ?? 50)) / 2
+    ),
+  };
+
+  // Update the backbone profile with game signals
+  ubuntuBackbone.updateMemberGameSignals(memberId, gameSignals);
+}
+
 // ── Public API ────────────────────────────────────────────────────────────────
- 
+
 export async function extractSignals(
   memberId:  string,
   sessionId: string,
@@ -142,9 +164,9 @@ export async function extractSignals(
 ): Promise<BehaviouralSignal[]> {
   const extractor = extractors[gameId];
   if (!extractor) return [];
- 
+
   const signals = extractor(state);
- 
+
   // Persist signals (consent defaults to false until member opts in)
   if (signals.length > 0) {
     await db.insert(gameTelemetry).values(
@@ -158,8 +180,11 @@ export async function extractSignals(
         consentGiven: false,
       }))
     );
+
+    // Update backbone profile with aggregated game signals
+    await updateBackboneProfileWithGameSignals(memberId);
   }
- 
+
   return signals;
 }
  

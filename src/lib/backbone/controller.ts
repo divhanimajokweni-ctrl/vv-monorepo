@@ -35,6 +35,26 @@ export interface BackboneAuditEntry {
   mode: BackboneState['currentMode'];
 }
 
+export interface GameBehavioralSignals {
+  risk_appetite: number;
+  cooperative_quotient: number;
+  stress_response: number;
+  leadership_index: number;
+  overextension: number;
+  knowledge_score: number;
+  stewardship_potential: number; // Derived from leadership_index + cooperative_quotient
+}
+
+export interface GameBehavioralSignals {
+  risk_appetite: number;
+  cooperative_quotient: number;
+  stress_response: number;
+  leadership_index: number;
+  overextension: number;
+  knowledge_score: number;
+  stewardship_potential: number; // Derived from leadership_index + cooperative_quotient
+}
+
 export interface MemberBackboneProfile {
   memberId: string;
   ubuntuScore: number;
@@ -43,6 +63,7 @@ export interface MemberBackboneProfile {
   lastTransactionSync: Date | null;
   contributionHistory: MemberContributionHistory;
   sanitizedProfile: SanitizedProfile;
+  gameSignals?: GameBehavioralSignals; // Game-derived behavioral signals
 }
 
 const DEFAULT_CONFIG: BackboneConfig = {
@@ -233,6 +254,30 @@ export class UbuntuBackbone {
 
   getAllMemberProfiles(): MemberBackboneProfile[] {
     return Array.from(this.memberProfiles.values());
+  }
+
+  updateMemberGameSignals(memberId: string, gameSignals: GameBehavioralSignals): void {
+    const profile = this.memberProfiles.get(memberId);
+    if (profile) {
+      profile.gameSignals = gameSignals;
+      // Update behavioralScore based on game signals
+      profile.behavioralScore = Math.round(
+        (gameSignals.stewardship_potential +
+         gameSignals.cooperative_quotient +
+         (100 - gameSignals.risk_appetite) +
+         (100 - gameSignals.overextension)) / 4
+      );
+      // Update risk level based on signals
+      if (profile.behavioralScore >= 80) {
+        profile.riskLevel = 'low';
+      } else if (profile.behavioralScore >= 60) {
+        profile.riskLevel = 'medium';
+      } else if (profile.behavioralScore >= 40) {
+        profile.riskLevel = 'high';
+      } else {
+        profile.riskLevel = 'critical';
+      }
+    }
   }
 
   getAuditTrail(limit: number = 50): BackboneAuditEntry[] {

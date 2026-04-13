@@ -11,6 +11,9 @@
 
 import { z } from 'zod';
 import { randomUUID } from 'crypto';
+import { db } from '@/db/client';
+import { gameTelemetry } from '@/db/schema-games';
+import { eq } from 'drizzle-orm';
 
 export interface IntentTag {
   id: string;
@@ -347,13 +350,26 @@ export class SovereigntyProxy {
   clearExpiredTags(memberId: string): number {
     const profile = this.profiles.get(memberId);
     if (!profile) return 0;
-    
+
     const before = profile.intentTags.length;
     profile.intentTags = profile.intentTags.filter(t => t.expiresAt > new Date());
     profile.profileType = determineProfileType(profile.intentTags);
     profile.aggregatedScore = calculateAggregatedScore(profile.intentTags);
-    
+
     return before - profile.intentTags.length;
+  }
+
+  /**
+   * Erase game telemetry data for a member (POPIA compliance)
+   * This marks telemetry records as erased but keeps the record for audit purposes
+   * Does not affect real-world pool standing or Ubuntu Score
+   */
+  async eraseGameTelemetry(memberId: string): Promise<{ erased: boolean }> {
+    await db.update(gameTelemetry)
+      .set({ erased: true })
+      .where(eq(gameTelemetry.memberId, memberId));
+
+    return { erased: true };
   }
 }
 
