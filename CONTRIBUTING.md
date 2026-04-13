@@ -131,6 +131,41 @@ Ubuntu Pools is a **financial technology platform** that operationalizes the Afr
 3. **Set Up Environment**: Follow DEVELOPMENT_SETUP.md
 4. **Find Your Path**: Choose from bug fixes, features, or documentation
 
+### 🎯 Friction-to-PR Workflow
+
+**Maximize Impact**: Start with real user problems to ensure your contributions matter.
+
+#### **Step 1: Access the Friction Log**
+- Visit the [Admin Dashboard](https://workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app/admin)
+- Enter password: `ubuntu2025`
+- Browse the **Friction Log** - real user-reported issues and bottlenecks
+
+#### **Step 2: Select a Friction Point**
+- **Priority Order**: Start with "High Impact" issues affecting many users
+- **Skill Match**: Choose problems that align with your technical strengths
+- **Mission Alignment**: Focus on issues advancing collective prosperity
+
+#### **Step 3: Research & Plan**
+- **Understand the Context**: Read related GitHub issues and discussions
+- **Check Existing Solutions**: Search codebase for similar implementations
+- **Design First Principles**: Ensure your solution aligns with Ubuntu philosophy
+- **Plan Testing**: Define how you'll validate the fix
+
+#### **Step 4: Implement & Test**
+- **Follow Development Workflow**: Use proper branching and commit standards
+- **Test Thoroughly**: Unit tests, integration tests, and user acceptance
+- **Document Changes**: Update relevant documentation and code comments
+
+#### **Step 5: Submit for Review**
+- **Reference Friction**: Include link to specific friction point in PR description
+- **Impact Statement**: Explain how this reduces user friction
+- **Testing Evidence**: Provide before/after screenshots or test results
+
+#### **Success Metrics**
+- **User Impact**: How many users benefit from this fix
+- **Code Quality**: Adherence to First Principles and coding standards
+- **Community Value**: Advancement of collective prosperity goals
+
 ### Mentor Program
 - **Pair Programming**: Work with experienced contributors
 - **Code Reviews**: Learn from feedback on your submissions

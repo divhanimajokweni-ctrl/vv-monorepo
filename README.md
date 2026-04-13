@@ -1,6 +1,8 @@
 # 🌍 Ubuntu Pools Platform
 
 [![Phase 14 Complete](https://img.shields.io/badge/Phase_14-Complete-28a745?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
+[![AWS Africa](https://img.shields.io/badge/AWS_Africa-Cape_Town-FF9900?style=for-the-badge&logo=amazon-aws&logoColor=white)](https://aws.amazon.com/)
+[![POPIA Compliant](https://img.shields.io/badge/POPIA-Compliant-28a745?style=for-the-badge&logo=law&logoColor=white)](https://www.gov.za/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.0-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
@@ -76,6 +78,7 @@ Advanced trust mechanisms including reputation friction, invite chains, and port
 
 | Service | Status | Description |
 |---------|--------|-------------|
+| 💳 **Dodo Payments** | ✅ **Active** | Exclusive financial backbone with webhook integration |
 | 📧 **Resend Email** | ✅ Active | Bidirectional email with webhook endpoints |
 | ⚡ **Redis Caching** | ✅ Active | Session management & high-performance caching |
 | 🚩 **GrowthBook** | ✅ Active | Feature flags for controlled rollouts |
@@ -107,6 +110,55 @@ Advanced trust mechanisms including reputation friction, invite chains, and port
 [![Phase](https://img.shields.io/badge/Phase_14-Complete-FF6B6B?style=flat-square)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
 
 </div>
+
+---
+
+## 🏗️ Infrastructure & Compliance
+
+<div align="center">
+
+## ☁️ AWS Africa (Cape Town) • 🔒 POPIA Compliant • 🏛️ Sovereign Architecture
+
+</div>
+
+### **🌍 Regional Infrastructure**
+- **AWS Africa (Cape Town)**: Primary cloud region for African operations
+- **POPIA Compliance**: South African Protection of Personal Information Act
+- **Data Sovereignty**: All user data remains within African jurisdiction
+- **Low Latency**: Optimized performance for African and global users
+
+### **🔐 Compliance & Security**
+- **Zero-Knowledge Architecture**: Cryptographic verification without data exposure
+- **Immutable Audit Trails**: Complete transaction and governance history
+- **Privacy by Design**: Consent-based data sharing and erasure capabilities
+- **Regulatory Alignment**: Compliant with financial services and data protection laws
+
+### **⚡ Performance & Scalability**
+- **Global CDN**: Vercel Edge Network for worldwide distribution
+- **Database Optimization**: Composite indexing for sub-second queries
+- **Caching Strategy**: Redis warming and intelligent invalidation
+- **WebSocket Efficiency**: Connection pooling and message batching
+
+### **🔄 Continuous Integration**
+- **Automated Testing**: 40+ tests covering all critical paths
+- **Security Scanning**: Automated vulnerability detection
+- **Performance Monitoring**: Real-time metrics and alerting
+- **Deployment Automation**: Zero-downtime updates via Vercel
+
+---
+
+## 🎮 Friction Log Access
+
+**Solve Real Problems**: Our platform includes a live **Friction Log** where users report actual bottlenecks and issues.
+
+### **Access Instructions**
+1. Visit [Admin Dashboard](https://workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app/admin)
+2. Enter password: `ubuntu2025`
+3. Browse user-reported friction points
+4. Select issues that match your skills
+5. Implement solutions that advance collective prosperity
+
+**Impact**: Your contributions directly solve real user problems, maximizing community benefit and accelerating your advancement through our meritocratic system.
 - **Data Sovereignty**: POPIA-compliant game history erasure functionality
 
 ---
@@ -1915,6 +1967,8 @@ For detailed contribution guidelines, please read our [CONTRIBUTING.md](./CONTRI
 1. **📖 Read the Mission**: Understand our "I am because we are" philosophy
 2. **🛠️ Set Up Environment**: Follow [DEVELOPMENT_SETUP.md](./DEVELOPMENT_SETUP.md)
 3. **🎯 Find Your Path**: Choose from bug fixes, features, documentation, or testing
+   - **🔍 Check Friction Log**: Visit the [Admin Dashboard](https://workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app/admin) (password: `ubuntu2025`) to see real user-reported issues and bottlenecks
+   - **🎯 Solve Real Problems**: Pick friction points that impact actual users for maximum impact
 4. **🤝 Submit PR**: Follow our comprehensive review process
 5. **🏆 Get Recognized**: Advance through contribution tiers
 
