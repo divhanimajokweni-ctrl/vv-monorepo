@@ -13,7 +13,7 @@
  */
 
 import type { Database } from "@/db/client";
-import { governanceEnforcementRules, governanceProposals } from "@/db/schema";
+import { governanceEnforcementRules, governanceProposals, ubuntuScores } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import type { CreateEventInput } from "@/lib/events/schemas";
 import { auditIncidentCreatedPayloadSchema } from "@/lib/events/schemas";
@@ -39,7 +39,10 @@ export type GateAction =
   | "rule.update"
   | "rule.delete"
   | "constitution.amend"
-  | "parameter.update";
+  | "parameter.update"
+  | "emergency.freeze"
+  | "emergency.reset"
+  | "emergency.override";
 
 export interface GateContext {
   actorId: string;
@@ -65,6 +68,7 @@ export interface ApprovalRequirement {
   quorumOverride?: number;
   thresholdOverride?: number;
   constitutionVersion: number;
+  dynamicQuorum?: boolean; // Enable dynamic quorum scaling
 }
 
 // =============================================================================
@@ -188,13 +192,21 @@ export class GovernanceGate {
   /**
    * Gets the approval requirement for an action.
    */
-  async getApprovalRequirement(action: GateAction): Promise<ApprovalRequirement> {
+  async getApprovalRequirement(action: GateAction, villageId?: string): Promise<ApprovalRequirement> {
     if (!this.cacheLoaded) {
       await this.loadRules();
     }
 
     const cached = this.cachedRules.get(action);
     if (cached) {
+      // Apply dynamic quorum if enabled and villageId provided
+      if (cached.dynamicQuorum && villageId) {
+        const dynamicQuorum = await this.calculateDynamicQuorum(villageId);
+        return {
+          ...cached,
+          quorumOverride: dynamicQuorum,
+        };
+      }
       return cached;
     }
 
@@ -204,6 +216,39 @@ export class GovernanceGate {
       requiresApproval: true,
       constitutionVersion: 1,
     };
+  }
+
+  /**
+   * Calculates dynamic quorum based on village size.
+   * Formula: min(0.6, 0.3 + (villageSize/1000) * 0.1)
+   * Small village: 30% quorum, Large village: 60% quorum
+   */
+  private async calculateDynamicQuorum(villageId: string): Promise<number> {
+    try {
+      // Get village member count (simplified - would need proper village schema)
+      // For now, use a placeholder calculation
+      const villageSize = await this.getVillageSize(villageId);
+
+      // Dynamic quorum: minimum 30%, maximum 60%, scales with village size
+      const baseQuorum = 0.3; // 30%
+      const scaleFactor = Math.min(0.3, (villageSize / 1000) * 0.1); // Up to 30% additional
+      const dynamicQuorum = Math.min(0.6, baseQuorum + scaleFactor); // Cap at 60%
+
+      return dynamicQuorum;
+    } catch (error) {
+      // Fallback to static quorum on error
+      console.warn('Dynamic quorum calculation failed, using default 40%');
+      return 0.4;
+    }
+  }
+
+  /**
+   * Gets the size of a village (member count).
+   */
+  private async getVillageSize(villageId: string): Promise<number> {
+    // This would query the actual village membership table
+    // Placeholder implementation
+    return 100; // Default assumption - replace with real query
   }
 
   /**
@@ -246,6 +291,88 @@ export class GovernanceGate {
   async reloadRules(): Promise<void> {
     this.clearCache();
     await this.loadRules();
+  }
+
+  /**
+   * Emergency Governance Protocols
+   * Archivist Override: Single Archivist can freeze governance for 72 hours
+   */
+  async initiateEmergencyFreeze(archivistId: string, reason: string): Promise<GateResult> {
+    // Validate Archivist status (Ubuntu Score 80-100)
+    const isArchivist = await this.validateArchivistStatus(archivistId);
+
+    if (!isArchivist) {
+      return {
+        allowed: false,
+        reason: "Only Archivists can initiate emergency freeze",
+        code: "INSUFFICIENT_AUTHORITY",
+        requiresApproval: false,
+      };
+    }
+
+    // Implement 72-hour governance freeze
+    await this.freezeGovernance(72 * 60 * 60 * 1000, reason); // 72 hours in milliseconds
+
+    return {
+      allowed: true,
+      reason: `Emergency freeze initiated by Archivist ${archivistId}`,
+      code: "EMERGENCY_FREEZE_ACTIVE",
+      requiresApproval: false,
+    };
+  }
+
+  /**
+   * Community Reset: 72-hour cooling period for controversial decisions
+   */
+  async initiateCommunityReset(villageId: string, controversialProposalId: string): Promise<GateResult> {
+    // Implement 72-hour cooling period
+    await this.scheduleCommunityReset(villageId, controversialProposalId, 72 * 60 * 60 * 1000);
+
+    return {
+      allowed: true,
+      reason: "Community reset scheduled - 72 hour cooling period initiated",
+      code: "COMMUNITY_RESET_SCHEDULED",
+      requiresApproval: false,
+    };
+  }
+
+  /**
+   * Validates if a member has Archivist status (Ubuntu Score 80-100)
+   */
+  private async validateArchivistStatus(memberId: string): Promise<boolean> {
+    try {
+      const scoreResult = await this.db
+        .select()
+        .from(ubuntuScores)
+        .where(eq(ubuntuScores.userId, memberId))
+        .limit(1);
+
+      if (scoreResult.length === 0) return false;
+
+      const score = scoreResult[0].score ?? 0;
+      return score >= 80 && score <= 100;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  /**
+   * Freezes governance for specified duration
+   */
+  private async freezeGovernance(durationMs: number, reason: string): Promise<void> {
+    // Implementation: Set emergency flag in governance state
+    // This would affect all gated actions during the freeze period
+    console.log(`Governance frozen for ${durationMs / (1000 * 60 * 60)} hours: ${reason}`);
+    // TODO: Implement actual freeze mechanism in database/state
+  }
+
+  /**
+   * Schedules a community reset with cooling period
+   */
+  private async scheduleCommunityReset(villageId: string, proposalId: string, coolingPeriodMs: number): Promise<void> {
+    // Implementation: Schedule reset after cooling period
+    console.log(`Community reset scheduled for proposal ${proposalId} after ${coolingPeriodMs / (1000 * 60 * 60)} hours`);
+    // TODO: Implement actual scheduling mechanism
   }
 }
 

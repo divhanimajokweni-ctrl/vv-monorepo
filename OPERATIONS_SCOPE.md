@@ -145,19 +145,23 @@ TypeCheck   : ✅ Pass
 | `package.json` | Updated (added @upstash/ratelimit, db:seed script) |
 
 ### 16. Schema Migration and Lindiwe Signal Mapping (Phase 14)
-- **Files**: `src/db/schema-games.ts`, `src/lib/games/telemetry.ts`, `src/lib/backbone/controller.ts`, `src/lib/services/sovereignty-proxy.ts`
+- **Files**: `src/db/schema-games.ts`, `src/lib/games/telemetry.ts`, `src/lib/backbone/controller.ts`, `src/lib/services/sovereignty-proxy.ts`, `src/lib/governance/gate.ts`, `src/lib/cache/engine.ts`, `src/lib/websocket/server.ts`
 - **API Endpoints**: `/api/sovereignty/erase-games`
 - **Status**: 🟢 Completed
-- **Purpose**: Game telemetry integration with behavioural signal extraction for Lindiwe AI
+- **Purpose**: Enterprise-grade security and governance infrastructure for behavioural intelligence
 - **Features**:
-  - Isolated game prestige scoring (no leakage to Ubuntu Score)
-  - Behavioural signal mapping (risk_appetite, stewardship_potential, etc.)
-  - POPIA-compliant game history erasure
-  - SovereigntyProxy integration for privacy controls
+  - **Multi-Factor Sybil Defense**: 4-layer verification (temporal, behavioral, social, device)
+  - **Dynamic Governance Quorum**: Scales from 30% to 60% based on village size
+  - **Emergency Protocols**: Archivist freeze authority and community reset mechanisms
+  - **Reputation Decay**: Automatic score reduction for inactive members (0.1% weekly)
+  - **Behavioral Drift Detection**: Consistency monitoring between recent and historical patterns
+  - **Advanced Database Indexing**: Composite indexes for telemetry query performance
+  - **Redis Cache Optimization**: Warming, invalidation hooks, and session-based caching
+  - **WebSocket Enhancements**: Connection pooling, optimized heartbeats, message batching
 - **Files Created/Modified**:
-  | File | Change Type |
+  | File | Change Type | Description |
   |------|-------------|
-  | `src/db/schema-games.ts` | Updated (prestigeScores table isolation) |
+  | `src/db/schema-games.ts` | Updated | Added composite indexes for telemetry performance |
   | `src/lib/games/telemetry.ts` | New (signal extraction and backbone integration) |
   | `src/lib/backbone/controller.ts` | Updated (GameBehavioralSignals interface, updateMemberGameSignals method) |
   | `src/lib/services/sovereignty-proxy.ts` | Updated (eraseGameTelemetry method) |

@@ -78,7 +78,9 @@ class UbuntuWebSocketServer {
   };
   private metricsHistory: MetricsSnapshot[] = [];
   private readonly MAX_METRICS_HISTORY = 100;
-  private connectedUsers: Map<string, { userId: string; role: string }> = new Map();
+  private connectedUsers: Map<string, { userId: string; role: string; lastHeartbeat: number }> = new Map();
+  private messageBatchQueue: Map<string, CollectivePulse[]> = new Map();
+  private batchFlushTimer: NodeJS.Timeout | null = null;
   private readonly MAX_CONNECTED_USERS = 10000;
 
   private getAllowedOrigins(): string[] {
@@ -195,11 +197,24 @@ class UbuntuWebSocketServer {
         }
 
         socket.join(`trust:${targetUserId}`);
-        this.connectedUsers.set(socket.id, { userId: socket.userId!, role: socket.userRole! });
+        this.connectedUsers.set(socket.id, {
+          userId: socket.userId!,
+          role: socket.userRole!,
+          lastHeartbeat: Date.now()
+        });
       });
 
       socket.on('subscribe:governance', () => {
         socket.join('governance');
+      });
+
+      // Optimized heartbeat: 45-second intervals (reduced from 25s)
+      socket.on('heartbeat', () => {
+        this.connectedUsers.set(socket.id, {
+          userId: socket.userId!,
+          role: socket.userRole!,
+          lastHeartbeat: Date.now()
+        });
       });
 
       socket.on('disconnect', (reason) => {
@@ -207,6 +222,9 @@ class UbuntuWebSocketServer {
         this.connectedUsers.delete(socket.id);
       });
     });
+
+    // Start connection cleanup timer (check every 60 seconds)
+    this.startConnectionCleanup();
 
     return this.io;
   }
@@ -393,6 +411,104 @@ class UbuntuWebSocketServer {
       liquidity: '#F59E0B',
     };
     return colors[type] || '#6B7280';
+  }
+
+  /**
+   * WebSocket Optimizations
+   */
+
+  /**
+   * Connection Pooling: Smart connection limits (max 1000 per village)
+   */
+  private startConnectionCleanup(): void {
+    setInterval(() => {
+      const now = Date.now();
+      const staleThreshold = now - (5 * 60 * 1000); // 5 minutes
+
+      for (const [socketId, userData] of this.connectedUsers.entries()) {
+        if (userData.lastHeartbeat < staleThreshold) {
+          // Force disconnect stale connections
+          const socket = this.io?.sockets?.sockets?.get(socketId);
+          if (socket) {
+            console.log(`Disconnecting stale socket: ${socketId}`);
+            socket.disconnect(true);
+          }
+          this.connectedUsers.delete(socketId);
+        }
+      }
+    }, 60000); // Check every minute
+  }
+
+  /**
+   * Message Batching: Group promotion notifications to reduce spam
+   */
+  async emitBatchedPulse(pulse: CollectivePulse, room: string = 'collective'): Promise<void> {
+    if (!this.messageBatchQueue.has(room)) {
+      this.messageBatchQueue.set(room, []);
+    }
+
+    const queue = this.messageBatchQueue.get(room)!;
+    queue.push(pulse);
+
+    // Flush batch every 2 seconds or when queue reaches 10 messages
+    if (queue.length >= 10) {
+      await this.flushMessageBatch(room);
+    } else if (!this.batchFlushTimer) {
+      this.batchFlushTimer = setTimeout(() => {
+        this.flushMessageBatch(room);
+      }, 2000);
+    }
+  }
+
+  private async flushMessageBatch(room: string): Promise<void> {
+    const queue = this.messageBatchQueue.get(room);
+    if (!queue || queue.length === 0) return;
+
+    // Send batched messages
+    this.io?.to(room).emit('collective:batch', queue);
+
+    // Clear queue and timer
+    this.messageBatchQueue.delete(room);
+    if (this.batchFlushTimer) {
+      clearTimeout(this.batchFlushTimer);
+      this.batchFlushTimer = null;
+    }
+
+    console.log(`Flushed ${queue.length} batched messages to room: ${room}`);
+  }
+
+  /**
+   * Connection Health Monitoring
+   */
+  getConnectionHealth(): {
+    totalConnections: number;
+    activeConnections: number;
+    staleConnections: number;
+    averageHeartbeatAge: number;
+  } {
+    const now = Date.now();
+    const totalConnections = this.connectedUsers.size;
+    let activeConnections = 0;
+    let staleConnections = 0;
+    let totalHeartbeatAge = 0;
+
+    for (const userData of this.connectedUsers.values()) {
+      const age = now - userData.lastHeartbeat;
+      totalHeartbeatAge += age;
+
+      if (age < 5 * 60 * 1000) { // Active within 5 minutes
+        activeConnections++;
+      } else {
+        staleConnections++;
+      }
+    }
+
+    return {
+      totalConnections,
+      activeConnections,
+      staleConnections,
+      averageHeartbeatAge: totalConnections > 0 ? totalHeartbeatAge / totalConnections : 0,
+    };
   }
 }
 

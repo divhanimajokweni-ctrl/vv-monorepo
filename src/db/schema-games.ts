@@ -162,6 +162,11 @@ export const gameTelemetry = pgTable('game_telemetry', {
   memberIdx:  index('game_telemetry_member_idx').on(t.memberId),
   signalIdx:  index('game_telemetry_signal_idx').on(t.signalType),
   gameIdx:    index('game_telemetry_game_idx').on(t.gameId),
+  // Performance optimization: composite indexes for common query patterns
+  memberSessionTimestampIdx: index('game_telemetry_member_session_timestamp_idx').on(t.memberId, t.sessionId, t.createdAt.desc()),
+  signalTypeTimestampIdx: index('game_telemetry_signal_timestamp_idx').on(t.signalType, t.createdAt.desc()),
+  gameMemberIdx: index('game_telemetry_game_member_idx').on(t.gameId, t.memberId),
+  confidenceIdx: index('game_telemetry_confidence_idx').on(t.confidence.desc()),
 }));
  
 /**

@@ -15,7 +15,23 @@ interface CacheStats {
   sets: number;
 }
 
+interface CacheWarmupConfig {
+  enabled: boolean;
+  keyPrefix: string;
+  warmupInterval: number; // minutes
+  maxConcurrency: number;
+}
+
+interface CacheInvalidationRule {
+  pattern: string;
+  onEvent: string[];
+  ttl?: number;
+}
+
 const stats: CacheStats = { hits: 0, misses: 0, sets: 0 };
+
+const cacheWarmupConfigs: Map<string, CacheWarmupConfig> = new Map();
+const invalidationRules: CacheInvalidationRule[] = [];
 
 let redisClient: unknown = null;
 let useRedis = false;
@@ -176,5 +192,87 @@ export const CacheEngine = {
 
   isUsingRedis(): boolean {
     return useRedis;
+  },
+
+  /**
+   * Cache Warming: Pre-populate frequently accessed data
+   */
+  async warmupCache(config: CacheWarmupConfig, warmupFn: () => Promise<Array<{ key: string; value: unknown; ttl?: number }>>): Promise<void> {
+    if (!config.enabled) return;
+
+    try {
+      console.log(`Starting cache warmup for ${config.keyPrefix}`);
+      const items = await warmupFn();
+
+      // Process in batches to avoid overwhelming Redis
+      const batches = [];
+      for (let i = 0; i < items.length; i += config.maxConcurrency) {
+        batches.push(items.slice(i, i + config.maxConcurrency));
+      }
+
+      for (const batch of batches) {
+        await Promise.all(
+          batch.map(item => this.set(`${config.keyPrefix}:${item.key}`, item.value, { ttl: item.ttl }))
+        );
+      }
+
+      console.log(`Cache warmup completed: ${items.length} items cached`);
+    } catch (error) {
+      console.error('Cache warmup failed:', error);
+    }
+  },
+
+  /**
+   * Cache Invalidation Hooks: Automatic cleanup on data changes
+   */
+  registerInvalidationRule(rule: CacheInvalidationRule): void {
+    invalidationRules.push(rule);
+  },
+
+  async invalidateOnEvent(eventType: string, entityId?: string): Promise<number> {
+    let totalInvalidated = 0;
+
+    for (const rule of invalidationRules) {
+      if (rule.onEvent.includes(eventType)) {
+        const pattern = entityId ? rule.pattern.replace('{entityId}', entityId) : rule.pattern;
+        const invalidated = await this.invalidatePattern(pattern);
+        totalInvalidated += invalidated;
+
+        if (rule.ttl) {
+          // Set a grace period before allowing new caching
+          await this.set(`_grace_${pattern}`, 'warming', { ttl: rule.ttl });
+        }
+      }
+    }
+
+    if (totalInvalidated > 0) {
+      console.log(`Invalidated ${totalInvalidated} cache entries for event ${eventType}`);
+    }
+
+    return totalInvalidated;
+  },
+
+  /**
+   * Session-Based Caching: Cache user sessions with automatic cleanup
+   */
+  async cacheUserSession(userId: string, sessionData: unknown, ttlMinutes: number = 60): Promise<void> {
+    const sessionKey = `session:${userId}`;
+    await this.set(sessionKey, sessionData, { ttl: ttlMinutes * 60 });
+
+    // Cache behavioral scores for active users (24-hour TTL)
+    const scoreKey = `behavioral_score:${userId}`;
+    await this.set(scoreKey, sessionData, { ttl: 24 * 60 * 60 });
+  },
+
+  /**
+   * Register automatic cache warming for behavioral scores
+   */
+  registerBehavioralScoreWarmup(): void {
+    cacheWarmupConfigs.set('behavioral_scores', {
+      enabled: true,
+      keyPrefix: 'behavioral_score',
+      warmupInterval: 30, // minutes
+      maxConcurrency: 10,
+    });
   },
 };

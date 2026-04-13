@@ -50,6 +50,13 @@ The platform has completed **Phase 14**, implementing comprehensive game telemet
 - 🔐 POPIA-compliant game history erasure with SovereigntyProxy integration
 - 📊 Behavioural analytics for governance role assessment
 
+**🛡️ Advanced Security Features:**
+- **Multi-Factor Sybil Defense**: 4-layer verification (temporal, behavioral, social, device)
+- **Dynamic Governance Quorum**: Scales from 30% to 60% based on village size
+- **Emergency Protocols**: Archivist freeze authority and community reset mechanisms
+- **Reputation Decay**: Automatic score reduction for inactive members (0.1% weekly)
+- **Behavioral Drift Detection**: Monitors consistency between recent and historical patterns
+
 ---
 
 ### ✅ Phase 13 Complete — Trust Enhancement

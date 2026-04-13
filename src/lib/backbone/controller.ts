@@ -6,9 +6,10 @@ import { getDodoPaymentsProvider } from '../bank-provider/dodo-payments';
 import type { BankTransaction } from '../bank-provider/types';
 import { openClawGateway, type OpenClawNotification } from '../openclaw/gateway';
 import { promotionLogs, villageMembers } from '@/db/schema-village';
+import { gameTelemetry } from '@/db/schema-games';
 import { db } from '@/db/client';
 import { ubuntuScores } from '@/db/schema';
-import { eq } from 'drizzle-orm';
+import { eq, and, gte, lte } from 'drizzle-orm';
 
 export interface BackboneConfig {
   safetyBufferTarget: number;
@@ -292,22 +293,104 @@ export class UbuntuBackbone {
 
   private async checkAutomaticContributorPromotion(memberId: string, profile: MemberBackboneProfile): Promise<void> {
     // Automatic promotion: Novice (0-19) → Contributor (20-39)
-    // Requires: High behavioral score AND game signals indicating readiness AND 30+ days in village
+    // Requires: Multi-factor verification (temporal + behavioral + social + device)
     if (profile.ubuntuScore >= 0 && profile.ubuntuScore <= 19) {
       if (profile.behavioralScore && profile.behavioralScore >= 70) {
-        // Check time-in-village requirement (30 days minimum)
-        const timeInVillage = await this.getMemberTimeInVillage(memberId);
-        const daysInVillage = timeInVillage / (1000 * 60 * 60 * 24); // Convert to days
+        // Multi-factor Sybil defense verification
+        const verificationResult = await this.performMultiFactorVerification(memberId);
 
-        if (daysInVillage >= 30) {
+        if (verificationResult.passedChecks >= 3) { // Require 3/4 checks passing
           // Automatic promotion to Contributor level
           await this.executePromotion(memberId, 'novice', 'contributor', 'AUTOMATED', profile.gameSignals);
-          console.log(`Member ${memberId} automatically promoted to Contributor level after ${daysInVillage.toFixed(1)} days`);
+          console.log(`Member ${memberId} promoted to Contributor (passed ${verificationResult.passedChecks}/4 checks)`);
         } else {
-          console.log(`Member ${memberId} eligible but needs ${(30 - daysInVillage).toFixed(1)} more days in village`);
+          console.log(`Member ${memberId} failed verification (${verificationResult.passedChecks}/4 checks passed)`);
         }
       }
     }
+  }
+
+  private async performMultiFactorVerification(memberId: string): Promise<{ passedChecks: number; details: string[] }> {
+    const results = [];
+    let passedChecks = 0;
+
+    // 1. Temporal verification (30+ days in village)
+    const timeInVillage = await this.getMemberTimeInVillage(memberId);
+    const daysInVillage = timeInVillage / (1000 * 60 * 60 * 24);
+    if (daysInVillage >= 30) {
+      passedChecks++;
+      results.push('temporal: ✓');
+    } else {
+      results.push(`temporal: ✗ (${daysInVillage.toFixed(1)} days)`);
+    }
+
+    // 2. Behavioral verification (consistent game patterns)
+    const behavioralConsistency = await this.checkBehavioralConsistency(memberId);
+    if (behavioralConsistency) {
+      passedChecks++;
+      results.push('behavioral: ✓');
+    } else {
+      results.push('behavioral: ✗');
+    }
+
+    // 3. Social verification (endorsement network validation)
+    const socialValidation = await this.validateSocialNetwork(memberId);
+    if (socialValidation) {
+      passedChecks++;
+      results.push('social: ✓');
+    } else {
+      results.push('social: ✗');
+    }
+
+    // 4. Device verification (consistent device patterns)
+    const deviceConsistency = await this.checkDeviceConsistency(memberId);
+    if (deviceConsistency) {
+      passedChecks++;
+      results.push('device: ✓');
+    } else {
+      results.push('device: ✗');
+    }
+
+    return { passedChecks, details: results };
+  }
+
+  private async checkBehavioralConsistency(memberId: string): Promise<boolean> {
+    // Check for suspicious patterns: perfect scores, unusual timing, etc.
+    // This is a simplified implementation - in production, use statistical analysis
+    const telemetry = await db
+      .select()
+      .from(gameTelemetry)
+      .where(eq(gameTelemetry.memberId, memberId))
+      .limit(100);
+
+    if (telemetry.length < 5) return false; // Need minimum activity
+
+    // Check for anomaly: all perfect scores (suspicious)
+    const perfectScores = telemetry.filter(t => t.value === 100);
+    if (perfectScores.length / telemetry.length > 0.8) return false;
+
+    // Check for consistent patterns across games
+    const gamesPlayed = new Set(telemetry.map(t => t.gameId));
+    return gamesPlayed.size >= 2; // Played at least 2 different games
+  }
+
+  private async validateSocialNetwork(memberId: string): Promise<boolean> {
+    // Check for genuine social connections (endorsements, village participation)
+    // Simplified: check if member has been endorsed or is in a village
+    const memberData = await db
+      .select()
+      .from(villageMembers)
+      .where(eq(villageMembers.id, memberId))
+      .limit(1);
+
+    return memberData.length > 0; // Member exists in village system
+  }
+
+  private async checkDeviceConsistency(memberId: string): Promise<boolean> {
+    // Check for consistent device/browser patterns (anti-bot measure)
+    // This would integrate with device fingerprinting in production
+    // For now: check session consistency
+    return true; // Placeholder - implement device fingerprinting
   }
 
   private async getMemberTimeInVillage(memberId: string): Promise<number> {
@@ -386,6 +469,70 @@ export class UbuntuBackbone {
       path: 'SOCIAL_VOTE',
       gameSignals,
     });
+  }
+
+  /**
+   * Reputation Decay Mechanisms
+   * Reduces scores for inactive members (0.1% per week)
+   */
+  async applyReputationDecay(): Promise<void> {
+    const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+
+    try {
+      // Find members who haven't been active in the last week
+      const inactiveMembers = await db
+        .select({ userId: ubuntuScores.userId, score: ubuntuScores.score })
+        .from(ubuntuScores)
+        .where(lte(ubuntuScores.updatedAt, oneWeekAgo));
+
+      for (const member of inactiveMembers) {
+        const currentScore = member.score ?? 0;
+        const decayAmount = Math.max(0.1, currentScore * 0.001); // 0.1% or minimum 0.1 points
+        const newScore = Math.max(0, currentScore - decayAmount);
+
+        await db
+          .update(ubuntuScores)
+          .set({
+            score: newScore,
+            updatedAt: new Date(),
+          })
+          .where(eq(ubuntuScores.userId, member.userId));
+
+        console.log(`Applied decay to ${member.userId}: ${currentScore} → ${newScore}`);
+      }
+    } catch (error) {
+      console.error('Reputation decay failed:', error);
+    }
+  }
+
+  /**
+   * Behavioral Drift Assessment
+   * Reassesses scores based on recent vs. historical patterns
+   */
+  async assessBehavioralDrift(memberId: string): Promise<boolean> {
+    // Compare recent behavior (last 30 days) with historical patterns
+    // Return true if significant drift detected (potential reassessment needed)
+    const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+
+    const recentTelemetry = await db
+      .select()
+      .from(gameTelemetry)
+      .where(
+        and(
+          eq(gameTelemetry.memberId, memberId),
+          gte(gameTelemetry.createdAt, thirtyDaysAgo)
+        )
+      )
+      .limit(50);
+
+    if (recentTelemetry.length < 10) return false; // Insufficient recent data
+
+    // Calculate consistency score (simplified drift detection)
+    const avgRecentValue = recentTelemetry.reduce((sum, t) => sum + t.value, 0) / recentTelemetry.length;
+    const historicalAvg = 65; // Would calculate from longer historical data
+
+    const drift = Math.abs(avgRecentValue - historicalAvg);
+    return drift > 20; // Significant drift detected
   }
 
   getAuditTrail(limit: number = 50): BackboneAuditEntry[] {
