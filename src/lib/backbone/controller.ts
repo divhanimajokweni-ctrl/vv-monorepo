@@ -5,7 +5,7 @@ import { sovereigntyProxy, type SanitizedProfile } from '../services/sovereignty
 import { getDodoPaymentsProvider } from '../bank-provider/dodo-payments';
 import type { BankTransaction } from '../bank-provider/types';
 import { openClawGateway, type OpenClawNotification } from '../openclaw/gateway';
-import { promotionLogs } from '@/db/schema-village';
+import { promotionLogs, villageMembers } from '@/db/schema-village';
 import { db } from '@/db/client';
 import { ubuntuScores } from '@/db/schema';
 import { eq } from 'drizzle-orm';
@@ -292,14 +292,42 @@ export class UbuntuBackbone {
 
   private async checkAutomaticContributorPromotion(memberId: string, profile: MemberBackboneProfile): Promise<void> {
     // Automatic promotion: Novice (0-19) → Contributor (20-39)
-    // Requires: High behavioral score AND game signals indicating readiness
+    // Requires: High behavioral score AND game signals indicating readiness AND 30+ days in village
     if (profile.ubuntuScore >= 0 && profile.ubuntuScore <= 19) {
       if (profile.behavioralScore && profile.behavioralScore >= 70) {
-        // Automatic promotion to Contributor level
-        await this.executePromotion(memberId, 'novice', 'contributor', 'AUTOMATED', profile.gameSignals);
-        console.log(`Member ${memberId} automatically promoted to Contributor level`);
+        // Check time-in-village requirement (30 days minimum)
+        const timeInVillage = await this.getMemberTimeInVillage(memberId);
+        const daysInVillage = timeInVillage / (1000 * 60 * 60 * 24); // Convert to days
+
+        if (daysInVillage >= 30) {
+          // Automatic promotion to Contributor level
+          await this.executePromotion(memberId, 'novice', 'contributor', 'AUTOMATED', profile.gameSignals);
+          console.log(`Member ${memberId} automatically promoted to Contributor level after ${daysInVillage.toFixed(1)} days`);
+        } else {
+          console.log(`Member ${memberId} eligible but needs ${(30 - daysInVillage).toFixed(1)} more days in village`);
+        }
       }
     }
+  }
+
+  private async getMemberTimeInVillage(memberId: string): Promise<number> {
+    // Query the member's join date from the database
+    const memberResult = await db
+      .select({ joinedAt: villageMembers.joinedAt })
+      .from(villageMembers)
+      .where(eq(villageMembers.id, memberId))
+      .limit(1);
+
+    if (memberResult.length === 0) {
+      return 0; // Member not found
+    }
+
+    const joinDate = memberResult[0].joinedAt;
+    if (!joinDate) {
+      return 0; // No join date recorded
+    }
+
+    return Date.now() - joinDate.getTime(); // Return milliseconds in village
   }
 
   private async checkGuardianNomination(memberId: string, profile: MemberBackboneProfile): Promise<void> {
