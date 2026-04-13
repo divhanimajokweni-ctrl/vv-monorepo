@@ -352,6 +352,19 @@ export class PostingEngine {
     }
 
     try {
+      // Handle special event types that don't need traditional posting
+      if (event.eventType === 'contribution.logged' || event.eventType.startsWith('contributor.')) {
+        const result = await this.handleContributionEvent(event);
+
+        // Transition event to 'posted'
+        await this.emitter.transitionStatus(eventId, "posted");
+
+        // Emit audit event
+        await this.emitContributionSuccessEvent(event, result);
+
+        return result;
+      }
+
       const result = await this.executePosting(event);
 
       // Transition event to 'posted'
@@ -563,6 +576,91 @@ export class PostingEngine {
         entryCount: newEntries.length,
         postedAt: new Date(),
       };
+    });
+  }
+
+  /**
+   * Handles contribution events (non-financial ledger entries for meritocratic recruitment)
+   */
+  private async handleContributionEvent(event: Event): Promise<PostingResult> {
+    // Contribution events create non-financial "trust ledger" entries
+    // These are immutable records of contributor value to the ecosystem
+
+    const payload = event.payload as any;
+    const contributorId = payload?.contributorId;
+    const contributionType = payload?.contributionType || 'general';
+    const value = payload?.value || 0;
+
+    if (!contributorId) {
+      throw new PostingError(
+        'Contribution event missing contributorId',
+        'INVALID_PAYLOAD',
+        event.id
+      );
+    }
+
+    // Create a non-financial journal entry for audit purposes
+    // Note: We use a special "TRUST" account for contribution tracking
+    const trustAccountId = 'trust-contributions'; // This would need to be created in ledger_accounts
+
+    const transactionId = randomUUID();
+
+    const debitEntry: NewJournalEntry = {
+      transactionId,
+      eventId: event.id,
+      accountId: trustAccountId,
+      side: 'debit',
+      amount: value,
+      currency: 'ZAR', // Using ZAR as placeholder for trust value
+      description: `${contributionType} contribution from ${contributorId}`,
+      sequenceNo: 1,
+    };
+
+    const creditEntry: NewJournalEntry = {
+      transactionId,
+      eventId: event.id,
+      accountId: trustAccountId,
+      side: 'credit',
+      amount: value,
+      currency: 'ZAR',
+      description: `Community trust increase from ${contributorId}`,
+      sequenceNo: 2,
+    };
+
+    const inserted = await this.db.insert(journalEntries).values([debitEntry, creditEntry]).returning();
+
+    return {
+      transactionId: debitEntry.transactionId,
+      eventId: event.id,
+      postingRuleId: 'contribution-rule', // Special rule for contributions
+      debitAccountCode: 'TRUST_CONTRIBUTIONS',
+      creditAccountCode: 'COMMUNITY_TRUST',
+      amount: value,
+      currency: 'ZAR',
+      entryCount: 2,
+      postedAt: new Date(),
+    };
+  }
+
+  /**
+   * Emits success event for contribution logging
+   */
+  private async emitContributionSuccessEvent(event: Event, result: PostingResult): Promise<void> {
+    const payload = {
+      eventId: event.id,
+      transactionId: result.transactionId,
+      contributorId: (event.payload as any)?.contributorId,
+      contributionValue: result.amount,
+      timestamp: new Date().toISOString() as string,
+    };
+
+    await this.emitter.emit({
+      eventType: "ledger.contribution_posted",
+      actorId: "system",
+      entityId: result.transactionId,
+      entityType: "contribution_transaction",
+      payload,
+      occurredAt: new Date().toISOString(),
     });
   }
 
