@@ -2,7 +2,24 @@
 
 ## Overview
 
+<div align="center">
+
+## 🚀 Enterprise-Grade Development Environment
+*Multi-Factor Sybil Defense • Dynamic Governance • Behavioral Intelligence*
+
+[![Phase 14 Complete](https://img.shields.io/badge/Phase_14-Complete-28a745?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
+[![Security](https://img.shields.io/badge/Security-Enterprise-FF6B6B?style=for-the-badge&logo=shield&logoColor=white)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
+
+</div>
+
 This guide provides comprehensive instructions for setting up a local development environment to run Ubuntu Pools (Next.js frontend) and SafeGrid (Go backend) simultaneously. This enables full integration testing and development of the trust ecosystem where Ubuntu Score influences SafeGrid alert suppression.
+
+**🆕 New Features Available:**
+- **Multi-Factor Sybil Defense**: Test 4-layer verification systems
+- **Dynamic Governance Quorum**: Experiment with scaling governance models
+- **Behavioral Intelligence**: Debug Lindiwe AI signal processing
+- **Emergency Protocols**: Test Archivist freeze mechanisms
+- **Advanced Caching**: Redis warming and invalidation testing
 
 ## Table of Contents
 
@@ -1031,6 +1048,84 @@ jobs:
         sleep 10
         # Run integration tests
         go test -tags=integration ./...
+```
+
+## 🧪 Testing Advanced Features
+
+### Multi-Factor Sybil Defense Testing
+
+```bash
+# Test temporal verification (30-day requirement)
+cd ubuntu-pools
+curl -X POST http://localhost:5000/api/games/telemetry \
+  -H "Content-Type: application/json" \
+  -d '{"memberId":"test-user","sessionId":"session-123","gameId":"ubuntu_monopoly","newMember":true}'
+
+# Test behavioral verification
+curl -X POST http://localhost:5000/api/games/telemetry \
+  -H "Content-Type: application/json" \
+  -d '{"memberId":"experienced-user","sessionId":"session-456","gameId":"ubuntu_monopoly","consistentPlay":true}'
+
+# Test social verification
+curl -X POST http://localhost:5000/api/games/telemetry \
+  -H "Content-Type: application/json" \
+  -d '{"memberId":"village-member","sessionId":"session-789","gameId":"ubuntu_monopoly","hasEndorsements":true}'
+```
+
+### Dynamic Governance Testing
+
+```bash
+# Test small village quorum (30%)
+curl -X POST http://localhost:5000/api/governance/propose \
+  -H "Content-Type: application/json" \
+  -d '{"villageId":"small-village","proposal":"test","actorId":"guardian-1"}'
+
+# Test large village quorum (60%)
+curl -X POST http://localhost:5000/api/governance/propose \
+  -H "Content-Type: application/json" \
+  -d '{"villageId":"large-village","proposal":"test","actorId":"guardian-1"}'
+```
+
+### Emergency Protocol Testing
+
+```bash
+# Test Archivist freeze (requires Archivist status)
+curl -X POST http://localhost:5000/api/governance/emergency-freeze \
+  -H "Content-Type: application/json" \
+  -d '{"archivistId":"archivist-1","reason":"Test emergency","duration":3600000}'
+
+# Test community reset
+curl -X POST http://localhost:5000/api/governance/community-reset \
+  -H "Content-Type: application/json" \
+  -d '{"villageId":"test-village","proposalId":"controversial-123","coolingPeriod":172800000}'
+```
+
+### Cache Performance Testing
+
+```bash
+# Test cache warming
+curl http://localhost:5000/api/cache/warm-behavioral-scores
+
+# Test invalidation hooks
+curl -X POST http://localhost:5000/api/events/trigger \
+  -H "Content-Type: application/json" \
+  -d '{"type":"promotion.created","entityId":"user-123"}'
+
+# Monitor cache stats
+curl http://localhost:5000/api/cache/stats
+```
+
+### WebSocket Optimization Testing
+
+```bash
+# Test connection pooling limits
+# Open multiple browser tabs to localhost:5000 and monitor connection count
+curl http://localhost:5000/api/websocket/health
+
+# Test message batching (send rapid promotion notifications)
+curl -X POST http://localhost:5000/api/games/session-complete \
+  -H "Content-Type: application/json" \
+  -d '{"sessionId":"batch-test-1","memberId":"user-1","achievements":["novice_promotion"]}'
 ```
 
 ## Quick Start Commands
