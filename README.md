@@ -24,12 +24,14 @@
 3. [📁 Codebase Structure](#codebase-structure)
 4. [🚀 Getting Started](#getting-started)
 5. [🛠️ Development Guide](#development-guide)
-6. [🔗 Feature Integration](#feature-integration)
-7. [🧪 Testing](#testing)
-8. [📈 Scaling Strategies](#scaling-strategies)
-9. [🚢 Deployment](#deployment)
-10. [🔮 Future Aspirations](#future-aspirations)
-11. [🔧 Troubleshooting](#troubleshooting)
+6. [🤝 Contributing](#contributing)
+7. [💰 Sponsorship & Funding](#sponsorship--funding)
+8. [🔗 Feature Integration](#feature-integration)
+9. [🧪 Testing](#testing)
+10. [📈 Scaling Strategies](#scaling-strategies)
+11. [🚢 Deployment](#deployment)
+12. [🔮 Future Aspirations](#future-aspirations)
+13. [🔧 Troubleshooting](#troubleshooting)
 
 ---
 
@@ -1894,20 +1896,69 @@ console.log(`Operation took ${performance.now() - start}ms`);
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
-We welcome contributions! Please see CONTRIBUTING.md for guidelines.
+> *"I am because we are"* — Join our community of contributors building collective prosperity.
 
-### Contribution Process
+### 📖 Comprehensive Guidelines
+For detailed contribution guidelines, please read our [CONTRIBUTING.md](./CONTRIBUTING.md) which covers:
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run tests and typecheck
-5. Submit a pull request
-6. Await code review
+- **Code of Conduct**: Ubuntu philosophy and community standards
+- **What You Can/Cannot Do**: Clear boundaries for collaboration
+- **Development Workflow**: Branch strategy, commit standards, PR process
+- **Code Standards**: TypeScript excellence, security first, ethical UX
+- **Review Process**: Automated checks and peer review criteria
+- **Recognition & Advancement**: Contribution tiers and career progression
 
-All contributors agree to the Governance Charter upon their first contribution.
+### 🚀 Quick Start for Contributors
+
+1. **📖 Read the Mission**: Understand our "I am because we are" philosophy
+2. **🛠️ Set Up Environment**: Follow [DEVELOPMENT_SETUP.md](./DEVELOPMENT_SETUP.md)
+3. **🎯 Find Your Path**: Choose from bug fixes, features, documentation, or testing
+4. **🤝 Submit PR**: Follow our comprehensive review process
+5. **🏆 Get Recognized**: Advance through contribution tiers
+
+### 🏆 Contribution Tiers
+- **🥉 Community Contributor**: 3+ approved PRs, basic platform understanding
+- **🥈 Trusted Contributor**: 10+ PRs, demonstrated systems thinking
+- **🥇 Core Team Member**: Leadership in key areas, governance participation
+- **👑 Archivist**: Emergency constitutional authority, platform stewardship
+
+### 📞 Getting Help
+- **💬 Discord**: Real-time community discussions
+- **💭 GitHub Discussions**: Technical questions and feature requests
+- **👥 Mentorship**: Pair programming with experienced contributors
+- **📚 Documentation**: Comprehensive guides and tutorials
+
+---
+
+## 💰 Sponsorship & Funding
+
+### 🌟 Support Collective Prosperity
+Your sponsorship directly funds:
+- **🏦 Financial Inclusion**: Credit access for 2 billion unbanked people
+- **🛡️ Data Sovereignty**: User-controlled privacy and governance
+- **🔬 Behavioral Research**: AI-powered credit assessment through games
+- **🌍 Global Impact**: Scaling from villages to worldwide adoption
+
+### 🥉 Sponsorship Tiers
+- **Community Supporter** ($5-49/month): Progress updates, beta access
+- **Innovation Partner** ($50-499/month): Priority features, monthly calls
+- **Transformation Catalyst** ($500-4999/month): Strategic influence, co-branding
+- **Legacy Builder** ($5000+/month): Naming rights, advisory council seat
+
+### 💳 Support Methods
+- **GitHub Sponsors**: Direct monthly support
+- **Open Collective**: Transparent funding tracking
+- **Patreon**: Subscription with exclusive updates
+- **Ko-fi**: Quick one-time donations
+
+### 📈 Impact Transparency
+- **Financial Metrics**: Community growth and transaction volumes
+- **Social Impact**: Default rates vs traditional lending
+- **Research Output**: Academic publications and policy influence
+
+**📖 Learn More**: Read our detailed [SPONSORS.md](./SPONSORS.md) for partnership opportunities and impact stories.
 
 ---
 

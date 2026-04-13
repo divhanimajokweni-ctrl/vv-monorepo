@@ -1,0 +1,34 @@
+# GitHub Sponsors Configuration for Ubuntu Pools Platform
+# This file enables sponsorship buttons and funding links throughout the platform
+
+# GitHub Sponsors (individual accounts)
+github:
+  - divhanimajokweni-ctrl
+
+# Open Collective (for organizational funding)
+open_collective: ubuntu-pools
+
+# Ko-fi (alternative individual donations)
+ko_fi: ubuntu_pools
+
+# Patreon (subscription-based support)
+patreon: ubuntu_pools
+
+# Liberapay (alternative to Patreon)
+liberapay: ubuntu-pools
+
+# IssueHunt (bounty-based contributions)
+issuehunt: ubuntu-pools
+
+# Otechie (Open Source Collective)
+otechie: ubuntu-pools
+
+# Custom sponsorship URLs (for additional platforms)
+custom:
+  - https://www.paypal.me/ubuntupools
+  - https://www.buymeacoffee.com/ubuntupools
+  - https://opencollective.com/ubuntu-pools/contribute
+  - https://ko-fi.com/ubuntu_pools
+
+# Bank transfer information (for larger sponsors)
+# Note: This is handled through private communication for security

@@ -119,6 +119,8 @@ By contributing to Ubuntu Pools, you agree to:
 - **GitHub Discussions**: Post questions about implementation approaches
 - **Mentorship**: Experienced contributors can request pairing sessions
 - **Documentation**: Check our [development guide](./DEVELOPMENT_SETUP.md)
+- **Contributing Guidelines**: Read our comprehensive [CONTRIBUTING.md](./CONTRIBUTING.md)
+- **Sponsorship**: Support our mission through [SPONSORS.md](./SPONSORS.md)
 
 ### 🌟 Success Stories
 
