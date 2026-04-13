@@ -119,6 +119,56 @@ export interface PrestigeScore {
   ubuntuBonus: number;
 }
  
+// ── Lindiwe AI Integration ────────────────────────────────────────────────────
+
+/**
+ * Game Telemetry Payload — emitted by game engine to Lindiwe
+ */
+export interface GameTelemetryPayload {
+  sessionId: string;
+  memberId: string;
+  gameId: GameId;
+  signals: BehaviouralSignal[];
+  consentGiven: boolean;
+  timestamp: Date;
+  rawEvents: GameEventRecord[];
+}
+
+/**
+ * Lindiwe Signal — processed output from telemetry processor
+ */
+export interface LindiweSignal {
+  memberId: string;
+  source: 'game_telemetry' | 'contribution_history' | 'governance_activity';
+  riskTier: 'conservative' | 'moderate' | 'growth';
+  riskComponents: {
+    riskAppetiteIndex: number;       // 0–100, from game telemetry
+    overextensionScore: number;      // 0–100, from Market Maker + Credit Ladder
+    stressResponsePattern: number;   // 0–100, from Pool Simulator
+    contributionConsistency: number; // 0–100, from ledger history
+  };
+  creditRecommendation: {
+    maxCreditLimit: number;          // ZAR, minor units
+    recommendedProduct: 'buffer_loan' | 'microcredit' | 'growth_credit';
+    confidence: number;              // 0–1, model certainty
+    earlyWarningFlag: boolean;       // pre-default signal
+  };
+  sovereigntyMetadata: {
+    consentVersion: string;
+    derivedFrom: 'game_signals';     // never 'raw_game_events'
+    erasable: boolean;
+  };
+  explainability: string;            // Human-readable explanation for POPIA compliance
+  generatedAt: Date;
+}
+
+/**
+ * Credit Signal — final output to credit service
+ */
+export interface CreditSignal extends LindiweSignal {
+  // Inherits all from LindiweSignal, adds any credit-service specific fields if needed
+}
+
 // ── API Responses ─────────────────────────────────────────────────────────────
  
 export interface StartSessionResponse {

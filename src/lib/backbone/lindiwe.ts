@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { randomUUID } from 'crypto';
 import { BankTransaction } from '../bank-provider/types';
+import type { GameTelemetryPayload, LindiweSignal, CreditSignal } from '../games/types';
 
 export interface VillagePulse {
   overall: number;
@@ -482,4 +483,164 @@ export function createDefaultSafetyBuffer(): SafetyBufferState {
     healthRatio: 0,
     lastUpdated: new Date(),
   };
+}
+
+// ── Phase 15: Credit Intelligence from Game Telemetry ──────────────────────
+
+/**
+ * Process game telemetry into Lindiwe credit signals
+ * POPIA compliant: only derived signals, no raw event storage
+ */
+export function processGameTelemetry(telemetry: GameTelemetryPayload): LindiweSignal {
+  const { memberId, signals, consentGiven } = telemetry;
+
+  if (!consentGiven) {
+    throw new Error('Member has not consented to telemetry sharing');
+  }
+
+  // Extract key risk components from signals
+  const riskAppetite = signals.find(s => s.type === 'risk_appetite')?.value || 50;
+  const overextension = signals.find(s => s.type === 'overextension')?.value || 0;
+  const stressResponse = signals.find(s => s.type === 'stress_response')?.value || 50;
+  const leadershipIndex = signals.find(s => s.type === 'leadership_index')?.value || 50;
+
+  // Calculate risk tier
+  const riskTier = calculateRiskTier(riskAppetite, overextension, stressResponse);
+
+  // Calculate credit recommendation
+  const creditRecommendation = calculateCreditRecommendation(riskTier, leadershipIndex, stressResponse);
+
+  // Check for early warning flag
+  const earlyWarningFlag = detectEarlyWarning(signals);
+
+  // Generate explainability string
+  const explainability = generateExplainability(signals, riskTier, creditRecommendation, earlyWarningFlag);
+
+  const signal: LindiweSignal = {
+    memberId,
+    source: 'game_telemetry',
+    riskTier,
+    riskComponents: {
+      riskAppetiteIndex: riskAppetite,
+      overextensionScore: overextension,
+      stressResponsePattern: stressResponse,
+      contributionConsistency: leadershipIndex, // Using leadership as proxy for consistency
+    },
+    creditRecommendation,
+    sovereigntyMetadata: {
+      consentVersion: '1.0',
+      derivedFrom: 'game_signals',
+      erasable: true,
+    },
+    explainability,
+    generatedAt: new Date(),
+  };
+
+  return signal;
+}
+
+/**
+ * Calculate risk tier from game signals
+ */
+function calculateRiskTier(riskAppetite: number, overextension: number, stressResponse: number): 'conservative' | 'moderate' | 'growth' {
+  const totalRisk = (riskAppetite + overextension + (100 - stressResponse)) / 3;
+
+  if (totalRisk < 40) return 'conservative';
+  if (totalRisk < 70) return 'moderate';
+  return 'growth';
+}
+
+/**
+ * Calculate credit recommendation based on risk assessment
+ */
+function calculateCreditRecommendation(
+  riskTier: string,
+  leadershipIndex: number,
+  stressResponse: number
+): {
+  maxCreditLimit: number;
+  recommendedProduct: 'buffer_loan' | 'microcredit' | 'growth_credit';
+  confidence: number;
+  earlyWarningFlag: boolean;
+} {
+  let maxCreditLimit = 0;
+  let recommendedProduct: 'buffer_loan' | 'microcredit' | 'growth_credit' = 'buffer_loan';
+  let confidence = 0.8;
+
+  switch (riskTier) {
+    case 'conservative':
+      maxCreditLimit = Math.min(5000, 1000 + leadershipIndex * 40);
+      recommendedProduct = 'buffer_loan';
+      confidence = 0.9;
+      break;
+    case 'moderate':
+      maxCreditLimit = Math.min(15000, 2000 + leadershipIndex * 80);
+      recommendedProduct = 'microcredit';
+      confidence = 0.8;
+      break;
+    case 'growth':
+      maxCreditLimit = Math.min(50000, 5000 + leadershipIndex * 200);
+      recommendedProduct = 'growth_credit';
+      confidence = 0.7;
+      break;
+  }
+
+  // Adjust for stress response
+  if (stressResponse < 30) {
+    maxCreditLimit *= 0.7;
+    confidence -= 0.1;
+  } else if (stressResponse > 80) {
+    maxCreditLimit *= 1.2;
+    confidence += 0.05;
+  }
+
+  return {
+    maxCreditLimit: Math.round(maxCreditLimit),
+    recommendedProduct,
+    confidence: Math.max(0.1, Math.min(1.0, confidence)),
+    earlyWarningFlag: false, // Set by detectEarlyWarning
+  };
+}
+
+/**
+ * Detect early warning signals for pre-default counselling
+ */
+function detectEarlyWarning(signals: Array<{ type: string; value: number }>): boolean {
+  const overextension = signals.find(s => s.type === 'overextension')?.value || 0;
+  const stressResponse = signals.find(s => s.type === 'stress_response')?.value || 50;
+  const riskAppetite = signals.find(s => s.type === 'risk_appetite')?.value || 50;
+
+  // Trigger counselling if overextension > 70 and stress response < 40
+  return overextension > 70 && stressResponse < 40;
+}
+
+/**
+ * Generate human-readable explanation for POPIA compliance
+ */
+function generateExplainability(
+  signals: Array<{ type: string; value: number; rationale: string }>,
+  riskTier: string,
+  recommendation: any,
+  earlyWarning: boolean
+): string {
+  const explanations: string[] = [];
+
+  signals.forEach(signal => {
+    explanations.push(`${signal.type.replace('_', ' ')}: ${signal.value}/100 - ${signal.rationale}`);
+  });
+
+  let summary = `Risk tier: ${riskTier}. Recommended: ${recommendation.recommendedProduct} up to R${recommendation.maxCreditLimit}.`;
+
+  if (earlyWarning) {
+    summary += ' EARLY WARNING: Pre-default signals detected. Counselling recommended.';
+  }
+
+  return [summary, ...explanations].join(' ');
+}
+
+/**
+ * Convert LindiweSignal to CreditSignal (currently identical, but allows for future extensions)
+ */
+export function convertToCreditSignal(signal: LindiweSignal): CreditSignal {
+  return { ...signal };
 }

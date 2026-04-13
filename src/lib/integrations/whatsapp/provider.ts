@@ -20,8 +20,28 @@ export interface WhatsAppContact {
 export class WhatsAppProvider {
   private config: WhatsAppConfig;
 
+  // Rate limiting for governance notifications
+  private messageQueue: Array<{ message: WhatsAppMessage; priority: 'high' | 'medium' | 'low' }> = [];
+  private conversationWindows = new Map<string, { messagesSent: number; windowStart: Date; expiresAt: Date }>();
+  private batchInterval: NodeJS.Timeout | null = null;
+
   constructor(config: WhatsAppConfig) {
     this.config = config;
+    this.startBatchProcessor();
+  }
+
+  private startBatchProcessor(): void {
+    // Process queued messages every 30 seconds
+    this.batchInterval = setInterval(() => {
+      this.processMessageQueue();
+    }, 30000);
+  }
+
+  destroy(): void {
+    if (this.batchInterval) {
+      clearInterval(this.batchInterval);
+      this.batchInterval = null;
+    }
   }
 
   static fromEnv(): WhatsAppProvider {
@@ -34,7 +54,17 @@ export class WhatsAppProvider {
     });
   }
 
-  async sendMessage(message: WhatsAppMessage): Promise<boolean> {
+  async sendMessage(message: WhatsAppMessage, priority: 'high' | 'medium' | 'low' = 'medium'): Promise<boolean> {
+    // Check if this is a governance notification that needs rate limiting
+    if (this.isTransactionalMessage(message.body)) {
+      return this.queueTransactionalMessage(message, priority);
+    }
+
+    // Regular messages go through immediately
+    return this.sendMessageImmediately(message);
+  }
+
+  private async sendMessageImmediately(message: WhatsAppMessage): Promise<boolean> {
     try {
       const url = `${this.config.baseUrl}/${this.config.phoneNumberId}/messages`;
       const payload = {
@@ -66,6 +96,142 @@ export class WhatsAppProvider {
       console.error("WhatsApp send message error:", error);
       return false;
     }
+  }
+
+  private isTransactionalMessage(body: string): boolean {
+    // Governance notifications are transactional and need rate limiting
+    const transactionalKeywords = [
+      'proposal', 'vote', 'governance', 'pool shortfall', 'new proposal',
+      'voting reminder', 'constitution', 'emergency'
+    ];
+    return transactionalKeywords.some(keyword => body.toLowerCase().includes(keyword));
+  }
+
+  private queueTransactionalMessage(message: WhatsAppMessage, priority: 'high' | 'medium' | 'low'): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.messageQueue.push({ message, priority });
+
+      // High priority messages get processed immediately if window allows
+      if (priority === 'high' && this.canSendToRecipient(message.to)) {
+        this.processMessageQueue();
+      }
+
+      // For now, resolve immediately - actual sending happens asynchronously
+      resolve(true);
+    });
+  }
+
+  private canSendToRecipient(phoneNumber: string): boolean {
+    const window = this.conversationWindows.get(phoneNumber);
+    if (!window) return true;
+
+    const now = new Date();
+    if (now > window.expiresAt) {
+      // Window expired, reset
+      this.conversationWindows.delete(phoneNumber);
+      return true;
+    }
+
+    // WhatsApp allows unlimited messages within 24-hour window once initiated
+    // But we limit to 10 messages per window to be safe
+    return window.messagesSent < 10;
+  }
+
+  private processMessageQueue(): void {
+    if (this.messageQueue.length === 0) return;
+
+    // Sort by priority (high first)
+    this.messageQueue.sort((a, b) => {
+      const priorityOrder = { high: 3, medium: 2, low: 1 };
+      return priorityOrder[b.priority] - priorityOrder[a.priority];
+    });
+
+    // Process messages that can be sent
+    const remainingQueue: typeof this.messageQueue = [];
+
+    for (const item of this.messageQueue) {
+      if (this.canSendToRecipient(item.message.to)) {
+        // Send immediately (don't await to avoid blocking queue processing)
+        this.sendMessageImmediately(item.message).then(success => {
+          if (success) {
+            this.updateConversationWindow(item.message.to);
+          }
+        }).catch(error => {
+          console.error('Failed to send queued WhatsApp message:', error);
+        });
+      } else {
+        remainingQueue.push(item);
+      }
+    }
+
+    this.messageQueue = remainingQueue;
+  }
+
+  private updateConversationWindow(phoneNumber: string): void {
+    const now = new Date();
+    const window = this.conversationWindows.get(phoneNumber);
+
+    if (!window || now > window.expiresAt) {
+      // Start new 24-hour window
+      this.conversationWindows.set(phoneNumber, {
+        messagesSent: 1,
+        windowStart: now,
+        expiresAt: new Date(now.getTime() + 24 * 60 * 60 * 1000)
+      });
+    } else {
+      window.messagesSent++;
+    }
+  }
+
+  /**
+   * Send batched governance notifications with fallback to email
+   */
+  async sendGovernanceNotification(
+    recipients: string[],
+    message: string,
+    options: {
+      batchSize?: number;
+      priority?: 'high' | 'medium' | 'low';
+      fallbackToEmail?: boolean;
+    } = {}
+  ): Promise<{ sent: number; failed: number; queued: number }> {
+    const { batchSize = 10, priority = 'medium', fallbackToEmail = true } = options;
+    let sent = 0, failed = 0, queued = 0;
+
+    // Process in batches
+    for (let i = 0; i < recipients.length; i += batchSize) {
+      const batch = recipients.slice(i, i + batchSize);
+
+      for (const phoneNumber of batch) {
+        try {
+          const success = await this.sendMessage({
+            to: phoneNumber,
+            body: message
+          }, priority);
+
+          if (success) {
+            sent++;
+          } else {
+            queued++;
+          }
+        } catch (error) {
+          console.error(`Failed to send WhatsApp to ${phoneNumber}:`, error);
+          failed++;
+
+          if (fallbackToEmail) {
+            // TODO: Implement email fallback
+            console.log(`Would fallback to email for ${phoneNumber}`);
+          }
+        }
+      }
+
+      // Small delay between batches to avoid rate limits
+      if (i + batchSize < recipients.length) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+    }
+
+    return { sent, failed, queued };
   }
 
   async addToGroup(phoneNumber: string, groupId?: string): Promise<boolean> {

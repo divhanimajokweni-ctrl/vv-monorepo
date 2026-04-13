@@ -1,5 +1,6 @@
 import { BankProvider, BankProviderType } from './types';
 import { DodoPaymentsProvider, getDodoPaymentsProvider } from './dodo-payments';
+import { getPayFastProvider } from './payfast';
 
 export function getBankProvider(type?: BankProviderType): BankProvider {
   const providerType = type || (process.env.BANK_PROVIDER as BankProviderType) || 'dodo-payments';
@@ -7,6 +8,8 @@ export function getBankProvider(type?: BankProviderType): BankProvider {
   switch (providerType) {
     case 'dodo-payments':
       return getDodoPaymentsProvider();
+    case 'payfast':
+      return getPayFastProvider();
     case 'plaid':
       throw new Error('Plaid has been deprecated. Please use Dodo Payments.');
     case 'ozow':
@@ -29,6 +32,14 @@ export const PROVIDER_FEATURES = {
     features: ['Instant EFT', 'Bank Verification', 'Transaction Sync', 'Payment Processing', 'POPIA Compliant'],
     supportedBanks: ['Capitec', 'Standard Bank', 'FNB', 'Nedbank', 'ABSA', 'TymeBank', 'Discovery'],
     fees: 'Competitive (Local ZAR)',
+    latency: 'Near-instant',
+  },
+  payfast: {
+    name: 'PayFast',
+    description: 'South African payment processing fallback',
+    features: ['Instant EFT', 'Payment Processing', 'Recurring Payments'],
+    supportedBanks: ['Capitec', 'Standard Bank', 'FNB', 'Nedbank', 'ABSA', 'Investec', 'TymeBank', 'Discovery', 'African Bank'],
+    fees: 'Low (Local ZAR)',
     latency: 'Near-instant',
   },
   ozow: {

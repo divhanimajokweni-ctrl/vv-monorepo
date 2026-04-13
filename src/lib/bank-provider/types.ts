@@ -88,7 +88,7 @@ export interface BankProviderConfig {
   redirectUri?: string;
 }
 
-export type BankProviderType = 'plaid' | 'dodo-payments' | 'ozow' | 'manual';
+export type BankProviderType = 'plaid' | 'dodo-payments' | 'ozow' | 'payfast' | 'manual';
 
 export const BankDataSourceSchema = z.enum(['instagram', 'tiktok', 'dodo-payments', 'ozow', 'manual']);
 
@@ -97,6 +97,7 @@ export function getProviderName(type: BankProviderType): string {
     plaid: 'Plaid',
     'dodo-payments': 'Dodo Payments',
     ozow: 'Ozow',
+    payfast: 'PayFast',
     manual: 'Manual Entry',
   };
   return names[type];
