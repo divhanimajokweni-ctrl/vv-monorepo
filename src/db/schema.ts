@@ -731,6 +731,39 @@ export type Policy = typeof policies.$inferSelect;
 export type NewPolicy = typeof policies.$inferInsert;
 
 // =============================================================================
+// GAMES SCHEMA (Phase 15)
+// =============================================================================
+
+export const gameSessions = pgTable('game_sessions', {
+  id: text('id').primaryKey(),
+  memberId: text('member_id').notNull(),
+  gameId: text('game_id').notNull(),
+  startedAt: timestamp('started_at').defaultNow(),
+  endedAt: timestamp('ended_at'),
+});
+
+export const gameTelemetry = pgTable('game_telemetry', {
+  id: text('id').primaryKey(),
+  sessionId: text('session_id').notNull(),
+  signal: jsonb('signal').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
+export const prestigeScores = pgTable('prestige_scores', {
+  memberId: text('member_id').primaryKey(),
+  total: integer('total').default(0),
+});
+
+export type GameSession = typeof gameSessions.$inferSelect;
+export type NewGameSession = typeof gameSessions.$inferInsert;
+
+export type GameTelemetry = typeof gameTelemetry.$inferSelect;
+export type NewGameTelemetry = typeof gameTelemetry.$inferInsert;
+
+export type PrestigeScore = typeof prestigeScores.$inferSelect;
+export type NewPrestigeScore = typeof prestigeScores.$inferInsert;
+
+// =============================================================================
 // POOLS SCHEMA
 // =============================================================================
 

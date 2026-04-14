@@ -1,10 +1,10 @@
 # Current Operations Scope
 
-> Last Updated: 2026-04-13
+> Last Updated: 2026-04-14
 
 ## Active Development Phase
 
-**Phase 15: Financial Intelligence Arcade Launch** - Ready for development
+**Phase 16: Village Competitive Layer** - Inter-village tournaments and seasonal leaderboards
 
 ---
 
@@ -61,6 +61,12 @@
 - **File**: `docker-compose.yml`
 - **Status**: 🟢 Implemented
 - **Purpose**: Local development environment with PostgreSQL and Redis
+
+### 11. Games Integration (Phase 15)
+- **Files**: `src/lib/games/`, `src/app/api/games/`, `src/db/schema-games.ts`
+- **Status**: 🟢 **Completed**
+- **Purpose**: Financial Intelligence Arcade with 5 educational games and behavioural telemetry
+- **Features**: Prestige scoring, Lindiwe AI signal processing, POPIA-compliant data handling
 
 ---
 

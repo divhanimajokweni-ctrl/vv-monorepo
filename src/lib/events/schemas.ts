@@ -617,6 +617,53 @@ export const auditIncidentResolvedPayloadSchema = z.object({
 export type AuditIncidentResolvedPayload = z.infer<typeof auditIncidentResolvedPayloadSchema>;
 
 // =============================================================================
+// PHASE 15 EVENT PAYLOAD SCHEMAS (Games)
+// =============================================================================
+
+export const gameSessionStartedPayloadSchema = z.object({
+  gameId: z.enum(["ubuntu_monopoly", "pool_simulator", "credit_ladder", "the_commons", "market_maker"]),
+  memberId: uuidSchema,
+  isMultiplayer: z.boolean().default(false),
+  villageId: uuidSchema.optional(),
+});
+
+export type GameSessionStartedPayload = z.infer<typeof gameSessionStartedPayloadSchema>;
+
+export const gameSessionCompletedPayloadSchema = z.object({
+  sessionId: uuidSchema,
+  gameId: z.enum(["ubuntu_monopoly", "pool_simulator", "credit_ladder", "the_commons", "market_maker"]),
+  memberId: uuidSchema,
+  finalScore: z.number().int().min(0),
+  durationMs: z.number().int().positive(),
+  prestigeAwarded: z.number().int().min(0),
+});
+
+export type GameSessionCompletedPayload = z.infer<typeof gameSessionCompletedPayloadSchema>;
+
+export const gameTelemetryEmittedPayloadSchema = z.object({
+  sessionId: uuidSchema,
+  memberId: uuidSchema,
+  gameId: z.enum(["ubuntu_monopoly", "pool_simulator", "credit_ladder", "the_commons", "market_maker"]),
+  signals: z.array(z.object({
+    type: z.string().min(1),
+    value: z.number().min(0).max(100),
+    confidence: z.number().min(0).max(100),
+  })),
+  consentGiven: z.boolean(),
+});
+
+export type GameTelemetryEmittedPayload = z.infer<typeof gameTelemetryEmittedPayloadSchema>;
+
+export const gamePrestigeAwardedPayloadSchema = z.object({
+  memberId: uuidSchema,
+  gameId: z.enum(["ubuntu_monopoly", "pool_simulator", "credit_ladder", "the_commons", "market_maker"]),
+  points: z.number().int().min(0),
+  reason: z.string().min(1),
+});
+
+export type GamePrestigeAwardedPayload = z.infer<typeof gamePrestigeAwardedPayloadSchema>;
+
+// =============================================================================
 // TYPED EVENT SCHEMAS (full event with typed payload)
 // =============================================================================
 
@@ -768,6 +815,34 @@ export const auditIncidentResolvedEventSchema = baseEventSchema.extend({
 });
 
 // =============================================================================
+// PHASE 15 TYPED EVENT SCHEMAS (Games)
+// =============================================================================
+
+export const gameSessionStartedEventSchema = baseEventSchema.extend({
+  eventType: z.literal("game.session_started"),
+  entityType: z.literal("game_session"),
+  payload: gameSessionStartedPayloadSchema,
+});
+
+export const gameSessionCompletedEventSchema = baseEventSchema.extend({
+  eventType: z.literal("game.session_completed"),
+  entityType: z.literal("game_session"),
+  payload: gameSessionCompletedPayloadSchema,
+});
+
+export const gameTelemetryEmittedEventSchema = baseEventSchema.extend({
+  eventType: z.literal("game.telemetry_emitted"),
+  entityType: z.literal("game_telemetry"),
+  payload: gameTelemetryEmittedPayloadSchema,
+});
+
+export const gamePrestigeAwardedEventSchema = baseEventSchema.extend({
+  eventType: z.literal("game.prestige_awarded"),
+  entityType: z.literal("prestige_score"),
+  payload: gamePrestigeAwardedPayloadSchema,
+});
+
+// =============================================================================
 // DISCRIMINATED UNION: all Phase 1 events
 // =============================================================================
 
@@ -838,6 +913,19 @@ export const phase5EventSchema = z.discriminatedUnion("eventType", [
 export type Phase5Event = z.infer<typeof phase5EventSchema>;
 
 // =============================================================================
+// DISCRIMINATED UNION: all Phase 15 events (Games)
+// =============================================================================
+
+export const phase15EventSchema = z.discriminatedUnion("eventType", [
+  gameSessionStartedEventSchema,
+  gameSessionCompletedEventSchema,
+  gameTelemetryEmittedEventSchema,
+  gamePrestigeAwardedEventSchema,
+]);
+
+export type Phase15Event = z.infer<typeof phase15EventSchema>;
+
+// =============================================================================
 // VALIDATION HELPERS
 // =============================================================================
 
@@ -901,6 +989,11 @@ export function validatePayloadForEventType(
     "audit.orphan_detected": auditOrphanDetectedPayloadSchema,
     "audit.incident_created": auditIncidentCreatedPayloadSchema,
     "audit.incident_resolved": auditIncidentResolvedPayloadSchema,
+    // Phase 15 (Games)
+    "games.session_started": gameSessionStartedPayloadSchema,
+    "games.session_completed": gameSessionCompletedPayloadSchema,
+    "games.telemetry_emitted": gameTelemetryEmittedPayloadSchema,
+    "games.prestige_awarded": gamePrestigeAwardedPayloadSchema,
   };
 
   const schema = schemaMap[eventType];
