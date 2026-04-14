@@ -93,7 +93,7 @@ Advanced trust mechanisms including reputation friction, invite chains, and port
 | Category | Status | Details |
 |----------|--------|---------|
 | 🚀 **Deployment** | 🟢 Live | [Vercel Production](https://workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app) |
-| 🌐 **Custom Domain** | ✅ Active | `workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app` |
+| 🌐 **Domain** | ✅ Active | `workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app` |
 | 🗄️ **Database** | 🟢 Active | PostgreSQL 15 + Drizzle ORM |
 | 🔐 **Authentication** | 🟢 Active | Clerk JWT integration |
 | 📧 **Email** | 🟢 Active | Resend (domain configured, webhooks ready) |

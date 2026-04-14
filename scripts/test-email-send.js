@@ -22,8 +22,8 @@ async function testEmailSending() {
   console.log('✅ RESEND_API_KEY loaded');
 
   const testEmail = {
-    from: process.env.RESEND_FROM_ADDRESS || 'bot@workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app',
-    to: 'test@example.com', // Replace with your test email
+    from: process.env.RESEND_FROM_ADDRESS || 'onboarding@resend.dev',
+    to: 'divhanimajokweni@gmail.com', // Use your verified email for testing
     subject: 'Ubuntu Pools Email Test',
     html: `
       <h1>🎉 Ubuntu Pools Email Test</h1>

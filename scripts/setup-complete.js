@@ -28,7 +28,8 @@ console.log('1️⃣ Domain Status');
 console.log('---------------');
 console.log('✅ Domain: workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app');
 console.log('✅ Status: Active and deployed on Vercel');
-console.log('✅ SSL: Provided automatically by Vercel\\n');
+console.log('✅ SSL: Provided automatically by Vercel');
+console.log('✅ Email: Configured with Resend (using verified sender)\\n');
 
 // Step 2: Email Configuration Status
 console.log('2️⃣ Email Configuration Status');
