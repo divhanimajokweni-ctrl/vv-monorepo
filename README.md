@@ -153,7 +153,7 @@ Advanced trust mechanisms including reputation friction, invite chains, and port
 
 ### **Access Instructions**
 1. Visit [Admin Dashboard](https://workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app/admin)
-2. Enter password: `ubuntu2025`
+2. Enter password: `[ADMIN_DASHBOARD_PASSWORD environment variable]`
 3. Browse user-reported friction points
 4. Select issues that match your skills
 5. Implement solutions that advance collective prosperity
@@ -1967,7 +1967,7 @@ For detailed contribution guidelines, please read our [CONTRIBUTING.md](./CONTRI
 1. **📖 Read the Mission**: Understand our "I am because we are" philosophy
 2. **🛠️ Set Up Environment**: Follow [DEVELOPMENT_SETUP.md](./DEVELOPMENT_SETUP.md)
 3. **🎯 Find Your Path**: Choose from bug fixes, features, documentation, or testing
-   - **🔍 Check Friction Log**: Visit the [Admin Dashboard](https://workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app/admin) (password: `ubuntu2025`) to see real user-reported issues and bottlenecks
+   - **🔍 Check Friction Log**: Visit the [Admin Dashboard](https://workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app/admin) (password: `[ADMIN_DASHBOARD_PASSWORD environment variable]`) to see real user-reported issues and bottlenecks
    - **🎯 Solve Real Problems**: Pick friction points that impact actual users for maximum impact
 4. **🤝 Submit PR**: Follow our comprehensive review process
 5. **🏆 Get Recognized**: Advance through contribution tiers
