@@ -13,13 +13,16 @@ async function testDomainSetup() {
   console.log('🧪 Testing Domain Setup for Ubuntu Pools');
   console.log('========================================\n');
 
-  // Check if API key is set
-  if (!process.env.RESEND_API_KEY) {
-    console.error('❌ RESEND_API_KEY environment variable is not set');
-    console.log('\nPlease set your Resend API key:');
-    console.log('export RESEND_API_KEY=your_api_key_here');
-    process.exit(1);
-  }
+// Load environment variables from .env.local
+require('dotenv').config({ path: '.env.local' });
+
+// Check if API key is set
+if (!process.env.RESEND_API_KEY) {
+  console.error('❌ RESEND_API_KEY environment variable is not set');
+  console.log('\nPlease add your Resend API key to .env.local:');
+  console.log('RESEND_API_KEY=re_xxxxxxxxx');
+  process.exit(1);
+}
 
   try {
     console.log(`📡 Testing domain setup for: ${DOMAIN}`);
