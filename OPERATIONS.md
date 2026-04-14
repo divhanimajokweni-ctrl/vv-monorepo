@@ -381,6 +381,28 @@ vercel
 5. Add environment variables in the Vercel dashboard if needed
 6. Click "Deploy"
 
+#### Custom Domain Setup
+
+To set up the custom domain `ubuntupools-vvlcc.app`:
+
+1. **Add Domain to Vercel:**
+   ```bash
+   vercel domains add ubuntupools-vvlcc.app
+   ```
+
+2. **Configure DNS Records:**
+   Add an A record in your DNS provider:
+   ```
+   Name: ubuntupools-vvlcc.app
+   Type: A
+   Value: 76.76.21.21
+   ```
+
+3. **Verify Configuration:**
+   ```bash
+   vercel domains inspect ubuntupools-vvlcc.app
+   ```
+
 #### Environment Variables on Vercel
 
 Add these in your project settings:
@@ -388,6 +410,10 @@ Add these in your project settings:
 | Variable | Description |
 |----------|-------------|
 | `DATABASE_URL` | PostgreSQL connection string |
+| `RESEND_API_KEY` | Resend email service API key |
+| `RESEND_FROM_ADDRESS` | Email sender address (e.g., bot@ubuntupools-vvlcc.app) |
+| `RESEND_FROM_NAME` | Email sender name (e.g., Ubuntu Pools Bot) |
+| `RESEND_WEBHOOK_SECRET` | Webhook secret for Resend email processing |
 
 ### Alternative Platforms
 

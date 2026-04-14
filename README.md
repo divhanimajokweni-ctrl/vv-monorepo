@@ -13,7 +13,7 @@
 <div align="center">
 
 ## 🚀 Live Demo
-[![View Live](https://img.shields.io/badge/View_Live-🌐-FF6B6B?style=for-the-badge)](https://workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app)
+[![View Live](https://img.shields.io/badge/View_Live-🌐-FF6B6B?style=for-the-badge)](https://ubuntupools-vvlcc.app)
 
 </div>
 
@@ -91,11 +91,11 @@ Advanced trust mechanisms including reputation friction, invite chains, and port
 
 | Category | Status | Details |
 |----------|--------|---------|
-| 🚀 **Deployment** | 🟢 Live | [Vercel Production](https://workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app) |
-| 🌐 **Custom Domain** | 🟡 Pending | `ubuntupools-vvlcc.app` (DNS verification) |
+| 🚀 **Deployment** | 🟢 Live | [Vercel Production](https://ubuntupools-vvlcc.app) |
+| 🌐 **Custom Domain** | 🟡 DNS Setup | `ubuntupools-vvlcc.app` (A record needed) |
 | 🗄️ **Database** | 🟢 Active | PostgreSQL 15 + Drizzle ORM |
 | 🔐 **Authentication** | 🟢 Active | Clerk JWT integration |
-| 📧 **Email** | 🟡 In Progress | Resend (domain verification) |
+| 📧 **Email** | 🟢 Active | Resend (domain configured, webhooks ready) |
 | ⚡ **Caching** | 🟢 Active | Redis via Upstash |
 | 📊 **Monitoring** | 🟢 Active | Sentry error tracking |
 | 🌐 **Browser Automation** | 🟢 Active | Browserbase integration |

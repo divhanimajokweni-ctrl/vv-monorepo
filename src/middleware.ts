@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { IntrusionDetector, BreachResponse } from '@/lib/security';
 
 export function middleware(request: NextRequest) {
-  const ip = request.ip || request.headers.get('x-forwarded-for') || 'unknown';
+  const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
 
   // Check if IP is blocked
   if (BreachResponse.isBlocked(ip)) {

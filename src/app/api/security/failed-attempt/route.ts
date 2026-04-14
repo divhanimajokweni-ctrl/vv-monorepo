@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { BreachResponse } from '@/lib/security';
 
 export async function POST(request: NextRequest) {
-  const ip = request.ip || request.headers.get('x-forwarded-for') || 'unknown';
+  const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
 
   try {
     const { action } = await request.json();

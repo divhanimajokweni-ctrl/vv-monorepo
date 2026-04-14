@@ -38,13 +38,11 @@ export default function LandingPage() {
 
   useEffect(() => {
     if (refCode && !initialToastShown) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       setToastMsg("Referral code applied: " + refCode);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setShowToast(true);
-      setTimeout(() => setShowToast(false), 2500);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setInitialToastShown(true);
+      setTimeout(() => setShowToast(false), 2500);
     }
   }, [refCode, initialToastShown]);
 

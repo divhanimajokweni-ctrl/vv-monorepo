@@ -675,10 +675,10 @@ export class VillageService {
     const [relation] = await db
       .insert(villageRelations)
       .values({
-        fromVillageId,
-        toVillageId,
+        sourceVillageId: fromVillageId,
+        targetVillageId: toVillageId,
         relationType,
-        description,
+        metadata: { description },
       })
       .onConflictDoNothing()
       .returning();
@@ -690,12 +690,12 @@ export class VillageService {
     const outgoing = await db
       .select()
       .from(villageRelations)
-      .where(eq(villageRelations.fromVillageId, villageId));
+      .where(eq(villageRelations.sourceVillageId, villageId));
 
     const incoming = await db
       .select()
       .from(villageRelations)
-      .where(eq(villageRelations.toVillageId, villageId));
+      .where(eq(villageRelations.targetVillageId, villageId));
 
     return { outgoing, incoming };
   }

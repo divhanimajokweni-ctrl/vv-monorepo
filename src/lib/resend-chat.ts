@@ -3,8 +3,8 @@ import { MemoryStateAdapter } from '@chat-adapter/state-memory';
 import { Chat } from 'chat';
 
 const resend = createResendAdapter({
-  fromAddress: process.env.RESEND_FROM_ADDRESS || 'bot@yourdomain.com',
-  fromName: process.env.RESEND_FROM_NAME || 'My Bot',
+  fromAddress: process.env.RESEND_FROM_ADDRESS || 'bot@ubuntupools-vvlcc.app',
+  fromName: process.env.RESEND_FROM_NAME || 'Ubuntu Pools Bot',
   apiKey: process.env.RESEND_API_KEY,
   webhookSecret: process.env.RESEND_WEBHOOK_SECRET,
 });
