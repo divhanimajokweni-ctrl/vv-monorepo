@@ -92,7 +92,7 @@ Advanced trust mechanisms including reputation friction, invite chains, and port
 | Category | Status | Details |
 |----------|--------|---------|
 | 🚀 **Deployment** | 🟢 Live | [Vercel Production](https://ubuntupools-vvlcc.app) |
-| 🌐 **Custom Domain** | 🟡 DNS Setup | `ubuntupools-vvlcc.app` (A record needed) |
+| 🌐 **Custom Domain** | 🟡 DNS Setup | `ubuntupools-vvlcc.app` (A record + email auth needed) |
 | 🗄️ **Database** | 🟢 Active | PostgreSQL 15 + Drizzle ORM |
 | 🔐 **Authentication** | 🟢 Active | Clerk JWT integration |
 | 📧 **Email** | 🟢 Active | Resend (domain configured, webhooks ready) |

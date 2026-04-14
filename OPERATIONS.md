@@ -381,9 +381,9 @@ vercel
 5. Add environment variables in the Vercel dashboard if needed
 6. Click "Deploy"
 
-#### Custom Domain Setup
+#### Custom Domain & Email Setup
 
-To set up the custom domain `ubuntupools-vvlcc.app`:
+To set up the custom domain `ubuntupools-vvlcc.app` with email authentication:
 
 1. **Add Domain to Vercel:**
    ```bash
@@ -391,16 +391,63 @@ To set up the custom domain `ubuntupools-vvlcc.app`:
    ```
 
 2. **Configure DNS Records:**
-   Add an A record in your DNS provider:
+   Add these records to your DNS provider (Namecheap, GoDaddy, etc.):
+
+   **Custom Domain (Vercel):**
    ```
-   Name: ubuntupools-vvlcc.app
    Type: A
+   Host: @ (ubuntupools-vvlcc.app)
    Value: 76.76.21.21
+   TTL: 300
+   ```
+
+   **Email Authentication (Resend + Amazon SES):**
+
+   *DKIM Signature:*
+   ```
+   Type: TXT
+   Host: resend._domainkey.ubuntupools-vvlcc.app
+   Value: p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDe/2014D6grpfK...QIDAQAB
+   TTL: 300
+   ```
+
+   *SPF Authorization:*
+   ```
+   Type: TXT
+   Host: send.ubuntupools-vvlcc.app
+   Value: v=spf1 include:amazonses.com ~all
+   TTL: 300
+   ```
+
+   *DMARC Policy:*
+   ```
+   Type: TXT
+   Host: _dmarc.ubuntupools-vvlcc.app
+   Value: v=DMARC1; p=none; rua=mailto:dmarc@ubuntupools-vvlcc.app
+   TTL: 300
+   ```
+
+   *Email Routing (MX Records):*
+   ```
+   Type: MX  Host: send.ubuntupools-vvlcc.app  Priority: 10  Value: feedback-smtp.eu-west-1.amazonaws.com
+   Type: MX  Host: @ (ubuntupools-vvlcc.app)  Priority: 10  Value: inbound-smtp.eu-west-1.amazonaws.com
    ```
 
 3. **Verify Configuration:**
    ```bash
+   # Check Vercel domain status
    vercel domains inspect ubuntupools-vvlcc.app
+
+   # Run DNS setup script for reference
+   node scripts/dns-setup.js
+   ```
+
+4. **Test Email Setup:**
+   ```bash
+   # Test domain addition via API
+   curl -X POST http://localhost:3000/api/resend/setup-domain \
+     -H "Content-Type: application/json" \
+     -d '{"domain": "ubuntupools-vvlcc.app"}'
    ```
 
 #### Environment Variables on Vercel
