@@ -86,13 +86,14 @@ Advanced trust mechanisms including reputation friction, invite chains, and port
 | 🌐 **Browserbase** | ✅ Active | Browser automation capabilities |
 | 💬 **WhatsApp API** | ✅ Active | Community messaging with rate limiting |
 | 🎮 **Game Telemetry** | ✅ **NEW** | Lindiwe AI behavioural signal processing |
+| 🌍 **Custom Domain** | ✅ **NEW** | Full DNS setup with email authentication |
 
 ### 📊 Current Status
 
 | Category | Status | Details |
 |----------|--------|---------|
 | 🚀 **Deployment** | 🟢 Live | [Vercel Production](https://ubuntupools-vvlcc.app) |
-| 🌐 **Custom Domain** | 🟡 DNS Setup | `ubuntupools-vvlcc.app` (A record + email auth needed) |
+| 🌐 **Custom Domain** | 🟢 Ready | `ubuntupools-vvlcc.app` (DNS records configured) |
 | 🗄️ **Database** | 🟢 Active | PostgreSQL 15 + Drizzle ORM |
 | 🔐 **Authentication** | 🟢 Active | Clerk JWT integration |
 | 📧 **Email** | 🟢 Active | Resend (domain configured, webhooks ready) |
