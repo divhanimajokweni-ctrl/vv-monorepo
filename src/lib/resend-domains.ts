@@ -25,3 +25,9 @@ export async function listDomains() {
 export async function deleteDomain(id: string) {
   return await resend.domains.remove(id);
 }
+
+export async function getDomainDNSRecords(id: string) {
+  // Get domain details which includes DNS records
+  const domain = await resend.domains.get(id);
+  return domain;
+}
