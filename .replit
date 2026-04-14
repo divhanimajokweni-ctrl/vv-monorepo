@@ -24,10 +24,11 @@ localPort = 4983
 
 [[ports]]
 localPort = 5000
+externalPort = 80
 
 [[ports]]
-localPort = 8000
-externalPort = 8000
+localPort = 5001
+externalPort = 3003
 
 [[ports]]
 localPort = 8080
@@ -54,8 +55,10 @@ name = "Start application"
 author = "agent"
 mode = "sequential"
 
-[[workflows.workflow.tasks]]
-task = "packager.installForAll"
-
 [workflows.workflow.metadata]
 outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+waitForPort = 5000
