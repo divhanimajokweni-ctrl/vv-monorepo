@@ -76,7 +76,7 @@ export async function POST(request: Request) {
           {
             type: 'TXT',
             host: '_dmarc',
-            value: 'v=DMARC1; p=none; rua=mailto:dmarc@ubuntupools-vvlcc.app',
+            value: 'v=DMARC1; p=none; rua=mailto:dmarc@workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app',
             purpose: 'DMARC policy for email authentication'
           },
           {

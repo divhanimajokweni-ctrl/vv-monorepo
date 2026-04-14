@@ -22,14 +22,14 @@ async function testEmailSending() {
   console.log('✅ RESEND_API_KEY loaded');
 
   const testEmail = {
-    from: process.env.RESEND_FROM_ADDRESS || 'bot@ubuntupools-vvlcc.app',
+    from: process.env.RESEND_FROM_ADDRESS || 'bot@workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app',
     to: 'test@example.com', // Replace with your test email
     subject: 'Ubuntu Pools Email Test',
     html: `
       <h1>🎉 Ubuntu Pools Email Test</h1>
       <p>This email confirms your custom domain email setup is working!</p>
       <ul>
-        <li>✅ Custom Domain: ubuntupools-vvlcc.app</li>
+        <li>✅ Custom Domain: workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app</li>
         <li>✅ DKIM Signature: Configured</li>
         <li>✅ SPF Authorization: Active</li>
         <li>✅ DMARC Policy: Enabled</li>

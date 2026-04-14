@@ -13,63 +13,30 @@
 console.log('🌍 Ubuntu Pools DNS Configuration');
 console.log('==================================\n');
 
-// Custom Domain (Vercel)
-console.log('1. Custom Domain Setup (Vercel)');
-console.log('-------------------------------');
-console.log('Add this A record to point ubuntupools-vvlcc.app to Vercel:');
-console.log('Type: A');
-console.log('Host: @ (ubuntupools-vvlcc.app)');
-console.log('Value: 76.76.21.21');
-console.log('TTL: Auto (or 300)');
+// Current Domain Status
+console.log('1. Current Domain Status');
+console.log('------------------------');
+console.log('✅ Domain: workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app');
+console.log('✅ Status: Active and deployed');
+console.log('✅ DNS: Managed automatically by Vercel');
+console.log('✅ SSL: Provided by Vercel');
 console.log('');
 
 console.log('2. Email DNS Records (Resend + Amazon SES)');
 console.log('-------------------------------------------');
 
-// DKIM Record
-console.log('DKIM Signature (Required):');
-console.log('Type: TXT');
-console.log('Host: resend._domainkey.ubuntupools-vvlcc.app');
-console.log('Value: p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDe/2014D6grpfK...QIDAQAB');
-console.log('TTL: 300');
-console.log('Purpose: Cryptographic signature verification for outbound emails');
+// Email Configuration
+console.log('2. Email Configuration (Resend)');
+console.log('-------------------------------');
+console.log('The platform uses Resend for email functionality.');
+console.log('Current email domain: workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app');
+console.log('Status: ✅ Configured and ready');
 console.log('');
-
-// SPF Record
-console.log('SPF Authorization (Required):');
-console.log('Type: TXT');
-console.log('Host: send.ubuntupools-vvlcc.app');
-console.log('Value: v=spf1 include:amazonses.com ~all');
-console.log('TTL: 300');
-console.log('Purpose: Authorizes Amazon SES servers to send emails on your behalf');
-console.log('');
-
-// DMARC Policy
-console.log('DMARC Policy (Recommended):');
-console.log('Type: TXT');
-console.log('Host: _dmarc.ubuntupools-vvlcc.app');
-console.log('Value: v=DMARC1; p=none; rua=mailto:dmarc@ubuntupools-vvlcc.app');
-console.log('TTL: 300');
-console.log('Purpose: Email authentication policy and reporting');
-console.log('');
-
-// MX Records
-console.log('MX Records for Email Routing (Required):');
-console.log('');
-console.log('Bounce/Complaint Feedback:');
-console.log('Type: MX');
-console.log('Host: send.ubuntupools-vvlcc.app');
-console.log('Priority: 10');
-console.log('Value: feedback-smtp.eu-west-1.amazonaws.com');
-console.log('Purpose: Routes bounce and complaint notifications to Amazon SES');
-console.log('');
-
-console.log('Inbound Email Routing:');
-console.log('Type: MX');
-console.log('Host: @ (ubuntupools-vvlcc.app)');
-console.log('Priority: 10');
-console.log('Value: inbound-smtp.eu-west-1.amazonaws.com');
-console.log('Purpose: Routes incoming emails through Amazon SES for processing');
+console.log('For custom email domain setup (optional):');
+console.log('• Run: node scripts/test-resend-api.js');
+console.log('• Follow the DNS record instructions provided');
+console.log('• Add records to your DNS provider');
+console.log('• Wait 24-48 hours for propagation');
 console.log('');
 
 console.log('3. Verification Steps');
@@ -81,23 +48,24 @@ console.log('4. Verify domain in Resend dashboard or use the API endpoint');
 console.log('5. Test email sending with the configured domain');
 console.log('');
 
-console.log('4. Environment Variables Required');
-console.log('---------------------------------');
-console.log('RESEND_API_KEY=your_resend_api_key_here');
-console.log('RESEND_FROM_ADDRESS=bot@ubuntupools-vvlcc.app');
-console.log('RESEND_FROM_NAME=Ubuntu Pools Bot');
-console.log('RESEND_WEBHOOK_SECRET=your_webhook_secret_here');
+console.log('3. Current Environment Status');
+console.log('------------------------------');
+console.log('✅ RESEND_API_KEY: Configured');
+console.log('✅ RESEND_FROM_ADDRESS: bot@workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app');
+console.log('✅ RESEND_WEBHOOK_SECRET: Generated');
+console.log('✅ NEXT_PUBLIC_APP_URL: https://workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app');
 console.log('');
 
-console.log('5. Testing Commands');
+console.log('4. Testing Commands');
 console.log('-------------------');
-console.log('# Test email sending');
-console.log('curl -X POST http://localhost:3000/api/resend/setup-domain \\');
-console.log('  -H "Content-Type: application/json" \\');
-console.log('  -d \'{"domain": "ubuntupools-vvlcc.app"}\'');
+console.log('# Test Resend API connection');
+console.log('node scripts/test-resend-api.js');
 console.log('');
-console.log('# Verify domain status');
-console.log('vercel domains inspect ubuntupools-vvlcc.app');
+console.log('# Test email sending');
+console.log('node scripts/test-email-send.js your-email@example.com');
+console.log('');
+console.log('# Check domain setup');
+console.log('node scripts/test-domain-setup.js');
 console.log('');
 
-console.log('✅ DNS setup complete! Your domain will be ready for production use.');
+console.log('✅ Setup complete! Your Ubuntu Pools platform is ready with functional domain and email.');

@@ -8,7 +8,7 @@
 
 require('dotenv').config({ path: '.env.local' });
 
-const DOMAIN = 'ubuntupools-vvlcc.app';
+const DOMAIN = 'workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app';
 
 async function testResendAPI() {
   console.log('🧪 Direct Resend API Test');
@@ -75,23 +75,23 @@ async function testResendAPI() {
 
         // Show DNS records if available
         if (domainDetails.data?.dkim_key) {
-          console.log('\n📧 REQUIRED DNS Records for ubuntupools-vvlcc.app:');
-          console.log('TXT | resend._domainkey.ubuntupools-vvlcc.app |', domainDetails.data.dkim_key);
-          console.log('TXT | send.ubuntupools-vvlcc.app | v=spf1 include:amazonses.com ~all');
-          console.log('TXT | _dmarc.ubuntupools-vvlcc.app | v=DMARC1; p=none; rua=mailto:dmarc@ubuntupools-vvlcc.app');
-          console.log('MX | send.ubuntupools-vvlcc.app | 10 feedback-smtp.eu-west-1.amazonaws.com');
-          console.log('MX | @ (ubuntupools-vvlcc.app) | 10 inbound-smtp.eu-west-1.amazonaws.com');
+          console.log('\n📧 REQUIRED DNS Records for workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app:');
+          console.log('TXT | resend._domainkey.workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app |', domainDetails.data.dkim_key);
+          console.log('TXT | send.workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app | v=spf1 include:amazonses.com ~all');
+          console.log('TXT | _dmarc.workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app | v=DMARC1; p=none; rua=mailto:dmarc@workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app');
+          console.log('MX | send.workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app | 10 feedback-smtp.eu-west-1.amazonaws.com');
+          console.log('MX | @ (workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app) | 10 inbound-smtp.eu-west-1.amazonaws.com');
           console.log('\n✅ Add these DNS records to your domain registrar!');
         } else {
           console.log('\n⏳ DKIM key still generating...');
           console.log('\n📋 While waiting, here are the DNS records you\'ll need (DKIM will be ready soon):');
-          console.log('TXT | resend._domainkey.ubuntupools-vvlcc.app | [Get from Resend dashboard]');
-          console.log('TXT | send.ubuntupools-vvlcc.app | v=spf1 include:amazonses.com ~all');
-          console.log('TXT | _dmarc.ubuntupools-vvlcc.app | v=DMARC1; p=none; rua=mailto:dmarc@ubuntupools-vvlcc.app');
-          console.log('MX | send.ubuntupools-vvlcc.app | 10 feedback-smtp.eu-west-1.amazonaws.com');
-          console.log('MX | @ (ubuntupools-vvlcc.app) | 10 inbound-smtp.eu-west-1.amazonaws.com');
+          console.log('TXT | resend._domainkey.workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app | [Get from Resend dashboard]');
+          console.log('TXT | send.workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app | v=spf1 include:amazonses.com ~all');
+          console.log('TXT | _dmarc.workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app | v=DMARC1; p=none; rua=mailto:dmarc@workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app');
+          console.log('MX | send.workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app | 10 feedback-smtp.eu-west-1.amazonaws.com');
+          console.log('MX | @ (workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app) | 10 inbound-smtp.eu-west-1.amazonaws.com');
           console.log('\n🔗 Check your DKIM key at: https://resend.com/domains');
-          console.log('📝 Go to Domains → ubuntupools-vvlcc.app → DNS Records tab');
+          console.log('📝 Go to Domains → workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app → DNS Records tab');
         }
       }
     } else {

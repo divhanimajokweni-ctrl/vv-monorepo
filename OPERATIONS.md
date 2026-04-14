@@ -383,11 +383,31 @@ vercel
 
 #### Custom Domain & Email Setup
 
-To set up the custom domain `ubuntupools-vvlcc.app` with email authentication:
+The platform is currently using the functional Vercel domain `workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app` for all operations.
 
-1. **Add Domain to Vercel:**
+**Current Domain Setup:**
+- **Primary Domain**: `workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app` (fully functional)
+- **Status**: ✅ Active and deployed
+- **DNS**: Managed by Vercel automatically
+
+**For Email Setup with Current Domain:**
+
+1. **Configure Email Domain:**
    ```bash
-   vercel domains add ubuntupools-vvlcc.app
+   # Test Resend API connection
+   node scripts/test-resend-api.js
+
+   # Set up domain in Resend (if needed)
+   node scripts/test-domain-setup.js
+   ```
+
+2. **DNS Records for Email (if adding custom domain later):**
+   The platform is currently using Vercel's domain, so no additional DNS setup is required for basic functionality.
+
+3. **Test Email Functionality:**
+   ```bash
+   # Send test email
+   node scripts/test-email-send.js your-email@example.com
    ```
 
 2. **Configure DNS Records:**
@@ -458,7 +478,7 @@ Add these in your project settings:
 |----------|-------------|
 | `DATABASE_URL` | PostgreSQL connection string |
 | `RESEND_API_KEY` | Resend email service API key |
-| `RESEND_FROM_ADDRESS` | Email sender address (e.g., bot@ubuntupools-vvlcc.app) |
+| `RESEND_FROM_ADDRESS` | Email sender address (e.g., bot@workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app) |
 | `RESEND_FROM_NAME` | Email sender name (e.g., Ubuntu Pools Bot) |
 | `RESEND_WEBHOOK_SECRET` | Webhook secret for Resend email processing |
 

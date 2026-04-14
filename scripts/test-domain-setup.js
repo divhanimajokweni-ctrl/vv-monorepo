@@ -7,7 +7,7 @@
  * Make sure to set RESEND_API_KEY in your environment
  */
 
-const DOMAIN = 'ubuntupools-vvlcc.app';
+const DOMAIN = 'workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app';
 
 async function testDomainSetup() {
   console.log('🧪 Testing Domain Setup for Ubuntu Pools');

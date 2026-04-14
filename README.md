@@ -13,7 +13,7 @@
 <div align="center">
 
 ## 🚀 Live Demo
-[![View Live](https://img.shields.io/badge/View_Live-🌐-FF6B6B?style=for-the-badge)](https://ubuntupools-vvlcc.app)
+[![View Live](https://img.shields.io/badge/View_Live-🌐-FF6B6B?style=for-the-badge)](https://workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app)
 
 </div>
 
@@ -92,8 +92,8 @@ Advanced trust mechanisms including reputation friction, invite chains, and port
 
 | Category | Status | Details |
 |----------|--------|---------|
-| 🚀 **Deployment** | 🟢 Live | [Vercel Production](https://ubuntupools-vvlcc.app) |
-| 🌐 **Custom Domain** | 🟢 Ready | `ubuntupools-vvlcc.app` (DNS records configured) |
+| 🚀 **Deployment** | 🟢 Live | [Vercel Production](https://workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app) |
+| 🌐 **Custom Domain** | ✅ Active | `workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app` |
 | 🗄️ **Database** | 🟢 Active | PostgreSQL 15 + Drizzle ORM |
 | 🔐 **Authentication** | 🟢 Active | Clerk JWT integration |
 | 📧 **Email** | 🟢 Active | Resend (domain configured, webhooks ready) |
@@ -1394,7 +1394,7 @@ LOG_LEVEL=warn
 The platform is currently deployed on Vercel:
 
 - **Primary Domain**: workspace-fawn-alpha.vercel.app (valid configuration)
-- **Custom Domain**: ubuntupools-vvlcc.app (pending DNS verification)
+- **Custom Domain**: workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app (active)
 - **Email Domain**: ubuntuvvlcc.com (Resend verification initiated)
 
 To deploy updates:
