@@ -689,6 +689,8 @@ For global scaling:
 | **Dashboards** | Grafana | Visualization and alerting |
 | **Logs** | Loki or ELK | Log aggregation |
 | **Tracing** | OpenTelemetry | Distributed tracing |
+| **Performance** | Vercel Speed Insights | Real user performance monitoring |
+| **Error Tracking** | Sentry | Application error monitoring |
 
 ### Key Metrics to Monitor
 

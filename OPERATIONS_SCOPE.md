@@ -68,6 +68,13 @@
 - **Purpose**: Financial Intelligence Arcade with 5 educational games and behavioural telemetry
 - **Features**: Prestige scoring, Lindiwe AI signal processing, POPIA-compliant data handling
 
+### 12. Performance Monitoring (Vercel Speed Insights)
+- **Package**: `@vercel/speed-insights@2.0.0`
+- **Files**: `src/app/layout.tsx`, `package.json`
+- **Status**: 🟢 **Completed**
+- **Purpose**: Real user performance monitoring and Core Web Vitals tracking
+- **Integration**: Added to root layout alongside Vercel Analytics
+
 ---
 
 ## In Progress

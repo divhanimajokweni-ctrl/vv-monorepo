@@ -86,10 +86,11 @@ Advanced trust mechanisms including reputation friction, invite chains, and port
 | ⚡ **Redis Caching** | ✅ Active | Session management & high-performance caching |
 | 🚩 **GrowthBook** | ✅ Active | Feature flags for controlled rollouts |
 | ☁️ **Vercel** | ✅ Live | Production deployment with domain configs |
+| 📊 **Speed Insights** | ✅ **NEW** | Real user performance monitoring |
 | 🌐 **Browserbase** | ✅ Active | Browser automation capabilities |
 | 💬 **WhatsApp API** | ✅ Active | Community messaging with rate limiting |
-| 🎮 **Games Engine** | ✅ **NEW** | Financial Intelligence Arcade with 5 educational games |
-| 🧠 **Behavioural AI** | ✅ **NEW** | Lindiwe AI processes 7 behavioural signals per session |
+| 🎮 **Games Engine** | ✅ **NEW** | 5 financial literacy games active |
+| 🧠 **Behavioural AI** | ✅ **NEW** | Lindiwe AI processing game telemetry |
 | 🏆 **Prestige Scoring** | ✅ **NEW** | Non-transferable reputation earned through financial wisdom |
 | 🌍 **Custom Domain** | ✅ **NEW** | Full DNS setup with email authentication |
 
@@ -103,7 +104,8 @@ Advanced trust mechanisms including reputation friction, invite chains, and port
 | 🔐 **Authentication** | 🟢 Active | Clerk JWT integration |
 | 📧 **Email** | 🟢 Active | Resend (domain configured, webhooks ready) |
 | ⚡ **Caching** | 🟢 Active | Redis via Upstash |
-| 📊 **Monitoring** | 🟢 Active | Sentry error tracking |
+| 📊 **Monitoring** | 🟢 Active | Sentry error tracking + Vercel Speed Insights |
+| 📈 **Performance** | 🟢 Active | Vercel Speed Insights for real user metrics |
 | 🌐 **Browser Automation** | 🟢 Active | Browserbase integration |
 | 💬 **Community Messaging** | 🟢 Active | WhatsApp Business API |
 | 🎮 **Games Engine** | ✅ **NEW** | 5 financial literacy games active |
