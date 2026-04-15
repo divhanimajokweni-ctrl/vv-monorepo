@@ -46,13 +46,111 @@ const SLOT_SYMBOLS = ['🍒', '💎', '7️⃣', '🌟', '💀', '🎯', '💰',
 const DICE_FACES = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
 
 const GAME_CATALOG = [
-  { id: 'slots', name: 'LOTTERY REELS', icon: '🎰', color: '#f59e0b', tagline: 'High Velocity · High Stakes', timebox: 300 },
-  { id: 'dice', name: 'ROLL-A-DICE', icon: '🎲', color: '#8b5cf6', tagline: 'Strategy Under Pressure', timebox: 300 },
-  { id: 'stokvel', name: 'STOKVEL STRATEGY', icon: '🤝', color: '#10b981', tagline: 'Financial Intelligence', timebox: 300 },
-  { id: 'snakes', name: 'SNAKES & LADDERS', icon: '🐍', color: '#ef4444', tagline: 'Ubuntu Board · Stakes Mode', timebox: 300 },
-  { id: 'crop', name: 'CROP FUTURES', icon: '🌾', color: '#f97316', tagline: 'Hedge · Hold · Crash', timebox: 300 },
-  { id: 'tiles2048', name: '2048 FUTURES', icon: '🔢', color: '#06b6d4', tagline: 'Hold & Win · Merge Markets', timebox: 300 },
-  { id: 'coinflip', name: 'CSGO COINFLIP', icon: '🪙', color: '#ec4899', tagline: 'Probability Transparency Layer', timebox: 300 },
+  {
+    id: 'slots',
+    name: 'LOTTERY REELS',
+    icon: (
+      <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M18 4V3c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V6h1v4H9v11c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-9h8V4h-3z"/>
+        <circle cx="8" cy="8.5" r="1.5"/>
+        <circle cx="12" cy="8.5" r="1.5"/>
+        <circle cx="16" cy="8.5" r="1.5"/>
+      </svg>
+    ),
+    color: '#f59e0b',
+    tagline: 'High Velocity · High Stakes',
+    timebox: 300
+  },
+  {
+    id: 'dice',
+    name: 'ROLL-A-DICE',
+    icon: (
+      <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M21 7h-3c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h3c.55 0 1-.45 1-1V8c0-.55-.45-1-1-1zM4 7h3c.55 0 1 .45 1 1v9c0 .55-.45 1-1 1H4c-.55 0-1-.45-1-1V8c0-.55.45-1 1-1z"/>
+        <circle cx="12" cy="10" r="1.5"/>
+        <circle cx="8.5" cy="14" r="1.5"/>
+        <circle cx="15.5" cy="14" r="1.5"/>
+        <circle cx="12" cy="17.5" r="1.5"/>
+      </svg>
+    ),
+    color: '#8b5cf6',
+    tagline: 'Strategy Under Pressure',
+    timebox: 300
+  },
+  {
+    id: 'stokvel',
+    name: 'STOKVEL STRATEGY',
+    icon: (
+      <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A2.01 2.01 0 0 0 18.06 7H15V4c0-1.11-.89-2-2-2H9c-1.11 0-2 .89-2 2v5H5.96c-.83 0-1.58.45-1.95 1.19L1.5 16H4v6c0 1.11.89 2 2 2h3c1.11 0 2-.89 2-2v-6h2v6c0 1.11.89 2 2 2h3c1.11 0 2-.89 2-2z"/>
+        <circle cx="9" cy="10" r="1"/>
+        <circle cx="15" cy="10" r="1"/>
+      </svg>
+    ),
+    color: '#10b981',
+    tagline: 'Financial Intelligence',
+    timebox: 300
+  },
+  {
+    id: 'snakes',
+    name: 'SNAKES & LADDERS',
+    icon: (
+      <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M21 7h-3c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h3c.55 0 1-.45 1-1V8c0-.55-.45-1-1-1zM4 7h3c.55 0 1 .45 1 1v9c0 .55-.45 1-1 1H4c-.55 0-1-.45-1-1V8c0-.55.45-1 1-1z"/>
+        <path d="M6 10h12v2H6v-2zm0 4h12v2H6v-2z"/>
+        <circle cx="8" cy="12" r="1"/>
+        <circle cx="16" cy="12" r="1"/>
+        <circle cx="12" cy="16" r="1"/>
+      </svg>
+    ),
+    color: '#ef4444',
+    tagline: 'Ubuntu Board · Stakes Mode',
+    timebox: 300
+  },
+  {
+    id: 'crop',
+    name: 'CROP FUTURES',
+    icon: (
+      <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+      </svg>
+    ),
+    color: '#f97316',
+    tagline: 'Hedge · Hold · Crash',
+    timebox: 300
+  },
+  {
+    id: 'tiles2048',
+    name: '2048 FUTURES',
+    icon: (
+      <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="6" height="6" rx="1"/>
+        <rect x="3" y="11" width="6" height="6" rx="1"/>
+        <rect x="3" y="19" width="6" height="6" rx="1"/>
+        <rect x="11" y="3" width="10" height="6" rx="1"/>
+        <rect x="11" y="11" width="6" height="6" rx="1"/>
+        <rect x="11" y="19" width="6" height="6" rx="1"/>
+        <rect x="19" y="11" width="2" height="6" rx="1"/>
+        <rect x="19" y="19" width="2" height="6" rx="1"/>
+      </svg>
+    ),
+    color: '#06b6d4',
+    tagline: 'Hold & Win · Merge Markets',
+    timebox: 300
+  },
+  {
+    id: 'coinflip',
+    name: 'CSGO COINFLIP',
+    icon: (
+      <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 6v6l4 2-4 2v6"/>
+      </svg>
+    ),
+    color: '#ec4899',
+    tagline: 'Probability Transparency Layer',
+    timebox: 300
+  },
 ];
 
 const INIT_LEADERBOARD = [
@@ -300,9 +398,32 @@ function StokvelGame({ onEnd }: { onEnd: (s: any) => void }) {
 }
 
 function SnakesGame({ onEnd }: { onEnd: (s: any) => void }) {
-  const BOARD_SIZE = 25;
-  const SNAKES: Record<number, number> = { 19: 5, 23: 11, 17: 8 };
-  const LADDERS: Record<number, number> = { 4: 14, 9: 21, 20: 24 };
+  const BOARD_SIZE = 100;
+  const SNAKES = [
+    { start: 16, end: 6, color: '#ef4444' },
+    { start: 47, end: 26, color: '#f97316' },
+    { start: 49, end: 11, color: '#ec4899' },
+    { start: 56, end: 53, color: '#8b5cf6' },
+    { start: 62, end: 19, color: '#06b6d4' },
+    { start: 64, end: 60, color: '#10b981' },
+    { start: 87, end: 24, color: '#f59e0b' },
+    { start: 93, end: 73, color: '#84cc16' },
+    { start: 95, end: 75, color: '#6366f1' },
+    { start: 98, end: 78, color: '#14b8a6' }
+  ];
+
+  const LADDERS = [
+    { start: 1, end: 38, color: '#10b981' },
+    { start: 4, end: 14, color: '#06b6d4' },
+    { start: 9, end: 31, color: '#8b5cf6' },
+    { start: 21, end: 42, color: '#ec4899' },
+    { start: 28, end: 84, color: '#f97316' },
+    { start: 36, end: 44, color: '#f59e0b' },
+    { start: 51, end: 67, color: '#84cc16' },
+    { start: 71, end: 91, color: '#6366f1' },
+    { start: 80, end: 100, color: '#14b8a6' }
+  ];
+
   const [pos, setPos] = useState(0);
   const [rolling, setRolling] = useState(false);
   const [diceFace, setDiceFace] = useState(1);
@@ -318,51 +439,226 @@ function SnakesGame({ onEnd }: { onEnd: (s: any) => void }) {
     const iv = setInterval(() => {
       setDiceFace(Math.ceil(Math.random() * 6));
       ticks++;
-      if (ticks >= 10) {
+      if (ticks >= 15) {
         clearInterval(iv);
         const d = Math.ceil(Math.random() * 6);
         setDiceFace(d);
         setRolling(false);
         let newPos = pos + d;
-        let msg = `Rolled ${d} → Pos ${newPos}`;
+        let msg = `Rolled ${d}`;
+
+        // Check for win
         if (newPos >= BOARD_SIZE) {
           setWins((w) => w + 1);
-          newPos = 0;
-          msg = `🏆 WIN! R${bet * 2}`;
-          onEnd({ score: (wins + 1) * bet * 2, decisionMs: Date.now() - startRef.current, risk: 'medium', altruistic: false, game: 'snakes' });
+          newPos = BOARD_SIZE;
+          msg = `🏆 WIN! R${bet * 3}`;
+          onEnd({ score: (wins + 1) * bet * 3, decisionMs: Date.now() - startRef.current, risk: 'medium', altruistic: false, game: 'snakes' });
           setLog((l) => [msg, ...l.slice(0, 4)]);
-          setPos(0);
+          setPos(BOARD_SIZE);
           return;
         }
-        if (SNAKES[newPos]) { msg += ` 🐍→${SNAKES[newPos]}`; newPos = SNAKES[newPos]; }
-        if (LADDERS[newPos]) { msg += ` 🪜→${LADDERS[newPos]}`; newPos = LADDERS[newPos]; }
+
+        // Check for snakes
+        const snake = SNAKES.find(s => s.start === newPos);
+        if (snake) {
+          newPos = snake.end;
+          msg += ` 🐍 → ${newPos}`;
+        }
+
+        // Check for ladders
+        const ladder = LADDERS.find(l => l.start === newPos);
+        if (ladder) {
+          newPos = ladder.end;
+          msg += ` 🪜 → ${newPos}`;
+        }
+
         setPos(newPos);
+        if (!snake && !ladder) {
+          msg += ` → Position ${newPos}`;
+        }
         setLog((l) => [msg, ...l.slice(0, 4)]);
       }
-    }, 80);
+    }, 60);
   };
 
-  const cells = Array.from({ length: BOARD_SIZE }, (_, i) => ({ cell: i + 1, isSnake: Object.keys(SNAKES).includes(String(i + 1)), isLadder: Object.keys(LADDERS).includes(String(i + 1)), isPlayer: pos === i }));
+  // Create board path positions (snake-like winding pattern)
+  const getBoardPosition = (cellNumber: number) => {
+    const row = Math.floor((cellNumber - 1) / 10);
+    const col = (cellNumber - 1) % 10;
+    const x = row % 2 === 0 ? col : 9 - col;
+    return { row, col: x };
+  };
+
+  const renderBoard = () => {
+    const cells = [];
+    for (let i = 1; i <= BOARD_SIZE; i++) {
+      const { row, col } = getBoardPosition(i);
+      const isPlayer = pos === i;
+      const snake = SNAKES.find(s => s.start === i);
+      const ladder = LADDERS.find(l => l.start === i);
+
+      cells.push(
+        <div
+          key={i}
+          style={{
+            position: 'absolute',
+            left: `${col * 60 + 20}px`,
+            top: `${row * 60 + 20}px`,
+            width: '40px',
+            height: '40px',
+            background: isPlayer ? '#7c3aed' : snake ? snake.color : ladder ? ladder.color : '#1f2937',
+            border: `2px solid ${isPlayer ? '#8b5cf6' : '#374151'}`,
+            borderRadius: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: isPlayer ? '16px' : '10px',
+            color: isPlayer ? '#fff' : snake || ladder ? '#fff' : '#9ca3af',
+            fontWeight: isPlayer ? 900 : 600,
+            boxShadow: isPlayer ? '0 0 20px rgba(139, 92, 246, 0.5)' : 'none',
+            zIndex: isPlayer ? 10 : 1
+          }}
+        >
+          {isPlayer ? '🎯' : snake ? '🐍' : ladder ? '🪜' : i}
+        </div>
+      );
+    }
+    return cells;
+  };
+
+  const renderSnakesAndLadders = () => {
+    const elements = [];
+
+    // Render snakes
+    SNAKES.forEach(({ start, end, color }) => {
+      const startPos = getBoardPosition(start);
+      const endPos = getBoardPosition(end);
+      const midX = (startPos.col + endPos.col) * 30 + 40;
+      const midY = (startPos.row + endPos.row) * 30 + 40;
+
+      elements.push(
+        <path
+          key={`snake-${start}`}
+          d={`M ${startPos.col * 60 + 40} ${startPos.row * 60 + 40} Q ${midX} ${midY} ${endPos.col * 60 + 40} ${endPos.row * 60 + 40}`}
+          stroke={color}
+          strokeWidth="3"
+          fill="none"
+          strokeDasharray="8,4"
+          opacity="0.7"
+        />
+      );
+    });
+
+    // Render ladders
+    LADDERS.forEach(({ start, end, color }) => {
+      const startPos = getBoardPosition(start);
+      const endPos = getBoardPosition(end);
+
+      elements.push(
+        <line
+          key={`ladder-${start}`}
+          x1={startPos.col * 60 + 40}
+          y1={startPos.row * 60 + 40}
+          x2={endPos.col * 60 + 40}
+          y2={endPos.row * 60 + 40}
+          stroke={color}
+          strokeWidth="4"
+          opacity="0.8"
+        />
+      );
+    });
+
+    return elements;
+  };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 4 }}>
-        {cells.map(({ cell, isSnake, isLadder, isPlayer }) => (
-          <div key={cell} style={{ aspectRatio: '1', background: isPlayer ? '#7c3aed' : isSnake ? '#450a0a' : isLadder ? '#064e3b' : '#111827', border: `1px solid ${isPlayer ? '#8b5cf6' : '#1f2937'}`, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: isPlayer ? 18 : 11, color: isPlayer ? '#fff' : isSnake ? '#fca5a5' : isLadder ? '#6ee7b7' : '#374151', fontWeight: isPlayer ? 900 : 400 }}>
-            {isPlayer ? '🪙' : isSnake ? '🐍' : isLadder ? '🪜' : cell}
-          </div>
-        ))}
+      {/* Game Board */}
+      <div style={{ position: 'relative', width: '620px', height: '620px', margin: '0 auto', background: 'linear-gradient(135deg, #0f172a, #1e293b)', borderRadius: '20px', border: '3px solid #374151' }}>
+        <svg style={{ position: 'absolute', width: '100%', height: '100%', zIndex: 2 }}>
+          {renderSnakesAndLadders()}
+        </svg>
+        {renderBoard()}
       </div>
 
-      <div style={{ textAlign: 'center', fontSize: 36 }}>{DICE_FACES[diceFace - 1]}</div>
-      {log.length > 0 && <div style={{ fontSize: 11, color: '#6b7280' }}>{log.slice(0, 3).map((l, i) => <div key={i}>· {l}</div>)}</div>}
-      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#6b7280' }}>
-        <span>POS: {pos}/{BOARD_SIZE}</span><span>BET: R{bet}</span><span>WINS: {wins}</span>
+      {/* Game Controls */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 20 }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 4 }}>DICE</div>
+          <div style={{ fontSize: 48, lineHeight: 1 }}>{DICE_FACES[diceFace - 1]}</div>
+        </div>
+
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 4 }}>POSITION</div>
+          <div style={{ fontSize: 32, fontWeight: 900, color: '#8b5cf6' }}>{pos}</div>
+        </div>
+
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 4 }}>WINS</div>
+          <div style={{ fontSize: 24, fontWeight: 700, color: '#10b981' }}>{wins}</div>
+        </div>
       </div>
-      <input type='range' min={100} max={1000} step={100} value={bet} onChange={(e) => setBet(+e.target.value)} style={{ width: '100%', accentColor: '#ef4444' }} />
-      <button onClick={rollDice} disabled={rolling} style={{ width: '100%', padding: '14px 0', background: rolling ? '#374151' : 'linear-gradient(135deg, #ef4444, #b91c1c)', color: '#fff', fontWeight: 900, fontSize: 16, border: 'none', borderRadius: 10, cursor: 'pointer', letterSpacing: 2 }}>
-        {rolling ? 'ROLLING…' : '🎲 ROLL THE BOARD'}
+
+      {/* Game Log */}
+      {log.length > 0 && (
+        <div style={{ background: '#111827', borderRadius: 10, padding: '12px 16px', maxHeight: '80px', overflowY: 'auto' }}>
+          <div style={{ fontSize: 11, color: '#10b981', letterSpacing: 2, marginBottom: 6 }}>GAME LOG</div>
+          {log.slice(0, 3).map((entry, i) => (
+            <div key={i} style={{ fontSize: 12, color: '#d1d5db', marginBottom: 2 }}>
+              {entry}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Betting Controls */}
+      <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+        <div style={{ flex: 1 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: '#6b7280', marginBottom: 6 }}>
+            <span>BET AMOUNT</span>
+            <span>R{bet}</span>
+          </div>
+          <input
+            type='range'
+            min={100}
+            max={2000}
+            step={100}
+            value={bet}
+            onChange={(e) => setBet(+e.target.value)}
+            style={{ width: '100%', accentColor: '#ef4444' }}
+          />
+        </div>
+      </div>
+
+      {/* Roll Button */}
+      <button
+        onClick={rollDice}
+        disabled={rolling}
+        style={{
+          width: '100%',
+          padding: '16px 0',
+          background: rolling ? '#374151' : 'linear-gradient(135deg, #ef4444, #b91c1c)',
+          color: '#fff',
+          fontWeight: 900,
+          fontSize: 18,
+          border: 'none',
+          borderRadius: 12,
+          cursor: rolling ? 'not-allowed' : 'pointer',
+          letterSpacing: 3,
+          boxShadow: rolling ? 'none' : '0 8px 25px rgba(239, 68, 68, 0.3)',
+          transition: 'all 0.3s ease'
+        }}
+      >
+        {rolling ? '🎲 ROLLING...' : '🎲 ROLL THE DICE'}
       </button>
+
+      {/* Game Rules */}
+      <div style={{ background: '#111827', borderRadius: 10, padding: '12px 16px' }}>
+        <div style={{ fontSize: 11, color: '#10b981', letterSpacing: 2, marginBottom: 6 }}>HOW TO PLAY</div>
+        <div style={{ fontSize: 12, color: '#9ca3af', lineHeight: 1.4 }}>
+          Roll the dice to move forward. Land on a ladder (🪜) to climb up, avoid snakes (🐍) that pull you back. Reach 100 to win and claim your prize!
+        </div>
+      </div>
     </div>
   );
 }
@@ -449,6 +745,8 @@ function Game2048({ onEnd }: { onEnd: (s: any) => void }) {
   const [score, setScore] = useState(0);
   const [best, setBest] = useState(0);
   const startRef = useRef(0);
+  const touchStartRef = useRef<{x: number; y: number} | null>(null);
+  const mouseStartRef = useRef<{x: number; y: number} | null>(null);
 
   const slideLeft = (row: number[]) => { const nonZero = row.filter((x) => x > 0); const merged = []; let pts = 0; for (let i = 0; i < nonZero.length; i++) { if (i + 1 < nonZero.length && nonZero[i] === nonZero[i + 1]) { merged.push(nonZero[i] * 2); pts += nonZero[i] * 2; i++; } else merged.push(nonZero[i]); } while (merged.length < 4) merged.push(0); return { row: merged, pts }; };
 
@@ -467,6 +765,58 @@ function Game2048({ onEnd }: { onEnd: (s: any) => void }) {
     });
   }, [onEnd]);
 
+  // Touch event handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!touchStartRef.current) return;
+    const touch = e.changedTouches[0];
+    const deltaX = touch.clientX - touchStartRef.current.x;
+    const deltaY = touch.clientY - touchStartRef.current.y;
+    const minSwipeDistance = 50;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      // Horizontal swipe
+      if (Math.abs(deltaX) > minSwipeDistance) {
+        move(deltaX > 0 ? 'right' : 'left');
+      }
+    } else {
+      // Vertical swipe
+      if (Math.abs(deltaY) > minSwipeDistance) {
+        move(deltaY > 0 ? 'down' : 'up');
+      }
+    }
+    touchStartRef.current = null;
+  };
+
+  // Mouse event handlers for drag gestures
+  const handleMouseDown = (e: React.MouseEvent) => {
+    mouseStartRef.current = { x: e.clientX, y: e.clientY };
+  };
+
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (!mouseStartRef.current) return;
+    const deltaX = e.clientX - mouseStartRef.current.x;
+    const deltaY = e.clientY - mouseStartRef.current.y;
+    const minDragDistance = 30;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      // Horizontal drag
+      if (Math.abs(deltaX) > minDragDistance) {
+        move(deltaX > 0 ? 'right' : 'left');
+      }
+    } else {
+      // Vertical drag
+      if (Math.abs(deltaY) > minDragDistance) {
+        move(deltaY > 0 ? 'down' : 'up');
+      }
+    }
+    mouseStartRef.current = null;
+  };
+
   useEffect(() => { const handler = (e: KeyboardEvent) => { if (e.key === 'ArrowLeft') move('left'); if (e.key === 'ArrowRight') move('right'); if (e.key === 'ArrowUp') move('up'); if (e.key === 'ArrowDown') move('down'); }; window.addEventListener('keydown', handler); return () => window.removeEventListener('keydown', handler); }, [move]);
 
   const TILE_COLORS: Record<number, string> = { 0: '#1f2937', 2: '#164e63', 4: '#0c4a6e', 8: '#065f46', 16: '#14532d', 32: '#713f12', 64: '#7c2d12', 128: '#4c0519', 256: '#581c87', 512: '#3b0764', 1024: '#1e1b4b', 2048: '#f59e0b' };
@@ -478,7 +828,13 @@ function Game2048({ onEnd }: { onEnd: (s: any) => void }) {
         <div style={{ background: '#1f2937', borderRadius: 8, padding: '8px 16px', textAlign: 'center' }}><div style={{ fontSize: 10, color: '#9ca3af', letterSpacing: 2 }}>BEST</div><div style={{ fontWeight: 900, color: '#fff' }}>{best.toLocaleString()}</div></div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 4, background: '#111827', borderRadius: 10, padding: 8 }}>
+      <div
+        style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 4, background: '#111827', borderRadius: 10, padding: 8, touchAction: 'none', userSelect: 'none' }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+      >
         {grid.flat().map((v, i) => <div key={i} style={{ aspectRatio: '1', background: TILE_COLORS[Math.min(v, 2048)] || '#1e1b4b', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: v > 999 ? 12 : v > 99 ? 16 : v > 9 ? 20 : 24, color: v === 0 ? 'transparent' : v >= 128 ? '#fef9c3' : '#fff' }}>{v || ''}</div>)}
       </div>
 
@@ -679,7 +1035,7 @@ export default function GamesPage() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 12, marginBottom: 24 }}>
               {GAME_CATALOG.map((g) => (
                 <div key={g.id} onClick={() => setActiveGame(g)} style={{ background: '#0f172a', border: '1px solid #1f2937', borderRadius: 14, padding: '20px 16px', cursor: 'pointer', transition: 'all 0.2s' }}>
-                  <div style={{ fontSize: 36, marginBottom: 12 }}>{g.icon}</div>
+                  <div style={{ marginBottom: 12, display: 'flex', justifyContent: 'center' }}>{g.icon}</div>
                   <div style={{ fontSize: 11, fontWeight: 900, color: '#fff', letterSpacing: 1, marginBottom: 4 }}>{g.name}</div>
                   <div style={{ fontSize: 10, color: '#6b7280', lineHeight: 1.5, marginBottom: 14 }}>{g.tagline}</div>
                   <div style={{ height: 2, background: g.color, borderRadius: 1, width: '40%', opacity: 0.6 }} />
