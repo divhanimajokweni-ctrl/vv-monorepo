@@ -1,7 +1,7 @@
 {
   "framework": "nextjs",
   "installCommand": "bun install",
-  "buildCommand": "bun run build",
+  "buildCommand": "rm -rf .next && bun run build",
   "headers": [
     {
       "source": "/(.*)",
