@@ -8,6 +8,13 @@
       "when": 1772301956886,
       "tag": "0000_flaky_madelyne_pryor",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1776220397860,
+      "tag": "0001_smart_jubilee",
+      "breakpoints": true
     }
   ]
 }

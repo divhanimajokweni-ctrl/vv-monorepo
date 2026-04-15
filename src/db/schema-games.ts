@@ -19,6 +19,9 @@ export const gameIdEnum = pgEnum('game_id', [
   'credit_ladder',
   'the_commons',
   'market_maker',
+  'lottery_scenario',
+  'dice_strategy',
+  'crop_finance',
 ]);
  
 export const gameStatusEnum = pgEnum('game_status', [
@@ -36,6 +39,10 @@ export const signalTypeEnum = pgEnum('signal_type', [
   'overextension',
   'leadership_index',
   'knowledge_score',
+  'risk_tolerance',
+  'impulse_index',
+  'decision_speed',
+  'planning_horizon',
 ]);
  
 // ── Tables ────────────────────────────────────────────────────────────────────

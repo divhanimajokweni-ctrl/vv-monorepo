@@ -7,7 +7,10 @@ export type GameId =
   | 'pool_simulator'
   | 'credit_ladder'
   | 'the_commons'
-  | 'market_maker';
+  | 'market_maker'
+  | 'lottery_scenario'
+  | 'dice_strategy'
+  | 'crop_finance';
  
 export type GameStatus = 'waiting' | 'active' | 'paused' | 'completed' | 'abandoned';
  
@@ -17,7 +20,11 @@ export type SignalType =
   | 'stress_response'
   | 'overextension'
   | 'leadership_index'
-  | 'knowledge_score';
+  | 'knowledge_score'
+  | 'risk_tolerance'
+  | 'impulse_index'
+  | 'decision_speed'
+  | 'planning_horizon';
  
 // ── Game Metadata ─────────────────────────────────────────────────────────────
  

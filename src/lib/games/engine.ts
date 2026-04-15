@@ -8,6 +8,9 @@ import { db } from '@/db/client';
 import { gameSessions, gameEvents, type GameSession } from '@/db/schema-games';
 import { eq, and } from 'drizzle-orm';
 import { createEventEmitter } from '@/lib/events/emitter';
+import LindiweSignalProcessor from '@/lib/lindiwe/pipeline';
+
+const lindiweProcessor = new LindiweSignalProcessor();
 
 type FixNullToUndefined<T> = {
   [K in keyof T]: T[K] extends null ? undefined : T[K];
@@ -143,14 +146,23 @@ async function completeSession(
     updatedAt: new Date(),
   }).where(eq(gameSessions.id, sessionId));
  
-   await getEventEmitter().emit({
-     eventType: 'games.session_completed',
-     actorId: memberId,
-     entityId: sessionId,
-     entityType: 'game_session',
-     payload: { sessionId, memberId, gameId, finalScore: finalState.score, prestigeAwarded: total, signalCount: signals.length, source: 'games_engine' },
-     occurredAt: new Date().toISOString(),
-   });
+    await getEventEmitter().emit({
+      eventType: 'games.session_completed',
+      actorId: memberId,
+      entityId: sessionId,
+      entityType: 'game_session',
+      payload: { sessionId, memberId, gameId, finalScore: finalState.score, prestigeAwarded: total, signalCount: signals.length, source: 'games_engine' },
+      occurredAt: new Date().toISOString(),
+    });
+
+    // Feed to Lindiwe
+    lindiweProcessor.ingestSignal({
+      gameId,
+      userId: memberId,
+      decision: finalState.decisions[finalState.decisions.length - 1] || {},
+      sessionState: finalState,
+      finalScore: finalState.score,
+    });
 }
  
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -171,6 +183,9 @@ export function buildInitialState(gameId: GameId): GameState {
     credit_ladder:    { maxRounds: 15, phase: 'deal',           data: { hand: [], creditScore: 500, debt: 0 } },
     the_commons:      { maxRounds: 10, phase: 'harvest',        data: { commons: 100, players: [], agreements: [] } },
     market_maker:     { maxRounds: 8,  phase: 'demand_gather',  data: { demand: [], suppliers: [], budget: 10000 } },
+    lottery_scenario: { maxRounds: 5,  phase: 'scenario',       data: { scenarios: [], currentIndex: 0, totalPoints: 0 } },
+    dice_strategy:    { maxRounds: 5,  phase: 'roll',           data: { rolls: [], currentMultiplier: 1, target: 2 } },
+    crop_finance:     { maxRounds: 4,  phase: 'season',         data: { seasons: [], totalMoney: 1000, insurance: false } },
   };
  
   return {
