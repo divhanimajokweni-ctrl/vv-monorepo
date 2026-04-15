@@ -3,12 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Trophy, Brain, Zap, Shield, Coins, Wheat, Users, X, Sun, Moon } from 'lucide-react';
 import { Game, GameSignal, LindiweResult } from './types';
-import GameModal from './GameModal';
 import { useLocalPersistence, useSignalQueue } from './persistence';
+
+const GameModal = React.lazy(() => import('./GameModal'));
 
 const GAMES: Game[] = [
   {
@@ -170,11 +171,22 @@ export default function UbuntuPoolsApp() {
 
       <AnimatePresence>
         {activeGameId && (
-          <GameModal
-            game={GAMES.find(g => g.id === activeGameId)!}
-            onClose={() => setActiveGameId(null)}
-            onEnd={handleGameEnd}
-          />
+          <Suspense fallback={
+            <motion.div
+              className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <div className="text-white text-xl">Loading Game...</div>
+            </motion.div>
+          }>
+            <GameModal
+              game={GAMES.find(g => g.id === activeGameId)!}
+              onClose={() => setActiveGameId(null)}
+              onEnd={handleGameEnd}
+            />
+          </Suspense>
         )}
       </AnimatePresence>
     </div>
