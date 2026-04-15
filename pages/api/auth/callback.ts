@@ -1,6 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { serialize, parse } from 'cookie';
 
+// Type declarations for cookie module
+declare module 'cookie' {
+  export function serialize(name: string, value: string, options?: any): string;
+  export function parse(cookieHeader: string): Record<string, string>;
+}
+
 interface TokenData {
   access_token: string;
   token_type: string;

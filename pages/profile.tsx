@@ -1,5 +1,11 @@
 import { GetServerSideProps } from 'next';
+import Link from 'next/link';
 import { parse } from 'cookie';
+
+// Type declarations for cookie module
+declare module 'cookie' {
+  export function parse(cookieHeader: string): Record<string, string>;
+}
 import SignOutButton from '../components/SignOutButton';
 
 interface User {
@@ -20,7 +26,7 @@ export default function Profile({ user, error }: ProfileProps) {
       <main className="p-10">
         <h1 className="text-3xl font-semibold">Error</h1>
         <p className="mt-4">{error || 'An error occurred while trying to fetch your profile.'}</p>
-        <a href="/" className="underline">Go back to the home page</a> and sign in again.
+        <Link href="/" className="underline">Go back to the home page</Link> and sign in again.
       </main>
     );
   }

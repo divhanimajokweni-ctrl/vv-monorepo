@@ -1,6 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { serialize, parse } from 'cookie';
 
+// Type declarations for cookie module
+declare module 'cookie' {
+  export function serialize(name: string, value: string, options?: any): string;
+  export function parse(cookieHeader: string): Record<string, string>;
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);

@@ -1,6 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { parse } from 'cookie';
 
+// Type declarations for cookie module
+declare module 'cookie' {
+  export function parse(cookieHeader: string): Record<string, string>;
+}
+
 interface IntrospectionResponse {
   active: boolean;
   aud?: string;
