@@ -1,15 +1,54 @@
-// Encrypted Secrets Management (Simplified for production use AWS KMS or similar)
+import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from 'crypto';
+
+// Encrypted Secrets Management (Production-ready AES-256-GCM encryption)
 class SecretsManager {
-  // In production, use AWS KMS, Azure Key Vault, or similar
-  // This is a placeholder for encrypted storage of sensitive runtime data
+  private static readonly ALGORITHM = 'aes-256-gcm';
+  private static readonly KEY_LENGTH = 32; // 256 bits
+  private static readonly IV_LENGTH = 16; // 128 bits
+  private static readonly TAG_LENGTH = 16; // 128 bits
+
+  // Derive key from environment variable using scrypt
+  private static getKey(): Buffer {
+    const secret = process.env.ENCRYPTION_KEY;
+    if (!secret) {
+      throw new Error('ENCRYPTION_KEY environment variable is required');
+    }
+    return scryptSync(secret, 'salt', this.KEY_LENGTH);
+  }
+
   static encrypt(text: string): string {
-    // Placeholder - implement with proper KMS in production
-    return Buffer.from(text).toString('base64');
+    const key = this.getKey();
+    const iv = randomBytes(this.IV_LENGTH);
+    const cipher = createCipheriv(this.ALGORITHM, key, iv);
+
+    let encrypted = cipher.update(text, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+
+    const authTag = cipher.getAuthTag();
+
+    // Return format: iv:authTag:encrypted
+    return iv.toString('hex') + ':' + authTag.toString('hex') + ':' + encrypted;
   }
 
   static decrypt(encryptedText: string): string {
-    // Placeholder - implement with proper KMS in production
-    return Buffer.from(encryptedText, 'base64').toString('utf8');
+    const key = this.getKey();
+    const parts = encryptedText.split(':');
+
+    if (parts.length !== 3) {
+      throw new Error('Invalid encrypted text format');
+    }
+
+    const iv = Buffer.from(parts[0], 'hex');
+    const authTag = Buffer.from(parts[1], 'hex');
+    const encrypted = parts[2];
+
+    const decipher = createDecipheriv(this.ALGORITHM, key, iv);
+    decipher.setAuthTag(authTag);
+
+    let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+
+    return decrypted;
   }
 }
 

@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Ubuntu Pools — Community Savings & Admin</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/dodopayments-checkout@latest/dist/index.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Ubuntu Pools — Financial Intelligence Arcade</title>
   <style>
     * {
       margin: 0;
@@ -14,662 +11,602 @@
       box-sizing: border-box;
     }
 
-    :root {
-      --ubuntu-green: #1D9E75;
-      --ubuntu-dark: #085041;
-      --ubuntu-light: #E1F5EE;
-      --ubuntu-gold: #EF9F27;
-      --ubuntu-gold-light: #FAEEDA;
-      --dodo-blue: #0066FF;
-      --dodo-blue-light: #EEF3FF;
-      --bg-primary: #ffffff;
-      --bg-secondary: #f5f5f3;
-      --bg-tertiary: #eeede9;
-      --text-primary: #1a1a18;
-      --text-secondary: #5f5e5a;
-      --text-tertiary: #888780;
-      --border-tertiary: rgba(0, 0, 0, 0.12);
-      --border-secondary: rgba(0, 0, 0, 0.22);
-      --radius-md: 8px;
-      --radius-lg: 12px;
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg-primary: #1e1e1c;
-        --bg-secondary: #2a2a28;
-        --bg-tertiary: #333331;
-        --text-primary: #f0efe9;
-        --text-secondary: #b4b2a9;
-        --text-tertiary: #888780;
-        --border-tertiary: rgba(255, 255, 255, 0.12);
-        --border-secondary: rgba(255, 255, 255, 0.22);
-        --dodo-blue-light: #0a1a33;
-      }
-    }
-
     body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg-tertiary);
-      color: var(--text-primary);
-      min-height: 100vh;
+      background: #0A0F1E;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      color: #EFF3F6;
+      line-height: 1.5;
     }
 
-    /* main public view */
-    .page {
-      max-width: 640px;
+    /* Typography */
+    h1, h2, h3 {
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, #F5B041 0%, #E67E22 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1280px;
       margin: 0 auto;
-      padding: 2rem 1.25rem 4rem;
+      padding: 0 24px;
     }
 
-    .brand {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-tertiary);
-      margin-bottom: 1rem;
-    }
-
-    .hero-tag {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      background: var(--ubuntu-light);
-      color: var(--ubuntu-dark);
-      padding: 4px 12px;
-      border-radius: 20px;
-      margin-bottom: 1.25rem;
-    }
-
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.4rem;
-      line-height: 1.2;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-    }
-
-    h1 span {
-      color: var(--ubuntu-green);
-    }
-
-    .tagline {
-      font-size: 15px;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      margin-bottom: 2rem;
-      border-left: 3px solid var(--ubuntu-green);
-      padding-left: 1rem;
-      font-style: italic;
-    }
-
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 2rem;
-    }
-
-    .stat {
-      background: var(--bg-primary);
-      border-radius: var(--radius-md);
-      padding: 0.85rem 1rem;
+    /* Hero Section */
+    .hero {
+      padding: 48px 0 64px;
       text-align: center;
-      border: 0.5px solid var(--border-tertiary);
-      box-shadow: var(--shadow-sm);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
-
-    .stat-num {
-      font-size: 1.5rem;
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .hero .tagline {
+      font-size: 1.3rem;
+      color: #F5B041;
+      margin-bottom: 1.5rem;
+    }
+    .hero .challenge {
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin: 1.5rem 0;
+    }
+    .cta-group {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 32px 0 16px;
+    }
+    .btn-primary {
+      background: #F5B041;
+      color: #0A0F1E;
+      padding: 14px 32px;
+      border-radius: 60px;
       font-weight: 600;
-      color: var(--ubuntu-green);
+      font-size: 1.1rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-block;
     }
-
-    .stat-label {
-      font-size: 11px;
-      color: var(--text-tertiary);
-      margin-top: 2px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+    .btn-primary:hover {
+      background: #E67E22;
+      transform: scale(1.02);
     }
-
-    .pool-tabs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 1.25rem;
-    }
-
-    .pool-tab {
-      background: var(--bg-primary);
-      border: 0.5px solid var(--border-tertiary);
-      border-radius: var(--radius-lg);
-      padding: 1rem 1.25rem;
+    .btn-secondary {
+      background: transparent;
+      border: 1.5px solid rgba(245,176,65,0.6);
+      color: #F5B041;
+      padding: 14px 32px;
+      border-radius: 60px;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
-      text-align: left;
+      text-decoration: none;
+    }
+    .btn-secondary:hover {
+      background: rgba(245,176,65,0.1);
     }
 
-    .pool-tab:hover {
-      border-color: var(--ubuntu-green);
+    /* Game Grid */
+    .games-section {
+      padding: 64px 0;
     }
-
-    .pool-tab.active {
-      border: 2px solid var(--ubuntu-green);
-      box-shadow: 0 0 0 3px rgba(29, 158, 117, 0.08);
-    }
-
-    .pool-tab-label {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--text-tertiary);
-      margin-bottom: 4px;
-    }
-
-    .pool-tab-title {
-      font-size: 15px;
-      font-weight: 500;
-    }
-
-    .card {
-      background: var(--bg-primary);
-      border: 0.5px solid var(--border-tertiary);
-      border-radius: var(--radius-lg);
-      padding: 1.5rem;
-      margin-bottom: 1.25rem;
-      box-shadow: var(--shadow-sm);
-    }
-
     .section-title {
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      margin-bottom: 0.75rem;
+      font-size: 2rem;
+      margin-bottom: 1rem;
     }
-
-    .stake-grid {
+    .grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+      margin-top: 32px;
     }
-
-    .stake-btn {
-      padding: 10px 8px;
-      border-radius: var(--radius-md);
-      border: 0.5px solid var(--border-secondary);
-      background: var(--bg-secondary);
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.15s;
+    /* Featured card (double width on desktop) */
+    .featured-card {
+      grid-column: span 2;
+      background: linear-gradient(135deg, #1E2A3A 0%, #0F1725 100%);
+      border-radius: 28px;
+      padding: 28px;
+      border: 1px solid rgba(245,176,65,0.3);
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
     }
-
-    .stake-btn:hover,
-    .stake-btn.selected {
-      border: 2px solid var(--ubuntu-green);
-      background: var(--ubuntu-light);
-      color: var(--ubuntu-dark);
+    .game-card {
+      background: #111827;
+      border-radius: 24px;
+      padding: 24px;
+      transition: transform 0.2s, border 0.2s;
+      border: 1px solid #1F2A3E;
     }
-
-    .dodo-box {
-      background: var(--dodo-blue-light);
-      border-radius: var(--radius-md);
-      padding: 0.85rem 1rem;
-      display: flex;
-      gap: 10px;
-      margin-bottom: 1rem;
+    .game-card:hover, .featured-card:hover {
+      transform: translateY(-4px);
+      border-color: #F5B04180;
     }
-
-    .btn-primary {
-      width: 100%;
-      padding: 13px;
-      border-radius: var(--radius-md);
-      background: var(--ubuntu-green);
-      border: none;
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-      transition: background 0.2s;
-    }
-
-    .btn-primary:hover {
-      background: var(--ubuntu-dark);
-    }
-
-    .btn-dodo {
-      width: 100%;
-      padding: 13px;
-      background: var(--dodo-blue);
-      border: none;
-      color: white;
-      font-weight: 600;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      margin-top: 8px;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      padding: 11px 14px;
-      border-radius: var(--radius-md);
-      border: 0.5px solid var(--border-secondary);
-      background: var(--bg-secondary);
-      font-size: 14px;
-      color: var(--text-primary);
-      font-family: inherit;
+    .game-icon {
+      font-size: 2.5rem;
       margin-bottom: 12px;
     }
+    .game-title {
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+    }
+    .game-desc {
+      color: #B9C7D9;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+    }
+    .reveal-badge {
+      background: rgba(245,176,65,0.15);
+      border-left: 3px solid #F5B041;
+      padding: 12px 12px;
+      border-radius: 12px;
+      margin: 16px 0;
+      font-size: 0.85rem;
+    }
+    .reveal-badge span {
+      font-weight: 700;
+      color: #F5B041;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .play-btn {
+      background: #2D3A4E;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 40px;
+      width: 100%;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 12px;
+    }
+    .play-btn:hover {
+      background: #F5B041;
+      color: #0A0F1E;
+    }
 
-    .consent-row {
+    /* insight promise */
+    .insight-section {
+      background: #0B1120;
+      border-radius: 40px;
+      padding: 48px 32px;
+      margin: 48px 0;
+      text-align: center;
+    }
+    .insight-grid {
       display: flex;
-      align-items: flex-start;
-      gap: 10px;
+      flex-wrap: wrap;
+      gap: 32px;
+      justify-content: center;
+      margin-top: 32px;
+    }
+    .insight-item {
+      flex: 1;
+      min-width: 160px;
+    }
+
+    /* Floating WA */
+    .floating-wa {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #25D366;
+      color: #0A0F1E;
+      padding: 14px 20px;
+      border-radius: 60px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: bold;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      cursor: pointer;
+      z-index: 1000;
+      transition: transform 0.2s;
+      border: none;
+      font-size: 1rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+    .floating-wa.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .floating-wa:hover {
+      transform: scale(1.05);
+    }
+
+    /* Popup Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      transition: opacity 0.3s ease;
+      opacity: 1;
+    }
+    .modal-overlay.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .modal-card {
+      background: #111B28;
+      max-width: 500px;
+      width: 90%;
+      border-radius: 36px;
+      padding: 32px 28px;
+      position: relative;
+      border: 1px solid #F5B041;
+      box-shadow: 0 25px 40px rgba(0,0,0,0.6);
+      text-align: center;
+    }
+    .close-modal {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      font-size: 28px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #B9C7D9;
+      transition: color 0.2s;
+    }
+    .close-modal:hover {
+      color: #F5B041;
+    }
+    .spots-left {
+      background: #E67E2210;
+      border-radius: 60px;
+      padding: 6px 16px;
+      display: inline-block;
+      font-weight: bold;
+      color: #F5B041;
       margin: 12px 0;
     }
-
-    .consent-row input {
-      width: auto;
-      margin-top: 3px;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%) translateY(80px);
-      background: var(--ubuntu-dark);
-      color: white;
-      padding: 8px 18px;
-      border-radius: 40px;
-      font-size: 13px;
-      transition: transform 0.2s;
-      z-index: 1000;
-    }
-
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-    }
-
-    /* ADMIN PANEL (protected by basic auth simulation - simple password) */
-    .admin-panel {
-      max-width: 1400px;
-      margin: 2rem auto;
-      padding: 1.5rem;
-      background: var(--bg-primary);
-      border-radius: var(--radius-lg);
-      display: none;
-    }
-
-    .admin-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .stat-card {
-      background: var(--bg-secondary);
-      padding: 1rem;
-      border-radius: var(--radius-md);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th,
-    td {
+    .perk-list {
       text-align: left;
-      padding: 0.75rem;
-      border-bottom: 1px solid var(--border-tertiary);
+      margin: 24px 0;
+      list-style: none;
+    }
+    .perk-list li {
+      margin: 14px 0;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .wa-cta-btn {
+      background: #25D366;
+      color: #0A0F1E;
+      padding: 14px 0;
+      width: 100%;
+      border: none;
+      border-radius: 60px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin-top: 16px;
+      transition: 0.2s;
+    }
+    .secondary-dismiss {
+      background: transparent;
+      border: none;
+      color: #8A99B0;
+      margin-top: 20px;
+      cursor: pointer;
+      text-decoration: underline;
     }
 
-    .status-paid {
-      color: var(--ubuntu-green);
-      font-weight: 500;
+    /* Phone input */
+    .phone-input {
+      margin: 16px 0;
+      text-align: left;
     }
-
-    button.small {
-      padding: 4px 12px;
-      font-size: 12px;
-      margin: 2px;
+    .phone-input label {
+      display: block;
+      margin-bottom: 8px;
+      color: #EFF3F6;
     }
-
-    .friction-item {
-      background: var(--ubuntu-gold-light);
-      border-left: 4px solid var(--ubuntu-gold);
-      padding: 0.75rem;
-      margin-bottom: 0.75rem;
+    .phone-input input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #F5B041;
       border-radius: 8px;
+      background: #0A0F1E;
+      color: #EFF3F6;
+      font-size: 1rem;
     }
 
-    @media (max-width: 700px) {
-      table,
-      thead,
-      tbody,
-      th,
-      td,
-      tr {
-        display: block;
-      }
-      td {
-        position: relative;
-        padding-left: 50%;
-      }
+    @media (max-width: 780px) {
+      .hero h1 { font-size: 2.5rem; }
+      .featured-card { grid-column: span 1; }
+      .grid { grid-template-columns: 1fr; }
+      .container { padding: 0 20px; }
+    }
+    footer {
+      text-align: center;
+      padding: 48px 0 32px;
+      border-top: 1px solid #1F2A3E;
+      font-size: 0.85rem;
+      color: #6C7A8E;
     }
   </style>
 </head>
 <body>
 
-<!-- PUBLIC FRONTEND -->
-<div id="publicApp" class="page">
-  <div class="brand">Vaguely Vanity LLC</div>
-  <span class="hero-tag">Gqeberha · Eastern Cape · Pilot Pool Open</span>
-  <h1>"<span>Umuntu ngumuntu</span> ngabantu"</h1>
-  <p class="tagline">Community savings built on Ubuntu philosophy. Stake from R500. Earn together. Governed by the group, not a bank.</p>
-
-  <div class="stats-row">
-    <div class="stat"><div class="stat-num" id="counter">53</div><div class="stat-label">Waiting</div></div>
-    <div class="stat"><div class="stat-num">R500</div><div class="stat-label">Min. stake</div></div>
-    <div class="stat"><div class="stat-num" id="pilot-spots">10</div><div class="stat-label">Pilot spots</div></div>
+<!-- POPUP ENTRANCE GATE -->
+<div id="pilotModal" class="modal-overlay">
+  <div class="modal-card">
+    <button class="close-modal" id="closeModalBtn">×</button>
+    <div style="font-size: 3rem;">🌍</div>
+    <h2 style="margin: 16px 0 8px;">Confirm your pilot spot</h2>
+    <div class="spots-left">🔥 Only 31 spots remaining</div>
+    <p style="margin-bottom: 16px;">Be part of the Ubuntu Pools private pilot — before public launch.</p>
+    <div class="phone-input">
+      <label for="phone">Enter your WhatsApp number:</label>
+      <input type="tel" id="phone" placeholder="e.g., 27791234567" required>
+    </div>
+    <ul class="perk-list">
+      <li>✅ <span>First access to personalized community insights</span></li>
+      <li>✅ <span>Direct chat with the design team (WhatsApp group)</span></li>
+      <li>✅ <span>Your village gets featured as "founding community"</span></li>
+      <li>✅ <span>Lifetime free access to advanced game analytics</span></li>
+    </ul>
+    <button id="confirmBtn" class="wa-cta-btn">📱 Confirm via Message →</button>
+    <button id="exploreGamesBtn" class="secondary-dismiss">No thanks, I'll just explore the games</button>
   </div>
+</div>
 
-  <div id="form-section">
-    <div class="pool-tabs">
-      <div class="pool-tab" id="tab-waitlist" onclick="selectTab('waitlist')"><div class="pool-tab-label">Option 1</div><div class="pool-tab-title">Join waitlist</div><span class="pool-tab-badge">Free</span></div>
-      <div class="pool-tab active" id="tab-pilot" onclick="selectTab('pilot')"><div class="pool-tab-label">Option 2</div><div class="pool-tab-title">Pilot Pool</div><span class="pool-tab-badge">Live · 10 spots</span></div>
-    </div>
+<!-- FLOATING WHATSAPP BUTTON -->
+<div id="floatingWA" class="floating-wa">
+  <span>💬</span> Join pilot
+</div>
 
-    <!-- waitlist form -->
-    <div class="card" id="form-waitlist" style="display:none">
-      <input type="text" id="wl-name" placeholder="Full name">
-      <input type="tel" id="wl-phone" placeholder="WhatsApp number">
-      <input type="text" id="wl-ref" placeholder="Referral code (optional)">
-      <div class="consent-row"><input type="checkbox" id="wl-popia"> <label>I consent to POPIA processing.</label></div>
-      <button class="btn-primary" onclick="handleWaitlist()">Join waitlist</button>
-    </div>
-
-    <!-- pilot pool form -->
-    <div class="card" id="form-pilot">
-      <input type="text" id="pp-name" placeholder="Full name">
-      <input type="tel" id="pp-phone" placeholder="WhatsApp number">
-      <div class="stake-grid" id="stake-buttons">
-        <div class="stake-btn selected" data-stake="500">R500</div>
-        <div class="stake-btn" data-stake="1000">R1,000</div>
-        <div class="stake-btn" data-stake="2000">R2,000</div>
+<main>
+  <div class="container">
+    <!-- Hero Section -->
+    <div class="hero">
+      <h1><span class="text-gradient">Ubuntu Pools</span></h1>
+      <div class="tagline">Financial Intelligence Arcade</div>
+      <div class="challenge">🤔 Can you keep a community pool alive for 12 months?</div>
+      <div class="cta-group">
+        <button class="btn-primary" id="heroPlayBtn">🎮 Test Your Pool Management Skills</button>
+        <button class="btn-secondary" id="heroPlayNoSignupBtn">Play Now – No Signup Required</button>
       </div>
-      <div class="dodo-box">🔒 Payments by Dodo Payments – secure overlay checkout</div>
-      <input type="text" id="pp-ref" placeholder="Referral code">
-      <div class="consent-row"><input type="checkbox" id="pp-popia"> <label>I consent and understand my monthly stake will be collected.</label></div>
-      <button class="btn-dodo" id="payNowBtn">Pay securely with Dodo</button>
-      <button class="btn-primary" style="background:#aaa; margin-top:8px;" onclick="selectTab('waitlist')">Join waitlist instead</button>
+      <p style="opacity:0.7; margin-top: 24px;">Not a game. Not finance. A mirror.</p>
     </div>
 
-    <div class="card" style="cursor:pointer" onclick="openWhatsAppGroup()">
-      <strong>📱 Join WhatsApp community →</strong> Get updates, meet pool members
+    <!-- GAME GRID (dominant) -->
+    <div class="games-section">
+      <h2 class="section-title">⚡ Choose your simulation</h2>
+      <div class="grid">
+        <!-- Featured card: Pool Simulator (double-wide) -->
+        <div class="featured-card">
+          <div class="game-icon">💰</div>
+          <div class="game-title">Pool Simulator</div>
+          <div class="game-desc">Manage a ROSCA through 12 months of real challenges – defaults, windfalls, and community pressure.</div>
+          <div class="reveal-badge"><span>🔍 What it reveals:</span> Crisis response patterns • Leadership emergence • Trust maintenance strategies</div>
+          <button class="play-btn play-game" data-game="Pool Simulator">▶ Play Pool Simulator</button>
+        </div>
+
+        <!-- Ubuntu Monopoly -->
+        <div class="game-card">
+          <div class="game-icon">🏠</div>
+          <div class="game-title">Ubuntu Monopoly</div>
+          <div class="game-desc">Collectivised property game where rent income funds village infrastructure.</div>
+          <div class="reveal-badge"><span>What it reveals:</span> Sharing instinct • Collective risk appetite • Response to unequal outcomes</div>
+          <button class="play-btn play-game" data-game="Ubuntu Monopoly">Play Ubuntu Monopoly</button>
+        </div>
+
+        <!-- Credit Ladder -->
+        <div class="game-card">
+          <div class="game-icon">📈</div>
+          <div class="game-title">Credit Ladder</div>
+          <div class="game-desc">Climb from debt to credit through financial decisions.</div>
+          <div class="reveal-badge"><span>What it reveals:</span> Debt philosophy • Long-term thinking • Risk vs reward</div>
+          <button class="play-btn play-game" data-game="Credit Ladder">Play Credit Ladder</button>
+        </div>
+
+        <!-- The Commons -->
+        <div class="game-card">
+          <div class="game-icon">🌱</div>
+          <div class="game-title">The Commons</div>
+          <div class="game-desc">Manage shared resources without destroying them.</div>
+          <div class="reveal-badge"><span>What it reveals:</span> Cooperative vs competitive • Fairness weighting • Response to defection</div>
+          <button class="play-btn play-game" data-game="The Commons">Play The Commons</button>
+        </div>
+
+        <!-- Market Maker -->
+        <div class="game-card">
+          <div class="game-icon">🏪</div>
+          <div class="game-title">Market Maker</div>
+          <div class="game-desc">Aggregate community demand and negotiate bulk deals.</div>
+          <div class="reveal-badge"><span>What it reveals:</span> Collective bargaining • Negotiation patterns • Trust in commitments</div>
+          <button class="play-btn play-game" data-game="Market Maker">Play Market Maker</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Insight Promise -->
+    <div class="insight-section">
+      <h3>🧠 Before you play</h3>
+      <p style="max-width: 600px; margin: 16px auto;">These games don't judge. They reveal.<br>Through play, not paperwork.</p>
+      <div class="insight-grid">
+        <div class="insight-item">🎯 Decision Patterns<br><small>under pressure</small></div>
+        <div class="insight-item">🤝 Cooperation Score<br><small>collective strength</small></div>
+        <div class="insight-item">💪 Leadership Potential<br><small>natural roles</small></div>
+        <div class="insight-item">🛡️ Resilience Rating<br><small>handle uncertainty</small></div>
+      </div>
+    </div>
+
+    <!-- Social Proof -->
+    <div style="margin: 40px 0; background: #0F172A; border-radius: 32px; padding: 32px;">
+      <h3>💬 Community stories</h3>
+      <div style="display: flex; flex-direction: column; gap: 24px; margin-top: 24px;">
+        <div>"Sawubona! The Pool Simulator showed me exactly why our stokvel has survived 7 years." <br>— Nomsa, Soweto Stokvel Chair</div>
+        <div>"The Commons game taught us about free riders. We've changed how we handle contributions." <br>— Community Coordinator, Cape Town</div>
+      </div>
+      <button class="btn-secondary" style="margin-top: 24px;">🏆 Become a Village Champion →</button>
+    </div>
+
+    <!-- Trust & Data Sovereignty -->
+    <div style="display: flex; flex-wrap: wrap; gap: 32px; justify-content: space-between; border-top: 1px solid #1F2A3E; padding-top: 40px;">
+      <div><strong>🔒 Data sovereignty</strong><br>Your game data belongs to you. No personal data required.</div>
+      <div><strong>🇿🇦 POPIA Compliant</strong><br>South African data protection laws. Privacy never compromised.</div>
     </div>
   </div>
-
-  <div id="success-waitlist" class="hidden card"><div id="wl-success-content"></div></div>
-  <div id="success-payment" class="hidden card"><div id="payment-success-content"></div></div>
-  <div class="footer" style="font-size:11px; text-align:center; margin-top:2rem;">Pro Installations Pty Ltd — Vaguely Vanity LLC — POPIA compliant</div>
-</div>
-
-<!-- ADMIN DASHBOARD (password: ubuntu2025) -->
-<div id="adminPanel" class="admin-panel">
-  <div class="admin-header"><h2>🛠️ Ubuntu Pools Admin</h2><button onclick="logoutAdmin()" style="background:#ccc;padding:6px 12px;">Logout</button></div>
-  <div id="adminStats" class="stats-grid"></div>
-  <div class="card"><h3>📋 Pilot Members</h3><div id="membersTable"></div></div>
-  <div class="card"><h3>💰 Payout Queue</h3><div id="payoutQueue"></div></div>
-  <div class="card"><h3>📝 Friction Log (Product Roadmap)</h3><div id="frictionLogList"></div><button class="btn-primary" onclick="showFrictionModal()">+ Log friction point</button></div>
-</div>
-
-<div id="frictionModal" style="display:none; position:fixed; top:0;left:0;right:0;bottom:0; background:rgba(0,0,0,0.6); justify-content:center;align-items:center;z-index:2000;"><div style="background:var(--bg-primary); padding:1.5rem; border-radius:16px; max-width:400px; margin:auto; margin-top:20vh;"><h3>Log friction</h3><input type="text" id="frictionMember" placeholder="Member name"><textarea id="frictionDesc" rows="2" placeholder="Exact words / hesitation"></textarea><select id="frictionStage"><option>Signup</option><option>Payment</option><option>WhatsApp</option><option>Payout</option></select><select id="frictionPriority"><option>High</option><option>Medium</option><option>Low</option></select><button onclick="saveFriction()" class="btn-primary">Save</button><button onclick="closeFrictionModal()" style="margin-top:8px;">Cancel</button></div></div>
-
-<div id="toastMsg" class="toast"></div>
+  <footer>
+    <p>Ubuntu Pools — Financial Intelligence Arcade | Through play, not paperwork</p>
+  </footer>
+</main>
 
 <script>
-  // --------------------- CONFIG -------------------------
-  const WA_NUMBER = '27761234567';     // Replace with your actual WhatsApp business number (SA format)
-  const WA_GROUP_LINK = 'https://chat.whatsapp.com/KjLmNpQrStUvWxYz'; // Replace
-  const BASE_URL = window.location.origin;
-  // DODO LINKS (replace after Dodo product creation)
-  const DODO_LINKS = {
-    500: 'https://pay.dodopayments.com/buy/pdt_demo_500',
-    1000: 'https://pay.dodopayments.com/buy/pdt_demo_1000',
-    2000: 'https://pay.dodopayments.com/buy/pdt_demo_2000'
-  };
-  // Initialize Dodo Payments overlay checkout
-  DodoPaymentsCheckout.DodoPayments.Initialize({
-    mode: "test", // Change to 'live' for production
-    displayType: "overlay",
-    onEvent: (event) => {
-      console.log("Checkout event:", event);
-      switch (event.event_type) {
-        case "checkout.opened":
-          console.log("Checkout opened");
-          break;
-        case "checkout.closed":
-          console.log("Checkout closed");
-          // Check if payment was successful by checking URL or session
-          processPaymentReturn();
-          break;
-        case "checkout.error":
-          console.error("Checkout error:", event.data?.message);
-          showToast("Payment error: " + (event.data?.message || "Unknown error"));
-          break;
-        case "checkout.redirect":
-          console.log("Checkout redirecting");
-          break;
+  // ============================================================
+  // CONFIGURATION: REPLACE WITH YOUR ACTUAL INFOBIP API KEY AND SENDER
+  const INFOBIP_API_KEY = "your-infobip-api-key";  // <-- CHANGE THIS
+  const SENDER_NUMBER = "your-sender-number";      // <-- CHANGE THIS (e.g., "27791234567")
+  // ============================================================
+
+  // Helper: send WhatsApp message via Infobip API
+  async function sendWhatsAppMessage(to, message) {
+    const url = 'https://api.infobip.com/messages/v1/send';
+    const data = {
+      messages: [
+        {
+          from: SENDER_NUMBER,
+          to: to,
+          content: {
+            text: message
+          },
+          channel: 'WHATSAPP'
+        }
+      ]
+    };
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Authorization': `App ${INFOBIP_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        alert('Message sent successfully! You will receive a confirmation via WhatsApp.');
+      } else {
+        alert('Failed to send message. Please try again.');
       }
-    },
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert('An error occurred. Please try again.');
+    }
+  }
+
+  // Modal logic
+  const modal = document.getElementById('pilotModal');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  const exploreBtn = document.getElementById('exploreGamesBtn');
+  const confirmBtn = document.getElementById('confirmBtn');
+  const phoneInput = document.getElementById('phone');
+
+  function closeModalWithFade() {
+    modal.classList.add('fade-out');
+    setTimeout(() => {
+      modal.style.display = 'none';
+    }, 300);
+  }
+
+  closeModalBtn.addEventListener('click', closeModalWithFade);
+  exploreBtn.addEventListener('click', closeModalWithFade);
+
+  confirmBtn.addEventListener('click', async () => {
+    const phone = phoneInput.value.trim();
+    if (!phone) {
+      alert('Please enter your WhatsApp number.');
+      return;
+    }
+    const message = "Hi! I'm confirming my spot for the Ubuntu Pools pilot. 31 spots left – count me in! 🚀";
+    await sendWhatsAppMessage(phone, message);
+    closeModalWithFade();
   });
-  // ---------- IN-MEMORY STORAGE (persists within session, demo ready + localstorage backup) ----------
-  let members = JSON.parse(localStorage.getItem('ubuntu_members') || '[]');
-  let payouts = JSON.parse(localStorage.getItem('ubuntu_payouts') || '[]');
-  let frictionLogs = JSON.parse(localStorage.getItem('ubuntu_friction') || '[]');
-  let waitlistCount = parseInt(localStorage.getItem('ubuntu_waitlistCount') || '53');
-  let pilotSpots = parseInt(localStorage.getItem('ubuntu_pilotSpots') || '10');
 
-  function persistData() {
-    localStorage.setItem('ubuntu_members', JSON.stringify(members));
-    localStorage.setItem('ubuntu_payouts', JSON.stringify(payouts));
-    localStorage.setItem('ubuntu_friction', JSON.stringify(frictionLogs));
-    localStorage.setItem('ubuntu_waitlistCount', waitlistCount);
-    localStorage.setItem('ubuntu_pilotSpots', pilotSpots);
+  // Floating button: appears 2 seconds after modal dismissed
+  let waButton = document.getElementById('floatingWA');
+  let modalDismissed = false;
+
+  function showFloatingWA() {
+    if (!modalDismissed) return;
+    setTimeout(() => {
+      waButton.classList.add('show');
+    }, 2000);
   }
 
-  function showToast(msg) { const t = document.getElementById('toastMsg'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
-
-  let selectedStake = 500;
-  function initStakeSelect() { document.querySelectorAll('.stake-btn').forEach(btn => { btn.addEventListener('click', function() { document.querySelectorAll('.stake-btn').forEach(b=>b.classList.remove('selected')); this.classList.add('selected'); selectedStake = parseInt(this.dataset.stake); }); }); }
-
-  function selectTab(tab) {
-    document.getElementById('form-waitlist').style.display = tab === 'waitlist' ? 'block' : 'none';
-    document.getElementById('form-pilot').style.display = tab === 'pilot' ? 'block' : 'none';
-    document.getElementById('tab-waitlist').classList.toggle('active', tab === 'waitlist');
-    document.getElementById('tab-pilot').classList.toggle('active', tab === 'pilot');
-  }
-
-  function genReferralCode(name) { return (name.slice(0,3).toUpperCase() || 'UBU') + Math.floor(1000+Math.random()*9000); }
-
-  async function handleWaitlist() {
-    let name = document.getElementById('wl-name').value.trim();
-    let phone = document.getElementById('wl-phone').value.trim();
-    let popia = document.getElementById('wl-popia').checked;
-    if (!name || !phone || !popia) { showToast('Please fill name, phone and accept POPIA'); return; }
-    waitlistCount++; pilotSpots = Math.max(0, pilotSpots);
-    persistData();
-    let refCode = genReferralCode(name);
-    let shareLink = `${BASE_URL}?ref=${refCode}`;
-    document.getElementById('counter').innerText = waitlistCount;
-    document.getElementById('pilot-spots').innerText = pilotSpots;
-    document.getElementById('form-section').classList.add('hidden');
-    document.getElementById('success-waitlist').classList.remove('hidden');
-    document.getElementById('wl-success-content').innerHTML = `<div style="text-align:center"><div>✅ You're on the waitlist!</div><p>Referral link: <strong>${shareLink}</strong></p><button class="btn-primary" onclick="copyToClipboard('${shareLink}')">Copy link</button><button class="btn-dodo" style="margin-top:8px" onclick="window.open('https://wa.me/?text=${encodeURIComponent('Join Ubuntu Pools waitlist: '+shareLink)}','_blank')">Share on WhatsApp</button></div>`;
-    // log frictionless
-    await fetch('/api/log-webhook', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({event:'waitlist',name,phone})}).catch(e=>console.log);
-    showToast('Waitlist saved');
-  }
-
-  function handlePilotPayment() {
-    let name = document.getElementById('pp-name').value.trim();
-    let phone = document.getElementById('pp-phone').value.trim();
-    let popia = document.getElementById('pp-popia').checked;
-    if (!name || !phone || !popia) { showToast('Please fill in all details and accept consent'); return; }
-    let stake = selectedStake;
-    let dodoUrl = DODO_LINKS[stake];
-    if (!dodoUrl || dodoUrl.includes('demo')) { showToast('⚠️ Dodo product links not configured — replace DODO_LINKS with real buy links'); return; }
-    let successUrl = `${BASE_URL}?payment_success=true&name=${encodeURIComponent(name)}&stake=${stake}&phone=${encodeURIComponent(phone)}`;
-    let checkoutUrl = dodoUrl + (dodoUrl.includes('?') ? '&' : '?') + `redirect_url=${encodeURIComponent(successUrl)}&customer_name=${encodeURIComponent(name)}`;
-    sessionStorage.setItem('pendingStake', stake);
-    sessionStorage.setItem('pendingName', name);
-    sessionStorage.setItem('pendingPhone', phone);
-    // Use overlay checkout instead of redirect
-    DodoPaymentsCheckout.DodoPayments.Checkout.open({
-      checkoutUrl: checkoutUrl
-    });
-  }
-
-  // process return from Dodo
-  function processPaymentReturn() {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('payment_success') === 'true') {
-      let name = urlParams.get('name') || sessionStorage.getItem('pendingName') || 'Member';
-      let stake = parseInt(urlParams.get('stake') || sessionStorage.getItem('pendingStake') || '500');
-      let phone = urlParams.get('phone') || sessionStorage.getItem('pendingPhone') || 'unknown';
-      let existing = members.find(m => m.name === name && m.phone === phone);
-      if (!existing) {
-        let newMember = { id: Date.now().toString(), name, phone, stake, payment_status: 'paid', joined: new Date().toISOString(), paid_out: false, referral_code: genReferralCode(name) };
-        members.push(newMember);
-        payouts.push({ id: newMember.id, member_name: name, amount: stake, expected_date: null, status: 'pending' });
-        pilotSpots = Math.max(0, pilotSpots-1);
-        persistData();
-        document.getElementById('pilot-spots').innerText = pilotSpots;
-        // send admin whatsapp alert simulation (webhook in real)
-        showToast(`✅ Payment recorded for ${name}`);
+  // Observe when modal is hidden
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mut) => {
+      if (mut.type === 'attributes' && mut.attributeName === 'style' && modal.style.display === 'none') {
+        modalDismissed = true;
+        showFloatingWA();
+        observer.disconnect();
       }
-      document.getElementById('form-section').classList.add('hidden');
-      document.getElementById('success-payment').classList.remove('hidden');
-      let shareLink = `${BASE_URL}?ref=${genReferralCode(name)}`;
-      document.getElementById('payment-success-content').innerHTML = `<div style="text-align:center"><div>🎉 R${stake} stake confirmed!</div><p>${name}, you're in the pilot pool. Mihle will WhatsApp you.</p><p>Referral link: <strong>${shareLink}</strong></p><button class="btn-primary" onclick="copyToClipboard('${shareLink}')">Copy link</button></div>`;
-      window.history.replaceState({}, '', BASE_URL);
+    });
+  });
+  observer.observe(modal, { attributes: true });
+
+  // Floating WA click action - open modal again or something, but for now, perhaps alert
+  waButton.addEventListener('click', () => {
+    alert('Please provide your number to join.');
+    // Or reopen modal
+    modal.style.display = 'flex';
+    modal.classList.remove('fade-out');
+    modalDismissed = false;
+  });
+
+  // All Play Game buttons
+  const playButtons = document.querySelectorAll('.play-game');
+  playButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      ensureModalClosed();
+      const gameName = btn.getAttribute('data-game') || "game";
+      alert(`✨ "${gameName}" simulation would start here.\n\nFull game mechanics ready in Phase 15. Your decisions will generate personalized insights.`);
+    });
+  });
+
+  function ensureModalClosed() {
+    if (modal.style.display !== 'none') {
+      closeModalWithFade();
+      modalDismissed = true;
+      showFloatingWA();
     }
   }
 
-  function copyToClipboard(text) { navigator.clipboard.writeText(text); showToast('Copied!'); }
-  function openWhatsAppGroup() { window.open(WA_GROUP_LINK, '_blank'); }
-
-  // ---------------- ADMIN DASHBOARD (password protected) ----------------
-  function checkAdminAuth() {
-    let pwd = prompt("Admin access required. Enter password:");
-    if (pwd === "ubuntu2025") {
-      document.getElementById('publicApp').style.display = 'none';
-      document.getElementById('adminPanel').style.display = 'block';
-      renderAdminDashboard();
-    } else if (pwd !== null) { alert("Wrong password"); }
-  }
-  function logoutAdmin() { document.getElementById('adminPanel').style.display = 'none'; document.getElementById('publicApp').style.display = 'block'; }
-
-  function renderAdminDashboard() {
-    const totalStake = members.reduce((s,m)=>s+(m.stake||0),0);
-    const paidMembers = members.filter(m=>m.payment_status==='paid').length;
-    document.getElementById('adminStats').innerHTML = `
-      <div class="stat-card"><div class="stat-num">${members.length}</div><div>Total Members</div></div>
-      <div class="stat-card"><div class="stat-num">${paidMembers}</div><div>Paid</div></div>
-      <div class="stat-card"><div class="stat-num">R${totalStake.toLocaleString()}</div><div>Pool Volume</div></div>
-      <div class="stat-card"><div class="stat-num">${payouts.filter(p=>p.status==='pending').length}</div><div>Pending Payouts</div></div>
-    `;
-    document.getElementById('membersTable').innerHTML = `<table><tr><th>Name</th><th>WhatsApp</th><th>Stake</th><th>Status</th><th>Action</th></tr>${
-      members.map(m => `<tr><td>${m.name}</td><td>${m.phone}</td><td>R${m.stake}</td><td class="status-paid">${m.payment_status}</td><td><button class="small" onclick="markPayout('${m.id}')">Schedule payout</button></td></tr>`).join('')
-    }</table>`;
-    document.getElementById('payoutQueue').innerHTML = `<table><tr><th>Member</th><th>Amount</th><th>Status</th><th>Mark complete</th></tr>${
-      payouts.map(p => `<tr><td>${p.member_name}</td><td>R${p.amount}</td><td>${p.status}</td><td>${p.status==='pending'? `<button class="small" onclick="completePayout('${p.id}')">✓ Paid out</button>`:'Done'}</td></tr>`).join('')
-    }</table>`;
-    document.getElementById('frictionLogList').innerHTML = frictionLogs.map(f => `<div class="friction-item"><strong>${f.date} | ${f.stage} | ${f.priority}</strong><br/>${f.desc}<br/><em>Fix idea: ${f.potential_fix || 'Not yet'}</em></div>`).join('');
-  }
-
-  window.markPayout = function(id) {
-    let member = members.find(m=>m.id===id);
-    if(member && !member.paid_out) {
-      let existingPayout = payouts.find(p=>p.id===id);
-      if(existingPayout) existingPayout.status='pending';
-      else payouts.push({id, member_name:member.name, amount:member.stake, status:'pending'});
-      persistData();
-      renderAdminDashboard();
-      showToast('Payout scheduled');
-    }
-  };
-  window.completePayout = function(payoutId) {
-    let p = payouts.find(p=>p.id===payoutId);
-    if(p) { p.status='completed'; let member = members.find(m=>m.id===payoutId); if(member) member.paid_out=true; persistData(); renderAdminDashboard(); showToast('Payout completed');}
-  };
-  function showFrictionModal() { document.getElementById('frictionModal').style.display = 'flex'; }
-  function closeFrictionModal() { document.getElementById('frictionModal').style.display = 'none'; }
-  window.saveFriction = function() {
-    let desc = document.getElementById('frictionDesc').value;
-    let member = document.getElementById('frictionMember').value;
-    let stage = document.getElementById('frictionStage').value;
-    let priority = document.getElementById('frictionPriority').value;
-    if(!desc) { showToast('Describe friction'); return; }
-    frictionLogs.unshift({ date: new Date().toLocaleString(), member_name: member, stage, priority, desc, potential_fix: '' });
-    persistData();
-    closeFrictionModal();
-    if(document.getElementById('adminPanel').style.display==='block') renderAdminDashboard();
-    showToast('Friction logged → product roadmap');
-  };
-
-  // Fake webhook endpoint simulation for friction/ google sheets: just logs locally but works offline-ready
-  window.initAdminShortcut = () => { 
-    let urlParams = new URLSearchParams(window.location.search);
-    if(urlParams.get('admin') === 'ubuntu') checkAdminAuth();
-  };
-
-  // global event binding
-  document.getElementById('payNowBtn')?.addEventListener('click', handlePilotPayment);
-  initStakeSelect();
-  processPaymentReturn();
-  document.getElementById('counter').innerText = waitlistCount;
-  document.getElementById('pilot-spots').innerText = pilotSpots;
-  window.selectTab = selectTab;
-  window.handleWaitlist = handleWaitlist;
-  window.copyToClipboard = copyToClipboard;
-  window.openWhatsAppGroup = openWhatsAppGroup;
-  window.showFrictionModal = showFrictionModal;
-  window.closeFrictionModal = closeFrictionModal;
-  window.logoutAdmin = logoutAdmin;
-
-  // if admin param exists
-  if(window.location.search.includes('admin=ubuntu')) checkAdminAuth();
-  // Manual friction logging support from admin console
-  window.renderAdminDashboard = renderAdminDashboard;
-  persistData();
+  // Hero CTAs
+  document.getElementById('heroPlayBtn').addEventListener('click', () => {
+    ensureModalClosed();
+    alert("🎮 Launching game lobby: Pool Management Challenge. Coming in full phase.");
+  });
+  document.getElementById('heroPlayNoSignupBtn').addEventListener('click', () => {
+    ensureModalClosed();
+    alert("🕹️ Instant play mode — no signup required. Experience the arcade.");
+  });
 </script>
 </body>
 </html>
