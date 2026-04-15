@@ -1,612 +1,763 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Ubuntu Pools — Financial Intelligence Arcade</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Ubuntu Pools — Financial Intelligence Arcade</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-    body {
-      background: #0A0F1E;
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-      color: #EFF3F6;
-      line-height: 1.5;
-    }
+      body {
+        background: #0a0f1e;
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          "Helvetica Neue",
+          sans-serif;
+        color: #eff3f6;
+        line-height: 1.5;
+      }
 
-    /* Typography */
-    h1, h2, h3 {
-      font-weight: 600;
-      letter-spacing: -0.02em;
-    }
+      /* Typography */
+      h1,
+      h2,
+      h3 {
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
 
-    .text-gradient {
-      background: linear-gradient(135deg, #F5B041 0%, #E67E22 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
+      .text-gradient {
+        background: linear-gradient(135deg, #f5b041 0%, #e67e22 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
 
-    /* Container */
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
+      /* Container */
+      .container {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
 
-    /* Hero Section */
-    .hero {
-      padding: 48px 0 64px;
-      text-align: center;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-    .hero h1 {
-      font-size: 3.5rem;
-      margin-bottom: 0.5rem;
-    }
-    .hero .tagline {
-      font-size: 1.3rem;
-      color: #F5B041;
-      margin-bottom: 1.5rem;
-    }
-    .hero .challenge {
-      font-size: 1.8rem;
-      font-weight: 500;
-      margin: 1.5rem 0;
-    }
-    .cta-group {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin: 32px 0 16px;
-    }
-    .btn-primary {
-      background: #F5B041;
-      color: #0A0F1E;
-      padding: 14px 32px;
-      border-radius: 60px;
-      font-weight: 600;
-      font-size: 1.1rem;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-decoration: none;
-      display: inline-block;
-    }
-    .btn-primary:hover {
-      background: #E67E22;
-      transform: scale(1.02);
-    }
-    .btn-secondary {
-      background: transparent;
-      border: 1.5px solid rgba(245,176,65,0.6);
-      color: #F5B041;
-      padding: 14px 32px;
-      border-radius: 60px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-decoration: none;
-    }
-    .btn-secondary:hover {
-      background: rgba(245,176,65,0.1);
-    }
+      /* Hero Section */
+      .hero {
+        padding: 48px 0 64px;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .hero .tagline {
+        font-size: 1.3rem;
+        color: #f5b041;
+        margin-bottom: 1.5rem;
+      }
+      .hero .challenge {
+        font-size: 1.8rem;
+        font-weight: 500;
+        margin: 1.5rem 0;
+      }
+      .cta-group {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 32px 0 16px;
+      }
+      .btn-primary {
+        background: #f5b041;
+        color: #0a0f1e;
+        padding: 14px 32px;
+        border-radius: 60px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .btn-primary:hover {
+        background: #e67e22;
+        transform: scale(1.02);
+      }
+      .btn-secondary {
+        background: transparent;
+        border: 1.5px solid rgba(245, 176, 65, 0.6);
+        color: #f5b041;
+        padding: 14px 32px;
+        border-radius: 60px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+      }
+      .btn-secondary:hover {
+        background: rgba(245, 176, 65, 0.1);
+      }
 
-    /* Game Grid */
-    .games-section {
-      padding: 64px 0;
-    }
-    .section-title {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 28px;
-      margin-top: 32px;
-    }
-    /* Featured card (double width on desktop) */
-    .featured-card {
-      grid-column: span 2;
-      background: linear-gradient(135deg, #1E2A3A 0%, #0F1725 100%);
-      border-radius: 28px;
-      padding: 28px;
-      border: 1px solid rgba(245,176,65,0.3);
-      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
-    }
-    .game-card {
-      background: #111827;
-      border-radius: 24px;
-      padding: 24px;
-      transition: transform 0.2s, border 0.2s;
-      border: 1px solid #1F2A3E;
-    }
-    .game-card:hover, .featured-card:hover {
-      transform: translateY(-4px);
-      border-color: #F5B04180;
-    }
-    .game-icon {
-      font-size: 2.5rem;
-      margin-bottom: 12px;
-    }
-    .game-title {
-      font-size: 1.6rem;
-      margin-bottom: 12px;
-    }
-    .game-desc {
-      color: #B9C7D9;
-      margin-bottom: 16px;
-      font-size: 0.95rem;
-    }
-    .reveal-badge {
-      background: rgba(245,176,65,0.15);
-      border-left: 3px solid #F5B041;
-      padding: 12px 12px;
-      border-radius: 12px;
-      margin: 16px 0;
-      font-size: 0.85rem;
-    }
-    .reveal-badge span {
-      font-weight: 700;
-      color: #F5B041;
-      display: block;
-      margin-bottom: 6px;
-    }
-    .play-btn {
-      background: #2D3A4E;
-      color: white;
-      border: none;
-      padding: 12px 18px;
-      border-radius: 40px;
-      width: 100%;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-      margin-top: 12px;
-    }
-    .play-btn:hover {
-      background: #F5B041;
-      color: #0A0F1E;
-    }
+      /* Game Grid */
+      .games-section {
+        padding: 64px 0;
+      }
+      .section-title {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 28px;
+        margin-top: 32px;
+      }
+      /* Featured card (double width on desktop) */
+      .featured-card {
+        grid-column: span 2;
+        background: linear-gradient(135deg, #1e2a3a 0%, #0f1725 100%);
+        border-radius: 28px;
+        padding: 28px;
+        border: 1px solid rgba(245, 176, 65, 0.3);
+        box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.5);
+      }
+      .game-card {
+        background: #111827;
+        border-radius: 24px;
+        padding: 24px;
+        transition:
+          transform 0.2s,
+          border 0.2s;
+        border: 1px solid #1f2a3e;
+      }
+      .game-card:hover,
+      .featured-card:hover {
+        transform: translateY(-4px);
+        border-color: #f5b04180;
+      }
+      .game-icon {
+        font-size: 2.5rem;
+        margin-bottom: 12px;
+      }
+      .game-title {
+        font-size: 1.6rem;
+        margin-bottom: 12px;
+      }
+      .game-desc {
+        color: #b9c7d9;
+        margin-bottom: 16px;
+        font-size: 0.95rem;
+      }
+      .reveal-badge {
+        background: rgba(245, 176, 65, 0.15);
+        border-left: 3px solid #f5b041;
+        padding: 12px 12px;
+        border-radius: 12px;
+        margin: 16px 0;
+        font-size: 0.85rem;
+      }
+      .reveal-badge span {
+        font-weight: 700;
+        color: #f5b041;
+        display: block;
+        margin-bottom: 6px;
+      }
+      .play-btn {
+        background: #2d3a4e;
+        color: white;
+        border: none;
+        padding: 12px 18px;
+        border-radius: 40px;
+        width: 100%;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin-top: 12px;
+      }
+      .play-btn:hover {
+        background: #f5b041;
+        color: #0a0f1e;
+      }
 
-    /* insight promise */
-    .insight-section {
-      background: #0B1120;
-      border-radius: 40px;
-      padding: 48px 32px;
-      margin: 48px 0;
-      text-align: center;
-    }
-    .insight-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 32px;
-      justify-content: center;
-      margin-top: 32px;
-    }
-    .insight-item {
-      flex: 1;
-      min-width: 160px;
-    }
+      /* insight promise */
+      .insight-section {
+        background: #0b1120;
+        border-radius: 40px;
+        padding: 48px 32px;
+        margin: 48px 0;
+        text-align: center;
+      }
+      .insight-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 32px;
+        justify-content: center;
+        margin-top: 32px;
+      }
+      .insight-item {
+        flex: 1;
+        min-width: 160px;
+      }
 
-    /* Floating WA */
-    .floating-wa {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: #25D366;
-      color: #0A0F1E;
-      padding: 14px 20px;
-      border-radius: 60px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: bold;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-      cursor: pointer;
-      z-index: 1000;
-      transition: transform 0.2s;
-      border: none;
-      font-size: 1rem;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s, visibility 0.3s;
-    }
-    .floating-wa.show {
-      opacity: 1;
-      visibility: visible;
-    }
-    .floating-wa:hover {
-      transform: scale(1.05);
-    }
+      /* Floating WA */
+      .floating-wa {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background: #25d366;
+        color: #0a0f1e;
+        padding: 14px 20px;
+        border-radius: 60px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: bold;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        z-index: 1000;
+        transition: transform 0.2s;
+        border: none;
+        font-size: 1rem;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.3s,
+          visibility 0.3s;
+      }
+      .floating-wa.show {
+        opacity: 1;
+        visibility: visible;
+      }
+      .floating-wa:hover {
+        transform: scale(1.05);
+      }
 
-    /* Popup Modal */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(5px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-      transition: opacity 0.3s ease;
-      opacity: 1;
-    }
-    .modal-overlay.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
-    .modal-card {
-      background: #111B28;
-      max-width: 500px;
-      width: 90%;
-      border-radius: 36px;
-      padding: 32px 28px;
-      position: relative;
-      border: 1px solid #F5B041;
-      box-shadow: 0 25px 40px rgba(0,0,0,0.6);
-      text-align: center;
-    }
-    .close-modal {
-      position: absolute;
-      top: 18px;
-      right: 22px;
-      font-size: 28px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      color: #B9C7D9;
-      transition: color 0.2s;
-    }
-    .close-modal:hover {
-      color: #F5B041;
-    }
-    .spots-left {
-      background: #E67E2210;
-      border-radius: 60px;
-      padding: 6px 16px;
-      display: inline-block;
-      font-weight: bold;
-      color: #F5B041;
-      margin: 12px 0;
-    }
-    .perk-list {
-      text-align: left;
-      margin: 24px 0;
-      list-style: none;
-    }
-    .perk-list li {
-      margin: 14px 0;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
-    .wa-cta-btn {
-      background: #25D366;
-      color: #0A0F1E;
-      padding: 14px 0;
-      width: 100%;
-      border: none;
-      border-radius: 60px;
-      font-weight: bold;
-      font-size: 1.1rem;
-      cursor: pointer;
-      margin-top: 16px;
-      transition: 0.2s;
-    }
-    .secondary-dismiss {
-      background: transparent;
-      border: none;
-      color: #8A99B0;
-      margin-top: 20px;
-      cursor: pointer;
-      text-decoration: underline;
-    }
+      /* Popup Modal */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(5px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        transition: opacity 0.3s ease;
+        opacity: 1;
+      }
+      .modal-overlay.fade-out {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .modal-card {
+        background: #111b28;
+        max-width: 500px;
+        width: 90%;
+        border-radius: 36px;
+        padding: 32px 28px;
+        position: relative;
+        border: 1px solid #f5b041;
+        box-shadow: 0 25px 40px rgba(0, 0, 0, 0.6);
+        text-align: center;
+      }
+      .close-modal {
+        position: absolute;
+        top: 18px;
+        right: 22px;
+        font-size: 28px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        color: #b9c7d9;
+        transition: color 0.2s;
+      }
+      .close-modal:hover {
+        color: #f5b041;
+      }
+      .spots-left {
+        background: #e67e2210;
+        border-radius: 60px;
+        padding: 6px 16px;
+        display: inline-block;
+        font-weight: bold;
+        color: #f5b041;
+        margin: 12px 0;
+      }
+      .perk-list {
+        text-align: left;
+        margin: 24px 0;
+        list-style: none;
+      }
+      .perk-list li {
+        margin: 14px 0;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .wa-cta-btn {
+        background: #25d366;
+        color: #0a0f1e;
+        padding: 14px 0;
+        width: 100%;
+        border: none;
+        border-radius: 60px;
+        font-weight: bold;
+        font-size: 1.1rem;
+        cursor: pointer;
+        margin-top: 16px;
+        transition: 0.2s;
+      }
+      .secondary-dismiss {
+        background: transparent;
+        border: none;
+        color: #8a99b0;
+        margin-top: 20px;
+        cursor: pointer;
+        text-decoration: underline;
+      }
 
-    /* Phone input */
-    .phone-input {
-      margin: 16px 0;
-      text-align: left;
-    }
-    .phone-input label {
-      display: block;
-      margin-bottom: 8px;
-      color: #EFF3F6;
-    }
-    .phone-input input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #F5B041;
-      border-radius: 8px;
-      background: #0A0F1E;
-      color: #EFF3F6;
-      font-size: 1rem;
-    }
+      /* Phone input */
+      .phone-input {
+        margin: 16px 0;
+        text-align: left;
+      }
+      .phone-input label {
+        display: block;
+        margin-bottom: 8px;
+        color: #eff3f6;
+      }
+      .phone-input input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #f5b041;
+        border-radius: 8px;
+        background: #0a0f1e;
+        color: #eff3f6;
+        font-size: 1rem;
+      }
 
-    @media (max-width: 780px) {
-      .hero h1 { font-size: 2.5rem; }
-      .featured-card { grid-column: span 1; }
-      .grid { grid-template-columns: 1fr; }
-      .container { padding: 0 20px; }
-    }
-    footer {
-      text-align: center;
-      padding: 48px 0 32px;
-      border-top: 1px solid #1F2A3E;
-      font-size: 0.85rem;
-      color: #6C7A8E;
-    }
-  </style>
-</head>
-<body>
-
-<!-- POPUP ENTRANCE GATE -->
-<div id="pilotModal" class="modal-overlay">
-  <div class="modal-card">
-    <button class="close-modal" id="closeModalBtn">×</button>
-    <div style="font-size: 3rem;">🌍</div>
-    <h2 style="margin: 16px 0 8px;">Confirm your pilot spot</h2>
-    <div class="spots-left">🔥 Only 31 spots remaining</div>
-    <p style="margin-bottom: 16px;">Be part of the Ubuntu Pools private pilot — before public launch.</p>
-    <div class="phone-input">
-      <label for="phone">Enter your WhatsApp number:</label>
-      <input type="tel" id="phone" placeholder="e.g., 27791234567" required>
-    </div>
-    <ul class="perk-list">
-      <li>✅ <span>First access to personalized community insights</span></li>
-      <li>✅ <span>Direct chat with the design team (WhatsApp group)</span></li>
-      <li>✅ <span>Your village gets featured as "founding community"</span></li>
-      <li>✅ <span>Lifetime free access to advanced game analytics</span></li>
-    </ul>
-    <button id="confirmBtn" class="wa-cta-btn">📱 Confirm via Message →</button>
-    <button id="exploreGamesBtn" class="secondary-dismiss">No thanks, I'll just explore the games</button>
-  </div>
-</div>
-
-<!-- FLOATING WHATSAPP BUTTON -->
-<div id="floatingWA" class="floating-wa">
-  <span>💬</span> Join pilot
-</div>
-
-<main>
-  <div class="container">
-    <!-- Hero Section -->
-    <div class="hero">
-      <h1><span class="text-gradient">Ubuntu Pools</span></h1>
-      <div class="tagline">Financial Intelligence Arcade</div>
-      <div class="challenge">🤔 Can you keep a community pool alive for 12 months?</div>
-      <div class="cta-group">
-        <button class="btn-primary" id="heroPlayBtn">🎮 Test Your Pool Management Skills</button>
-        <button class="btn-secondary" id="heroPlayNoSignupBtn">Play Now – No Signup Required</button>
-      </div>
-      <p style="opacity:0.7; margin-top: 24px;">Not a game. Not finance. A mirror.</p>
-    </div>
-
-    <!-- GAME GRID (dominant) -->
-    <div class="games-section">
-      <h2 class="section-title">⚡ Choose your simulation</h2>
-      <div class="grid">
-        <!-- Featured card: Pool Simulator (double-wide) -->
-        <div class="featured-card">
-          <div class="game-icon">💰</div>
-          <div class="game-title">Pool Simulator</div>
-          <div class="game-desc">Manage a ROSCA through 12 months of real challenges – defaults, windfalls, and community pressure.</div>
-          <div class="reveal-badge"><span>🔍 What it reveals:</span> Crisis response patterns • Leadership emergence • Trust maintenance strategies</div>
-          <button class="play-btn play-game" data-game="Pool Simulator">▶ Play Pool Simulator</button>
-        </div>
-
-        <!-- Ubuntu Monopoly -->
-        <div class="game-card">
-          <div class="game-icon">🏠</div>
-          <div class="game-title">Ubuntu Monopoly</div>
-          <div class="game-desc">Collectivised property game where rent income funds village infrastructure.</div>
-          <div class="reveal-badge"><span>What it reveals:</span> Sharing instinct • Collective risk appetite • Response to unequal outcomes</div>
-          <button class="play-btn play-game" data-game="Ubuntu Monopoly">Play Ubuntu Monopoly</button>
-        </div>
-
-        <!-- Credit Ladder -->
-        <div class="game-card">
-          <div class="game-icon">📈</div>
-          <div class="game-title">Credit Ladder</div>
-          <div class="game-desc">Climb from debt to credit through financial decisions.</div>
-          <div class="reveal-badge"><span>What it reveals:</span> Debt philosophy • Long-term thinking • Risk vs reward</div>
-          <button class="play-btn play-game" data-game="Credit Ladder">Play Credit Ladder</button>
-        </div>
-
-        <!-- The Commons -->
-        <div class="game-card">
-          <div class="game-icon">🌱</div>
-          <div class="game-title">The Commons</div>
-          <div class="game-desc">Manage shared resources without destroying them.</div>
-          <div class="reveal-badge"><span>What it reveals:</span> Cooperative vs competitive • Fairness weighting • Response to defection</div>
-          <button class="play-btn play-game" data-game="The Commons">Play The Commons</button>
-        </div>
-
-        <!-- Market Maker -->
-        <div class="game-card">
-          <div class="game-icon">🏪</div>
-          <div class="game-title">Market Maker</div>
-          <div class="game-desc">Aggregate community demand and negotiate bulk deals.</div>
-          <div class="reveal-badge"><span>What it reveals:</span> Collective bargaining • Negotiation patterns • Trust in commitments</div>
-          <button class="play-btn play-game" data-game="Market Maker">Play Market Maker</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Insight Promise -->
-    <div class="insight-section">
-      <h3>🧠 Before you play</h3>
-      <p style="max-width: 600px; margin: 16px auto;">These games don't judge. They reveal.<br>Through play, not paperwork.</p>
-      <div class="insight-grid">
-        <div class="insight-item">🎯 Decision Patterns<br><small>under pressure</small></div>
-        <div class="insight-item">🤝 Cooperation Score<br><small>collective strength</small></div>
-        <div class="insight-item">💪 Leadership Potential<br><small>natural roles</small></div>
-        <div class="insight-item">🛡️ Resilience Rating<br><small>handle uncertainty</small></div>
-      </div>
-    </div>
-
-    <!-- Social Proof -->
-    <div style="margin: 40px 0; background: #0F172A; border-radius: 32px; padding: 32px;">
-      <h3>💬 Community stories</h3>
-      <div style="display: flex; flex-direction: column; gap: 24px; margin-top: 24px;">
-        <div>"Sawubona! The Pool Simulator showed me exactly why our stokvel has survived 7 years." <br>— Nomsa, Soweto Stokvel Chair</div>
-        <div>"The Commons game taught us about free riders. We've changed how we handle contributions." <br>— Community Coordinator, Cape Town</div>
-      </div>
-      <button class="btn-secondary" style="margin-top: 24px;">🏆 Become a Village Champion →</button>
-    </div>
-
-    <!-- Trust & Data Sovereignty -->
-    <div style="display: flex; flex-wrap: wrap; gap: 32px; justify-content: space-between; border-top: 1px solid #1F2A3E; padding-top: 40px;">
-      <div><strong>🔒 Data sovereignty</strong><br>Your game data belongs to you. No personal data required.</div>
-      <div><strong>🇿🇦 POPIA Compliant</strong><br>South African data protection laws. Privacy never compromised.</div>
-    </div>
-  </div>
-  <footer>
-    <p>Ubuntu Pools — Financial Intelligence Arcade | Through play, not paperwork</p>
-  </footer>
-</main>
-
-<script>
-  // ============================================================
-  // CONFIGURATION: REPLACE WITH YOUR ACTUAL INFOBIP API KEY AND SENDER
-  const INFOBIP_API_KEY = "your-infobip-api-key";  // <-- CHANGE THIS
-  const SENDER_NUMBER = "your-sender-number";      // <-- CHANGE THIS (e.g., "27791234567")
-  // ============================================================
-
-  // Helper: send WhatsApp message via Infobip API
-  async function sendWhatsAppMessage(to, message) {
-    const url = 'https://api.infobip.com/messages/v1/send';
-    const data = {
-      messages: [
-        {
-          from: SENDER_NUMBER,
-          to: to,
-          content: {
-            text: message
-          },
-          channel: 'WHATSAPP'
+      @media (max-width: 780px) {
+        .hero h1 {
+          font-size: 2.5rem;
         }
-      ]
-    };
+        .featured-card {
+          grid-column: span 1;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .container {
+          padding: 0 20px;
+        }
+      }
+      footer {
+        text-align: center;
+        padding: 48px 0 32px;
+        border-top: 1px solid #1f2a3e;
+        font-size: 0.85rem;
+        color: #6c7a8e;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- POPUP ENTRANCE GATE -->
+    <div id="pilotModal" class="modal-overlay">
+      <div class="modal-card">
+        <button class="close-modal" id="closeModalBtn">×</button>
+        <div style="font-size: 3rem">🌍</div>
+        <h2 style="margin: 16px 0 8px">Confirm your pilot spot</h2>
+        <div class="spots-left">🔥 Only 31 spots remaining</div>
+        <p style="margin-bottom: 16px">
+          Be part of the Ubuntu Pools private pilot — before public launch.
+        </p>
+        <div class="phone-input">
+          <label for="phone">Enter your WhatsApp number:</label>
+          <input
+            type="tel"
+            id="phone"
+            placeholder="e.g., 27791234567"
+            required
+          />
+        </div>
+        <ul class="perk-list">
+          <li>
+            ✅ <span>First access to personalized community insights</span>
+          </li>
+          <li>
+            ✅ <span>Direct chat with the design team (WhatsApp group)</span>
+          </li>
+          <li>
+            ✅ <span>Your village gets featured as "founding community"</span>
+          </li>
+          <li>
+            ✅ <span>Lifetime free access to advanced game analytics</span>
+          </li>
+        </ul>
+        <button id="confirmBtn" class="wa-cta-btn">
+          📱 Confirm via Message →
+        </button>
+        <button id="exploreGamesBtn" class="secondary-dismiss">
+          No thanks, I'll just explore the games
+        </button>
+      </div>
+    </div>
 
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Authorization': `App ${INFOBIP_API_KEY}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+    <!-- FLOATING WHATSAPP BUTTON -->
+    <div id="floatingWA" class="floating-wa"><span>💬</span> Join pilot</div>
+
+    <main>
+      <div class="container">
+        <!-- Hero Section -->
+        <div class="hero">
+          <h1><span class="text-gradient">Ubuntu Pools</span></h1>
+          <div class="tagline">Financial Intelligence Arcade</div>
+          <div class="challenge">
+            🤔 Can you keep a community pool alive for 12 months?
+          </div>
+          <div class="cta-group">
+            <button class="btn-primary" id="heroPlayBtn">
+              🎮 Test Your Pool Management Skills
+            </button>
+            <button class="btn-secondary" id="heroPlayNoSignupBtn">
+              Play Now – No Signup Required
+            </button>
+          </div>
+          <p style="opacity: 0.7; margin-top: 24px">
+            Not a game. Not finance. A mirror.
+          </p>
+        </div>
+
+        <!-- GAME GRID (dominant) -->
+        <div class="games-section">
+          <h2 class="section-title">⚡ Choose your simulation</h2>
+          <div class="grid">
+            <!-- Featured card: Pool Simulator (double-wide) -->
+            <div class="featured-card">
+              <div class="game-icon">💰</div>
+              <div class="game-title">Pool Simulator</div>
+              <div class="game-desc">
+                Manage a ROSCA through 12 months of real challenges – defaults,
+                windfalls, and community pressure.
+              </div>
+              <div class="reveal-badge">
+                <span>🔍 What it reveals:</span> Crisis response patterns •
+                Leadership emergence • Trust maintenance strategies
+              </div>
+              <button class="play-btn play-game" data-game="Pool Simulator">
+                ▶ Play Pool Simulator
+              </button>
+            </div>
+
+            <!-- Ubuntu Monopoly -->
+            <div class="game-card">
+              <div class="game-icon">🏠</div>
+              <div class="game-title">Ubuntu Monopoly</div>
+              <div class="game-desc">
+                Collectivised property game where rent income funds village
+                infrastructure.
+              </div>
+              <div class="reveal-badge">
+                <span>What it reveals:</span> Sharing instinct • Collective risk
+                appetite • Response to unequal outcomes
+              </div>
+              <button class="play-btn play-game" data-game="Ubuntu Monopoly">
+                Play Ubuntu Monopoly
+              </button>
+            </div>
+
+            <!-- Credit Ladder -->
+            <div class="game-card">
+              <div class="game-icon">📈</div>
+              <div class="game-title">Credit Ladder</div>
+              <div class="game-desc">
+                Climb from debt to credit through financial decisions.
+              </div>
+              <div class="reveal-badge">
+                <span>What it reveals:</span> Debt philosophy • Long-term
+                thinking • Risk vs reward
+              </div>
+              <button class="play-btn play-game" data-game="Credit Ladder">
+                Play Credit Ladder
+              </button>
+            </div>
+
+            <!-- The Commons -->
+            <div class="game-card">
+              <div class="game-icon">🌱</div>
+              <div class="game-title">The Commons</div>
+              <div class="game-desc">
+                Manage shared resources without destroying them.
+              </div>
+              <div class="reveal-badge">
+                <span>What it reveals:</span> Cooperative vs competitive •
+                Fairness weighting • Response to defection
+              </div>
+              <button class="play-btn play-game" data-game="The Commons">
+                Play The Commons
+              </button>
+            </div>
+
+            <!-- Market Maker -->
+            <div class="game-card">
+              <div class="game-icon">🏪</div>
+              <div class="game-title">Market Maker</div>
+              <div class="game-desc">
+                Aggregate community demand and negotiate bulk deals.
+              </div>
+              <div class="reveal-badge">
+                <span>What it reveals:</span> Collective bargaining •
+                Negotiation patterns • Trust in commitments
+              </div>
+              <button class="play-btn play-game" data-game="Market Maker">
+                Play Market Maker
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Insight Promise -->
+        <div class="insight-section">
+          <h3>🧠 Before you play</h3>
+          <p style="max-width: 600px; margin: 16px auto">
+            These games don't judge. They reveal.<br />Through play, not
+            paperwork.
+          </p>
+          <div class="insight-grid">
+            <div class="insight-item">
+              🎯 Decision Patterns<br /><small>under pressure</small>
+            </div>
+            <div class="insight-item">
+              🤝 Cooperation Score<br /><small>collective strength</small>
+            </div>
+            <div class="insight-item">
+              💪 Leadership Potential<br /><small>natural roles</small>
+            </div>
+            <div class="insight-item">
+              🛡️ Resilience Rating<br /><small>handle uncertainty</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Proof -->
+        <div
+          style="
+            margin: 40px 0;
+            background: #0f172a;
+            border-radius: 32px;
+            padding: 32px;
+          "
+        >
+          <h3>💬 Community stories</h3>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 24px;
+              margin-top: 24px;
+            "
+          >
+            <div>
+              "Sawubona! The Pool Simulator showed me exactly why our stokvel
+              has survived 7 years." <br />— Nomsa, Soweto Stokvel Chair
+            </div>
+            <div>
+              "The Commons game taught us about free riders. We've changed how
+              we handle contributions." <br />— Community Coordinator, Cape Town
+            </div>
+          </div>
+          <button class="btn-secondary" style="margin-top: 24px">
+            🏆 Become a Village Champion →
+          </button>
+        </div>
+
+        <!-- Trust & Data Sovereignty -->
+        <div
+          style="
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            justify-content: space-between;
+            border-top: 1px solid #1f2a3e;
+            padding-top: 40px;
+          "
+        >
+          <div>
+            <strong>🔒 Data sovereignty</strong><br />Your game data belongs to
+            you. No personal data required.
+          </div>
+          <div>
+            <strong>🇿🇦 POPIA Compliant</strong><br />South African data
+            protection laws. Privacy never compromised.
+          </div>
+        </div>
+      </div>
+      <footer>
+        <p>
+          Ubuntu Pools — Financial Intelligence Arcade | Through play, not
+          paperwork
+        </p>
+      </footer>
+    </main>
+
+    <script>
+      // ============================================================
+      // CONFIGURATION: REPLACE WITH YOUR ACTUAL INFOBIP API KEY AND SENDER
+      const INFOBIP_API_KEY = "your-infobip-api-key"; // <-- CHANGE THIS
+      const SENDER_NUMBER = "your-sender-number"; // <-- CHANGE THIS (e.g., "27791234567")
+      // ============================================================
+
+      // Helper: send WhatsApp message via Infobip API
+      async function sendWhatsAppMessage(to, message) {
+        const url = "https://api.infobip.com/messages/v1/send";
+        const data = {
+          messages: [
+            {
+              from: SENDER_NUMBER,
+              to: to,
+              content: {
+                text: message,
+              },
+              channel: "WHATSAPP",
+            },
+          ],
+        };
+
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            headers: {
+              Authorization: `App ${INFOBIP_API_KEY}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+
+          if (response.ok) {
+            alert(
+              "Message sent successfully! You will receive a confirmation via WhatsApp.",
+            );
+          } else {
+            alert("Failed to send message. Please try again.");
+          }
+        } catch (error) {
+          console.error("Error sending message:", error);
+          alert("An error occurred. Please try again.");
+        }
+      }
+
+      // Modal logic
+      const modal = document.getElementById("pilotModal");
+      const closeModalBtn = document.getElementById("closeModalBtn");
+      const exploreBtn = document.getElementById("exploreGamesBtn");
+      const confirmBtn = document.getElementById("confirmBtn");
+      const phoneInput = document.getElementById("phone");
+
+      function closeModalWithFade() {
+        modal.classList.add("fade-out");
+        setTimeout(() => {
+          modal.style.display = "none";
+        }, 300);
+      }
+
+      closeModalBtn.addEventListener("click", closeModalWithFade);
+      exploreBtn.addEventListener("click", closeModalWithFade);
+
+      confirmBtn.addEventListener("click", async () => {
+        const phone = phoneInput.value.trim();
+        if (!phone) {
+          alert("Please enter your WhatsApp number.");
+          return;
+        }
+        const message =
+          "Hi! I'm confirming my spot for the Ubuntu Pools pilot. 31 spots left – count me in! 🚀";
+        await sendWhatsAppMessage(phone, message);
+        closeModalWithFade();
       });
 
-      if (response.ok) {
-        alert('Message sent successfully! You will receive a confirmation via WhatsApp.');
-      } else {
-        alert('Failed to send message. Please try again.');
+      // Floating button: appears 2 seconds after modal dismissed
+      let waButton = document.getElementById("floatingWA");
+      let modalDismissed = false;
+
+      function showFloatingWA() {
+        if (!modalDismissed) return;
+        setTimeout(() => {
+          waButton.classList.add("show");
+        }, 2000);
       }
-    } catch (error) {
-      console.error('Error sending message:', error);
-      alert('An error occurred. Please try again.');
-    }
-  }
 
-  // Modal logic
-  const modal = document.getElementById('pilotModal');
-  const closeModalBtn = document.getElementById('closeModalBtn');
-  const exploreBtn = document.getElementById('exploreGamesBtn');
-  const confirmBtn = document.getElementById('confirmBtn');
-  const phoneInput = document.getElementById('phone');
+      // Observe when modal is hidden
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mut) => {
+          if (
+            mut.type === "attributes" &&
+            mut.attributeName === "style" &&
+            modal.style.display === "none"
+          ) {
+            modalDismissed = true;
+            showFloatingWA();
+            observer.disconnect();
+          }
+        });
+      });
+      observer.observe(modal, { attributes: true });
 
-  function closeModalWithFade() {
-    modal.classList.add('fade-out');
-    setTimeout(() => {
-      modal.style.display = 'none';
-    }, 300);
-  }
+      // Floating WA click action - open modal again or something, but for now, perhaps alert
+      waButton.addEventListener("click", () => {
+        alert("Please provide your number to join.");
+        // Or reopen modal
+        modal.style.display = "flex";
+        modal.classList.remove("fade-out");
+        modalDismissed = false;
+      });
 
-  closeModalBtn.addEventListener('click', closeModalWithFade);
-  exploreBtn.addEventListener('click', closeModalWithFade);
+      // All Play Game buttons
+      const playButtons = document.querySelectorAll(".play-game");
+      playButtons.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          ensureModalClosed();
+          const gameName = btn.getAttribute("data-game") || "game";
+          alert(
+            `✨ "${gameName}" simulation would start here.\n\nFull game mechanics ready in Phase 15. Your decisions will generate personalized insights.`,
+          );
+        });
+      });
 
-  confirmBtn.addEventListener('click', async () => {
-    const phone = phoneInput.value.trim();
-    if (!phone) {
-      alert('Please enter your WhatsApp number.');
-      return;
-    }
-    const message = "Hi! I'm confirming my spot for the Ubuntu Pools pilot. 31 spots left – count me in! 🚀";
-    await sendWhatsAppMessage(phone, message);
-    closeModalWithFade();
-  });
-
-  // Floating button: appears 2 seconds after modal dismissed
-  let waButton = document.getElementById('floatingWA');
-  let modalDismissed = false;
-
-  function showFloatingWA() {
-    if (!modalDismissed) return;
-    setTimeout(() => {
-      waButton.classList.add('show');
-    }, 2000);
-  }
-
-  // Observe when modal is hidden
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mut) => {
-      if (mut.type === 'attributes' && mut.attributeName === 'style' && modal.style.display === 'none') {
-        modalDismissed = true;
-        showFloatingWA();
-        observer.disconnect();
+      function ensureModalClosed() {
+        if (modal.style.display !== "none") {
+          closeModalWithFade();
+          modalDismissed = true;
+          showFloatingWA();
+        }
       }
-    });
-  });
-  observer.observe(modal, { attributes: true });
 
-  // Floating WA click action - open modal again or something, but for now, perhaps alert
-  waButton.addEventListener('click', () => {
-    alert('Please provide your number to join.');
-    // Or reopen modal
-    modal.style.display = 'flex';
-    modal.classList.remove('fade-out');
-    modalDismissed = false;
-  });
-
-  // All Play Game buttons
-  const playButtons = document.querySelectorAll('.play-game');
-  playButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      ensureModalClosed();
-      const gameName = btn.getAttribute('data-game') || "game";
-      alert(`✨ "${gameName}" simulation would start here.\n\nFull game mechanics ready in Phase 15. Your decisions will generate personalized insights.`);
-    });
-  });
-
-  function ensureModalClosed() {
-    if (modal.style.display !== 'none') {
-      closeModalWithFade();
-      modalDismissed = true;
-      showFloatingWA();
-    }
-  }
-
-  // Hero CTAs
-  document.getElementById('heroPlayBtn').addEventListener('click', () => {
-    ensureModalClosed();
-    alert("🎮 Launching game lobby: Pool Management Challenge. Coming in full phase.");
-  });
-  document.getElementById('heroPlayNoSignupBtn').addEventListener('click', () => {
-    ensureModalClosed();
-    alert("🕹️ Instant play mode — no signup required. Experience the arcade.");
-  });
-</script>
-</body>
+      // Hero CTAs
+      document.getElementById("heroPlayBtn").addEventListener("click", () => {
+        ensureModalClosed();
+        alert(
+          "🎮 Launching game lobby: Pool Management Challenge. Coming in full phase.",
+        );
+      });
+      document
+        .getElementById("heroPlayNoSignupBtn")
+        .addEventListener("click", () => {
+          ensureModalClosed();
+          alert(
+            "🕹️ Instant play mode — no signup required. Experience the arcade.",
+          );
+        });
+    </script>
+  </body>
 </html>

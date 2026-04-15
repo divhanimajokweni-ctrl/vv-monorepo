@@ -11,6 +11,7 @@ const eslintConfig = [
       "quickstart/**",
       ".local/**",
       "safegrid-ops-full.jsx",
+      ".pythonlibs/**",
     ],
   },
 ];

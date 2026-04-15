@@ -38,7 +38,7 @@ export default function LandingPage() {
 
   useEffect(() => {
     if (refCode && !initialToastShown) {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setToastMsg("Referral code applied: " + refCode);
       setShowToast(true);
       setInitialToastShown(true);
