@@ -15,7 +15,11 @@
 This guide provides comprehensive instructions for setting up a local development environment to run Ubuntu Pools (Next.js frontend) and SafeGrid (Go backend) simultaneously. This enables full integration testing and development of the trust ecosystem where Ubuntu Score influences SafeGrid alert suppression.
 
 **🆕 New Features Available:**
-- **Financial Intelligence Arcade**: 5 educational games with behavioral signals
+- **Ubuntu Pools V2.0**: Cyberpunk gamified financial literacy at `/ubuntu-pools-v2`
+- **3 Core Games**: Pool Defense Lottery, Global Shocks Crop Trading, Stokvel Strategy
+- **Dual AI Tracking**: Impulse Stability & Altruism Index with real-time behavioral analysis
+- **Offline-First Architecture**: localStorage persistence with signal queuing
+- **Financial Intelligence Arcade**: 5+ educational games with behavioral signals
 - **Lindiwe AI Integration**: Game telemetry feeds credit risk models
 - **Prestige Scoring**: Non-transferable reputation from financial wisdom
 - **Multi-Factor Sybil Defense**: Test 4-layer verification systems
