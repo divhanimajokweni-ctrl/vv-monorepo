@@ -1,0 +1,1958 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;700;800&display=swap');
+
+  :root {
+    --ink: #0d1117;
+    --ink2: #1c2333;
+    --ink3: #2d3748;
+    --surface: #f7f5f0;
+    --surface2: #ede9e0;
+    --surface3: #e0dbd0;
+    --gold: #c9a227;
+    --gold2: #f0c040;
+    --gold-dim: rgba(201,162,39,0.15);
+    --teal: #0d9488;
+    --teal2: #14b8a6;
+    --teal-dim: rgba(13,148,136,0.12);
+    --amber: #d97706;
+    --red: #dc2626;
+    --green: #16a34a;
+    --white: #fefefe;
+    --border: rgba(13,17,23,0.12);
+    --border-gold: rgba(201,162,39,0.3);
+    --radius: 12px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+    --shadow: 0 2px 16px rgba(13,17,23,0.08);
+    --shadow-lg: 0 8px 40px rgba(13,17,23,0.14);
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'Space Grotesk', sans-serif;
+    --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #f0ece4;
+      --ink2: #c8c2b8;
+      --ink3: #9a9488;
+      --surface: #12100e;
+      --surface2: #1a1814;
+      --surface3: #22201c;
+      --border: rgba(240,236,228,0.1);
+      --border-gold: rgba(201,162,39,0.25);
+      --shadow: 0 2px 16px rgba(0,0,0,0.3);
+      --shadow-lg: 0 8px 40px rgba(0,0,0,0.45);
+      --white: #1a1814;
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ═══════════════════════════════════
+     SCROLL BEHAVIOR
+  ═══════════════════════════════════ */
+  html { scroll-behavior: smooth; }
+  
+  section { 
+    scroll-margin-top: 72px;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  section.visible { opacity: 1; transform: translateY(0); }
+
+  /* ═══════════════════════════════════
+     NAV
+  ═══════════════════════════════════ */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    padding: 0 28px;
+    background: rgba(247,245,240,0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 0.5px solid var(--border);
+    justify-content: space-between;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    nav { background: rgba(18,16,14,0.88); }
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .nav-logomark {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+
+  .nav-wordmark {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+  }
+
+  .nav-wordmark span {
+    display: block;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .nav-link {
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink2);
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    background: none;
+    font-family: var(--font-body);
+  }
+  .nav-link:hover { background: var(--surface2); color: var(--ink); }
+  .nav-link.active { color: var(--gold); }
+
+  .nav-cta {
+    padding: 8px 20px;
+    border-radius: 10px;
+    background: var(--gold);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    font-family: var(--font-body);
+    letter-spacing: 0.02em;
+  }
+  .nav-cta:hover { background: var(--amber); transform: translateY(-1px); }
+
+  /* ═══════════════════════════════════
+     HERO
+  ═══════════════════════════════════ */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding-top: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 56px 80px 40px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--gold-dim);
+    border: 0.5px solid var(--border-gold);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    width: fit-content;
+  }
+
+  .hero-tag-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 5.5vw, 72px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+
+  .hero-title em {
+    font-style: normal;
+    color: var(--teal);
+  }
+
+  .hero-title .gold-word {
+    position: relative;
+    color: var(--gold);
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--ink2);
+    line-height: 1.7;
+    max-width: 440px;
+    margin-bottom: 40px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    padding: 14px 28px;
+    background: var(--teal);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-primary:hover { background: var(--teal2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(13,148,136,0.3); }
+
+  .btn-secondary {
+    padding: 14px 28px;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .btn-secondary:hover { background: var(--surface2); border-color: var(--ink3); }
+
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 0.5px solid var(--border);
+  }
+
+  .hero-stat-value {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .hero-stat-label {
+    font-size: 12px;
+    color: var(--ink3);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+  }
+
+  /* Hero Right — Visual */
+  .hero-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 40px;
+    position: relative;
+  }
+
+  .hero-visual {
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 1;
+    position: relative;
+  }
+
+  /* Ubuntu Network SVG */
+  .network-svg {
+    width: 100%;
+    height: 100%;
+    animation: network-breathe 6s ease-in-out infinite;
+  }
+
+  @keyframes network-breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+  }
+
+  .network-node {
+    animation: node-pulse 3s ease-in-out infinite;
+  }
+  .network-node:nth-child(2) { animation-delay: 0.5s; }
+  .network-node:nth-child(3) { animation-delay: 1.0s; }
+  .network-node:nth-child(4) { animation-delay: 1.5s; }
+  .network-node:nth-child(5) { animation-delay: 2.0s; }
+  .network-node:nth-child(6) { animation-delay: 2.5s; }
+
+  @keyframes node-pulse {
+    0%, 100% { opacity: 0.8; r: 12; }
+    50% { opacity: 1; r: 15; }
+  }
+
+  .edge-flow {
+    stroke-dasharray: 6 3;
+    animation: edge-dash 2.5s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .edge-flow { animation: none; }
+    .network-node { animation: none; }
+    .network-svg { animation: none; }
+    .hero-tag-dot { animation: none; }
+  }
+
+  @keyframes edge-dash {
+    to { stroke-dashoffset: -18; }
+  }
+
+  /* ═══════════════════════════════════
+     PHILOSOPHY BAND
+  ═══════════════════════════════════ */
+  .philosophy-band {
+    padding: 80px 40px;
+    background: var(--ink);
+    color: var(--surface);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .philosophy-band::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,162,39,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .philosophy-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .philosophy-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .philosophy-quote {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+
+  .philosophy-pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .pillar {
+    padding: 28px 24px;
+    border: 0.5px solid rgba(240,236,228,0.12);
+    border-radius: var(--radius-lg);
+    transition: var(--transition);
+  }
+
+  .pillar:hover {
+    border-color: rgba(201,162,39,0.35);
+    background: rgba(201,162,39,0.04);
+  }
+
+  .pillar-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 16px;
+  }
+
+  .pillar-title {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--surface);
+    margin-bottom: 8px;
+  }
+
+  .pillar-desc {
+    font-size: 13px;
+    color: rgba(240,236,228,0.6);
+    line-height: 1.65;
+  }
+
+  /* ═══════════════════════════════════
+     GAME ARCADE
+  ═══════════════════════════════════ */
+  .arcade-section {
+    padding: 100px 40px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 48px;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .section-sub {
+    font-size: 15px;
+    color: var(--ink2);
+    max-width: 480px;
+    line-height: 1.65;
+    margin-top: 12px;
+  }
+
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .game-card {
+    background: var(--white);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 0;
+    overflow: hidden;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+  }
+
+  .game-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: transparent;
+  }
+
+  .game-card-visual {
+    height: 140px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .game-card-body {
+    padding: 20px 24px 24px;
+  }
+
+  .game-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .badge-hot { background: rgba(220,38,38,0.1); color: var(--red); }
+  .badge-strategy { background: var(--teal-dim); color: var(--teal); }
+  .badge-community { background: rgba(22,163,74,0.1); color: var(--green); }
+  .badge-intel { background: var(--gold-dim); color: var(--gold); }
+
+  .game-title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+
+  .game-desc {
+    font-size: 13px;
+    color: var(--ink2);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .game-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .game-players {
+    font-size: 12px;
+    color: var(--ink3);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .players-avatars {
+    display: flex;
+  }
+
+  .player-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid var(--white);
+    margin-left: -5px;
+  }
+  .player-avatar:first-child { margin-left: 0; }
+
+  .game-play-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--teal-dim);
+    border: 0.5px solid var(--teal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--teal);
+    font-size: 14px;
+  }
+  .game-card:hover .game-play-btn {
+    background: var(--teal);
+    color: #fff;
+    transform: scale(1.1);
+  }
+
+  /* ═══════════════════════════════════
+     LINDIWE DASHBOARD
+  ═══════════════════════════════════ */
+  .lindiwe-section {
+    padding: 100px 40px;
+    background: var(--surface2);
+  }
+
+  .lindiwe-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  .lindiwe-left .section-eyebrow { margin-bottom: 10px; }
+
+  .lindiwe-signal-panel {
+    background: var(--white);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  .lindiwe-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .lindiwe-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .lindiwe-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal) 0%, var(--gold) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .lindiwe-title {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .lindiwe-subtitle {
+    font-size: 11px;
+    color: var(--ink3);
+    letter-spacing: 0.06em;
+  }
+
+  .lindiwe-status {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  .signal-bars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .signal-bar {
+    padding: 14px 16px;
+    border-radius: var(--radius);
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .signal-bar-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .signal-bar-value {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .signal-bar-track {
+    height: 3px;
+    background: var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .signal-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 1s ease;
+  }
+
+  .impulse-fill { background: var(--amber); }
+  .altruism-fill { background: var(--teal); }
+
+  .lindiwe-insight {
+    padding: 14px 16px;
+    border-radius: var(--radius);
+    background: var(--teal-dim);
+    border: 0.5px solid rgba(13,148,136,0.2);
+    font-size: 13px;
+    color: var(--teal);
+    line-height: 1.55;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .insight-icon {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin-top: 1px;
+  }
+
+  /* ═══════════════════════════════════
+     JOIN US — COLLABORATORS
+  ═══════════════════════════════════ */
+  .join-section {
+    padding: 100px 40px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .collaborator-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 48px;
+  }
+
+  .collab-card {
+    padding: 32px;
+    border-radius: var(--radius-xl);
+    background: var(--white);
+    border: 0.5px solid var(--border);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .collab-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    transition: var(--transition);
+    opacity: 0;
+  }
+
+  .collab-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .collab-card:hover::before { opacity: 1; }
+
+  .collab-card-affiliate::before { background: var(--gold); }
+  .collab-card-developer::before { background: var(--teal); }
+  .collab-card-promoter::before { background: #7c3aed; }
+  .collab-card-pool::before { background: var(--green); }
+
+  .collab-iconbox {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .iconbox-gold { background: var(--gold-dim); }
+  .iconbox-teal { background: var(--teal-dim); }
+  .iconbox-purple { background: rgba(124,58,237,0.1); }
+  .iconbox-green { background: rgba(22,163,74,0.1); }
+
+  .collab-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 4px;
+  }
+
+  .collab-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .collab-desc {
+    font-size: 14px;
+    color: var(--ink2);
+    line-height: 1.65;
+    flex: 1;
+  }
+
+  .collab-perks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .perk-pill {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--surface2);
+    color: var(--ink2);
+    border: 0.5px solid var(--border);
+  }
+
+  .collab-cta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--teal);
+    margin-top: 8px;
+    cursor: pointer;
+    width: fit-content;
+    transition: var(--transition);
+  }
+  .collab-cta:hover { gap: 10px; }
+
+  /* ═══════════════════════════════════
+     UBUNTU SCORE / RANK
+  ═══════════════════════════════════ */
+  .rank-section {
+    padding: 80px 40px;
+    background: var(--ink);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .rank-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .rank-tiers {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .rank-tier {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border-radius: var(--radius-lg);
+    border: 0.5px solid rgba(240,236,228,0.1);
+    transition: var(--transition);
+    cursor: pointer;
+  }
+
+  .rank-tier:hover {
+    border-color: rgba(201,162,39,0.3);
+    background: rgba(201,162,39,0.04);
+  }
+
+  .rank-tier.current {
+    border-color: rgba(201,162,39,0.4);
+    background: rgba(201,162,39,0.08);
+  }
+
+  .tier-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .tier-name {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--surface);
+    margin-bottom: 2px;
+  }
+
+  .tier-desc {
+    font-size: 12px;
+    color: rgba(240,236,228,0.45);
+  }
+
+  .tier-xp {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* ═══════════════════════════════════
+     FOOTER CTA
+  ═══════════════════════════════════ */
+  .footer-cta {
+    padding: 100px 40px;
+    text-align: center;
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer-cta-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 56px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 20px;
+    line-height: 1.1;
+  }
+
+  .footer-cta-sub {
+    font-size: 17px;
+    color: var(--ink2);
+    max-width: 520px;
+    margin: 0 auto 40px;
+    line-height: 1.65;
+  }
+
+  .footer-cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .footer-note {
+    margin-top: 24px;
+    font-size: 12px;
+    color: var(--ink3);
+  }
+
+  /* ═══════════════════════════════════
+     RESPONSIVE
+  ═══════════════════════════════════ */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-right { display: none; }
+    .hero-left { padding: 56px 24px 64px; }
+    .philosophy-inner { grid-template-columns: 1fr; gap: 36px; }
+    .philosophy-pillars { grid-template-columns: 1fr; }
+    .lindiwe-inner { grid-template-columns: 1fr; }
+    .collaborator-grid { grid-template-columns: 1fr; }
+    .rank-inner { grid-template-columns: 1fr; }
+    nav { padding: 0 16px; }
+    .nav-links { display: none; }
+    .arcade-section, .join-section { padding: 64px 20px; }
+    .philosophy-band { padding: 64px 20px; }
+    .lindiwe-section { padding: 64px 20px; }
+    .rank-section { padding: 64px 20px; }
+  }
+
+  /* ═══════════════════════════════════
+     UBUNTU SCORE RING
+  ═══════════════════════════════════ */
+  .score-ring-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .score-ring {
+    position: relative;
+    width: 180px;
+    height: 180px;
+  }
+
+  .score-ring-svg {
+    transform: rotate(-90deg);
+  }
+
+  .score-ring-track {
+    fill: none;
+    stroke: rgba(240,236,228,0.1);
+    stroke-width: 10;
+  }
+
+  .score-ring-fill {
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 10;
+    stroke-linecap: round;
+    stroke-dasharray: 502;
+    stroke-dashoffset: 200;
+    transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .score-ring-value {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .score-number {
+    font-family: var(--font-display);
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--surface);
+    line-height: 1;
+  }
+
+  .score-label {
+    font-size: 11px;
+    color: rgba(240,236,228,0.5);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .score-right-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .score-desc {
+    font-size: 14px;
+    color: rgba(240,236,228,0.6);
+    line-height: 1.65;
+    max-width: 400px;
+  }
+
+  .score-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .score-meta-item {
+    padding: 14px;
+    border-radius: var(--radius);
+    background: rgba(240,236,228,0.05);
+    border: 0.5px solid rgba(240,236,228,0.1);
+  }
+
+  .score-meta-val {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--surface);
+    margin-bottom: 3px;
+  }
+
+  .score-meta-key {
+    font-size: 11px;
+    color: rgba(240,236,228,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* ═══════════════════════════════════
+     MISC
+  ═══════════════════════════════════ */
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .tag {
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 0.5px solid var(--border);
+    color: var(--ink2);
+    background: var(--surface2);
+  }
+
+  .spacer-line {
+    width: 32px;
+    height: 2px;
+    background: var(--gold);
+    border-radius: 999px;
+    margin: 16px 0;
+  }
+
+  /* Game visuals */
+  .game-bg-lottery { background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 100%); }
+  .game-bg-dice { background: linear-gradient(135deg, #0a1628 0%, #1a2d4e 100%); }
+  .game-bg-stokvel { background: linear-gradient(135deg, #0a2218 0%, #1a4434 100%); }
+  .game-bg-snakes { background: linear-gradient(135deg, #1c1a0a 0%, #3d3514 100%); }
+  .game-bg-crop { background: linear-gradient(135deg, #0a1c0a 0%, #1a3a1a 100%); }
+  .game-bg-2048 { background: linear-gradient(135deg, #1a0a0a 0%, #3a1a1a 100%); }
+  .game-bg-coinflip { background: linear-gradient(135deg, #0a1a1a 0%, #1a3a3a 100%); }
+
+  .game-svg-icon {
+    opacity: 0.85;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="scrollToSection('hero')">
+    <svg class="nav-logomark" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="18" cy="18" r="17" stroke="#c9a227" stroke-width="1.2"/>
+      <circle cx="18" cy="18" r="5" fill="#c9a227" opacity="0.9"/>
+      <circle cx="18" cy="5.5" r="3" fill="#c9a227" opacity="0.6"/>
+      <circle cx="29" cy="12" r="3" fill="#c9a227" opacity="0.6"/>
+      <circle cx="29" cy="24.5" r="3" fill="#c9a227" opacity="0.6"/>
+      <circle cx="18" cy="30.5" r="3" fill="#c9a227" opacity="0.6"/>
+      <circle cx="7" cy="24.5" r="3" fill="#c9a227" opacity="0.6"/>
+      <circle cx="7" cy="12" r="3" fill="#c9a227" opacity="0.6"/>
+      <line x1="18" y1="13" x2="18" y2="8.5" stroke="#c9a227" stroke-width="0.8" opacity="0.5"/>
+      <line x1="21.6" y1="15.9" x2="26.2" y2="13.5" stroke="#c9a227" stroke-width="0.8" opacity="0.5"/>
+      <line x1="21.6" y1="20.1" x2="26.2" y2="22.5" stroke="#c9a227" stroke-width="0.8" opacity="0.5"/>
+      <line x1="18" y1="23" x2="18" y2="27.5" stroke="#c9a227" stroke-width="0.8" opacity="0.5"/>
+      <line x1="14.4" y1="20.1" x2="9.8" y2="22.5" stroke="#c9a227" stroke-width="0.8" opacity="0.5"/>
+      <line x1="14.4" y1="15.9" x2="9.8" y2="13.5" stroke="#c9a227" stroke-width="0.8" opacity="0.5"/>
+    </svg>
+    <div class="nav-wordmark">
+      Ubuntu Pools
+      <span>Arcade v2.0</span>
+    </div>
+  </div>
+
+  <div class="nav-links">
+    <button class="nav-link" onclick="scrollToSection('philosophy')">Philosophy</button>
+    <button class="nav-link" onclick="scrollToSection('arcade')">Games</button>
+    <button class="nav-link" onclick="scrollToSection('lindiwe')">LINDIWE</button>
+    <button class="nav-link" onclick="scrollToSection('ranks')">Ranks</button>
+    <button class="nav-link" onclick="scrollToSection('join')">Join Us</button>
+  </div>
+
+  <button class="nav-cta" onclick="scrollToSection('join')">Enter the Pool</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero" class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">
+      <div class="hero-tag-dot"></div>
+      Ubuntu Protocol · Eastern Cape, ZA
+    </div>
+    <h1 class="hero-title">
+      Collective<br>
+      <em>wealth</em> is the<br>
+      <span class="gold-word">real game.</span>
+    </h1>
+    <p class="hero-sub">
+      Ubuntu Pools transforms traditional stokvel savings into a living financial intelligence platform — where every play, every pool, every decision builds towards sovereign prosperity.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="scrollToSection('arcade')">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z" fill="currentColor"/></svg>
+        Play Now
+      </button>
+      <button class="btn-secondary" onclick="scrollToSection('philosophy')">Learn the Ubuntu Way</button>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-value">7</div>
+        <div class="hero-stat-label">Active Games</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">5</div>
+        <div class="hero-stat-label">Authority Tiers</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">POPIA</div>
+        <div class="hero-stat-label">Compliant</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">R0</div>
+        <div class="hero-stat-label">Lost to Nowhere</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-visual">
+      <svg class="network-svg" viewBox="0 0 460 460" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background rings -->
+        <circle cx="230" cy="230" r="200" stroke="#c9a227" stroke-width="0.5" stroke-dasharray="4 8" opacity="0.2"/>
+        <circle cx="230" cy="230" r="150" stroke="#0d9488" stroke-width="0.5" stroke-dasharray="3 6" opacity="0.15"/>
+        <circle cx="230" cy="230" r="90" stroke="#c9a227" stroke-width="0.5" opacity="0.1"/>
+        
+        <!-- Edges -->
+        <line class="edge-flow" x1="230" y1="230" x2="230" y2="58" stroke="#c9a227" stroke-width="1" opacity="0.4"/>
+        <line class="edge-flow" x1="230" y1="230" x2="379" y2="122" stroke="#c9a227" stroke-width="1" opacity="0.35"/>
+        <line class="edge-flow" x1="230" y1="230" x2="379" y2="338" stroke="#0d9488" stroke-width="1" opacity="0.35"/>
+        <line class="edge-flow" x1="230" y1="230" x2="230" y2="402" stroke="#0d9488" stroke-width="1" opacity="0.3"/>
+        <line class="edge-flow" x1="230" y1="230" x2="81" y2="338" stroke="#c9a227" stroke-width="1" opacity="0.35"/>
+        <line class="edge-flow" x1="230" y1="230" x2="81" y2="122" stroke="#0d9488" stroke-width="1" opacity="0.3"/>
+        
+        <!-- Connecting edges between outer nodes -->
+        <line x1="230" y1="58" x2="379" y2="122" stroke="#c9a227" stroke-width="0.5" opacity="0.15"/>
+        <line x1="379" y1="122" x2="379" y2="338" stroke="#c9a227" stroke-width="0.5" opacity="0.15"/>
+        <line x1="379" y1="338" x2="230" y2="402" stroke="#0d9488" stroke-width="0.5" opacity="0.15"/>
+        <line x1="230" y1="402" x2="81" y2="338" stroke="#0d9488" stroke-width="0.5" opacity="0.15"/>
+        <line x1="81" y1="338" x2="81" y2="122" stroke="#c9a227" stroke-width="0.5" opacity="0.15"/>
+        <line x1="81" y1="122" x2="230" y2="58" stroke="#0d9488" stroke-width="0.5" opacity="0.15"/>
+
+        <!-- Central node -->
+        <circle cx="230" cy="230" r="32" fill="#c9a227" opacity="0.12"/>
+        <circle cx="230" cy="230" r="20" fill="#c9a227" opacity="0.25"/>
+        <circle class="network-node" cx="230" cy="230" r="12" fill="#c9a227"/>
+        <text x="230" y="275" text-anchor="middle" font-family="Syne,sans-serif" font-size="10" font-weight="700" fill="#c9a227" letter-spacing="0.1em">UBUNTU</text>
+
+        <!-- Outer nodes -->
+        <g class="network-node">
+          <circle cx="230" cy="58" r="10" fill="#0d9488"/>
+          <circle cx="230" cy="58" r="16" fill="#0d9488" opacity="0.15"/>
+          <text x="230" y="38" text-anchor="middle" font-family="Space Grotesk,sans-serif" font-size="9" fill="#0d9488" opacity="0.9">STOKVEL</text>
+        </g>
+        <g class="network-node">
+          <circle cx="379" cy="122" r="10" fill="#c9a227"/>
+          <circle cx="379" cy="122" r="16" fill="#c9a227" opacity="0.15"/>
+          <text x="402" y="118" font-family="Space Grotesk,sans-serif" font-size="9" fill="#c9a227" opacity="0.9">POOLS</text>
+        </g>
+        <g class="network-node">
+          <circle cx="379" cy="338" r="10" fill="#0d9488"/>
+          <circle cx="379" cy="338" r="16" fill="#0d9488" opacity="0.15"/>
+          <text x="402" y="334" font-family="Space Grotesk,sans-serif" font-size="9" fill="#0d9488" opacity="0.9">ARCADE</text>
+        </g>
+        <g class="network-node">
+          <circle cx="230" cy="402" r="10" fill="#c9a227"/>
+          <circle cx="230" cy="402" r="16" fill="#c9a227" opacity="0.15"/>
+          <text x="230" y="426" text-anchor="middle" font-family="Space Grotesk,sans-serif" font-size="9" fill="#c9a227" opacity="0.9">LINDIWE</text>
+        </g>
+        <g class="network-node">
+          <circle cx="81" cy="338" r="10" fill="#0d9488"/>
+          <circle cx="81" cy="338" r="16" fill="#0d9488" opacity="0.15"/>
+          <text x="58" y="334" text-anchor="end" font-family="Space Grotesk,sans-serif" font-size="9" fill="#0d9488" opacity="0.9">SCORE</text>
+        </g>
+        <g class="network-node">
+          <circle cx="81" cy="122" r="10" fill="#c9a227"/>
+          <circle cx="81" cy="122" r="16" fill="#c9a227" opacity="0.15"/>
+          <text x="58" y="118" text-anchor="end" font-family="Space Grotesk,sans-serif" font-size="9" fill="#c9a227" opacity="0.9">SAFESTACK</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY BAND -->
+<section id="philosophy" class="philosophy-band">
+  <div class="philosophy-inner">
+    <div>
+      <div class="philosophy-label">Foundational Doctrine</div>
+      <h2 class="philosophy-quote">"I am because we are."</h2>
+      <div style="width:32px;height:2px;background:var(--gold);border-radius:999px;margin:20px 0;"></div>
+      <p style="font-size:15px;color:rgba(240,236,228,0.6);line-height:1.7;max-width:340px;">Ubuntu is not an idea — it is architecture. Every protocol in this system is designed so that individual growth is inseparable from collective uplift.</p>
+    </div>
+    <div class="philosophy-pillars">
+      <div class="pillar">
+        <svg class="pillar-icon" viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="18" stroke="#c9a227" stroke-width="1" opacity="0.4"/>
+          <circle cx="20" cy="20" r="6" fill="#c9a227" opacity="0.7"/>
+          <circle cx="20" cy="7" r="3" fill="#c9a227" opacity="0.4"/>
+          <circle cx="20" cy="33" r="3" fill="#c9a227" opacity="0.4"/>
+          <circle cx="7" cy="20" r="3" fill="#c9a227" opacity="0.4"/>
+          <circle cx="33" cy="20" r="3" fill="#c9a227" opacity="0.4"/>
+        </svg>
+        <div class="pillar-title">Collective Sovereignty</div>
+        <div class="pillar-desc">Savings pools where redirected losses become community capital — not profit for a third party.</div>
+      </div>
+      <div class="pillar">
+        <svg class="pillar-icon" viewBox="0 0 40 40" fill="none">
+          <rect x="4" y="24" width="8" height="12" rx="2" fill="#0d9488" opacity="0.7"/>
+          <rect x="16" y="16" width="8" height="20" rx="2" fill="#0d9488" opacity="0.5"/>
+          <rect x="28" y="8" width="8" height="28" rx="2" fill="#0d9488" opacity="0.8"/>
+          <path d="M8 20L20 14L32 8" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+        </svg>
+        <div class="pillar-title">Proof of Trust</div>
+        <div class="pillar-desc">Ubuntu Score makes community trust legible on its own terms — no credit bureaus, no exclusion.</div>
+      </div>
+      <div class="pillar">
+        <svg class="pillar-icon" viewBox="0 0 40 40" fill="none">
+          <path d="M20 4L24.5 15.5H36.5L27 23L30.5 34.5L20 27.5L9.5 34.5L13 23L3.5 15.5H15.5L20 4Z" stroke="#c9a227" stroke-width="1.2" fill="none" opacity="0.7"/>
+          <path d="M20 10L23 17H30.5L24.5 21.5L26.5 29L20 24.5L13.5 29L15.5 21.5L9.5 17H17L20 10Z" fill="#c9a227" opacity="0.2"/>
+        </svg>
+        <div class="pillar-title">Earned Authority</div>
+        <div class="pillar-desc">Five tiers from Member to Sovereign — unlocked through participation, accuracy, and mentorship.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCADE -->
+<section id="arcade" class="arcade-section">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Financial Intelligence Arcade</div>
+      <h2 class="section-title">Games that teach<br>what banks won't.</h2>
+      <p class="section-sub">Each game is a probability transparency layer. Play to earn, play to learn — and watch your Ubuntu Score grow with every decision.</p>
+    </div>
+  </div>
+
+  <div class="games-grid">
+
+    <!-- Lottery Reels -->
+    <div class="game-card" onclick="alert('Entering Lottery Reels…')">
+      <div class="game-card-visual game-bg-lottery">
+        <svg width="120" height="100" viewBox="0 0 120 100" class="game-svg-icon">
+          <rect x="15" y="20" width="20" height="60" rx="4" fill="none" stroke="#c9a227" stroke-width="1.5"/>
+          <rect x="50" y="20" width="20" height="60" rx="4" fill="none" stroke="#c9a227" stroke-width="1.5"/>
+          <rect x="85" y="20" width="20" height="60" rx="4" fill="none" stroke="#c9a227" stroke-width="1.5"/>
+          <text x="25" y="58" text-anchor="middle" font-size="20" fill="#c9a227">7</text>
+          <text x="60" y="58" text-anchor="middle" font-size="20" fill="#f0c040">7</text>
+          <text x="95" y="58" text-anchor="middle" font-size="20" fill="#c9a227">7</text>
+          <line x1="5" y1="50" x2="115" y2="50" stroke="#c9a227" stroke-width="0.5" opacity="0.4" stroke-dasharray="2 3"/>
+        </svg>
+      </div>
+      <div class="game-card-body">
+        <div class="game-badge badge-hot">High Stakes</div>
+        <div class="game-title">Lottery Reels</div>
+        <div class="game-desc">High velocity spins with full probability transparency. Every outcome is on-chain verifiable.</div>
+        <div class="game-meta">
+          <div class="game-players">
+            <div class="players-avatars">
+              <div class="player-avatar" style="background:#c9a227;"></div>
+              <div class="player-avatar" style="background:#0d9488;"></div>
+              <div class="player-avatar" style="background:#7c3aed;"></div>
+            </div>
+            <span>142 active</span>
+          </div>
+          <div class="game-play-btn">▶</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Roll-a-Dice -->
+    <div class="game-card" onclick="alert('Entering Roll-a-Dice…')">
+      <div class="game-card-visual game-bg-dice">
+        <svg width="120" height="100" viewBox="0 0 120 100" class="game-svg-icon">
+          <rect x="25" y="15" width="70" height="70" rx="12" fill="none" stroke="#378add" stroke-width="1.5"/>
+          <circle cx="40" cy="35" r="5" fill="#378add"/>
+          <circle cx="80" cy="35" r="5" fill="#378add"/>
+          <circle cx="60" cy="50" r="5" fill="#378add" opacity="0.7"/>
+          <circle cx="40" cy="65" r="5" fill="#378add"/>
+          <circle cx="80" cy="65" r="5" fill="#378add"/>
+        </svg>
+      </div>
+      <div class="game-card-body">
+        <div class="game-badge badge-strategy">Strategy</div>
+        <div class="game-title">Roll-a-Dice</div>
+        <div class="game-desc">Probabilistic strategy under pressure. Understand variance before you manage it in real life.</div>
+        <div class="game-meta">
+          <div class="game-players">
+            <div class="players-avatars">
+              <div class="player-avatar" style="background:#378add;"></div>
+              <div class="player-avatar" style="background:#c9a227;"></div>
+            </div>
+            <span>89 active</span>
+          </div>
+          <div class="game-play-btn">▶</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stokvel Strategy -->
+    <div class="game-card" onclick="alert('Entering Stokvel Strategy…')">
+      <div class="game-card-visual game-bg-stokvel">
+        <svg width="140" height="100" viewBox="0 0 140 100" class="game-svg-icon">
+          <circle cx="30" cy="50" r="14" fill="none" stroke="#16a34a" stroke-width="1.5"/>
+          <circle cx="70" cy="30" r="14" fill="none" stroke="#16a34a" stroke-width="1.5"/>
+          <circle cx="110" cy="50" r="14" fill="none" stroke="#16a34a" stroke-width="1.5"/>
+          <circle cx="70" cy="70" r="14" fill="none" stroke="#16a34a" stroke-width="1.5"/>
+          <line x1="44" y1="44" x2="56" y2="38" stroke="#16a34a" stroke-width="1" opacity="0.6"/>
+          <line x1="84" y1="38" x2="96" y2="44" stroke="#16a34a" stroke-width="1" opacity="0.6"/>
+          <line x1="96" y1="56" x2="84" y2="62" stroke="#16a34a" stroke-width="1" opacity="0.6"/>
+          <line x1="56" y1="62" x2="44" y2="56" stroke="#16a34a" stroke-width="1" opacity="0.6"/>
+          <text x="30" y="54" text-anchor="middle" font-size="10" fill="#16a34a" font-weight="600">R</text>
+          <text x="70" y="34" text-anchor="middle" font-size="10" fill="#16a34a" font-weight="600">R</text>
+          <text x="110" y="54" text-anchor="middle" font-size="10" fill="#16a34a" font-weight="600">R</text>
+          <text x="70" y="74" text-anchor="middle" font-size="10" fill="#16a34a" font-weight="600">R</text>
+        </svg>
+      </div>
+      <div class="game-card-body">
+        <div class="game-badge badge-community">Community</div>
+        <div class="game-title">Stokvel Strategy</div>
+        <div class="game-desc">The original Ubuntu financial protocol, gamified. Build contribution habits and community capital simultaneously.</div>
+        <div class="game-meta">
+          <div class="game-players">
+            <div class="players-avatars">
+              <div class="player-avatar" style="background:#16a34a;"></div>
+              <div class="player-avatar" style="background:#0d9488;"></div>
+              <div class="player-avatar" style="background:#c9a227;"></div>
+              <div class="player-avatar" style="background:#7c3aed;"></div>
+            </div>
+            <span>203 active</span>
+          </div>
+          <div class="game-play-btn">▶</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Snakes & Ladders -->
+    <div class="game-card" onclick="alert('Entering Snakes & Ladders…')">
+      <div class="game-card-visual game-bg-snakes">
+        <svg width="120" height="100" viewBox="0 0 120 100" class="game-svg-icon">
+          <rect x="10" y="10" width="100" height="80" rx="4" fill="none" stroke="#d97706" stroke-width="0.5" opacity="0.3"/>
+          <!-- Grid lines -->
+          <line x1="10" y1="37" x2="110" y2="37" stroke="#d97706" stroke-width="0.5" opacity="0.2"/>
+          <line x1="10" y1="64" x2="110" y2="64" stroke="#d97706" stroke-width="0.5" opacity="0.2"/>
+          <line x1="43" y1="10" x2="43" y2="90" stroke="#d97706" stroke-width="0.5" opacity="0.2"/>
+          <line x1="76" y1="10" x2="76" y2="90" stroke="#d97706" stroke-width="0.5" opacity="0.2"/>
+          <!-- Snake path -->
+          <path d="M85 80Q100 65 85 50Q70 35 85 20" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+          <!-- Ladder -->
+          <line x1="25" y1="75" x2="55" y2="20" stroke="#d97706" stroke-width="2" opacity="0.8"/>
+          <line x1="30" y1="63" x2="50" y2="31" stroke="#d97706" stroke-width="1" opacity="0.5"/>
+          <line x1="32" y1="57" x2="48" y2="38" stroke="#d97706" stroke-width="1" opacity="0.5"/>
+          <!-- Player token -->
+          <circle cx="26" cy="76" r="5" fill="#c9a227"/>
+        </svg>
+      </div>
+      <div class="game-card-body">
+        <div class="game-badge badge-intel">Stakes Mode</div>
+        <div class="game-title">Snakes & Ladders</div>
+        <div class="game-desc">Ubuntu board mechanics with real financial stakes. Climbs reward discipline; slips redirect to community pools.</div>
+        <div class="game-meta">
+          <div class="game-players">
+            <div class="players-avatars">
+              <div class="player-avatar" style="background:#d97706;"></div>
+              <div class="player-avatar" style="background:#c9a227;"></div>
+            </div>
+            <span>67 active</span>
+          </div>
+          <div class="game-play-btn">▶</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Crop Futures -->
+    <div class="game-card" onclick="alert('Entering Crop Futures…')">
+      <div class="game-card-visual game-bg-crop">
+        <svg width="140" height="100" viewBox="0 0 140 100" class="game-svg-icon">
+          <polyline points="10,80 35,55 55,65 80,25 100,40 130,15" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="10" cy="80" r="3" fill="#16a34a"/>
+          <circle cx="35" cy="55" r="3" fill="#16a34a"/>
+          <circle cx="55" cy="65" r="3" fill="#16a34a" opacity="0.7"/>
+          <circle cx="80" cy="25" r="3" fill="#c9a227"/>
+          <circle cx="100" cy="40" r="3" fill="#16a34a" opacity="0.7"/>
+          <circle cx="130" cy="15" r="3" fill="#c9a227"/>
+          <line x1="10" y1="85" x2="130" y2="85" stroke="#16a34a" stroke-width="0.5" opacity="0.3"/>
+          <line x1="10" y1="15" x2="10" y2="85" stroke="#16a34a" stroke-width="0.5" opacity="0.3"/>
+          <text x="80" y="18" font-size="8" fill="#c9a227" text-anchor="middle" font-weight="600">PEAK</text>
+          <line x1="80" y1="20" x2="80" y2="25" stroke="#c9a227" stroke-width="0.5" opacity="0.6"/>
+        </svg>
+      </div>
+      <div class="game-card-body">
+        <div class="game-badge badge-strategy">Futures</div>
+        <div class="game-title">Crop Futures</div>
+        <div class="game-desc">Hedge, hold, or crash. Simulate African commodity markets with real derivative logic — no prior experience needed.</div>
+        <div class="game-meta">
+          <div class="game-players">
+            <div class="players-avatars">
+              <div class="player-avatar" style="background:#16a34a;"></div>
+              <div class="player-avatar" style="background:#d97706;"></div>
+              <div class="player-avatar" style="background:#c9a227;"></div>
+            </div>
+            <span>114 active</span>
+          </div>
+          <div class="game-play-btn">▶</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2048 Futures -->
+    <div class="game-card" onclick="alert('Entering 2048 Futures…')">
+      <div class="game-card-visual game-bg-2048">
+        <svg width="120" height="100" viewBox="0 0 120 100" class="game-svg-icon">
+          <rect x="10" y="10" width="46" height="36" rx="4" fill="#dc2626" opacity="0.6"/>
+          <rect x="64" y="10" width="46" height="36" rx="4" fill="#dc2626" opacity="0.4"/>
+          <rect x="10" y="54" width="46" height="36" rx="4" fill="#dc2626" opacity="0.3"/>
+          <rect x="64" y="54" width="46" height="36" rx="4" fill="#c9a227" opacity="0.7"/>
+          <text x="33" y="33" text-anchor="middle" font-size="14" fill="#fff" font-weight="700">16</text>
+          <text x="87" y="33" text-anchor="middle" font-size="14" fill="#fff" font-weight="700">16</text>
+          <text x="33" y="77" text-anchor="middle" font-size="12" fill="#fff" font-weight="700">4</text>
+          <text x="87" y="77" text-anchor="middle" font-size="14" fill="#fff" font-weight="700">32</text>
+        </svg>
+      </div>
+      <div class="game-card-body">
+        <div class="game-badge badge-intel">Merge Markets</div>
+        <div class="game-title">2048 Futures</div>
+        <div class="game-desc">Hold and merge market positions to double your capital. Teaches compounding through tile mechanics.</div>
+        <div class="game-meta">
+          <div class="game-players">
+            <div class="players-avatars">
+              <div class="player-avatar" style="background:#dc2626;"></div>
+              <div class="player-avatar" style="background:#c9a227;"></div>
+            </div>
+            <span>58 active</span>
+          </div>
+          <div class="game-play-btn">▶</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CSGO Coinflip -->
+    <div class="game-card" onclick="alert('Entering CSGO Coinflip…')">
+      <div class="game-card-visual game-bg-coinflip">
+        <svg width="120" height="100" viewBox="0 0 120 100" class="game-svg-icon">
+          <circle cx="60" cy="50" r="32" fill="none" stroke="#0d9488" stroke-width="1.5"/>
+          <circle cx="60" cy="50" r="24" fill="none" stroke="#0d9488" stroke-width="0.5" opacity="0.4"/>
+          <text x="60" y="40" text-anchor="middle" font-size="9" fill="#0d9488" font-weight="600" letter-spacing="1">HEADS</text>
+          <line x1="45" y1="48" x2="75" y2="48" stroke="#0d9488" stroke-width="0.5" opacity="0.4"/>
+          <text x="60" y="60" text-anchor="middle" font-size="9" fill="#0d9488" opacity="0.6" font-weight="600" letter-spacing="1">TAILS</text>
+          <text x="60" y="50" text-anchor="middle" font-size="28" fill="#0d9488" opacity="0.15">R</text>
+          <circle cx="60" cy="50" r="4" fill="#0d9488" opacity="0.6"/>
+        </svg>
+      </div>
+      <div class="game-card-body">
+        <div class="game-badge badge-community">Transparency Layer</div>
+        <div class="game-title">CSGO Coinflip</div>
+        <div class="game-desc">Pure 50/50. Every flip is a lesson in probability — and every loss feeds the Ubuntu Pool, not a house edge.</div>
+        <div class="game-meta">
+          <div class="game-players">
+            <div class="players-avatars">
+              <div class="player-avatar" style="background:#0d9488;"></div>
+              <div class="player-avatar" style="background:#c9a227;"></div>
+              <div class="player-avatar" style="background:#16a34a;"></div>
+            </div>
+            <span>177 active</span>
+          </div>
+          <div class="game-play-btn">▶</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- LINDIWE AI SECTION -->
+<section id="lindiwe" class="lindiwe-section">
+  <div class="lindiwe-inner">
+    <div class="lindiwe-left">
+      <div class="section-eyebrow">AI Financial Coach</div>
+      <h2 class="section-title">LINDIWE<br><em style="font-style:normal;color:var(--teal);">sees patterns</em><br>you can't.</h2>
+      <div class="spacer-line"></div>
+      <p class="section-sub">LINDIWE is a POPIA-safe behavioural intelligence engine. She tracks impulse vs altruism ratios, session frequency, and micro-decisions — surfacing insights that protect you from yourself.</p>
+      <div class="tag-row">
+        <span class="tag">POPIA Compliant</span>
+        <span class="tag">ZAR-Native</span>
+        <span class="tag">No Data Sold</span>
+        <span class="tag">Offline-capable</span>
+        <span class="tag">Gemma 4 + Anthropic</span>
+      </div>
+    </div>
+
+    <div class="lindiwe-signal-panel">
+      <div class="lindiwe-header">
+        <div class="lindiwe-name">
+          <div class="lindiwe-avatar">L</div>
+          <div>
+            <div class="lindiwe-title">LINDIWE</div>
+            <div class="lindiwe-subtitle">Signal Dashboard · v2.0</div>
+          </div>
+        </div>
+        <div class="lindiwe-status">
+          <div class="status-dot"></div>
+          Active
+        </div>
+      </div>
+
+      <div class="signal-bars">
+        <div class="signal-bar">
+          <div class="signal-bar-label">Impulse Index</div>
+          <div class="signal-bar-value" style="color:var(--amber);">45<span style="font-size:16px;font-weight:400;">%</span></div>
+          <div class="signal-bar-track">
+            <div class="signal-bar-fill impulse-fill" style="width:45%;"></div>
+          </div>
+        </div>
+        <div class="signal-bar">
+          <div class="signal-bar-label">Altruism Index</div>
+          <div class="signal-bar-value" style="color:var(--teal);">30<span style="font-size:16px;font-weight:400;">%</span></div>
+          <div class="signal-bar-track">
+            <div class="signal-bar-fill altruism-fill" style="width:30%;"></div>
+          </div>
+        </div>
+        <div class="signal-bar">
+          <div class="signal-bar-label">Session Count</div>
+          <div class="signal-bar-value" style="color:var(--ink);">0</div>
+          <div style="font-size:11px;color:var(--ink3);margin-top:4px;">Awaiting first session</div>
+        </div>
+        <div class="signal-bar">
+          <div class="signal-bar-label">Balance Mode</div>
+          <div class="signal-bar-value" style="color:var(--green);font-size:18px;">BALANCED</div>
+          <div style="height:3px;background:var(--green);border-radius:999px;margin-top:8px;width:60%;opacity:0.5;"></div>
+        </div>
+      </div>
+
+      <div class="lindiwe-insight">
+        <svg class="insight-icon" viewBox="0 0 16 16" fill="none">
+          <path d="M8 1C4.13 1 1 4.13 1 8s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7zm.7 10.5H7.3V7h1.4v4.5zm0-6H7.3V4h1.4v1.5z" fill="#0d9488"/>
+        </svg>
+        <span>Start your first session to activate LINDIWE's full behavioural profile. She learns from every play — and grows more precise with every decision you make.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RANKS / UBUNTU SCORE -->
+<section id="ranks" class="rank-section">
+  <div class="rank-inner">
+    <div>
+      <div style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:10px;">Ubuntu Score System</div>
+      <h2 style="font-family:var(--font-display);font-size:clamp(28px,3.5vw,44px);font-weight:800;line-height:1.1;letter-spacing:-0.02em;color:var(--surface);margin-bottom:16px;">Five tiers.<br>One ladder.<br><span style="color:var(--gold);">No ceiling.</span></h2>
+      <p style="font-size:15px;color:rgba(240,236,228,0.55);line-height:1.65;max-width:400px;margin-bottom:36px;">Your Ubuntu Score is a composite 0–100 metric derived from contribution regularity, pool participation, mentorship activity, and accuracy of financial predictions.</p>
+
+      <div class="rank-tiers">
+        <div class="rank-tier">
+          <div class="tier-badge" style="background:rgba(240,236,228,0.08);color:rgba(240,236,228,0.5);">01</div>
+          <div>
+            <div class="tier-name">Member</div>
+            <div class="tier-desc">Entry level — pools open, games unlocked</div>
+          </div>
+          <div class="tier-xp">0 – 200 XP</div>
+        </div>
+
+        <div class="rank-tier current">
+          <div class="tier-badge" style="background:var(--gold-dim);color:var(--gold);">02</div>
+          <div>
+            <div class="tier-name" style="color:var(--gold);">Contributor ← You</div>
+            <div class="tier-desc">Pool creation access, voting rights</div>
+          </div>
+          <div class="tier-xp">1,200 XP</div>
+        </div>
+
+        <div class="rank-tier">
+          <div class="tier-badge" style="background:var(--teal-dim);color:var(--teal);">03</div>
+          <div>
+            <div class="tier-name">Steward</div>
+            <div class="tier-desc">Community arbitration, mentorship tier</div>
+          </div>
+          <div class="tier-xp">5,000+ XP</div>
+        </div>
+
+        <div class="rank-tier">
+          <div class="tier-badge" style="background:rgba(124,58,237,0.15);color:#a78bfa;">04</div>
+          <div>
+            <div class="tier-name">Elder</div>
+            <div class="tier-desc">Protocol governance, revenue share</div>
+          </div>
+          <div class="tier-xp">15,000+ XP</div>
+        </div>
+
+        <div class="rank-tier">
+          <div class="tier-badge" style="background:rgba(201,162,39,0.2);color:var(--gold);">05</div>
+          <div>
+            <div class="tier-name">Sovereign</div>
+            <div class="tier-desc">Full protocol authority, founding rights</div>
+          </div>
+          <div class="tier-xp">50,000+ XP</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="score-ring-container">
+      <div style="text-align:center;margin-bottom:8px;">
+        <div class="score-right-label">Current Ubuntu Score</div>
+      </div>
+      <div class="score-ring">
+        <svg class="score-ring-svg" width="180" height="180" viewBox="0 0 180 180">
+          <circle class="score-ring-track" cx="90" cy="90" r="80"/>
+          <circle class="score-ring-fill" id="scoreRing" cx="90" cy="90" r="80"/>
+        </svg>
+        <div class="score-ring-value">
+          <div class="score-number" id="scoreNumber">0</div>
+          <div class="score-label">/ 100</div>
+        </div>
+      </div>
+
+      <div class="score-meta-grid">
+        <div class="score-meta-item">
+          <div class="score-meta-val">1,200</div>
+          <div class="score-meta-key">Total XP</div>
+        </div>
+        <div class="score-meta-item">
+          <div class="score-meta-val">Contributor</div>
+          <div class="score-meta-key">Current Tier</div>
+        </div>
+        <div class="score-meta-item">
+          <div class="score-meta-val">0</div>
+          <div class="score-meta-key">Pools Joined</div>
+        </div>
+        <div class="score-meta-item">
+          <div class="score-meta-val">0</div>
+          <div class="score-meta-key">Mentees</div>
+        </div>
+      </div>
+
+      <p class="score-desc">XP accrues through pool contributions, game sessions, mentorship, and accurate financial forecasts. Every action — collective or individual — is scored.</p>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN US — COLLABORATORS -->
+<section id="join" class="join-section">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Open Invitation</div>
+      <h2 class="section-title">Many ways in.<br>One shared direction.</h2>
+      <p class="section-sub">Ubuntu Pools is being built in public. We are actively seeking builders, believers, and connectors who understand that infrastructure is community.</p>
+    </div>
+  </div>
+
+  <div class="collaborator-grid">
+
+    <div class="collab-card collab-card-affiliate" onclick="alert('Affiliate programme — coming Q3 2026')">
+      <div class="collab-iconbox iconbox-gold">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="#c9a227" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="collab-label">Revenue Share</div>
+        <div class="collab-title">Affiliate Partner</div>
+      </div>
+      <div class="collab-desc">Earn a percentage of pool activity you generate. Ideal for community leaders, influencers, and stokvel coordinators already running offline groups.</div>
+      <div class="collab-perks">
+        <span class="perk-pill">ZAR payouts</span>
+        <span class="perk-pill">Pool creation rights</span>
+        <span class="perk-pill">Custom referral link</span>
+        <span class="perk-pill">Co-branding</span>
+      </div>
+      <div class="collab-cta">Apply to the affiliate programme →</div>
+    </div>
+
+    <div class="collab-card collab-card-developer" onclick="alert('Developer SDK — early access Q2 2026')">
+      <div class="collab-iconbox iconbox-teal">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <polyline points="16 18 22 12 16 6" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="8 6 2 12 8 18" stroke="#0d9488" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="collab-label">Open Platform</div>
+        <div class="collab-title">Developer / Builder</div>
+      </div>
+      <div class="collab-desc">Build on top of the Ubuntu Pools API. Create custom games, financial tools, or integrations that extend the ecosystem — and earn from usage of your contributions.</div>
+      <div class="collab-perks">
+        <span class="perk-pill">API early access</span>
+        <span class="perk-pill">SafeGrid integration</span>
+        <span class="perk-pill">Revenue share on builds</span>
+        <span class="perk-pill">LINDIWE SDK</span>
+      </div>
+      <div class="collab-cta" style="color:var(--teal);">Request developer access →</div>
+    </div>
+
+    <div class="collab-card collab-card-promoter" onclick="alert('Promoter network — launching soon')">
+      <div class="collab-iconbox iconbox-purple">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M18 8h1a4 4 0 0 1 0 8h-1" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="6" y1="1" x2="6" y2="4" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="10" y1="1" x2="10" y2="4" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="14" y1="1" x2="14" y2="4" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="collab-label">Awareness & Growth</div>
+        <div class="collab-title">Promoter / DJ</div>
+      </div>
+      <div class="collab-desc">For DJs, event promoters, and creatives in the African club scene. Embed Ubuntu Pools into your events, playlists, and community — earn XP and revenue for every activation.</div>
+      <div class="collab-perks">
+        <span class="perk-pill">Event integration kit</span>
+        <span class="perk-pill">DJ Ubuntu drops</span>
+        <span class="perk-pill">Branded pool hosting</span>
+        <span class="perk-pill">Ubuntu DJ access</span>
+      </div>
+      <div class="collab-cta" style="color:#7c3aed;">Join the promoter network →</div>
+    </div>
+
+    <div class="collab-card collab-card-pool" onclick="alert('Pool Host programme — open now')">
+      <div class="collab-iconbox iconbox-green">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="9" cy="7" r="4" stroke="#16a34a" stroke-width="1.5"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="collab-label">Community First</div>
+        <div class="collab-title">Pool Host / Stokvel Organiser</div>
+      </div>
+      <div class="collab-desc">Already organising a stokvel or community savings group? Host it on Ubuntu Pools. Digitise your existing trust infrastructure and unlock LINDIWE coaching for your members.</div>
+      <div class="collab-perks">
+        <span class="perk-pill">Free pool hosting</span>
+        <span class="perk-pill">LINDIWE for members</span>
+        <span class="perk-pill">Contribution tracking</span>
+        <span class="perk-pill">Community scoreboard</span>
+      </div>
+      <div class="collab-cta" style="color:var(--green);">Host your pool →</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER CTA -->
+<section class="footer-cta">
+  <p class="footer-cta-title">The pool is open.<br><span style="color:var(--teal);">Dive in.</span></p>
+  <p class="footer-cta-sub">Ubuntu Pools is live in pilot. You are early. The communities built in this phase become the founding stokvel of a new financial layer for Africa.</p>
+  <div class="footer-cta-actions">
+    <button class="btn-primary" style="font-size:16px;padding:16px 36px;" onclick="scrollToSection('arcade')">
+      Play a Game
+    </button>
+    <button class="btn-secondary" style="font-size:16px;padding:16px 36px;" onclick="scrollToSection('join')">
+      Join the Protocol
+    </button>
+  </div>
+  <p class="footer-note">Ubuntu Pools · Vaguely Vanity LLC · Pro Installations Pty Ltd · Eastern Cape, South Africa · POPIA Compliant</p>
+</section>
+
+<script>
+  // Smooth scroll navigation
+  function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Intersection Observer for section reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Animate Ubuntu score ring when ranks section appears
+        if (entry.target.id === 'ranks') animateScore();
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('section').forEach(s => {
+    observer.observe(s);
+    // Hero visible immediately
+    if (s.id === 'hero') s.classList.add('visible');
+  });
+
+  // Score ring animation
+  function animateScore() {
+    const ring = document.getElementById('scoreRing');
+    const num = document.getElementById('scoreNumber');
+    if (!ring || !num) return;
+    const target = 48; // 48/100 Ubuntu Score
+    const circumference = 2 * Math.PI * 80;
+    const dashoffset = circumference * (1 - target / 100);
+    ring.style.strokeDasharray = circumference;
+    ring.style.strokeDashoffset = dashoffset;
+    // Number counter
+    let current = 0;
+    const step = target / 60;
+    const counter = setInterval(() => {
+      current = Math.min(current + step, target);
+      num.textContent = Math.round(current);
+      if (current >= target) clearInterval(counter);
+    }, 16);
+  }
+
+  // Nav active state on scroll
+  const sections = ['hero', 'philosophy', 'arcade', 'lindiwe', 'ranks', 'join'];
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 100) current = id;
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.textContent.toLowerCase().includes(current.substring(0,4))) {
+        link.classList.add('active');
+      }
+    });
+  });
+</script>
+</body>
+</html>
