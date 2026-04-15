@@ -7,7 +7,7 @@
 ## 🚀 Enterprise-Grade Development Environment
 *Multi-Factor Sybil Defense • Dynamic Governance • Behavioral Intelligence*
 
-[![Phase 14 Complete](https://img.shields.io/badge/Phase_14-Complete-28a745?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
+[![Phase 15 Complete](https://img.shields.io/badge/Phase_15-Complete-28a745?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
 [![Security](https://img.shields.io/badge/Security-Enterprise-FF6B6B?style=for-the-badge&logo=shield&logoColor=white)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
 
 </div>
@@ -15,6 +15,9 @@
 This guide provides comprehensive instructions for setting up a local development environment to run Ubuntu Pools (Next.js frontend) and SafeGrid (Go backend) simultaneously. This enables full integration testing and development of the trust ecosystem where Ubuntu Score influences SafeGrid alert suppression.
 
 **🆕 New Features Available:**
+- **Financial Intelligence Arcade**: 5 educational games with behavioral signals
+- **Lindiwe AI Integration**: Game telemetry feeds credit risk models
+- **Prestige Scoring**: Non-transferable reputation from financial wisdom
 - **Multi-Factor Sybil Defense**: Test 4-layer verification systems
 - **Dynamic Governance Quorum**: Experiment with scaling governance models
 - **Behavioral Intelligence**: Debug Lindiwe AI signal processing
@@ -1052,22 +1055,43 @@ jobs:
 
 ## 🧪 Testing Advanced Features
 
+### Games Engine Testing
+
+```bash
+# Start a game session
+curl -X POST http://localhost:3000/api/games/session \
+  -H "Content-Type: application/json" \
+  -d '{"gameId":"ubuntu_monopoly","memberId":"test-user"}'
+
+# Submit behavioral signals
+curl -X POST http://localhost:3000/api/games/telemetry \
+  -H "Content-Type: application/json" \
+  -d '{"memberId":"test-user","sessionId":"session-123","gameId":"ubuntu_monopoly","signals":[{"type":"risk_appetite","value":75}]}'
+
+# Get prestige score
+curl http://localhost:3000/api/games/prestige/test-user
+
+# Erase game history (POPIA compliance)
+curl -X POST http://localhost:3000/api/sovereignty/erase-games \
+  -H "Content-Type: application/json" \
+  -d '{"memberId":"test-user"}'
+```
+
 ### Multi-Factor Sybil Defense Testing
 
 ```bash
 # Test temporal verification (30-day requirement)
-cd ubuntu-pools
-curl -X POST http://localhost:5000/api/games/telemetry \
+curl -X POST http://localhost:3000/api/games/telemetry \
   -H "Content-Type: application/json" \
   -d '{"memberId":"test-user","sessionId":"session-123","gameId":"ubuntu_monopoly","newMember":true}'
 
 # Test behavioral verification
-curl -X POST http://localhost:5000/api/games/telemetry \
+curl -X POST http://localhost:3000/api/games/telemetry \
   -H "Content-Type: application/json" \
   -d '{"memberId":"experienced-user","sessionId":"session-456","gameId":"ubuntu_monopoly","consistentPlay":true}'
 
 # Test social verification
-curl -X POST http://localhost:5000/api/games/telemetry \
+curl -X POST http://localhost:3000/api/games/telemetry \
   -H "Content-Type: application/json" \
   -d '{"memberId":"village-member","sessionId":"session-789","gameId":"ubuntu_monopoly","hasEndorsements":true}'
 ```
