@@ -1,0 +1,7 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/api/leaderboards/[gameId]": "pages/api/leaderboards/[gameId].js",
+  "/api/lindiwe/ingest": "pages/api/lindiwe/ingest.js",
+  "/_document": "pages/_document.js"
+}

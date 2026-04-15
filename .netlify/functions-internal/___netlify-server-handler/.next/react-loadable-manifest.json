@@ -1,0 +1,20 @@
+{
+  "node_modules/@clerk/nextjs/dist/esm/app-router/client/ClerkProvider.js -> ./keyless-creator-reader.js": {
+    "id": 15811,
+    "files": [
+      "static/chunks/5811.d1faf25d71fe3ac5.js"
+    ]
+  },
+  "node_modules/@clerk/nextjs/dist/esm/app-router/client/keyless-cookie-sync.js -> ../keyless-actions.js": {
+    "id": 9744,
+    "files": [
+      "static/chunks/9744.1fbd2cd47063f357.js"
+    ]
+  },
+  "src/components/ubuntu-pools-v2/App.tsx -> ./GameModal": {
+    "id": 39341,
+    "files": [
+      "static/chunks/9341.40c6ddb5be98b338.js"
+    ]
+  }
+}
