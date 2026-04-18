@@ -1,6 +1,6 @@
 # 🌍 Ubuntu Pools Platform
 
-[![Phase 15 Complete](https://img.shields.io/badge/Phase_15-Complete-28a745?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
+[![Repository Restructured](https://img.shields.io/badge/Repository-Restructured-28a745?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
 [![AWS Africa](https://img.shields.io/badge/AWS_Africa-Cape_Town-FF9900?style=for-the-badge&logo=amazon-aws&logoColor=white)](https://aws.amazon.com/)
 [![POPIA Compliant](https://img.shields.io/badge/POPIA-Compliant-28a745?style=for-the-badge&logo=law&logoColor=white)](https://www.gov.za/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.0-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
@@ -61,6 +61,20 @@
 - **Pool Defense Lottery**: High-stakes gambling simulation teaching risk assessment (10x jackpot potential)
 - **Global Shocks Crop Trading**: Agricultural market volatility with crash mechanics (real-time multiplier tracking)
 - **Stokvel Strategy**: Collective pool management with voting mechanics (trust and default simulation)
+
+### ✅ Repository Restructuring Complete (2026-04-18)
+<div align="center">
+
+## 🏗️ **Apps/Packages Workspace** • 🚀 **Turbo Monorepo** • 📦 **Domain Boundaries**
+
+</div>
+
+**Major Architecture Transformation:**
+- **Workspace Migration**: Converted from monolithic structure to Turbo-powered apps/packages monorepo
+- **Application Separation**: Three deployable applications (web, worker, realtime) with independent scaling
+- **Domain Packages**: 17 specialized packages with clear ownership boundaries
+- **Import System**: Clean `@ubuntu/*` aliases replacing relative imports
+- **Scalability Foundation**: Parallel development and deployment capabilities established
 
 ### ✅ Platform Enhancements (2026-04-18)
 <div align="center">
@@ -138,10 +152,11 @@ Advanced trust mechanisms including reputation friction, invite chains, and port
 
 | Category | Status | Details |
 |----------|--------|---------|
+| 🏗️ **Architecture** | 🟢 Restructured | Apps/packages monorepo with Turbo orchestration |
 | 🚀 **Deployment** | 🟢 Live | [Vercel Production](https://workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app) |
 | 🌐 **Domain** | ✅ Active | `workspace-gbexj9x1f-divhanimajokweni-1651s-projects.vercel.app` |
 | 🗄️ **Database** | 🟢 Active | PostgreSQL 15 + Drizzle ORM + Games Schema (Fully Synchronized) |
-| 🔐 **Authentication** | 🟢 Active | Clerk JWT integration |
+| 🔐 **Authentication** | 🟢 Active | Clerk JWT integration + Vercel OAuth |
 | 📧 **Email** | 🟢 Active | Resend (domain configured, webhooks ready) |
 | ⚡ **Caching** | 🟢 Active | Redis via Upstash |
 | 📊 **Monitoring** | 🟢 Active | Sentry error tracking + Vercel Speed Insights |
@@ -150,6 +165,7 @@ Advanced trust mechanisms including reputation friction, invite chains, and port
 | 💬 **Community Messaging** | 🟢 Active | WhatsApp Business API |
 | 🎮 **Games Engine** | ✅ **NEW** | 5 financial literacy games active |
 | 🧠 **Behavioural AI** | ✅ **NEW** | Lindiwe AI processing game telemetry |
+| 📦 **Workspace** | ✅ **NEW** | 17 domain packages with clean boundaries |
 
 <div align="center">
 
@@ -766,8 +782,11 @@ bun run dev:realtime   # Socket.io server (port 4001)
 
 #### ✅ **Step 5: Verify Installation**
 ```bash
-# 6️⃣ Test the setup
-curl http://localhost:5000/api/health
+# 6️⃣ Test the web application
+curl http://localhost:3000/api/health
+
+# Test the real-time server (if running)
+curl http://localhost:4001/health
 ```
 > 💡 **Progress**: 100% complete ✨
 
@@ -2151,6 +2170,7 @@ MIT License - See LICENSE file for details.
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
 
 ### 🎯 Impact Metrics
+- 🏗️ **Architecture**: Apps/packages monorepo with 17 domain packages
 - 🌍 **Communities**: Building collective prosperity worldwide
 - 🤝 **Members**: Trust-based reputation system
 - 💰 **Economic Access**: Credit facilities for underserved populations
@@ -2158,6 +2178,7 @@ MIT License - See LICENSE file for details.
 - 🎮 **Education**: 5 financial literacy games teaching collective finance
 - 🧠 **AI Intelligence**: Behavioural signals from 500+ monthly game sessions
 - 🏆 **Prestige System**: Non-transferable reputation earned through financial wisdom
+- 📦 **Scalability**: Independent scaling for web, worker, and realtime applications
 
 ### 🚀 Join the Movement
 
@@ -2169,8 +2190,8 @@ MIT License - See LICENSE file for details.
 
 ---
 
-*Last Updated: April 14, 2026*
-*Version: 1.5.0*
+*Last Updated: April 18, 2026*
+*Version: 2.0.0*
 *Built with Next.js 16, React 19, and the Ubuntu philosophy*
 
 </div>
