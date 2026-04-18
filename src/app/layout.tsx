@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   title:       'Ubuntu Pools — Community Savings',
   description: 'Community savings built on Ubuntu philosophy. Stake from R500.',
   icons: { icon: '/favicon.ico' },
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes',
+  themeColor: '#0f172a',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

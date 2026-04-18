@@ -1,0 +1,40 @@
+#!/bin/sh
+# Pre-commit hook to enforce repository rules
+
+# Check for uncommitted secrets/keys
+echo "Checking for sensitive files..."
+
+SENSITIVE_PATTERNS="\.env|\.pem|credentials\.json|secrets\.json|api-?key"
+for file in $(git diff --cached --name-only 2>/dev/null); do
+    if echo "$file" | grep -qE "$SENSITIVE_PATTERNS"; then
+        echo "WARNING: Attempting to commit potentially sensitive file: $file"
+        echo "If this is a false positive, use --no-verify to bypass"
+        echo "review .githooks/README.md for allowed patterns"
+    fi
+done
+
+# Check commit message format
+COMMIT_MSG_FILE=$1
+COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+
+# Must have subject (first line)
+if [ -z "$(head -1 "$COMMIT_MSG_FILE")" ]; then
+    echo "ERROR: Commit message is empty"
+    exit 1
+fi
+
+# Subject should not be too long (72 chars)
+SUBJECT=$(head -1 "$COMMIT_MSG_FILE")
+if [ ${#SUBJECT} -gt 72 ]; then
+    echo "ERROR: Commit subject exceeds 72 characters ($(( ${#SUBJECT} - 72 )) too long)"
+    exit 1
+fi
+
+# Check for WIP commits
+if echo "$COMMIT_MSG" | grep -qi "WIP\|work in progress"; then
+    echo "WARNING: Commit message contains WIP"
+    echo "Remove WIP before merging to protected branches"
+fi
+
+echo "Commit validation passed"
+exit 0

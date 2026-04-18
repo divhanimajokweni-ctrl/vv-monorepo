@@ -1,0 +1,39 @@
+#!/bin/sh
+# Commit-msg hook to enforce commit message format
+
+COMMIT_MSG_FILE=$1
+COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+
+# Conventional commits pattern: type(scope): description
+# Types: feat, fix, docs, style, refactor, test, chore, ci, perf, build, revert
+VALID_TYPES="feat|fix|docs|style|refactor|test|chore|ci|perf|build|revert|merge"
+
+# Check subject line
+SUBJECT=$(head -1 "$COMMIT_MSG_FILE")
+
+# Must start with type
+if ! echo "$SUBJECT" | grep -qE "^($VALID_TYPES)"; then
+    echo "ERROR: Commit subject must start with type: ($VALID_TYPES)"
+    echo "Example: feat: add new user authentication"
+    exit 1
+fi
+
+# No period at end of subject
+if echo "$SUBJECT" | grep -q "\.$"; then
+    echo "ERROR: Do not end subject with period"
+    exit 1
+fi
+
+# Subject lowercase
+if echo "$SUBJECT" | grep -qE "^[A-Z]"; then
+    echo "ERROR: Use lowercase for subject"
+    exit 1
+fi
+
+# Check body exists if subject is long
+if [ ${#SUBJECT} -gt 50 ] && [ -z "$(sed -n '2p' "$COMMIT_MSG_FILE")" ]; then
+    echo "WARNING: Subject over 50 chars, add body (blank line after subject)"
+fi
+
+echo "Commit message format validated"
+exit 0
