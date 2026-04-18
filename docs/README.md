@@ -62,6 +62,20 @@
 - **Global Shocks Crop Trading**: Agricultural market volatility with crash mechanics (real-time multiplier tracking)
 - **Stokvel Strategy**: Collective pool management with voting mechanics (trust and default simulation)
 
+### ✅ Platform Enhancements (2026-04-18)
+<div align="center">
+
+## 🏠 **Landing Page Overhaul** • 🤖 **UbuntuDJ Integration** • 🔐 **Enhanced Authentication**
+
+</div>
+
+**Recent Platform Improvements:**
+- **Landing Page Redesign**: Complete overhaul using Ubuntu design system with responsive layout and improved user experience
+- **UbuntuDJ Component Analysis**: Comprehensive documentation and integration of DJ-inspired UI components for enhanced visual appeal
+- **Authentication Enhancement**: Added Vercel OAuth sign-in alongside existing Clerk authentication for improved access options
+- **Responsive Accessibility**: Enhanced mobile responsiveness and accessibility features across all components
+- **Git Ruleset Updates**: Improved development workflow with updated git rules and contribution guidelines
+
 ### ✅ Phase 15 Complete — Games Integration (Financial Intelligence Arcade)
 <div align="center">
 
@@ -116,6 +130,9 @@ Advanced trust mechanisms including reputation friction, invite chains, and port
 | 🧠 **Behavioural AI** | ✅ **NEW** | Lindiwe AI processing game telemetry |
 | 🏆 **Prestige Scoring** | ✅ **NEW** | Non-transferable reputation earned through financial wisdom |
 | 🌍 **Custom Domain** | ✅ **NEW** | Full DNS setup with email authentication |
+| 🏠 **Landing Page** | ✅ **NEW** | Complete redesign with Ubuntu design system |
+| 🤖 **UbuntuDJ** | ✅ **NEW** | Component analysis and integration |
+| 🔐 **Vercel Auth** | ✅ **NEW** | OAuth authentication alongside Clerk |
 
 ### 📊 Current Status
 
@@ -654,7 +671,8 @@ src/tests/
 
 | Service | Purpose | Environment | Status |
 |---------|---------|-------------|--------|
-| 🔐 **Clerk** | Authentication | Development | 🟢 Required |
+| 🔐 **Clerk** | Primary authentication | Development | 🟢 Required |
+| ⚡ **Vercel** | OAuth authentication | Development | 🟢 Available |
 | 📊 **Sentry** | Error tracking | Development | 🟢 Required |
 | ⚡ **Upstash** | Redis caching | Development | 🟢 Required |
 | 📧 **Resend** | Email service | Development | 🟢 Required |

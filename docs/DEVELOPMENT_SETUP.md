@@ -22,6 +22,10 @@ This guide provides comprehensive instructions for setting up a local developmen
 - **Financial Intelligence Arcade**: 5+ educational games with behavioral signals
 - **Lindiwe AI Integration**: Game telemetry feeds credit risk models
 - **Prestige Scoring**: Non-transferable reputation from financial wisdom
+- **Landing Page Overhaul**: Complete redesign with Ubuntu design system
+- **UbuntuDJ Integration**: Component analysis and DJ-inspired UI components
+- **Enhanced Authentication**: Vercel OAuth alongside Clerk authentication
+- **Responsive Accessibility**: Improved mobile experience and accessibility features
 - **Multi-Factor Sybil Defense**: Test 4-layer verification systems
 - **Dynamic Governance Quorum**: Experiment with scaling governance models
 - **Behavioral Intelligence**: Debug Lindiwe AI signal processing
@@ -326,7 +330,25 @@ save 60 10000
    - Copy `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` (pk_test_...)
 
 4. **Configure JWT Templates (Optional)**
-   - Add custom claims for Ubuntu Score integration
+    - Add custom claims for Ubuntu Score integration
+
+### Vercel Authentication Setup (Alternative/Additional)
+
+The platform now supports Vercel OAuth authentication alongside Clerk:
+
+1. **Vercel OAuth Configuration**
+   - The platform automatically detects Vercel environment
+   - No additional setup required for Vercel OAuth
+   - Users can sign in with their Vercel accounts
+
+2. **Dual Authentication Support**
+   - Clerk remains the primary authentication method
+   - Vercel OAuth provides an additional sign-in option
+   - Both authentication methods maintain the same user experience
+
+3. **Environment Variables**
+   - No additional environment variables needed for Vercel OAuth
+   - Works automatically in Vercel deployments
 
 ### Service Account Setup
 
