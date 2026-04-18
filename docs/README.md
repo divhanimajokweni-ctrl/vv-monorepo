@@ -140,8 +140,8 @@ Advanced trust mechanisms including reputation friction, invite chains, and port
 | 📊 **Speed Insights** | ✅ **NEW** | Real user performance monitoring |
 | 🌐 **Browserbase** | ✅ Active | Browser automation capabilities |
 | 💬 **WhatsApp API** | ✅ Active | Community messaging with rate limiting |
-| 🎮 **Games Engine** | ✅ **NEW** | 5 financial literacy games active |
-| 🧠 **Behavioural AI** | ✅ **NEW** | Lindiwe AI processing game telemetry |
+| 🎮 **Games Engine** | ✅ **NEW** | 5 financial literacy games active (packages/games) |
+| 🧠 **Behavioural AI** | ✅ **NEW** | Lindiwe AI processing game telemetry (packages/lindiwe) |
 | 🏆 **Prestige Scoring** | ✅ **NEW** | Non-transferable reputation earned through financial wisdom |
 | 🌍 **Custom Domain** | ✅ **NEW** | Full DNS setup with email authentication |
 | 🏠 **Landing Page** | ✅ **NEW** | Complete redesign with Ubuntu design system |
@@ -165,6 +165,7 @@ Advanced trust mechanisms including reputation friction, invite chains, and port
 | 💬 **Community Messaging** | 🟢 Active | WhatsApp Business API |
 | 🎮 **Games Engine** | ✅ **NEW** | 5 financial literacy games active |
 | 🧠 **Behavioural AI** | ✅ **NEW** | Lindiwe AI processing game telemetry |
+| 📦 **Workspace** | ✅ **NEW** | 17 domain packages with clean boundaries |
 | 📦 **Workspace** | ✅ **NEW** | 17 domain packages with clean boundaries |
 
 <div align="center">
@@ -826,29 +827,29 @@ Visit `http://localhost:3000` to access the platform.
 
 </div>
 
-**Phase 15 Complete**: The Financial Intelligence Arcade is now live with 5 educational games that generate rich behavioural signals for Lindiwe AI. Games teach financial concepts while building credit intelligence through structured play.
+**Phase 15 Complete**: The Financial Intelligence Arcade is now live with 5 educational games that generate rich behavioural signals for Lindiwe AI. Games are implemented in the `packages/games` domain package, teach financial concepts while building credit intelligence through structured play.
 
 #### 🚀 API Endpoints
 
 ```bash
 # 🎯 Access games dashboard
-curl http://localhost:5000/api/games
+curl http://localhost:3000/api/games
 
 # 🎮 Start game session
-curl -X POST http://localhost:5000/api/games/session \
+curl -X POST http://localhost:3000/api/games/session \
   -H "Content-Type: application/json" \
   -d '{"gameId":"ubuntu_monopoly","memberId":"user_123"}'
 
 # 🧠 Extract behavioural signals
-curl -X POST http://localhost:5000/api/games/telemetry \
+curl -X POST http://localhost:3000/api/games/telemetry \
   -H "Content-Type: application/json" \
   -d '{"memberId":"user_123","sessionId":"session_456","gameId":"ubuntu_monopoly","signals":[{"type":"risk_appetite","value":75}]}'
 
 # 🏆 Get prestige score
-curl http://localhost:5000/api/games/prestige/user_123
+curl http://localhost:3000/api/games/prestige/user_123
 
 # 🛡️ Erase game history (POPIA compliance)
-curl -X POST http://localhost:5000/api/sovereignty/erase-games \
+curl -X POST http://localhost:3000/api/sovereignty/erase-games \
   -H "Content-Type: application/json" \
   -d '{"memberId":"user_123"}'
 ```
@@ -893,7 +894,7 @@ Each game session generates **7 key behavioural signals** that feed directly int
 **Dashboard Component:**
 Import the Ubuntu Games Dashboard in any page:
 ```tsx
-import { UbuntuGamesDashboard } from '@/components/dashboard/UbuntuGamesDashboard';
+import { UbuntuGamesDashboard } from '@ubuntu/ui/components/dashboard/UbuntuGamesDashboard';
 
 <UbuntuGamesDashboard />  // Full mode
 <UbuntuGamesDashboard compact />  // Compact mode
@@ -2175,9 +2176,10 @@ MIT License - See LICENSE file for details.
 - 🤝 **Members**: Trust-based reputation system
 - 💰 **Economic Access**: Credit facilities for underserved populations
 - 🛡️ **Privacy**: Sovereignty-protected data rights
-- 🎮 **Education**: 5 financial literacy games teaching collective finance
-- 🧠 **AI Intelligence**: Behavioural signals from 500+ monthly game sessions
+- 🎮 **Education**: 5 financial literacy games teaching collective finance (packages/games)
+- 🧠 **AI Intelligence**: Behavioural signals from 500+ monthly game sessions (packages/lindiwe)
 - 🏆 **Prestige System**: Non-transferable reputation earned through financial wisdom
+- 📦 **Domain Packages**: 17 specialized packages with clear ownership boundaries
 - 📦 **Scalability**: Independent scaling for web, worker, and realtime applications
 
 ### 🚀 Join the Movement
