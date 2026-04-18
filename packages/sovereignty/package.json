@@ -1,0 +1,5 @@
+{
+  "name": "@ubuntu/sovereignty",
+  "private": true,
+  "main": "src/index.ts"
+}
