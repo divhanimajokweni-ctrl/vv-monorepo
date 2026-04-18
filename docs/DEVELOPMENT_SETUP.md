@@ -12,7 +12,54 @@
 
 </div>
 
-This guide provides comprehensive instructions for setting up a local development environment to run Ubuntu Pools (Next.js frontend) and SafeGrid (Go backend) simultaneously. This enables full integration testing and development of the trust ecosystem where Ubuntu Score influences SafeGrid alert suppression.
+This guide provides comprehensive instructions for setting up a local development environment for the Ubuntu Pools monorepo. The repository is structured as an **apps/packages workspace** with three deployable applications (web, worker, realtime) and 17 domain packages for clean separation of concerns.
+
+## Workspace Architecture
+
+Ubuntu Pools is built as a **Turbo-powered monorepo** with clean domain boundaries:
+
+### Applications (`apps/`)
+- **`apps/web`**: Next.js frontend application (port 3000)
+- **`apps/worker`**: Background job processor for async tasks
+- **`apps/realtime`**: Socket.io server for live connections (port 4001)
+
+### Domain Packages (`packages/`)
+- **`packages/config`**: Environment and runtime configuration
+- **`packages/domain-core`**: Shared primitives (types, events, money)
+- **`packages/db`**: Database layer and migrations
+- **`packages/auth`**: Authentication and authorization
+- **`packages/villages`**: Community and village management
+- **`packages/governance`**: Democratic decision making
+- **`packages/reputation`**: Trust scoring and behavioral analysis
+- **`packages/credit`**: Financial services and credit facilities
+- **`packages/ledger`**: Transaction recording and accounting
+- **`packages/games`**: Educational gaming platform
+- **`packages/lindiwe`**: AI behavioral intelligence
+- **`packages/messaging`**: Communications and notifications
+- **`packages/sovereignty`**: Data privacy and user rights
+- **`packages/ui`**: Shared UI components
+- **`packages/observability`**: Logging and monitoring
+- **`packages/cache`**: Redis and caching utilities
+
+### Development Commands
+```bash
+# Install all workspace dependencies
+bun install
+
+# Run all applications in parallel
+bun run dev
+
+# Run individual applications
+bun run dev:web        # Frontend only
+bun run dev:worker     # Background jobs only
+bun run dev:realtime   # Real-time server only
+
+# Run workspace-wide commands
+bun run build          # Build all packages/apps
+bun run test           # Run all tests
+bun run lint           # Lint all code
+bun run typecheck      # Type check all code
+```
 
 **🆕 New Features Available:**
 - **Ubuntu Pools V2.0**: Cyberpunk gamified financial literacy at `/ubuntu-pools-v2`
@@ -402,18 +449,29 @@ bun run lint
 bun run build
 ```
 
-### 5. Start Development Server
+### 5. Start Development Servers
 
 ```bash
+# Start all workspace applications in parallel
 bun run dev
+
+# Or start individual applications:
+bun run dev:web        # Next.js frontend (port 3000)
+bun run dev:worker     # Background jobs processor
+bun run dev:realtime   # Socket.io real-time server (port 4001)
 ```
 
-Expected output:
+Expected output for web application:
 ```
 ▲ Next.js 16.x.x
 - Local:        http://localhost:3000
 - Environments: .env.local
 ✓ Ready in 2.3s
+```
+
+Expected output for real-time server:
+```
+realtime_listening port=4001
 ```
 
 ## SafeGrid Setup

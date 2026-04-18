@@ -38,9 +38,10 @@
 
 ## Prerequisites
 
-- **Node.js** 18+ 
-- **Bun** (recommended) or npm/yarn
-- **PostgreSQL** database (for production features)
+- **Bun** 1.2.0+ (recommended) or **Node.js** 18+
+- **PostgreSQL** 15+ database
+- **Redis** 7+ (for caching and background jobs)
+- **Git** for version control
 
 ---
 
@@ -68,10 +69,33 @@ DATABASE_URL=postgresql://user:password@localhost:5432/ubuntu_pools
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-### 3. Run Development Server
+### 3. Run Development Servers
+
+The Ubuntu Pools workspace includes three applications that can run independently:
 
 ```bash
-bun dev
+# Run all applications in parallel
+bun run dev
+
+# Run individual applications:
+bun run dev:web        # Next.js frontend (http://localhost:3000)
+bun run dev:worker     # Background job processor
+bun run dev:realtime   # Socket.io real-time server (http://localhost:4001)
+```
+
+### 4. Verify Installation
+
+Test each application:
+
+```bash
+# Test web application
+curl http://localhost:3000/api/health
+
+# Test real-time server (if running)
+curl http://localhost:4001/health
+
+# Run workspace tests
+bun run test
 ```
 
 The app will be available at `http://localhost:3000`
@@ -235,11 +259,21 @@ CREATE SCHEMA village_khayelitsha;
 
 ## Production Build
 
+Build all workspace applications and packages:
+
 ```bash
-bun build
+# Build all applications and packages
+bun run build
+
+# Build individual applications:
+bun run build:web      # Build Next.js frontend
+# Worker and realtime apps build automatically with their dependencies
 ```
 
-This creates an optimized production build in the `.next` directory.
+This creates optimized production builds:
+- **Web App**: `apps/web/.next/` directory
+- **Worker App**: `apps/worker/dist/` directory
+- **Real-time App**: `apps/realtime/dist/` directory
 
 ### Alternative Build Strategies for Cross-Platform Consistency
 
@@ -358,8 +392,18 @@ module.exports = nextConfig
 
 ## Deployment
 
-### Recommended Platform: Vercel
+### Multi-Application Workspace Deployment
 
+The Ubuntu Pools workspace includes three deployable applications that can be deployed independently:
+
+#### Application Overview
+- **`apps/web`**: Next.js frontend (port 3000) - **Vercel recommended**
+- **`apps/worker`**: Background job processor - **Railway or Render recommended**
+- **`apps/realtime`**: Socket.io server (port 4001) - **Railway or Render recommended**
+
+### Recommended Deployment Platforms
+
+#### Frontend Application (`apps/web`): Vercel
 Vercel is the best platform for Next.js applications with zero configuration.
 
 #### Option 1: Deploy via Vercel CLI
@@ -380,6 +424,48 @@ vercel
 4. Vercel will automatically detect Next.js and configure the build
 5. Add environment variables in the Vercel dashboard if needed
 6. Click "Deploy"
+
+#### Background Worker (`apps/worker`): Railway or Render
+
+For the background job processor, Railway or Render provide excellent Node.js deployment:
+
+```bash
+# Deploy to Railway
+railway login
+railway deploy
+
+# Or deploy to Render
+render deploy
+```
+
+**Environment Variables for Worker:**
+```env
+DATABASE_URL=postgresql://...
+REDIS_URL=redis://...
+ANTHROPIC_API_KEY=...
+# ... other required env vars
+```
+
+#### Real-time Server (`apps/realtime`): Railway or Render
+
+For the Socket.io real-time server:
+
+```bash
+# Railway deployment
+railway login
+railway deploy --service=realtime
+
+# Render deployment
+render deploy --service=realtime
+```
+
+**Environment Variables for Real-time:**
+```env
+DATABASE_URL=postgresql://...
+REDIS_URL=redis://...
+PORT=4001
+# ... other required env vars
+```
 
 #### Custom Domain & Email Setup
 

@@ -354,44 +354,66 @@ Ubuntu Pools follows a **microservices-inspired architecture** within a monorepo
 
 ## Codebase Structure
 
+**Ubuntu Pools** is built as a modern **apps/packages monorepo** using Turbo workspaces, providing clean domain boundaries and independent scaling capabilities.
+
 ### Root Directory Organization
 
 ```
 ubuntu-pools/
-├── .env.local.example          # Environment template
-├── .gitignore                  # Git exclusions
-├── AGENTS.md                   # AI agent instructions
-├── CLAUDE.md                   # Claude AI context
-├── drizzle.config.ts           # Drizzle ORM configuration
-├── eslint.config.mjs           # ESLint configuration
-├── next.config.ts              # Next.js configuration
-├── OPERATIONS.md               # Operations documentation
-├── OPERATIONS_SCOPE.md         # Operations scope definition
-├── package.json                 # Dependencies and scripts
-├── postcss.config.mjs          # PostCSS/Tailwind configuration
-├── README.md                   # This file
-├── SECURITY.md                 # Security policies
-├── tailwind.config.js          # Tailwind CSS configuration
-├── tsconfig.json               # TypeScript configuration
-├── vitest.config.ts            # Vitest testing configuration
-├── docker-compose.yml          # Docker Compose for local dev
-├── trust-security-controls.md  # Trust security documentation
+├── turbo.json                    # Workspace orchestration
+├── tsconfig.base.json            # Shared TypeScript configuration
+├── bunfig.toml                   # Bun workspace configuration
+├── package.json                  # Root workspace configuration
+├── .env.local.example           # Environment template
+├── .gitignore                   # Git exclusions
+├── AGENTS.md                    # AI agent instructions
+├── CLAUDE.md                    # Claude AI context
+├── SECURITY.md                  # Security policies
+├── docker-compose.yml           # Docker Compose for local dev
+└── drizzle.config.ts            # Moved to packages/db/
 │
-├── src/                        # Source code
-│   ├── app/                    # Next.js App Router
-│   ├── components/            # React UI components
-│   ├── lib/                   # Core business logic
-│   ├── db/                    # Database schemas & migrations
-│   └── tests/                 # Test suite
+├── apps/                        # Deployable Applications
+│   ├── web/                     # Next.js Frontend Application
+│   │   ├── app/                 # Next.js App Router
+│   │   ├── components/          # App-specific UI components
+│   │   ├── package.json         # Web app dependencies
+│   │   └── tsconfig.json        # Web app TypeScript config
+│   ├── worker/                  # Background Job Processor
+│   │   ├── src/                 # Worker source code
+│   │   └── package.json         # Worker dependencies
+│   └── realtime/                # Socket.io Real-time Server
+│       ├── src/                 # Real-time source code
+│       └── package.json         # Real-time dependencies
 │
-├── docs/                       # Documentation
-│   ├── adr/                   # Architecture Decision Records
-│   ├── phase2-compliance.md   # Phase 2 compliance docs
+├── packages/                    # Domain Packages (Business Logic)
+│   ├── config/                  # Environment & runtime configuration
+│   ├── domain-core/             # Shared domain primitives (types, events, money)
+│   ├── db/                      # Database layer & migrations
+│   ├── observability/           # Logging & monitoring infrastructure
+│   ├── cache/                   # Redis & caching utilities
+│   ├── auth/                    # Authentication & authorization
+│   ├── villages/                # Community & village management
+│   ├── governance/              # Democratic decision making
+│   ├── reputation/              # Trust scoring & behavioral analysis
+│   ├── credit/                  # Financial services & credit facilities
+│   ├── ledger/                  # Transaction recording & accounting
+│   ├── games/                   # Educational gaming platform
+│   ├── lindiwe/                 # AI behavioral intelligence
+│   ├── messaging/               # Communications & notifications
+│   ├── sovereignty/             # Data privacy & user rights
+│   ├── ui/                      # Shared UI components
+│   └── test-utils/              # Testing infrastructure
+│
+├── docs/                        # Documentation Suite
+│   ├── adr/                     # Architecture Decision Records
+│   ├── repo-structure/          # Package ownership & dependency rules
+│   ├── runbooks/                # Operational procedures
+│   ├── phase2-compliance.md     # Phase 2 compliance docs
 │   └── phase3-ubuntu-transformation.md
 │
-├── code-review/                # Code review artifacts
-├── tools/                      # Utility scripts
-└── openclaw-skills/           # OpenClaw skill definitions
+├── code-review/                 # Code review artifacts
+├── tools/                       # Utility scripts
+└── openclaw-skills/            # OpenClaw skill definitions
 ```
 
 ### Detailed Source Structure
@@ -730,10 +752,15 @@ docker-compose up -d postgres redis
 ```
 > 💡 **Progress**: 60% complete
 
-#### 🎯 **Step 4: Launch Development Server**
+#### 🎯 **Step 4: Launch Development Servers**
 ```bash
-# 5️⃣ Run the development server
-bun dev
+# 5️⃣ Run all workspace applications
+bun run dev
+
+# Or run individual applications:
+bun run dev:web        # Next.js frontend (port 3000)
+bun run dev:worker     # Background jobs processor
+bun run dev:realtime   # Socket.io server (port 4001)
 ```
 > 💡 **Progress**: 80% complete
 
@@ -749,11 +776,14 @@ curl http://localhost:5000/api/health
 Once running, verify the installation:
 
 ```bash
-# Test the API health
-curl http://localhost:5000/api/health
+# Test the web application
+curl http://localhost:3000/api/health
+
+# Test the real-time server (if running)
+curl http://localhost:4001/health
 
 # Run the test suite
-bun test
+bun run test
 
 # Check TypeScript compilation
 bun typecheck
