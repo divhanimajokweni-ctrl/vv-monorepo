@@ -1,0 +1,5 @@
+{
+  "name": "@ubuntu/domain-core",
+  "private": true,
+  "main": "src/index.ts"
+}

@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "baseUrl": ".",
+    "paths": {
+      "@ubuntu/config": ["packages/config/src/index.ts"],
+      "@ubuntu/domain-core": ["packages/domain-core/src/index.ts"],
+      "@ubuntu/auth": ["packages/auth/src/index.ts"],
+      "@ubuntu/db": ["packages/db/src/index.ts"],
+      "@ubuntu/cache": ["packages/cache/src/index.ts"],
+      "@ubuntu/ledger": ["packages/ledger/src/index.ts"],
+      "@ubuntu/governance": ["packages/governance/src/index.ts"],
+      "@ubuntu/villages": ["packages/villages/src/index.ts"],
+      "@ubuntu/reputation": ["packages/reputation/src/index.ts"],
+      "@ubuntu/credit": ["packages/credit/src/index.ts"],
+      "@ubuntu/games": ["packages/games/src/index.ts"],
+      "@ubuntu/lindiwe": ["packages/lindiwe/src/index.ts"],
+      "@ubuntu/messaging": ["packages/messaging/src/index.ts"],
+      "@ubuntu/sovereignty": ["packages/sovereignty/src/index.ts"],
+      "@ubuntu/ui": ["packages/ui/src/index.ts"],
+      "@ubuntu/observability": ["packages/observability/src/index.ts"],
+      "@ubuntu/test-utils": ["packages/test-utils/src/index.ts"]
+    }
+  }
+}

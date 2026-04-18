@@ -13,6 +13,14 @@ Phase 14 implements game telemetry integration with Lindiwe AI, ensuring proper 
   - Added games engine testing examples to development setup guide
   - Updated badges and features list to include Financial Intelligence Arcade
   - Confirmed database synchronization status in platform status table
+- [x] **Repository Restructuring** (2026-04-18)
+  - Converted monolith to apps/packages workspace architecture
+  - Created apps/web, apps/worker, apps/realtime applications
+  - Established 17 domain packages: config, domain-core, auth, db, observability, cache, villages, governance, reputation, credit, ledger, games, lindiwe, messaging, sovereignty, ui, test-utils
+  - Moved src/app to apps/web/app, src/components split between packages/ui and apps/web/components
+  - Moved src/db to packages/db, created packages/config, packages/domain-core, packages/observability, packages/cache
+  - Set up workspace tooling with turbo.json, tsconfig.base.json, and bunfig.toml
+  - Established @ubuntu/* import aliases for clean package boundaries
 - [x] **Documentation Updates** (2026-04-18)
   - Updated platform documentation files (README.md, DEVELOPMENT_SETUP.md, OPERATIONS.md) to reflect recent changes
   - Added landing page overhaul details and Ubuntu design system implementation

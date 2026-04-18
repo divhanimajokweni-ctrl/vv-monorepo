@@ -1,0 +1,5 @@
+{
+  "name": "@ubuntu/ui",
+  "private": true,
+  "main": "src/index.ts"
+}
