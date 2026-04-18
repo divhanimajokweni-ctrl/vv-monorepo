@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { sovereigntyProxy, configureSovereignty, SovereigntySettingsSchema } from '@/lib/services/sovereignty-proxy';
+import { sovereigntyProxy, configureSovereignty, SovereigntySettingsSchema } from '@ubuntu/sovereignty';
 
 const toggleSchema = z.object({
   memberId: z.string().uuid(),

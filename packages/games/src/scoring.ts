@@ -6,8 +6,8 @@
  * - Prestige flows upward into Ubuntu Score as a capped bonus only
  * - Points are earned by demonstrated financial wisdom, not luck
  */
-import { db } from '@/db/client';
-import { prestigeScores, prestigeLedger } from '@/db/schema-games';
+import { db } from '@ubuntu/db/client';
+import { prestigeScores, prestigeLedger } from '@ubuntu/db/schema-games';
 import { eq } from 'drizzle-orm';
 import type { GameId, GameState, BehaviouralSignal, PrestigeAward } from './types';
  

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getTransparencyMetrics } from '@/lib/observability/service';
+import { getTransparencyMetrics } from '@ubuntu/observability/service';
 
 export async function GET() {
   try {

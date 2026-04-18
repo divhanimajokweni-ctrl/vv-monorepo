@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/db/client';
-import { waitlist } from '@/db/schema';
+import { db } from '@ubuntu/db/client';
+import { waitlist } from '@ubuntu/db/schema';
 import { sql } from 'drizzle-orm';
 
 export async function GET() {

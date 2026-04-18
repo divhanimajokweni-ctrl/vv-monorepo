@@ -1,8 +1,8 @@
 // Replaces cloud-only threat scoring with local-first inference.
 // Sensitive CCTV metadata never leaves the premise when local is active.
 import { InferenceRouter } from "../inference-router";
-import { db } from '@/db/client';
-import { incidents, policies } from '@/db/schema';
+import { db } from '@ubuntu/db/client';
+import { incidents, policies } from '@ubuntu/db/schema';
 export interface ThreatClassification {
 threatLevel: "none" | "low" | "medium" | "high" | "critical";
 confidence: number; // 0–1

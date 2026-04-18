@@ -3,8 +3,8 @@
  * Zero-knowledge credentials for reputation portability
  */
 
-import { db } from "@/db/client";
-import { villageMembers, villages, liquidityPools } from "@/db/schema-village";
+import { db } from "@ubuntu/db/client";
+import { villageMembers, villages, liquidityPools } from "@ubuntu/db/schema-village";
 import { eq, and, sql, desc } from "drizzle-orm";
 import { randomUUID } from "crypto";
 

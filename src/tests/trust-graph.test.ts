@@ -4,19 +4,19 @@ import {
   calculateFrequencyFactor,
   calculateReputationMultiplier,
   normalizeTransactionValue,
-} from "@/lib/trust-graph/weight-calculator";
-import { calculateGraphTrustScore } from "@/lib/trust-graph/score-calculator";
-import { computePageRank } from "@/lib/trust-graph/pagerank";
+} from "@ubuntu/reputation/weight-calculator";
+import { calculateGraphTrustScore } from "@ubuntu/reputation/score-calculator";
+import { computePageRank } from "@ubuntu/reputation/pagerank";
 import {
   detectCircularTransactions,
   detectReputationBoostingClusters,
   detectSybilNodes,
   detectVelocityAnomalies,
   applyFraudPenalties,
-} from "@/lib/trust-graph/fraud-detection";
-import { detectClusters } from "@/lib/trust-graph/cluster-detector";
-import { filterByAccessLevel, generateTrustProfile } from "@/lib/trust-graph/privacy-layer";
-import type { GraphNode, GraphEdge } from "@/lib/trust-graph/types";
+} from "@ubuntu/reputation/fraud-detection";
+import { detectClusters } from "@ubuntu/reputation/cluster-detector";
+import { filterByAccessLevel, generateTrustProfile } from "@ubuntu/reputation/privacy-layer";
+import type { GraphNode, GraphEdge } from "@ubuntu/reputation/types";
 
 function makeNode(overrides: Partial<GraphNode> & { id: string }): GraphNode {
   return {

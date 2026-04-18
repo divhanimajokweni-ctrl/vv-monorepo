@@ -4,7 +4,7 @@ import {
   getTransparencyMetrics,
   getSystemHealth,
   getEventLog,
-} from '@/lib/observability/service';
+} from '@ubuntu/observability/service';
 
 describe('Observability Service', () => {
   describe('getTransparencyMetrics', () => {

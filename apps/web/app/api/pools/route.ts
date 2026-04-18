@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/db/client';
-import { pools } from '@/db/schema';
+import { db } from '@ubuntu/db/client';
+import { pools } from '@ubuntu/db/schema';
 import { inArray } from 'drizzle-orm';
 
 export async function GET() {

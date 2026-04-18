@@ -3,7 +3,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { villageService } from "@/lib/services/village-service";
+import { villageService } from "@ubuntu/villages";
 import { z } from "zod";
 
 const CreatePoolSchema = z.object({

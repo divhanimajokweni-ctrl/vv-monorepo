@@ -1,6 +1,6 @@
-import { db } from '@/db/client';
-import { stakes } from '@/db/schema';
-import { CacheEngine } from '@/lib/cache/engine';
+import { db } from '@ubuntu/db/client';
+import { stakes } from '@ubuntu/db/schema';
+import { CacheEngine } from '@ubuntu/cache/engine';
 import { sql } from 'drizzle-orm';
 
 // Placeholder for getting Ubuntu Score - integrate with credit service

@@ -5,8 +5,8 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { generateProsperityOpportunity, getPoolRecommendations } from '@/lib/services/matchmaker';
-import { sovereigntyProxy } from '@/lib/services/sovereignty-proxy';
+import { generateProsperityOpportunity, getPoolRecommendations } from '@ubuntu/lindiwe';
+import { sovereigntyProxy } from '@ubuntu/sovereignty';
 
 const opportunityRequestSchema = z.object({
   memberId: z.string().uuid(),

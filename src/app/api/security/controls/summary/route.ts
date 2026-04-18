@@ -4,7 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { securityControlsService } from '@/lib/services/security-controls-service';
+import { securityControlsService } from '@ubuntu/auth';
 
 export async function GET(request: NextRequest) {
   try {

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { GameService } from '@/lib/services/game-service';
+import { GameService } from '@ubuntu/games';
  
 export async function GET() {
   const leaderboard = await GameService.getLeaderboard();

@@ -5,7 +5,7 @@ import {
   generateProof,
   verifyProof,
   buildLevels,
-} from "@/lib/ledger/merkle";
+} from "@ubuntu/ledger/merkle";
 import { createHash } from "crypto";
 
 function sha256(data: string): string {

@@ -31,20 +31,20 @@ import {
   migrateConstitution,
   type ConstitutionVersion,
   type RuleEvaluationContext,
-} from "@/lib/governance/constitution";
-import type { GovernanceProposal, GovernanceVote } from "@/db/schema";
+} from "@ubuntu/governance/constitution";
+import type { GovernanceProposal, GovernanceVote } from "@ubuntu/db/schema";
 import {
   validateProposal,
   validateVote,
   type GovernanceDenial,
   type GateContext,
-} from "@/lib/governance";
+} from "@ubuntu/governance";
 import {
   GovernanceGate,
   GATED_ACTIONS,
   isGatedAction,
   type GateAction,
-} from "@/lib/governance/gate";
+} from "@ubuntu/governance/gate";
 
 // =============================================================================
 // TEST FIXTURES

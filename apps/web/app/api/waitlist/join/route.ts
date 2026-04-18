@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/db/client';
-import { waitlist } from '@/db/schema';
+import { db } from '@ubuntu/db/client';
+import { waitlist } from '@ubuntu/db/schema';
 import { sendEmail } from '@/lib/email';
 import { getWhatsAppProvider } from '@/lib/integrations/whatsapp';
 

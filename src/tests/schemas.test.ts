@@ -25,7 +25,7 @@ import {
   ledgerPostingRuleCreatedPayloadSchema,
   ledgerTransactionPostedPayloadSchema,
   ledgerTransactionFailedPayloadSchema,
-} from "@/lib/events/schemas";
+} from "@ubuntu/domain-core/schemas";
 
 // =============================================================================
 // PRIMITIVE VALIDATORS

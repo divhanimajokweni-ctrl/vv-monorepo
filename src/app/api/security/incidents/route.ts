@@ -5,8 +5,8 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { securityControlsService } from '@/lib/services/security-controls-service';
-import { type RiskLevel } from '@/db/schema-security-controls';
+import { securityControlsService } from '@ubuntu/auth';
+import { type RiskLevel } from '@ubuntu/db/schema-security-controls';
 
 const createIncidentSchema = z.object({
   title: z.string().min(1).max(200),

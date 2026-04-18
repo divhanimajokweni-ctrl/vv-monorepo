@@ -3,7 +3,7 @@
  * Pure functions to detect and penalize score manipulation
  */
 
-import { SignatureVerifier } from "@/lib/events/signature-verifier";
+import { SignatureVerifier } from "@ubuntu/domain-core/signature-verifier";
 
 export interface TransactionRecord {
   fromId: string;

@@ -3,7 +3,7 @@
  * Deterministic score derived from signed contribution events
  */
 
-import { computeMerkleRoot } from "@/lib/ledger/merkle";
+import { computeMerkleRoot } from "@ubuntu/ledger/merkle";
 
 export interface ScoredContribution {
   hash: string;

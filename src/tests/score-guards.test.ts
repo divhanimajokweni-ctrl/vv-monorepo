@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isUniqueTx, detectCircularFlow, weightAttestation } from '@/lib/services/score-guards';
+import { isUniqueTx, detectCircularFlow, weightAttestation } from '@ubuntu/reputation';
 
 describe('Score Guards', () => {
   describe('isUniqueTx', () => {

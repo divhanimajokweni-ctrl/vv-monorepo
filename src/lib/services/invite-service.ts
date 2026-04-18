@@ -3,7 +3,7 @@
  * Trust-based onboarding with proper guardrails
  */
 
-import { db } from "@/db/client";
+import { db } from "@ubuntu/db/client";
 import {
   invites,
   inviteRelationships,
@@ -13,10 +13,10 @@ import {
   type NewInviteRelationship,
   type NewInvitePenalty,
   type NewAnchorInvitation,
-} from "@/db/schema-invite";
-import { villageMembers, villages } from "@/db/schema-village";
+} from "@ubuntu/db/schema-invite";
+import { villageMembers, villages } from "@ubuntu/db/schema-village";
 import { eq, and, sql, desc, gt, lt } from "drizzle-orm";
-import { getTrustTier } from "@/lib/reputation/friction";
+import { getTrustTier } from "@ubuntu/reputation/friction";
 
 const INVITE_CONFIG = {
   EXPIRY_DAYS: 14,

@@ -4,7 +4,7 @@
  */
 
 import { randomUUID } from "crypto";
-import type { UserIdentityKey } from "@/db/schema-identity";
+import type { UserIdentityKey } from "@ubuntu/db/schema-identity";
 
 export class KeypairManager {
   private keys: Map<string, UserIdentityKey> = new Map();

@@ -1,6 +1,6 @@
 import { computeEventHash, verifyHashChain, verifyEventHash, type EventHashInput, type HashResult } from "../events/hasher";
 import { LedgerQueries } from "../ledger/queries";
-import type { Database } from "@/db/client";
+import type { Database } from "@ubuntu/db/client";
 
 export interface EventSourcingConfig {
   db: Database;

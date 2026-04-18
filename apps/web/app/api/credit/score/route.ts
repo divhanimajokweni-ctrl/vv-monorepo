@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { creditService } from '@/lib/services/credit-service';
+import { creditService } from '@ubuntu/credit';
 
 const contributionPeriodSchema = z.object({
   period: z.number().int().positive(),

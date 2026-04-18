@@ -4,7 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { villageService } from "@/lib/services/village-service";
+import { villageService } from "@ubuntu/villages";
 
 export async function GET(
   request: NextRequest,

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
-import { GameService } from '@/lib/services/game-service';
-import type { GameId } from '@/lib/games/types';
+import { GameService } from '@ubuntu/games';
+import type { GameId } from '@ubuntu/games/types';
  
 /** POST /api/games/sessions — start a new game session */
 export async function POST(request: Request) {

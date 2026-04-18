@@ -4,7 +4,7 @@
  */
 
 import { randomUUID } from 'crypto';
-import { db } from '@/db/client';
+import { db } from '@ubuntu/db/client';
 import {
   securityControls,
   controlEvidence,
@@ -23,7 +23,7 @@ import {
   type ControlStatus,
   type ControlPriority,
   type RiskLevel,
-} from '@/db/schema-security-controls';
+} from '@ubuntu/db/schema-security-controls';
 import { eq, desc, and, sql, like } from 'drizzle-orm';
 
 export interface ControlSummary {

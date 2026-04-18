@@ -4,7 +4,7 @@
  */
 
 import { createHash, randomBytes } from "crypto";
-import type { ZeroKnowledgeProof } from "@/lib/privacy/sovereignty";
+import type { ZeroKnowledgeProof } from "@ubuntu/sovereignty/sovereignty";
 
 /**
  * Generate a score range proof.

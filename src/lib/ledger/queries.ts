@@ -17,14 +17,14 @@
  */
 
 import { eq, and, desc, asc, gte, lte, sql, sum, count } from "drizzle-orm";
-import type { Database } from "@/db/client";
+import type { Database } from "@ubuntu/db/client";
 import {
   ledgerAccounts,
   journalEntries,
   events,
   postingRules,
-} from "@/db/schema";
-import type { LedgerAccount, JournalEntry, Event } from "@/db/schema";
+} from "@ubuntu/db/schema";
+import type { LedgerAccount, JournalEntry, Event } from "@ubuntu/db/schema";
 
 // =============================================================================
 // TYPES

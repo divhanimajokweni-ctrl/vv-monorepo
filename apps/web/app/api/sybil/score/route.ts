@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { evaluateUser } from "@/lib/sybil/decision-engine";
-import { computeTimeTrustSignal } from "@/lib/sybil/time-trust";
-import { computeDiversitySignal } from "@/lib/sybil/diversity-scoring";
-import { computeDeviceBindingSignal } from "@/lib/sybil/device-binding";
-import { computeHumanVerificationSignal } from "@/lib/sybil/human-verification";
-import { computeEconomicActivitySignal, computeTransactionFrictionSignal } from "@/lib/sybil/economic-activity";
-import { computeSocialAnchorSignal } from "@/lib/sybil/social-anchors";
-import { computeVillageShieldSignal } from "@/lib/sybil/village-shield";
-import { computeGrowthSignal } from "@/lib/sybil/growth-limits";
-import type { SybilSignals, VerificationLevel } from "@/lib/sybil/types";
+import { evaluateUser } from "@ubuntu/reputation/decision-engine";
+import { computeTimeTrustSignal } from "@ubuntu/reputation/time-trust";
+import { computeDiversitySignal } from "@ubuntu/reputation/diversity-scoring";
+import { computeDeviceBindingSignal } from "@ubuntu/reputation/device-binding";
+import { computeHumanVerificationSignal } from "@ubuntu/reputation/human-verification";
+import { computeEconomicActivitySignal, computeTransactionFrictionSignal } from "@ubuntu/reputation/economic-activity";
+import { computeSocialAnchorSignal } from "@ubuntu/reputation/social-anchors";
+import { computeVillageShieldSignal } from "@ubuntu/reputation/village-shield";
+import { computeGrowthSignal } from "@ubuntu/reputation/growth-limits";
+import type { SybilSignals, VerificationLevel } from "@ubuntu/reputation/types";
 
 const querySchema = z.object({
   userId: z.string().min(1),

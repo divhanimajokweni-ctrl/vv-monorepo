@@ -8,22 +8,22 @@ import {
   generateEd25519Keypair,
   signData,
   SignatureVerifier,
-} from "@/lib/events/signature-verifier";
-import { KeypairManager } from "@/lib/identity/keypair-manager";
+} from "@ubuntu/domain-core/signature-verifier";
+import { KeypairManager } from "@ubuntu/auth/keypair-manager";
 import {
   verifySignedAction,
   createSignedAction,
-} from "@/lib/identity/action-verifier";
-import { verifySignedAttestation } from "@/lib/services/score-guards";
+} from "@ubuntu/auth/action-verifier";
+import { verifySignedAttestation } from "@ubuntu/reputation";
 import {
   computeVerifiableScore,
   verifyScoreComputation,
-} from "@/lib/services/verifiable-score";
+} from "@ubuntu/reputation";
 import {
   generateScoreRangeProof,
   verifyScoreRangeProof,
-} from "@/lib/identity/score-proof";
-import { CreditService } from "@/lib/services/credit-service";
+} from "@ubuntu/auth/score-proof";
+import { CreditService } from "@ubuntu/credit";
 
 // =============================================================================
 // Ed25519 TESTS

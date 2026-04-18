@@ -7,7 +7,7 @@ import {
   orderSettlement,
   procurementCircle,
   marketIntel,
-} from "@/lib/market";
+} from "@ubuntu/villages";
 
 export async function POST(request: Request) {
   try {

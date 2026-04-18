@@ -28,8 +28,8 @@ import {
   AmountExtractionError,
   BalanceAssertionError,
   DuplicateTransactionError,
-} from "@/lib/ledger/posting-engine";
-import type { Event } from "@/db/schema";
+} from "@ubuntu/ledger/posting-engine";
+import type { Event } from "@ubuntu/db/schema";
 
 // =============================================================================
 // TEST FIXTURES

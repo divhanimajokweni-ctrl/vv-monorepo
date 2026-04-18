@@ -2,8 +2,8 @@
 // Runs Gemma 4 locally for every score update event.
 // No user behavioral data ever leaves the platform.
 import { InferenceRouter } from "../inference-router";
-import { db } from '@/db/client';
-import { ubuntuScores, stokvels, members, contributions } from '@/db/schema';
+import { db } from '@ubuntu/db/client';
+import { ubuntuScores, stokvels, members, contributions } from '@ubuntu/db/schema';
 import { eq, desc, gte, and } from "drizzle-orm";
 export interface UbuntuScoreFactors {
 consistencyScore: number; // 0-100: on-time contribution rate

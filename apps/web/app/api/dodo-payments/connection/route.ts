@@ -9,10 +9,10 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getDodoPaymentsProvider } from '@/lib/bank-provider/dodo-payments';
-import { requireAuth } from '@/lib/auth/middleware';
+import { getDodoPaymentsProvider } from '@ubuntu/credit/dodo-payments';
+import { requireAuth } from '@ubuntu/auth/middleware';
 import { eq } from 'drizzle-orm';
-import { db } from '@/db/client';
+import { db } from '@ubuntu/db/client';
 
 const DODO_PAYMENTS_LINKED_ACCOUNTS_TABLE = 'dodo_payments_linked_accounts';
 

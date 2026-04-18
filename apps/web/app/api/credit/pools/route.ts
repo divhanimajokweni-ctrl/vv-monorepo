@@ -9,8 +9,8 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { creditService, CreditPoolConfigSchema } from '@/lib/services/credit-service';
-import { requireAuth, generateToken } from '@/lib/auth/middleware';
+import { creditService, CreditPoolConfigSchema } from '@ubuntu/credit';
+import { requireAuth, generateToken } from '@ubuntu/auth/middleware';
 
 const RATE_LIMIT_WINDOW = 60 * 1000;
 const MAX_REQUESTS_PER_WINDOW = 10;

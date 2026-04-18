@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
-import { ubuntuBackbone } from '@/lib/backbone';
+import { ubuntuBackbone } from '@ubuntu/lindiwe';
 
 async function getClerkUserId(): Promise<string | null> {
   const { userId } = await auth();

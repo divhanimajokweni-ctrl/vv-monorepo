@@ -4,11 +4,11 @@
  * All game events are first-class Ubuntu platform events: hashed, signed, immutable.
  */
 import crypto from 'crypto';
-import { db } from '@/db/client';
-import { gameSessions, gameEvents, type GameSession } from '@/db/schema-games';
+import { db } from '@ubuntu/db/client';
+import { gameSessions, gameEvents, type GameSession } from '@ubuntu/db/schema-games';
 import { eq, and } from 'drizzle-orm';
-import { createEventEmitter } from '@/lib/events/emitter';
-import LindiweSignalProcessor from '@/lib/lindiwe/pipeline';
+import { createEventEmitter } from '@ubuntu/domain-core/emitter';
+import LindiweSignalProcessor from '@ubuntu/lindiwe/pipeline';
 
 const lindiweProcessor = new LindiweSignalProcessor();
 

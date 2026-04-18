@@ -13,7 +13,7 @@ import {
   timeDecay,
   counterpartyMultiplier,
   CATEGORY_WEIGHTS,
-} from '@/lib/services/credit-service';
+} from '@ubuntu/credit';
 import { randomUUID } from 'crypto';
 
 describe('CreditService', () => {

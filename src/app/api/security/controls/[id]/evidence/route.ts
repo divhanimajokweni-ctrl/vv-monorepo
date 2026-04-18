@@ -5,8 +5,8 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { securityControlsService } from '@/lib/services/security-controls-service';
-import { type EvidenceType } from '@/db/schema-security-controls';
+import { securityControlsService } from '@ubuntu/auth';
+import { type EvidenceType } from '@ubuntu/db/schema-security-controls';
 
 const addEvidenceSchema = z.object({
   evidenceType: z.enum(['document', 'screenshot', 'log', 'configuration', 'test_report', 'audit_report', 'policy', 'procedure']),

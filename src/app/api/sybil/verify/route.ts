@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { VerificationLevelSchema } from "@/lib/sybil/types";
-import { canAdvanceToLevel } from "@/lib/sybil/human-verification";
+import { VerificationLevelSchema } from "@ubuntu/reputation/types";
+import { canAdvanceToLevel } from "@ubuntu/reputation/human-verification";
 
 const bodySchema = z.object({
   userId: z.string().min(1),

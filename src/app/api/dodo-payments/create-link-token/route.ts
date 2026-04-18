@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getDodoPaymentsProvider } from '@/lib/bank-provider/dodo-payments';
+import { getDodoPaymentsProvider } from '@ubuntu/credit/dodo-payments';
 
 export async function POST(request: NextRequest) {
   try {

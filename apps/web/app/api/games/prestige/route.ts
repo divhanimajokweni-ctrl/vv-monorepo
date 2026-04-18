@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
-import { GameService } from '@/lib/services/game-service';
+import { GameService } from '@ubuntu/games';
  
 export async function GET() {
   const { userId } = await auth();

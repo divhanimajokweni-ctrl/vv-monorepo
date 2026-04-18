@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { TrustGraphEngine } from "@/lib/trust-graph/graph-engine";
-import { calculateGraphTrustScore } from "@/lib/trust-graph/score-calculator";
-import { generateTrustProfile, filterByAccessLevel } from "@/lib/trust-graph/privacy-layer";
+import { TrustGraphEngine } from "@ubuntu/reputation/graph-engine";
+import { calculateGraphTrustScore } from "@ubuntu/reputation/score-calculator";
+import { generateTrustProfile, filterByAccessLevel } from "@ubuntu/reputation/privacy-layer";
 
 const engine = new TrustGraphEngine();
 

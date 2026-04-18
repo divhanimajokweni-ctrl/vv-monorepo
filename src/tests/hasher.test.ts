@@ -19,7 +19,7 @@ import {
   verifyHashChain,
   verifyEventHash,
   type EventHashInput,
-} from "@/lib/events/hasher";
+} from "@ubuntu/domain-core/hasher";
 
 // =============================================================================
 // TEST FIXTURES

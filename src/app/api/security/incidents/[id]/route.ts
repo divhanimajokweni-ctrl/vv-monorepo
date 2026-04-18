@@ -4,7 +4,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { securityControlsService } from '@/lib/services/security-controls-service';
+import { securityControlsService } from '@ubuntu/auth';
 
 const updateIncidentSchema = z.object({
   status: z.enum(['open', 'investigating', 'contained', 'resolved', 'closed']).optional(),

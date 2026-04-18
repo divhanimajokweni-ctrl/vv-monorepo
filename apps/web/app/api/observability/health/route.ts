@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { getSystemHealth } from '@/lib/observability/service';
-import { db, pgClient } from '@/db/client';
-import { events } from '@/db/schema';
+import { getSystemHealth } from '@ubuntu/observability/service';
+import { db, pgClient } from '@ubuntu/db/client';
+import { events } from '@ubuntu/db/schema';
 
 interface HealthCheckResponse {
   status: 'healthy' | 'degraded' | 'critical';
@@ -63,7 +63,7 @@ export async function GET() {
   }
 
   try {
-    const { CacheEngine } = await import('@/lib/cache/engine');
+    const { CacheEngine } = await import('@ubuntu/cache/engine');
     cacheStatus = {
       status: 'up',
       using: CacheEngine.isUsingRedis() ? 'redis' : 'memory',

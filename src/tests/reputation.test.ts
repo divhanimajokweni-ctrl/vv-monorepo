@@ -4,8 +4,8 @@ import {
   getAuthorityLevel,
   canPerformAction,
   AUTHORITY_LEVELS,
-} from '@/lib/reputation/engine';
-import type { TrustEvent } from '@/lib/reputation/engine';
+} from '@ubuntu/reputation/engine';
+import type { TrustEvent } from '@ubuntu/reputation/engine';
 
 describe('Reputation Engine', () => {
   const mockEvents: TrustEvent[] = [

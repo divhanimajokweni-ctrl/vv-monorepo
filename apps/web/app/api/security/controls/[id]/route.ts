@@ -5,10 +5,10 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { db } from '@/db/client';
-import { securityControls } from '@/db/schema-security-controls';
-import { securityControlsService } from '@/lib/services/security-controls-service';
-import { type ControlStatus } from '@/db/schema-security-controls';
+import { db } from '@ubuntu/db/client';
+import { securityControls } from '@ubuntu/db/schema-security-controls';
+import { securityControlsService } from '@ubuntu/auth';
+import { type ControlStatus } from '@ubuntu/db/schema-security-controls';
 import { eq } from 'drizzle-orm';
 
 const updateStatusSchema = z.object({

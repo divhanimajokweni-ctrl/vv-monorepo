@@ -1,7 +1,7 @@
 // pages/api/leaderboards/[gameId].ts
 import { NextApiRequest, NextApiResponse } from 'next';
-import { db } from '@/db/client';
-import { gameSessions } from '@/db/schema-games';
+import { db } from '@ubuntu/db/client';
+import { gameSessions } from '@ubuntu/db/schema-games';
 import { eq, gte, desc, and } from 'drizzle-orm';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

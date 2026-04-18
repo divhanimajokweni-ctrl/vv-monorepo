@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/db/client';
+import { db } from '@ubuntu/db/client';
 import { sql } from 'drizzle-orm';
 
 export async function GET() {

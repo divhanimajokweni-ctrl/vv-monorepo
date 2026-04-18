@@ -5,9 +5,9 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/db/client";
-import { createEventService } from "@/lib/services/event-service";
-import { createLedgerService } from "@/lib/services/ledger-service";
+import { db } from "@ubuntu/db/client";
+import { createEventService } from "@ubuntu/domain-core";
+import { createLedgerService } from "@ubuntu/ledger";
 
 export async function GET(
   _request: NextRequest,

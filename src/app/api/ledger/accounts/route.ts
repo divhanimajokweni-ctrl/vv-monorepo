@@ -12,10 +12,10 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { db } from "@/db/client";
-import { createEventService } from "@/lib/services/event-service";
-import { createLedgerService } from "@/lib/services/ledger-service";
-import { requireAuth } from "@/lib/auth/middleware";
+import { db } from "@ubuntu/db/client";
+import { createEventService } from "@ubuntu/domain-core";
+import { createLedgerService } from "@ubuntu/ledger";
+import { requireAuth } from "@ubuntu/auth/middleware";
 
 const RATE_LIMIT_WINDOW = 60 * 1000;
 const MAX_REQUESTS_PER_WINDOW = 20;

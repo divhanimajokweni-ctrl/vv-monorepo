@@ -4,7 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { creditService } from '@/lib/services/credit-service';
+import { creditService } from '@ubuntu/credit';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;

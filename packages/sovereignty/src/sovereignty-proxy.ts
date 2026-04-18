@@ -11,8 +11,8 @@
 
 import { z } from 'zod';
 import { randomUUID } from 'crypto';
-import { db } from '@/db/client';
-import { gameTelemetry } from '@/db/schema-games';
+import { db } from '@ubuntu/db/client';
+import { gameTelemetry } from '@ubuntu/db/schema-games';
 import { eq } from 'drizzle-orm';
 
 export interface IntentTag {

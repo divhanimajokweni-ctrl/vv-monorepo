@@ -1,6 +1,6 @@
 // pages/api/lindiwe/ingest.ts
 import { NextApiRequest, NextApiResponse } from 'next';
-import LindiweSignalProcessor from '@/lib/lindiwe/pipeline';
+import LindiweSignalProcessor from '@ubuntu/lindiwe/pipeline';
 
 const processor = new LindiweSignalProcessor();
 

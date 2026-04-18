@@ -17,10 +17,10 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/db/client";
-import { createEventService, EventValidationError, EventDuplicateError } from "@/lib/services/event-service";
-import { createEventInputSchema } from "@/lib/events/schemas";
-import { requireAuth, generateToken } from "@/lib/auth/middleware";
+import { db } from "@ubuntu/db/client";
+import { createEventService, EventValidationError, EventDuplicateError } from "@ubuntu/domain-core";
+import { createEventInputSchema } from "@ubuntu/domain-core/schemas";
+import { requireAuth, generateToken } from "@ubuntu/auth/middleware";
 
 function sanitizeLimit(value: string | null, defaultVal: number, maxVal: number): number {
   const parsed = parseInt(value ?? String(defaultVal), 10);

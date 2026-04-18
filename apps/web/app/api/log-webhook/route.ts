@@ -7,8 +7,8 @@
  */
 
 import { NextResponse } from 'next/server';
-import { db } from '@/db/client';
-import { contributors, contributorEvents, contributorScores } from '@/db/schema-contributors';
+import { db } from '@ubuntu/db/client';
+import { contributors, contributorEvents, contributorScores } from '@ubuntu/db/schema-contributors';
 import { eq, and, desc } from 'drizzle-orm';
 
 // GitHub webhook secret validation

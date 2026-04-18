@@ -30,9 +30,9 @@
  */
 
 import { eq, and, max, sql } from "drizzle-orm";
-import type { Database } from "@/db/client";
-import { events } from "@/db/schema";
-import type { NewEvent, Event } from "@/db/schema";
+import type { Database } from "@ubuntu/db/client";
+import { events } from "@ubuntu/db/schema";
+import type { NewEvent, Event } from "@ubuntu/db/schema";
 import { computeEventHash } from "./hasher";
 import {
   validateEventInput,

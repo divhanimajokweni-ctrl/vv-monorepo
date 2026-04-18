@@ -5,10 +5,10 @@ import { sovereigntyProxy, type SanitizedProfile } from '../services/sovereignty
 import { getDodoPaymentsProvider } from '../bank-provider/dodo-payments';
 import type { BankTransaction } from '../bank-provider/types';
 import { openClawGateway, type OpenClawNotification } from '../openclaw/gateway';
-import { promotionLogs, villageMembers } from '@/db/schema-village';
-import { gameTelemetry } from '@/db/schema-games';
-import { db } from '@/db/client';
-import { ubuntuScores } from '@/db/schema';
+import { promotionLogs, villageMembers } from '@ubuntu/db/schema-village';
+import { gameTelemetry } from '@ubuntu/db/schema-games';
+import { db } from '@ubuntu/db/client';
+import { ubuntuScores } from '@ubuntu/db/schema';
 import { eq, and, gte, lte } from 'drizzle-orm';
 
 export interface BackboneConfig {

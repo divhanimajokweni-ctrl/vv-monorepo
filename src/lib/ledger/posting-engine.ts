@@ -29,15 +29,15 @@
 
 import { eq, and, sql } from "drizzle-orm";
 import { randomUUID } from "crypto";
-import type { Database } from "@/db/client";
+import type { Database } from "@ubuntu/db/client";
 import {
   events,
   ledgerAccounts,
   journalEntries,
   postingRules,
-} from "@/db/schema";
-import type { Event, LedgerAccount, PostingRule, NewJournalEntry } from "@/db/schema";
-import type { EventEmitter } from "@/lib/events/emitter";
+} from "@ubuntu/db/schema";
+import type { Event, LedgerAccount, PostingRule, NewJournalEntry } from "@ubuntu/db/schema";
+import type { EventEmitter } from "@ubuntu/domain-core/emitter";
 
 // =============================================================================
 // ERROR TYPES

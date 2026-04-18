@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { TrustGraphEngine } from "@/lib/trust-graph/graph-engine";
-import { detectClusters } from "@/lib/trust-graph/cluster-detector";
+import { TrustGraphEngine } from "@ubuntu/reputation/graph-engine";
+import { detectClusters } from "@ubuntu/reputation/cluster-detector";
 
 const engine = new TrustGraphEngine();
 

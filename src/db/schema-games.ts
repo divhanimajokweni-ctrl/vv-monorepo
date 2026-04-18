@@ -191,7 +191,7 @@ export const villageTournaments = pgTable('village_tournaments', {
   createdAt:   timestamp('created_at').defaultNow().notNull(),
 });
  
-import type { GameState } from '@/lib/games/types';
+import type { GameState } from '@ubuntu/games/types';
 
 export type GameSession = Omit<typeof gameSessions.$inferSelect, 'completedAt' | 'durationMs' | 'finalScore' | 'villageId' | 'metadata' | 'stateSnapshot'> & {
   completedAt: Date | undefined;

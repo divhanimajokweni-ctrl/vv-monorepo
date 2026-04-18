@@ -4,7 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { creditService } from '@/lib/services/credit-service';
+import { creditService } from '@ubuntu/credit';
 import { z } from 'zod';
 
 const loanRequestSchema = z.object({

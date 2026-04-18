@@ -23,7 +23,7 @@ import {
   generateEd25519Keypair,
   signData,
   type SignatureInput,
-} from "@/lib/events/signature-verifier";
+} from "@ubuntu/domain-core/signature-verifier";
 import {
   WebhookCustodyAdapter,
   MultisigCustodyAdapter,
@@ -32,7 +32,7 @@ import {
   createCustodyAdapter,
   custodyAdapterConfigSchema,
   type CustodyAdapterConfig,
-} from "@/lib/custody/adapters";
+} from "@ubuntu/ledger/adapters";
 
 // =============================================================================
 // TEST FIXTURES

@@ -3,7 +3,7 @@
  * Activity engine that makes the village feel alive
  */
 
-import { db } from "@/db/client";
+import { db } from "@ubuntu/db/client";
 import {
   villages,
   villageMembers,
@@ -17,7 +17,7 @@ import {
   insuranceClaims,
   villageProposals,
   villageVotes,
-} from "@/db/schema-village";
+} from "@ubuntu/db/schema-village";
 import { eq, and, sql, desc, gt, lt, gte, count } from "drizzle-orm";
 
 export interface ActivityEvent {

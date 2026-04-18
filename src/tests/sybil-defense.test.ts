@@ -1,26 +1,26 @@
 import { describe, it, expect } from "vitest";
-import { computeTimeTrustSignal } from "@/lib/sybil/time-trust";
-import { computeDiversitySignal } from "@/lib/sybil/diversity-scoring";
-import { applyGrowthLimit, computeGrowthSignal } from "@/lib/sybil/growth-limits";
-import { computeDeviceBindingSignal } from "@/lib/sybil/device-binding";
+import { computeTimeTrustSignal } from "@ubuntu/reputation/time-trust";
+import { computeDiversitySignal } from "@ubuntu/reputation/diversity-scoring";
+import { applyGrowthLimit, computeGrowthSignal } from "@ubuntu/reputation/growth-limits";
+import { computeDeviceBindingSignal } from "@ubuntu/reputation/device-binding";
 import {
   computeHumanVerificationSignal,
   canAdvanceToLevel,
   getRequiredVerificationForAction,
-} from "@/lib/sybil/human-verification";
+} from "@ubuntu/reputation/human-verification";
 import {
   computeEconomicActivitySignal,
   computeTransactionFrictionSignal,
-} from "@/lib/sybil/economic-activity";
-import { computeSocialAnchorSignal, calculateSponsorPenalty } from "@/lib/sybil/social-anchors";
-import { computeVillageShieldSignal, calculateVillageScorePenalty } from "@/lib/sybil/village-shield";
-import { getPermissions, hasPermission } from "@/lib/sybil/permissions";
+} from "@ubuntu/reputation/economic-activity";
+import { computeSocialAnchorSignal, calculateSponsorPenalty } from "@ubuntu/reputation/social-anchors";
+import { computeVillageShieldSignal, calculateVillageScorePenalty } from "@ubuntu/reputation/village-shield";
+import { getPermissions, hasPermission } from "@ubuntu/reputation/permissions";
 import {
   computeSybilScore,
   deriveSybilVerdict,
   evaluateUser,
-} from "@/lib/sybil/decision-engine";
-import type { SybilSignals } from "@/lib/sybil/types";
+} from "@ubuntu/reputation/decision-engine";
+import type { SybilSignals } from "@ubuntu/reputation/types";
 
 // --- Time Trust ---
 describe("computeTimeTrustSignal", () => {

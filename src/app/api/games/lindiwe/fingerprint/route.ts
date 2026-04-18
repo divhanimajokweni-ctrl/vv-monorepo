@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
-import { GameService } from '@/lib/services/game-service';
+import { GameService } from '@ubuntu/games';
  
 /** GET /api/games/lindiwe/fingerprint — get Lindiwe behavioural fingerprint */
 export async function GET() {

@@ -3,7 +3,7 @@
  * Real-time visualization of collective economic power
  */
 
-import { db } from "@/db/client";
+import { db } from "@ubuntu/db/client";
 import {
   villages,
   villageMembers,
@@ -14,7 +14,7 @@ import {
   insurancePools,
   villageProposals,
   villageMessages,
-} from "@/db/schema-village";
+} from "@ubuntu/db/schema-village";
 import { eq, and, sql, desc, sum, count } from "drizzle-orm";
 
 export interface VillageEconomicMirror {

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { TrustGraphEngine } from "@/lib/trust-graph/graph-engine";
+import { TrustGraphEngine } from "@ubuntu/reputation/graph-engine";
 
 const engine = new TrustGraphEngine();
 

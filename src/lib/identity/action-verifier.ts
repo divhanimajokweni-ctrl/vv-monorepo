@@ -3,7 +3,7 @@
  * Wraps signature-verifier with identity-layer semantics
  */
 
-import { SignatureVerifier, signData } from "@/lib/events/signature-verifier";
+import { SignatureVerifier, signData } from "@ubuntu/domain-core/signature-verifier";
 
 const verifier = new SignatureVerifier();
 

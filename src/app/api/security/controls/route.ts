@@ -5,13 +5,13 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { securityControlsService } from '@/lib/services/security-controls-service';
+import { securityControlsService } from '@ubuntu/auth';
 import {
   type ControlCategory,
   type ControlStatus,
   type ControlPriority,
   type RiskLevel,
-} from '@/db/schema-security-controls';
+} from '@ubuntu/db/schema-security-controls';
 
 const createControlSchema = z.object({
   controlId: z.string().min(1).max(20),

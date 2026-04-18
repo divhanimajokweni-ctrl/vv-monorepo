@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHmac, timingSafeEqual } from "crypto";
 import { z } from "zod";
-import { serviceBus } from "@/lib/services/service-bus";
+import { serviceBus } from "@ubuntu/domain-core";
 
 const TIMESTAMP_MAX_AGE_MS = 5 * 60 * 1000; // 5 minutes
 

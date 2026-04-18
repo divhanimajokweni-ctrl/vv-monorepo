@@ -6,8 +6,8 @@ import { awardPrestige } from '../lib/games/scoring';
 import { extractSignals } from '../lib/games/telemetry';
  
 // Mock DB
-vi.mock('@/db/client', () => ({ db: { insert: vi.fn(() => ({ values: vi.fn(() => Promise.resolve([])) })), update: vi.fn(() => ({ set: vi.fn(() => ({ where: vi.fn(() => Promise.resolve()) })) })), query: { prestigeScores: { findFirst: vi.fn(() => Promise.resolve(null)) }, gameTelemetry: { findMany: vi.fn(() => Promise.resolve([])) } } } }));
-vi.mock('@/lib/events/emitter', () => ({ emitEvent: vi.fn(() => Promise.resolve()) }));
+vi.mock('@ubuntu/db/client', () => ({ db: { insert: vi.fn(() => ({ values: vi.fn(() => Promise.resolve([])) })), update: vi.fn(() => ({ set: vi.fn(() => ({ where: vi.fn(() => Promise.resolve()) })) })), query: { prestigeScores: { findFirst: vi.fn(() => Promise.resolve(null)) }, gameTelemetry: { findMany: vi.fn(() => Promise.resolve([])) } } } }));
+vi.mock('@ubuntu/domain-core/emitter', () => ({ emitEvent: vi.fn(() => Promise.resolve()) }));
  
 // ── Ubuntu Monopoly ────────────────────────────────────────────────────────────
  
