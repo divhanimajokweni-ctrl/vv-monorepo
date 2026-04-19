@@ -147,7 +147,7 @@ export class VillageService {
       .returning();
 
     await db.insert(villageMembers).values({
-      villageId: village.id,
+      villageId: village!.id,
       userId: input.founderId,
       role: "admin",
       ubuntuScore: 500,
@@ -155,7 +155,7 @@ export class VillageService {
       governanceWeight: Math.floor(Math.sqrt(500)),
     });
 
-    return village;
+    return village!;
   }
 
   async getVillage(villageId: string) {
@@ -252,9 +252,10 @@ export class VillageService {
     const members = await this.getVillageMembers(input.villageId);
 
     for (let i = 0; i < input.totalCycles; i++) {
-      if (members[i % members.length]) {
+      const member = members[i % members.length];
+      if (member) {
         payoutOrder.push({
-          userId: members[i % members.length].userId,
+          userId: member.userId,
           cycle: i + 1,
         });
       }

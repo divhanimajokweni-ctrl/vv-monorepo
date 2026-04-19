@@ -107,7 +107,7 @@ export const securityControlsService = {
       updatedAt: now,
     }).returning();
     
-    return result[0];
+    return result[0]!;
   },
 
   async updateControl(id: string, data: Partial<NewSecurityControl>): Promise<SecurityControl | undefined> {
@@ -197,14 +197,13 @@ export const securityControlsService = {
     return summary;
   },
 
-  async addEvidence(controlId: string, data: Omit<NewControlEvidence, 'id' | 'controlId' | 'createdAt'>): Promise<ControlEvidence> {
+async addEvidence(controlId: string, data: Omit<NewControlEvidence, 'id' | 'controlId' | 'createdAt'>): Promise<ControlEvidence> {
     const result = await db.insert(controlEvidence).values({
-      ...data,
       controlId,
-      createdAt: new Date(),
+      ...data,
     }).returning();
     
-    return result[0];
+    return result[0]!;
   },
 
   async verifyEvidence(id: string, verifierId: string): Promise<ControlEvidence | undefined> {
@@ -213,7 +212,7 @@ export const securityControlsService = {
       .where(eq(controlEvidence.id, id))
       .returning();
     
-    return result[0];
+    return result[0]!;
   },
 
   async getEvidenceForControl(controlId: string): Promise<ControlEvidence[]> {
@@ -247,7 +246,7 @@ export const securityControlsService = {
       updatedAt: now,
     }).returning();
     
-    return result[0];
+    return result[0]!;
   },
 
   async updateIncident(id: string, data: Partial<NewSecurityIncident>): Promise<SecurityIncident | undefined> {
@@ -256,7 +255,7 @@ export const securityControlsService = {
       .where(eq(securityIncidents.id, id))
       .returning();
     
-    return result[0];
+    return result[0]!;
   },
 
   async getAllIncidents(filters?: {

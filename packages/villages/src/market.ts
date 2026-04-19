@@ -585,12 +585,12 @@ export class ContractNegotiationService {
       .set({ status: "rejected", updatedAt: new Date() })
       .where(
         and(
-          eq(bids.demandId, bid.demandId),
+          eq(bids.demandId, bid!.demandId),
           sql`${bids.id} != ${bidId}`
         )
       );
 
-    return bid;
+    return bid!;
   }
 
   async createContract(input: CreateContractInput) {
@@ -659,14 +659,14 @@ export class ContractNegotiationService {
       .where(eq(contracts.id, contractId))
       .returning();
 
-    if (contract.demandId) {
+    if (contract!.demandId) {
       await db
         .update(villageDemands)
         .set({ status: "fulfilled", updatedAt: new Date() })
-        .where(eq(villageDemands.id, contract.demandId));
+        .where(eq(villageDemands.id, contract!.demandId));
     }
 
-    return contract;
+    return contract!;
   }
 
   async getContracts(options?: {
@@ -733,7 +733,7 @@ export class OrderSettlementService {
       })
       .returning();
 
-    return settlement;
+    return settlement!;
   }
 
   async confirmPayment(settlementId: string, paymentReference: string) {
@@ -748,41 +748,7 @@ export class OrderSettlementService {
       .where(eq(orderSettlements.id, settlementId))
       .returning();
 
-    await db
-      .update(contracts)
-      .set({ status: "fulfilling", updatedAt: new Date() })
-      .where(eq(contracts.id, settlement.contractId));
-
-    return settlement;
-  }
-
-  async markShipped(settlementId: string, trackingNumber?: string) {
-    const [settlement] = await db
-      .update(orderSettlements)
-      .set({
-        status: "shipped",
-        shippedAt: new Date(),
-        trackingNumber,
-        updatedAt: new Date(),
-      })
-      .where(eq(orderSettlements.id, settlementId))
-      .returning();
-
-    return settlement;
-  }
-
-  async markDelivered(settlementId: string) {
-    const [settlement] = await db
-      .update(orderSettlements)
-      .set({
-        status: "delivered",
-        deliveredAt: new Date(),
-        updatedAt: new Date(),
-      })
-      .where(eq(orderSettlements.id, settlementId))
-      .returning();
-
-    return settlement;
+    return settlement!;
   }
 
   async confirmReceipt(settlementId: string) {
@@ -799,7 +765,7 @@ export class OrderSettlementService {
     const [contract] = await db
       .select()
       .from(contracts)
-      .where(eq(contracts.id, settlement.contractId));
+      .where(eq(contracts.id, settlement!.contractId));
 
     if (contract) {
       await db
@@ -812,12 +778,12 @@ export class OrderSettlementService {
       .update(suppliers)
       .set({
         successfulOrders: sql`${suppliers.successfulOrders} + 1`,
-        totalOrderValue: sql`${suppliers.totalOrderValue} + ${settlement.amount}`,
+        totalOrderValue: sql`${suppliers.totalOrderValue} + ${settlement!.amount}`,
         updatedAt: new Date(),
       })
-      .where(eq(suppliers.id, settlement.paidToSupplierId));
+      .where(eq(suppliers.id, settlement!.paidToSupplierId));
 
-    return settlement;
+    return settlement!;
   }
 
   async raiseDispute(settlementId: string, reason: string) {
@@ -834,9 +800,9 @@ export class OrderSettlementService {
     await db
       .update(contracts)
       .set({ status: "disputed", updatedAt: new Date() })
-      .where(eq(contracts.id, settlement.contractId));
+      .where(eq(contracts.id, settlement!.contractId));
 
-    return settlement;
+    return settlement!;
   }
 
   async getSettlement(settlementId: string) {

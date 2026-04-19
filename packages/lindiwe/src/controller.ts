@@ -1,4 +1,5 @@
 // import { lindiweAI, getVillagePulse, type LindiweReasoningResult, type SafetyBufferState, type VillagePulse } from './lindiwe';
+import type { GameBehavioralSignals } from './types';
 
 const lindiweAI = {
   analyze: (...args: any[]) => ({
@@ -83,15 +84,7 @@ export interface BackboneAuditEntry {
   mode: BackboneState['currentMode'];
 }
 
-export interface GameBehavioralSignals {
-  risk_appetite: number;
-  cooperative_quotient: number;
-  stress_response: number;
-  leadership_index: number;
-  overextension: number;
-  knowledge_score: number;
-  stewardship_potential: number; // Derived from leadership_index + cooperative_quotient
-}
+// GameBehavioralSignals imported from types
 
 export interface MemberBackboneProfile {
   memberId: string;

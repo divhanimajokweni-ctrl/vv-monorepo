@@ -13,12 +13,12 @@ export function computeTimeTrustSignal(
   const days =
     (now.getTime() - accountCreatedAt.getTime()) / (1000 * 60 * 60 * 24);
 
-  if (days < BREAKPOINTS[0][0]) return 0;
-  if (days >= BREAKPOINTS[BREAKPOINTS.length - 1][0]) return 1.0;
+  if (days < BREAKPOINTS[0]![0]) return 0;
+  if (days >= BREAKPOINTS[BREAKPOINTS.length - 1]![0]) return 1.0;
 
   for (let i = 1; i < BREAKPOINTS.length; i++) {
-    const [dHigh, sHigh] = BREAKPOINTS[i];
-    const [dLow, sLow] = BREAKPOINTS[i - 1];
+    const [dHigh, sHigh] = BREAKPOINTS[i]!;
+    const [dLow, sLow] = BREAKPOINTS[i - 1]!;
     if (days < dHigh) {
       const t = (days - dLow) / (dHigh - dLow);
       return sLow + t * (sHigh - sLow);

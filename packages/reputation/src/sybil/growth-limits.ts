@@ -32,10 +32,10 @@ export function computeGrowthSignal(params: {
   const sorted = [...scoreHistory].sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   );
-  const oldest = sorted[0].score;
+  const oldest = sorted[0]!.score;
   const daySpan =
-    (new Date(sorted[sorted.length - 1].date).getTime() -
-      new Date(sorted[0].date).getTime()) /
+    (new Date(sorted[sorted.length - 1]!.date).getTime() -
+      new Date(sorted[0]!.date).getTime()) /
     (1000 * 60 * 60 * 24);
 
   if (daySpan === 0) return 1.0;

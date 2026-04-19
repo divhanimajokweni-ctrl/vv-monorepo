@@ -9,6 +9,9 @@ export interface BankTransaction {
   amount: number;
   date: string;
   description?: string;
+  name?: string;
+  merchantName?: string;
+  category?: string;
 }
 
 export interface BankProvider {
