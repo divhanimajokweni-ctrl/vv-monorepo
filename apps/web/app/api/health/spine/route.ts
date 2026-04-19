@@ -70,7 +70,7 @@ export async function GET(): Promise<NextResponse<SpineHealth>> {
         EXTRACT(EPOCH FROM (NOW() - MAX(created_at))) as last_entry_age_seconds
       FROM ledger_entries
     `);
-    const row = result.rows[0] as Record<string, unknown>;
+    const row = (result as any).rows?.[0] as Record<string, unknown> || {};
     checks.ledger = {
       status: "ok",
       totalEntries: Number(row.total_entries ?? 0),
@@ -88,7 +88,7 @@ export async function GET(): Promise<NextResponse<SpineHealth>> {
         EXTRACT(EPOCH FROM (NOW() - MAX(created_at))) as last_event_age_seconds
       FROM domain_events
     `);
-    const row = result.rows[0] as Record<string, unknown>;
+    const row = (result as any).rows?.[0] as Record<string, unknown> || {};
     checks.events = {
       status: "ok",
       totalEvents: Number(row.total_events ?? 0),
@@ -111,7 +111,7 @@ export async function GET(): Promise<NextResponse<SpineHealth>> {
         ) as unprocessed_count
       FROM projections
     `);
-    const row = result.rows[0] as Record<string, unknown>;
+    const row = (result as any).rows?.[0] as Record<string, unknown> || {};
     const maxLag = Number(row.max_lag_seconds ?? 0);
     const unprocessed = Number(row.unprocessed_count ?? 0);
 
@@ -144,7 +144,7 @@ export async function GET(): Promise<NextResponse<SpineHealth>> {
         ) as events_without_audit_trace
       FROM audit_log
     `);
-    const row = result.rows[0] as Record<string, unknown>;
+    const row = (result as any).rows?.[0] as Record<string, unknown> || {};
     const untraced = Number(row.events_without_audit_trace ?? 0);
 
     checks.audit = {
