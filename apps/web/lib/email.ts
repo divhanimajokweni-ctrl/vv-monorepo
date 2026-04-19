@@ -1,6 +1,17 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+let resend: Resend | undefined;
+
+function getResend(): Resend {
+  if (!resend) {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      throw new Error('RESEND_API_KEY is not set');
+    }
+    resend = new Resend(apiKey);
+  }
+  return resend;
+}
 
 // Retry configuration
 const MAX_RETRIES = 3;
@@ -38,7 +49,7 @@ export async function sendEmail(
 
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      const { data, error } = await resend.emails.send(emailData, {
+      const { data, error } = await getResend().emails.send(emailData, {
         idempotencyKey,
       });
 
@@ -91,7 +102,7 @@ export async function sendBatchEmails(
 
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      const { data, error } = await resend.batch.send(emails as any, {
+      const { data, error } = await getResend().batch.send(emails as any, {
         idempotencyKey,
       });
 

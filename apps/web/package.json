@@ -9,6 +9,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "next": "^14.2.0",
     "@ubuntu/auth": "workspace:*",
     "@ubuntu/cache": "workspace:*",
     "@ubuntu/config": "workspace:*",

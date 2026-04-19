@@ -1,7 +1,8 @@
 {
   "name": "ubuntu-pools",
+  "packageManager": "bun@1.3.11",
   "private": true,
-  "packageManager": "bun@1.2.0",
+  
   "workspaces": [
     "apps/*",
     "packages/*"
