@@ -1,0 +1,9 @@
+{
+  "name": "@ubuntu/inference",
+  "private": true,
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*"
+  }
+}

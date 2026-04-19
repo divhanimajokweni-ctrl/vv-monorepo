@@ -165,8 +165,12 @@ export function getDodoPaymentsProvider(): DodoPaymentsProvider {
       clientId: process.env.DODO_PAYMENTS_CLIENT_ID || '',
       clientSecret: process.env.DODO_PAYMENTS_CLIENT_SECRET || '',
       environment: (process.env.DODO_PAYMENTS_ENV || 'sandbox') as 'sandbox' | 'development' | 'production',
-      redirectUri: process.env.DODO_PAYMENTS_REDIRECT_URI,
     };
+
+    const redirectUri = process.env.DODO_PAYMENTS_REDIRECT_URI;
+    if (redirectUri) {
+      config.redirectUri = redirectUri;
+    }
 
     if (!config.clientId || !config.clientSecret) {
       throw new Error('Dodo Payments credentials not configured. Please set DODO_PAYMENTS_CLIENT_ID and DODO_PAYMENTS_CLIENT_SECRET');

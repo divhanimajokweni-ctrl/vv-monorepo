@@ -163,8 +163,10 @@ function weightedAvg(values: number[], weights: number[]): number {
   let sum = 0;
   let weightSum = 0;
   for (let i = 0; i < values.length; i++) {
-    sum += values[i] * weights[i];
-    weightSum += weights[i];
+    const v = values[i] ?? 0;
+    const w = weights[i] ?? 0;
+    sum += v * w;
+    weightSum += w;
   }
   return sum / (weightSum + eps);
 }
@@ -605,6 +607,7 @@ export class CreditService {
       const loanIndex = loans.findIndex(l => l.loanId === loanId);
       if (loanIndex !== -1) {
         const loan = loans[loanIndex];
+        if (!loan) return { success: false };
         loan.amountPaid += amount;
         
         const remainingBalance = loan.totalDue - loan.amountPaid;

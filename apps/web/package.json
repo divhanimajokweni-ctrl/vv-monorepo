@@ -7,5 +7,20 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ubuntu/auth": "workspace:*",
+    "@ubuntu/cache": "workspace:*",
+    "@ubuntu/config": "workspace:*",
+    "@ubuntu/credit": "workspace:*",
+    "@ubuntu/db": "workspace:*",
+    "@ubuntu/domain-core": "workspace:*",
+    "@ubuntu/games": "workspace:*",
+    "@ubuntu/lindiwe": "workspace:*",
+    "@ubuntu/messaging": "workspace:*",
+    "@ubuntu/observability": "workspace:*",
+    "@ubuntu/reputation": "workspace:*",
+    "@ubuntu/sovereignty": "workspace:*",
+    "@ubuntu/ui": "workspace:*"
   }
 }

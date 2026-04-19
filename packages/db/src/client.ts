@@ -20,10 +20,12 @@
 
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
+import { sql } from "drizzle-orm";
 import * as schema from "./schema";
 import * as schemaCredit from "./schema-credit";
 import * as schemaVillage from "./schema-village";
 import * as schemaGames from "./schema-games";
+import * as schemaSpine from "./schema-spine";
 
 const isProduction = process.env.NODE_ENV === "production";
 const isVercel = !!process.env.VERCEL;
@@ -63,17 +65,30 @@ function getSqlClient() {
 
 function getDb() {
   return drizzle(getSqlClient(), {
-    schema: { ...schema, ...schemaCredit, ...schemaVillage, ...schemaGames },
+    schema: { ...schema, ...schemaCredit, ...schemaVillage, ...schemaGames, ...schemaSpine },
     logger: process.env.NODE_ENV === "development",
   });
 }
 
 export const db = new Proxy(
-  {} as ReturnType<typeof getDb>,
+  {} as ReturnType<typeof getDb> & {
+    execute: (query: ReturnType<typeof sql>) => Promise<{ rows: Record<string, unknown>[] }>;
+  },
   {
     get(_target, prop) {
+      if (prop === 'execute') {
+        const client = getSqlClient();
+        return async (query: unknown) => {
+          const result = await client.unsafe(query as string);
+          return { rows: result as Record<string, unknown>[] };
+        };
+      }
       const database = getDb();
-      return (database as any)[prop];
+      const value = (database as any)[prop];
+      if (typeof value === 'function') {
+        return value.bind(database);
+      }
+      return value;
     },
   }
 );

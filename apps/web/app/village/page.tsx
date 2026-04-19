@@ -4,13 +4,8 @@ import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { AppShell } from '@/components/shell/AppShell';
-import { ThePulse } from '@/components/village/ThePulse';
-import { TribalImpactDashboard } from '@/components/village/TribalImpactDashboard';
-import { CommonsVault } from '@/components/village/CommonsVault';
-import { VillageCircle } from '@/components/village/VillageCircle';
-import { CircularProtocol } from '@/components/village/CircularProtocol';
+import { ThePulse, TribalImpactDashboard, CommonsVault, VillageCircle, CircularProtocol, PoolView, YieldCard, BufferStatusCard } from '@/components/village';
 import { PoolHealthGauge } from '@/components/credit/PoolHealthGauge';
-import { YieldCard, BufferStatusCard } from '@/components/village/PoolView';
 
 interface User {
   id: string;

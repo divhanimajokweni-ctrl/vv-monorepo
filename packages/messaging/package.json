@@ -1,5 +1,9 @@
 {
   "name": "@ubuntu/messaging",
   "private": true,
-  "main": "src/index.ts"
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*"
+  }
 }

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { randomUUID } from 'crypto';
-import { BankTransaction } from '../bank-provider/types';
-import type { GameTelemetryPayload, LindiweSignal, CreditSignal } from '../games/types';
+import { BankTransaction } from '@ubuntu/lindiwe/bank-provider/types';
+import type { GameTelemetryPayload, LindiweSignal, CreditSignal } from '@ubuntu/games/types';
 
 export interface VillagePulse {
   overall: number;

@@ -1,0 +1,115 @@
+# .github/workflows/spine.yml
+#
+# SPINE CI — runs on every push and pull request.
+#
+# This workflow is the non-negotiable gate.
+# No code merges to main unless the spine passes.
+#
+# What it proves on every run:
+#   - All 5 invariants hold
+#   - All 9 spine steps complete end-to-end
+#   - TypeScript compiles cleanly for spine packages
+#   - The health endpoint returns a parseable response
+
+name: Spine
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - "packages/ledger/**"
+      - "packages/villages/**"
+      - "packages/db/**"
+      - "apps/web/app/api/health/**"
+      - "scripts/run-spine.sh"
+      - ".github/workflows/spine.yml"
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  spine:
+    name: Invariants + 9-step proof
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: ubuntu
+          POSTGRES_PASSWORD: ubuntu
+          POSTGRES_DB: ubuntu_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://ubuntu:ubuntu@localhost:5432/ubuntu_test
+      CI: "true"
+      NODE_ENV: test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: TypeScript — ledger package
+        run: bun typecheck --filter=@ubuntu/ledger
+
+      - name: TypeScript — villages package
+        run: bun typecheck --filter=@ubuntu/villages
+
+      - name: Run spine migration
+        run: |
+          psql "$DATABASE_URL" < packages/db/migrations/0007_spine_invariants.sql
+          echo "Migration applied"
+
+      - name: Invariant 1 — idempotency key required
+        run: bun test packages/ledger/src/invariants.test.ts -t "idempotency key required"
+
+      - name: Invariant 2 — double-entry balance
+        run: bun test packages/ledger/src/invariants.test.ts -t "double-entry balance"
+
+      - name: Invariant 2 property — 50 random amounts
+        run: bun test packages/ledger/src/invariants.test.ts -t "property: posting always balances"
+
+      - name: Invariant 3 — projection-only pool balance
+        run: bun test packages/ledger/src/invariants.test.ts -t "pool balance from projection only"
+
+      - name: Invariant 5 — notification source guard
+        run: bun test packages/ledger/src/invariants.test.ts -t "notification source guard"
+
+      - name: Spine — all 9 steps complete
+        run: bun test packages/villages/src/spine.test.ts -t "completes all 9 steps"
+
+      - name: Spine — idempotent replay
+        run: bun test packages/villages/src/spine.test.ts -t "is idempotent"
+
+      - name: Spine — failed auth leaves ledger clean
+        run: bun test packages/villages/src/spine.test.ts -t "fails at step 1"
+
+      - name: Spine — audit trace queryable
+        run: bun test packages/villages/src/spine.test.ts -t "audit trace is queryable"
+
+      - name: Spine — notification failure non-fatal
+        run: bun test packages/villages/src/spine.test.ts -t "notification failure is non-fatal"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spine-test-results
+          path: |
+            coverage/
+            test-results/

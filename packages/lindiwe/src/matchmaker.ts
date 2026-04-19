@@ -11,7 +11,7 @@
 
 import { z } from 'zod';
 import { randomUUID } from 'crypto';
-import type { SanitizedProfile, IntentTag } from './sovereignty-proxy';
+import type { SanitizedProfile, IntentTag } from './services/sovereignty-proxy';
 
 export interface PoolRecommendation {
   poolId: string;
