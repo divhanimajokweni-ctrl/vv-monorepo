@@ -707,11 +707,8 @@ function StokvelGame({ onEnd }: { onEnd: (s: any) => void }) {
 
   const scenario = SCENARIOS[phase % SCENARIOS.length];
 
-  const decide = (opt: any) => {
-    const { pool, trust: t } = opt.effect;
-    const newPool = Math.max(0, poolBalance + pool);
-    const newTrust = Math.min(100, Math.max(0, trust + t));
-    setPoolBalance(newPool);
+  const decide = useCallback((opt: any) => {
+    const decisionTime = Date.now();
     setTrust(newTrust);
     setLog((l) => [
       `R${round}: ${opt.label} → Pool R${newPool.toLocaleString()}`,
@@ -721,13 +718,13 @@ function StokvelGame({ onEnd }: { onEnd: (s: any) => void }) {
     if (round >= 4) {
       /* eslint-disable-line */ onEnd({
         score: newPool + newTrust * 20,
-        decisionMs: Date.now() - startRef.current,
+        decisionMs: decisionTime - startRef.current,
         risk: "medium",
         altruistic: opt.altruistic,
         game: "stokvel",
       });
     } else setPhase((p) => p + 1);
-  };
+  }, [newTrust, round, onEnd]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
