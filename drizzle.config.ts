@@ -21,11 +21,11 @@ if (!process.env.DATABASE_URL) {
 }
 
 export default defineConfig({
-  // Schema file location
-  schema: "./src/db/schema.ts",
+  // Schema file locations
+  schema: ["./src/db/schema.ts", "./src/db/schema-spine.ts"],
 
   // Migrations output directory
-  out: "./src/db/migrations",
+  out: "./drizzle/migrations",
 
   // PostgreSQL dialect
   dialect: "postgresql",
