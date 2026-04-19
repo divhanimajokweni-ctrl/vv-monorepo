@@ -1,0 +1,25 @@
+# Prevent large build artifacts
+**/.next/ export-ignore
+**/dist/ export-ignore
+**/build/ export-ignore
+
+# Node modules
+node_modules/ export-ignore
+
+# Lock files (optional - can cause merge conflicts in teams)
+# package-lock.json export-ignore
+# bun.lock export-ignore
+
+# IDE
+.idea/ export-ignore
+.vscode/ export-ignore
+
+# OS
+.DS_Store export-ignore
+Thumbs.db export-ignore
+
+# Secrets
+*.pem export-ignore
+*.key export-ignore
+credentials.json export-ignore
+service-account-key.json export-ignore

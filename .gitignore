@@ -72,3 +72,26 @@ next-env.d.ts
 # clerk configuration (can include secrets)
 /.clerk/
 .netlify/
+
+# Build artifacts
+.next/
+out/
+build/
+dist/
+
+# Turbo
+.turbo/
+
+# Coverage
+coverage/
+test-results/
+
+# Netlify
+.netlify/
+
+# Vercel
+.vercel/
+
+# Cache files
+*.tsbuildinfo
+tsconfig.tsbuildinfo
