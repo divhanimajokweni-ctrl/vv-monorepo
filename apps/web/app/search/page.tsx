@@ -42,7 +42,7 @@ const mockUsers: User[] = [
 const mockPosts: Post[] = [
   {
     id: 'post-1',
-    user: mockUsers[1],
+    user: mockUsers[1]!,
     content: 'The governance proposal is now live! Everyone please review and share your thoughts. #UbuntuPools #Governance',
     timestamp: Date.now() - 3600000,
     likes: 42,
@@ -50,7 +50,7 @@ const mockPosts: Post[] = [
   },
   {
     id: 'post-2',
-    user: mockUsers[2],
+    user: mockUsers[2]!,
     content: 'Just earned my third badge! The trust circle truly works when we support each other. #TrustCircle #Ubuntu',
     mediaUrl: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400',
     timestamp: Date.now() - 7200000,
@@ -59,7 +59,7 @@ const mockPosts: Post[] = [
   },
   {
     id: 'post-3',
-    user: mockUsers[3],
+    user: mockUsers[3]!,
     content: 'Looking for collaborators on the new village council initiative. DM me if you\'re interested!',
     timestamp: Date.now() - 14400000,
     likes: 23,
@@ -67,7 +67,7 @@ const mockPosts: Post[] = [
   },
   {
     id: 'post-4',
-    user: mockUsers[4],
+    user: mockUsers[4]!,
     content: 'The pool is looking healthy this month! R15,000 in collective savings. Let\'s keep growing together. #CollectiveProsperity',
     timestamp: Date.now() - 86400000,
     likes: 156,

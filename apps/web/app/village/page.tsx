@@ -255,7 +255,7 @@ export default function VillagePage() {
       case 'pulse':
         return <ThePulse />;
       case 'impact':
-        return <TribalImpactDashboard {...mockTribalImpact} />;
+        return <TribalImpactDashboard villageId="village-1" {...mockTribalImpact} />;
       case 'trust':
         return (
           <div className="up-card up-border-gradient p-6">
@@ -265,7 +265,7 @@ export default function VillagePage() {
               Badges are peer-attested. No self-awarding. Trust is social—like it should be.
             </p>
             <div className="mt-6">
-              <VillageCircle onNavigate={(view) => setActiveView(view as VillageViewType)} />
+              <VillageCircle villageId="village-1" onNavigate={(view) => setActiveView(view as VillageViewType)} />
             </div>
           </div>
         );
@@ -296,10 +296,10 @@ export default function VillagePage() {
                   Your safety net is generating yield. The &quot;Holy Grail&quot; of social capital in action.
                 </p>
               </div>
-              <BufferStatusCard currentBuffer={7500} targetBuffer={10000} protectionLevel="medium" />
+              <BufferStatusCard poolId="pool-1" currentBuffer={7500} targetBuffer={10000} protectionLevel="medium" />
             </div>
-            <YieldCard principal={7500} apy={4.5} daysActive={180} />
-            <CommonsVault currentAmount={7500} maxAmount={10000} />
+            <YieldCard poolId="pool-1" principal={7500} apy={4.5} daysActive={180} />
+            <CommonsVault vaultId="vault-1" currentAmount={7500} maxAmount={10000} />
           </div>
         );
       case 'governance':
@@ -311,7 +311,7 @@ export default function VillagePage() {
               Governance flows in loops: propose discuss consent record learn.
             </p>
             <div className="mt-6">
-              <CircularProtocol members={mockMembers} currentUserId="user-001" />
+              <CircularProtocol protocolId="protocol-1" members={mockMembers} currentUserId="user-001" />
             </div>
           </div>
         );
