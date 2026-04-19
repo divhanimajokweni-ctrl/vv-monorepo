@@ -43,7 +43,7 @@ const mockNotifications: Notification[] = [
   {
     id: 'n2',
     type: 'comment',
-    user: mockUsers[2],
+    user: mockUsers[2]!,
     content: 'commented on your post: "This is exactly what we need!"',
     timestamp: Date.now() - 1800000,
     isRead: false,
@@ -51,7 +51,7 @@ const mockNotifications: Notification[] = [
   {
     id: 'n3',
     type: 'follow',
-    user: mockUsers[3],
+    user: mockUsers[3]!,
     content: 'started following you',
     timestamp: Date.now() - 3600000,
     isRead: false,
@@ -59,7 +59,7 @@ const mockNotifications: Notification[] = [
   {
     id: 'n4',
     type: 'badge',
-    user: mockUsers[4],
+    user: mockUsers[4]!,
     content: 'awarded you the "Knowledge Keeper" badge',
     timestamp: Date.now() - 7200000,
     isRead: true,
@@ -67,7 +67,7 @@ const mockNotifications: Notification[] = [
   {
     id: 'n5',
     type: 'mention',
-    user: mockUsers[1],
+    user: mockUsers[1]!,
     content: 'mentioned you in a post: "@sarahk thoughts on this?"',
     timestamp: Date.now() - 14400000,
     isRead: true,
@@ -76,7 +76,7 @@ const mockNotifications: Notification[] = [
   {
     id: 'n6',
     type: 'message',
-    user: mockUsers[2],
+    user: mockUsers[2]!,
     content: 'sent you a message',
     timestamp: Date.now() - 86400000,
     isRead: true,
@@ -84,7 +84,7 @@ const mockNotifications: Notification[] = [
   {
     id: 'n7',
     type: 'like',
-    user: mockUsers[3],
+    user: mockUsers[3]!,
     content: 'liked your comment',
     timestamp: Date.now() - 172800000,
     isRead: true,
@@ -92,7 +92,7 @@ const mockNotifications: Notification[] = [
   {
     id: 'n8',
     type: 'follow',
-    user: mockUsers[4],
+    user: mockUsers[4]!,
     content: 'started following you',
     timestamp: Date.now() - 259200000,
     isRead: true,

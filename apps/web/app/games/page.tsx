@@ -1483,27 +1483,27 @@ function Game2048({ onEnd }: { onEnd: (s: any) => void }) {
         let totalPts = 0;
         if (dir === "left") {
           for (let r = 0; r < 4; r++) {
-            const { row, pts } = slideLeft(g[r]);
+            const { row, pts } = slideLeft(g[r]!);
             g[r] = row;
             totalPts += pts;
           }
         } else if (dir === "right") {
           for (let r = 0; r < 4; r++) {
-            const { row, pts } = slideLeft([...g[r]].reverse());
+            const { row, pts } = slideLeft([...g[r]!].reverse());
             g[r] = row.reverse();
             totalPts += pts;
           }
         } else if (dir === "up") {
           for (let c = 0; c < 4; c++) {
             const col = g.map((r) => r[c]!);
-            const { row, pts } = slideLeft(col);
+            const { row, pts } = slideLeft(col as number[]);
             for (let r = 0; r < 4; r++) g[r]![c] = row[r]!;
             totalPts += pts;
           }
         } else if (dir === "down") {
           for (let c = 0; c < 4; c++) {
             const col = g.map((r) => r[c]!).reverse();
-            const { row, pts } = slideLeft(col);
+            const { row, pts } = slideLeft(col as number[]);
             const rev = row.reverse();
             for (let r = 0; r < 4; r++) g[r]![c] = rev[r]!;
             totalPts += pts;
