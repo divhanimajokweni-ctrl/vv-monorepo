@@ -25,7 +25,9 @@
     "@ubuntu/reputation": "workspace:*",
     "@ubuntu/sovereignty": "workspace:*",
     "@ubuntu/ui": "workspace:*",
+    "drizzle-orm": "^0.45.2",
     "framer-motion": "^12.38.0",
-    "next": "^14.2.0"
+    "next": "^14.2.0",
+    "redis": "^5.12.1"
   }
 }
