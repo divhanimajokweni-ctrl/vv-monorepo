@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const createEventInputSchema = z.object({
   type: z.string().min(1),
-  payload: z.record(z.unknown()),
+  payload: z.record(z.string(), z.any()),
   memberId: z.string().optional(),
   villageId: z.string().optional(),
 });

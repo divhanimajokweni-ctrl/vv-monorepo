@@ -9,6 +9,7 @@ export interface VillagePulse {
   excitement: number;
   stability: number;
   timestamp: Date;
+  lastUpdated?: Date;
 }
 
 export interface SafetyBufferState {
@@ -16,6 +17,7 @@ export interface SafetyBufferState {
   targetBalance: number;
   healthRatio: number;
   lastUpdated: Date;
+  isActive?: boolean;
 }
 
 export interface LindiweReasoningResult {
@@ -25,6 +27,10 @@ export interface LindiweReasoningResult {
   thresholdAdjustment?: number;
   riskFlags: string[];
   insight: string;
+  requiresAction?: boolean;
+  action?: string;
+  trigger?: string;
+  explanation?: string;
 }
 
 export interface PoolHealthContext {

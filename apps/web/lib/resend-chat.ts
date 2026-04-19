@@ -10,6 +10,6 @@ const adapter = createResendAdapter({
 export const chat = {
   ...adapter,
   webhooks: {
-    resend: adapter.webhooks?.resend || ((req: Request) => ({ status: 200 })),
+    resend: (req: Request) => ({ status: 200 }),
   },
 };

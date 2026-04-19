@@ -58,6 +58,7 @@ export interface MatchmakerInput {
   contributionBase: number;
   poolHealth: number;
   villageHealth?: number;
+  trustScore?: number;
 }
 
 const POOL_TEMPLATES: Record<string, Omit<PoolRecommendation, 'matchScore' | 'matchReasons'>> = {
