@@ -11,7 +11,9 @@
   "dependencies": {
     "@browserbasehq/sdk": "^2.10.0",
     "@clerk/nextjs": "^7.2.3",
+    "@resend/chat-sdk-adapter": "^0.1.1",
     "@sentry/nextjs": "^10.49.0",
+    "@tailwindcss/postcss": "^4.2.2",
     "@ubuntu/auth": "workspace:*",
     "@ubuntu/cache": "workspace:*",
     "@ubuntu/config": "workspace:*",
@@ -25,9 +27,12 @@
     "@ubuntu/reputation": "workspace:*",
     "@ubuntu/sovereignty": "workspace:*",
     "@ubuntu/ui": "workspace:*",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "drizzle-orm": "^0.45.2",
     "framer-motion": "^12.38.0",
-    "next": "^14.2.0",
-    "redis": "^5.12.1"
+    "next": "^16.2.4",
+    "redis": "^5.12.1",
+    "resend": "^6.12.0"
   }
 }
