@@ -44,7 +44,7 @@ const currentUserId = '1';
 const mockConversations: Conversation[] = [
   {
     id: 'conv-1',
-    user: mockUsers[1],
+    user: mockUsers[1]!,
     lastMessage: 'The governance proposal looks great! Let me know when you want to discuss.',
     timestamp: Date.now() - 1800000,
     unreadCount: 2,
@@ -56,27 +56,29 @@ const mockConversations: Conversation[] = [
   },
   {
     id: 'conv-2',
-    user: mockUsers[2],
-    lastMessage: 'Thanks for the badge! Really appreciate it.',
+    user: mockUsers[2]!,
+    lastMessage: 'Thanks for the update on the credit pool. The metrics look strong.',
     timestamp: Date.now() - 7200000,
     unreadCount: 0,
     messages: [
-      { id: 'm4', senderId: '3', content: 'Thanks for the badge! Really appreciate it.', timestamp: Date.now() - 7200000, isRead: true },
+      { id: 'm4', senderId: '3', content: 'How is the credit pool performing?', timestamp: Date.now() - 7200000, isRead: true },
+      { id: 'm5', senderId: '1', content: 'Thanks for the update on the credit pool. The metrics look strong.', timestamp: Date.now() - 7200000, isRead: true },
     ],
   },
   {
     id: 'conv-3',
-    user: mockUsers[3],
-    lastMessage: 'See you at the village council meeting tomorrow!',
-    timestamp: Date.now() - 14400000,
+    user: mockUsers[3]!,
+    lastMessage: 'The village meeting is scheduled for next week. Hope you can make it!',
+    timestamp: Date.now() - 86400000,
     unreadCount: 1,
     messages: [
-      { id: 'm5', senderId: '4', content: 'See you at the village council meeting tomorrow!', timestamp: Date.now() - 1440000, isRead: false },
+      { id: 'm6', senderId: '4', content: 'The village meeting is scheduled for next week. Hope you can make it!', timestamp: Date.now() - 86400000, isRead: false },
+      { id: 'm7', senderId: '1', content: 'I\'ll be there. Looking forward to discussing the new initiatives.', timestamp: Date.now() - 80000000, isRead: true },
     ],
   },
   {
     id: 'conv-4',
-    user: mockUsers[4],
+    user: mockUsers[4]!,
     lastMessage: 'The pool is looking healthy this month!',
     timestamp: Date.now() - 86400000,
     unreadCount: 0,

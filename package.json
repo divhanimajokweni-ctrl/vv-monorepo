@@ -31,5 +31,9 @@
     "@vitest/coverage-v8": "^4.1.0",
     "tsx": "^4.21.0",
     "vitest": "^4.1.0"
+  },
+  "dependencies": {
+    "@bubblewrap/cli": "^1.24.1",
+    "buble": "^0.20.0"
   }
 }

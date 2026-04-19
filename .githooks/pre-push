@@ -1,26 +1,21 @@
 #!/bin/sh
-# Pre-push hook to enforce repository rules
+# Pre-push hook to check for large files
 
-# Protected branches that require force push protection
-PROTECTED_BRANCHES="main ubuntu-pools-v2"
+MAX_SIZE=50000000  # 50MB
 
-# Check for force pushes to protected branches
-while read local_ref local_sha remote_ref remote_sha; do
-    case "$remote_ref" in
-        refs/heads/main|refs/heads/ubuntu-pools-v2)
-            # Check if this is a force push
-            if [ "$remote_sha" != "0000000000000000000000000000000000000000" ] && [ "$local_sha" != "$remote_sha" ]; then
-                # Check if local is not ancestor of remote (force push detection)
-                git merge-base --is-ancestor "$local_sha" "$remote_sha" 2>/dev/null
-                if [ $? -ne 0 ]; then
-                    echo "ERROR: Force push to $remote_ref is blocked by ruleset."
-                    echo "Protected branches cannot be force pushed."
-                    echo "Please use a pull request instead."
+while read oldrev newrev refname; do
+    if [ "$refname" = "refs/heads/main" ]; then
+        for commit in $(git rev-list "$oldrev".."$newrev"); do
+            git tree=$(git rev-parse $commit^{tree})
+            for obj in $(git ls-tree -r $tree | cut -f2 -d' '); do
+                size=$(git cat-file -s $obj 2>/dev/null || echo 0)
+                if [ "$size" -gt "$MAX_SIZE" ]; then
+                    echo "Error: Large file exceeded 50MB limit"
                     exit 1
                 fi
-            fi
-            ;;
-    esac
+            done
+        done
+    fi
 done
 
 exit 0

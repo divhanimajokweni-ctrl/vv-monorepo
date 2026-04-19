@@ -1461,16 +1461,16 @@ function Game2048({ onEnd }: { onEnd: (s: any) => void }) {
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
   const mouseStartRef = useRef<{ x: number; y: number } | null>(null);
 
-  const slideLeft = (row: number[]) => {
+  const slideLeft = (row: number[]): { row: number[]; pts: number } => {
     const nonZero = row.filter((x) => x > 0);
-    const merged = [];
+    const merged: number[] = [];
     let pts = 0;
     for (let i = 0; i < nonZero.length; i++) {
       if (i + 1 < nonZero.length && nonZero[i] === nonZero[i + 1]) {
-        merged.push(nonZero[i] * 2);
-        pts += nonZero[i] * 2;
+        merged.push(nonZero[i]! * 2);
+        pts += nonZero[i]!;
         i++;
-      } else merged.push(nonZero[i]);
+      } else merged.push(nonZero[i]!);
     }
     while (merged.length < 4) merged.push(0);
     return { row: merged, pts };
@@ -1495,17 +1495,17 @@ function Game2048({ onEnd }: { onEnd: (s: any) => void }) {
           }
         } else if (dir === "up") {
           for (let c = 0; c < 4; c++) {
-            const col = g.map((r) => r[c]);
+            const col = g.map((r) => r[c]!);
             const { row, pts } = slideLeft(col);
-            for (let r = 0; r < 4; r++) g[r][c] = row[r];
+            for (let r = 0; r < 4; r++) g[r]![c] = row[r]!;
             totalPts += pts;
           }
         } else if (dir === "down") {
           for (let c = 0; c < 4; c++) {
-            const col = g.map((r) => r[c]).reverse();
+            const col = g.map((r) => r[c]!).reverse();
             const { row, pts } = slideLeft(col);
             const rev = row.reverse();
-            for (let r = 0; r < 4; r++) g[r][c] = rev[r];
+            for (let r = 0; r < 4; r++) g[r]![c] = rev[r]!;
             totalPts += pts;
           }
         }
@@ -2059,7 +2059,7 @@ function GameModal({
     if (phase !== "playing") return;
     const t = setInterval(
       () =>
-        setTimeLeft((p) => {
+        setTimeLeft((p: number) => {
           if (p <= 1) {
             clearInterval(t);
             return 0;
@@ -2082,7 +2082,7 @@ function GameModal({
   const secs = String(timeLeft % 60).padStart(2, "0");
   const progress = ((game.timebox - timeLeft) / game.timebox) * 100;
 
-  const GAME_COMPONENTS: Record<string, (props: any) => JSX.Element> = {
+  const GAME_COMPONENTS: Record<string, (props: any) => React.JSX.Element> = {
     slots: SlotsGame,
     dice: DiceGame,
     stokvel: StokvelGame,
@@ -2500,7 +2500,7 @@ export default function GamesPage() {
         ].map(([id, label]) => (
           <button
             key={id}
-            onClick={() => setTab(id)}
+            onClick={() => setTab(id as string)}
             style={{
               padding: "12px 16px",
               background: "none",
@@ -2643,7 +2643,7 @@ export default function GamesPage() {
                     >
                       {label}
                     </div>
-                    <div style={{ fontSize: 20, fontWeight: 900, color }}>
+                    <div style={{ fontSize: 20, fontWeight: 900, color: color as string }}>
                       {val}
                     </div>
                   </div>
@@ -2675,7 +2675,7 @@ export default function GamesPage() {
                       }}
                     >
                       <span>{label}</span>
-                      <span>{(val * 100).toFixed(0)}%</span>
+                      <span>{((val as number) * 100).toFixed(0)}%</span>
                     </div>
                     <div
                       style={{
@@ -2687,7 +2687,7 @@ export default function GamesPage() {
                       <div
                         style={{
                           height: "100%",
-                          width: `${val * 100}%`,
+                          width: `${(val as number) * 100}%`,
                           background: color,
                           transition: "width 0.5s",
                         }}

@@ -35,7 +35,7 @@ const mockNotifications: Notification[] = [
   {
     id: 'n1',
     type: 'like',
-    user: mockUsers[1],
+    user: mockUsers[1]!,
     content: 'liked your post about the new governance proposal',
     timestamp: Date.now() - 300000,
     isRead: false,
