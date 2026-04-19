@@ -3,12 +3,16 @@
  * Manages session lifecycle, event emission, and state transitions.
  * All game events are first-class Ubuntu platform events: hashed, signed, immutable.
  */
-import crypto from 'crypto';
-import { db } from '@ubuntu/db/client';
-import { gameSessions, gameEvents, type GameSession } from '@ubuntu/db/schema-games';
-import { eq, and } from 'drizzle-orm';
-import { createEventEmitter } from '@ubuntu/domain-core/emitter';
-import LindiweSignalProcessor from '@ubuntu/lindiwe/pipeline';
+import crypto from "crypto";
+import { db } from "@ubuntu/db/client";
+import {
+  gameSessions,
+  gameEvents,
+  type GameSession,
+} from "@ubuntu/db/schema-games";
+import { eq, and } from "drizzle-orm";
+import { createEventEmitter } from "@ubuntu/domain-core/emitter";
+import LindiweSignalProcessor from "@ubuntu/lindiwe/pipeline";
 
 const lindiweProcessor = new LindiweSignalProcessor();
 
@@ -23,44 +27,63 @@ function getEventEmitter() {
 }
 
 import type {
-  GameId, GameState, GameDecision, GameEventRecord, StartSessionResponse
-} from './types';
-import { extractSignals } from './telemetry';
-import { awardPrestige } from './scoring';
-import { GAME_DEFINITIONS } from './registry';
- 
+  GameId,
+  GameState,
+  GameDecision,
+  GameEventRecord,
+  StartSessionResponse,
+} from "./types";
+import { extractSignals } from "./telemetry";
+import { awardPrestige } from "./scoring";
+import { GAME_DEFINITIONS } from "./registry";
+
 // ── Session Lifecycle ──────────────────────────────────────────────────────────
- 
+
 export async function startSession(
   memberId: string,
   gameId: GameId,
-  options: { villageId?: string; isMultiplayer?: boolean } = {}
+  options: { villageId?: string; isMultiplayer?: boolean } = {},
 ): Promise<StartSessionResponse> {
   const definition = GAME_DEFINITIONS[gameId];
   if (!definition) throw new Error(`Unknown game: ${gameId}`);
- 
+
   const initialState = buildInitialState(gameId);
- 
-  const [session] = await db.insert(gameSessions).values({
-    memberId,
-    gameId,
-    status: 'active',
-    stateSnapshot: initialState,
-    isMultiplayer: options.isMultiplayer ?? false,
-    villageId: options.villageId,
-  }).returning();
- 
-   // Emit platform-level event
-   await getEventEmitter().emit({
-     eventType: 'games.session_started',
-     actorId: session.memberId,
-     entityId: session.id,
-     entityType: 'game_session',
-     payload: { sessionId: session.id, memberId, gameId, villageId: options.villageId, source: 'games_engine' },
-     occurredAt: new Date().toISOString(),
-   });
- 
-   const mappedSession: GameSession = {
+
+  const sessions = await db
+    .insert(gameSessions)
+    .values({
+      memberId,
+      gameId,
+      status: "active",
+      stateSnapshot: initialState,
+      isMultiplayer: options.isMultiplayer ?? false,
+      villageId: options.villageId,
+    })
+    .returning();
+
+  if (!sessions.length) {
+    throw new Error("Failed to create game session");
+  }
+
+  const session = sessions[0];
+
+  // Emit platform-level event
+  await getEventEmitter().emit({
+    eventType: "games.session_started",
+    actorId: session.memberId,
+    entityId: session.id,
+    entityType: "game_session",
+    payload: {
+      sessionId: session.id,
+      memberId,
+      gameId,
+      villageId: options.villageId,
+      source: "games_engine",
+    },
+    occurredAt: new Date().toISOString(),
+  });
+
+  const mappedSession: GameSession = {
     id: session.id,
     memberId: session.memberId,
     gameId: session.gameId,
@@ -77,122 +100,182 @@ export async function startSession(
     createdAt: session.createdAt,
     updatedAt: session.updatedAt,
   };
-  
+
   return { session: mappedSession, initialState };
 }
- 
+
 export async function submitAction(
   sessionId: string,
   memberId: string,
-  action: { type: string; payload: Record<string, unknown> }
+  action: { type: string; payload: Record<string, unknown> },
 ): Promise<{ newState: GameState; completed: boolean }> {
   const session = await db.query.gameSessions.findFirst({
-    where: and(eq(gameSessions.id, sessionId), eq(gameSessions.memberId, memberId)),
+    where: and(
+      eq(gameSessions.id, sessionId),
+      eq(gameSessions.memberId, memberId),
+    ),
   });
- 
-  if (!session)        throw new Error('Session not found');
-  if (session.status !== 'active') throw new Error(`Session is ${session.status}`);
- 
+
+  if (!session) throw new Error("Session not found");
+  if (session.status !== "active")
+    throw new Error(`Session is ${session.status}`);
+
   const currentState = session.stateSnapshot as GameState;
- 
+
   // Get the game-specific processor
   const { processAction } = await import(`./games/${session.gameId}`);
   const { newState, decision } = await processAction(currentState, action);
- 
+
   // Append event to game log
-  const sequence   = (currentState.events?.length ?? 0) + 1;
+  const sequence = (currentState.events?.length ?? 0) + 1;
   const eventPayload = { action, decision, roundAfter: newState.round };
-  const hash       = hashGameEvent(sessionId, sequence, eventPayload);
- 
+  const hash = hashGameEvent(sessionId, sequence, eventPayload);
+
   await db.insert(gameEvents).values({
     sessionId,
     memberId,
     sequence,
     eventType: action.type,
-    payload:   eventPayload,
+    payload: eventPayload,
     hash,
   });
- 
-  const completed = newState.round >= newState.maxRounds || newState.phase === 'ended';
- 
+
+  const completed =
+    newState.round >= newState.maxRounds || newState.phase === "ended";
+
   if (completed) {
-    await completeSession(session.id, memberId, session.gameId as GameId, newState);
+    await completeSession(
+      session.id,
+      memberId,
+      session.gameId as GameId,
+      newState,
+    );
   } else {
-    await db.update(gameSessions)
+    await db
+      .update(gameSessions)
       .set({ stateSnapshot: newState, updatedAt: new Date() })
       .where(eq(gameSessions.id, sessionId));
   }
- 
+
   return { newState, completed };
 }
- 
+
 async function completeSession(
   sessionId: string,
   memberId: string,
   gameId: GameId,
-  finalState: GameState
+  finalState: GameState,
 ): Promise<void> {
-  const startTime  = Date.now();
-  const signals    = await extractSignals(memberId, sessionId, gameId, finalState);
-  const { total }  = await awardPrestige(memberId, sessionId, gameId, finalState, signals);
- 
-  await db.update(gameSessions).set({
-    status: 'completed',
-    completedAt: new Date(),
-    durationMs:  Date.now() - startTime,
-    finalScore:  finalState.score,
-    prestigeAwarded: total,
-    stateSnapshot: finalState,
-    updatedAt: new Date(),
-  }).where(eq(gameSessions.id, sessionId));
- 
-    await getEventEmitter().emit({
-      eventType: 'games.session_completed',
-      actorId: memberId,
-      entityId: sessionId,
-      entityType: 'game_session',
-      payload: { sessionId, memberId, gameId, finalScore: finalState.score, prestigeAwarded: total, signalCount: signals.length, source: 'games_engine' },
-      occurredAt: new Date().toISOString(),
-    });
+  const startTime = Date.now();
+  const signals = await extractSignals(memberId, sessionId, gameId, finalState);
+  const { total } = await awardPrestige(
+    memberId,
+    sessionId,
+    gameId,
+    finalState,
+    signals,
+  );
 
-    // Feed to Lindiwe
-    lindiweProcessor.ingestSignal({
-      gameId,
-      userId: memberId,
-      decision: finalState.decisions[finalState.decisions.length - 1] || {},
-      sessionState: finalState,
+  await db
+    .update(gameSessions)
+    .set({
+      status: "completed",
+      completedAt: new Date(),
+      durationMs: Date.now() - startTime,
       finalScore: finalState.score,
-    });
+      prestigeAwarded: total,
+      stateSnapshot: finalState,
+      updatedAt: new Date(),
+    })
+    .where(eq(gameSessions.id, sessionId));
+
+  await getEventEmitter().emit({
+    eventType: "games.session_completed",
+    actorId: memberId,
+    entityId: sessionId,
+    entityType: "game_session",
+    payload: {
+      sessionId,
+      memberId,
+      gameId,
+      finalScore: finalState.score,
+      prestigeAwarded: total,
+      signalCount: signals.length,
+      source: "games_engine",
+    },
+    occurredAt: new Date().toISOString(),
+  });
+
+  // Feed to Lindiwe
+  lindiweProcessor.ingestSignal({
+    gameId,
+    userId: memberId,
+    decision: finalState.decisions[finalState.decisions.length - 1] || {},
+    sessionState: finalState,
+    finalScore: finalState.score,
+  });
 }
- 
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
- 
+
 function hashGameEvent(
   sessionId: string,
   sequence: number,
-  payload: unknown
+  payload: unknown,
 ): string {
   const data = JSON.stringify({ sessionId, sequence, payload });
-  return crypto.createHash('sha256').update(data).digest('hex');
+  return crypto.createHash("sha256").update(data).digest("hex");
 }
- 
+
 export function buildInitialState(gameId: GameId): GameState {
   const bases: Record<GameId, Partial<GameState>> = {
-    ubuntu_monopoly:  { maxRounds: 20, phase: 'property_phase', data: { properties: [], villagefund: 0, syndicates: [] } },
-    pool_simulator:   { maxRounds: 12, phase: 'setup',          data: { members: [], buffer: 0, health: 100 } },
-    credit_ladder:    { maxRounds: 15, phase: 'deal',           data: { hand: [], creditScore: 500, debt: 0 } },
-    the_commons:      { maxRounds: 10, phase: 'harvest',        data: { commons: 100, players: [], agreements: [] } },
-    market_maker:     { maxRounds: 8,  phase: 'demand_gather',  data: { demand: [], suppliers: [], budget: 10000 } },
-    lottery_scenario: { maxRounds: 5,  phase: 'scenario',       data: { scenarios: [], currentIndex: 0, totalPoints: 0 } },
-    dice_strategy:    { maxRounds: 5,  phase: 'roll',           data: { rolls: [], currentMultiplier: 1, target: 2 } },
-    crop_finance:     { maxRounds: 4,  phase: 'season',         data: { seasons: [], totalMoney: 1000, insurance: false } },
+    ubuntu_monopoly: {
+      maxRounds: 20,
+      phase: "property_phase",
+      data: { properties: [], villagefund: 0, syndicates: [] },
+    },
+    pool_simulator: {
+      maxRounds: 12,
+      phase: "setup",
+      data: { members: [], buffer: 0, health: 100 },
+    },
+    credit_ladder: {
+      maxRounds: 15,
+      phase: "deal",
+      data: { hand: [], creditScore: 500, debt: 0 },
+    },
+    the_commons: {
+      maxRounds: 10,
+      phase: "harvest",
+      data: { commons: 100, players: [], agreements: [] },
+    },
+    market_maker: {
+      maxRounds: 8,
+      phase: "demand_gather",
+      data: { demand: [], suppliers: [], budget: 10000 },
+    },
+    lottery_scenario: {
+      maxRounds: 5,
+      phase: "scenario",
+      data: { scenarios: [], currentIndex: 0, totalPoints: 0 },
+    },
+    dice_strategy: {
+      maxRounds: 5,
+      phase: "roll",
+      data: { rolls: [], currentMultiplier: 1, target: 2 },
+    },
+    crop_finance: {
+      maxRounds: 4,
+      phase: "season",
+      data: { seasons: [], totalMoney: 1000, insurance: false },
+    },
   };
- 
+
   return {
-    round:     1,
-    score:     0,
+    round: 1,
+    score: 0,
     decisions: [],
-    events:    [],
+    events: [],
     ...bases[gameId],
   } as GameState;
 }

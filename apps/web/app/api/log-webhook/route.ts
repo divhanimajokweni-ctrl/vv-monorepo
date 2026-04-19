@@ -6,10 +6,14 @@
  * contributor behavior into "Developer Ubuntu Scores" for the talent pool.
  */
 
-import { NextResponse } from 'next/server';
-import { db } from '@ubuntu/db/client';
-import { contributors, contributorEvents, contributorScores } from '@ubuntu/db/schema-contributors';
-import { eq, and, desc } from 'drizzle-orm';
+import { NextResponse } from "next/server";
+import { db } from "@ubuntu/db/client";
+import {
+  contributors,
+  contributorEvents,
+  contributorScores,
+} from "@ubuntu/db/schema-contributors";
+import { eq, and, desc } from "drizzle-orm";
 
 // GitHub webhook secret validation
 const WEBHOOK_SECRET = process.env.GITHUB_WEBHOOK_SECRET;
@@ -62,25 +66,25 @@ interface GitHubEvent {
 export async function POST(request: Request) {
   try {
     // Validate webhook signature (production security)
-    const signature = request.headers.get('x-hub-signature-256');
+    const signature = request.headers.get("x-hub-signature-256");
     if (WEBHOOK_SECRET && signature) {
       // TODO: Implement signature validation
     }
 
-    const eventType = request.headers.get('x-github-event');
+    const eventType = request.headers.get("x-github-event");
     const body: GitHubEvent = await request.json();
 
     console.log(`GitHub webhook: ${eventType} from ${body.sender?.login}`);
 
     // Process different event types
     switch (eventType) {
-      case 'pull_request':
+      case "pull_request":
         await handlePullRequest(body);
         break;
-      case 'issues':
+      case "issues":
         await handleIssue(body);
         break;
-      case 'push':
+      case "push":
         await handlePush(body);
         break;
       default:
@@ -88,12 +92,11 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ success: true });
-
   } catch (error) {
-    console.error('Webhook processing failed:', error);
+    console.error("Webhook processing failed:", error);
     return NextResponse.json(
-      { error: 'Webhook processing failed' },
-      { status: 500 }
+      { error: "Webhook processing failed" },
+      { status: 500 },
     );
   }
 }
@@ -121,17 +124,25 @@ async function handlePullRequest(event: GitHubEvent) {
 
   // State bonuses
   if (pr.merged) contributionScore += 10;
-  if (pr.state === 'open') contributionScore += 1;
+  if (pr.state === "open") contributionScore += 1;
 
   // First Principles alignment check (basic heuristic)
   const firstPrinciplesKeywords = [
-    'systems', 'architecture', 'security', 'privacy', 'sovereignty',
-    'trust', 'governance', 'collective', 'community', 'ubuntu'
+    "systems",
+    "architecture",
+    "security",
+    "privacy",
+    "sovereignty",
+    "trust",
+    "governance",
+    "collective",
+    "community",
+    "ubuntu",
   ];
 
-  const content = `${pr.title} ${pr.body || ''}`.toLowerCase();
-  const principlesMatch = firstPrinciplesKeywords.filter(keyword =>
-    content.includes(keyword)
+  const content = `${pr.title} ${pr.body || ""}`.toLowerCase();
+  const principlesMatch = firstPrinciplesKeywords.filter((keyword) =>
+    content.includes(keyword),
   ).length;
 
   contributionScore += principlesMatch * 2;
@@ -140,7 +151,7 @@ async function handlePullRequest(event: GitHubEvent) {
   await recordContributor(contributor);
   await recordContributorEvent({
     contributorId: contributor.id.toString(),
-    eventType: 'pull_request',
+    eventType: "pull_request",
     eventId: pr.id.toString(),
     score: contributionScore,
     metadata: {
@@ -151,15 +162,15 @@ async function handlePullRequest(event: GitHubEvent) {
       additions: pr.additions,
       deletions: pr.deletions,
       changedFiles: pr.changed_files,
-      firstPrinciplesMatches: principlesMatch
-    }
+      firstPrinciplesMatches: principlesMatch,
+    },
   });
 
   // Update contributor score
   await updateContributorScore(contributor.id.toString(), contributionScore);
 
   // Executive alert for high-quality contributions
-  if (contributionScore >= 25 || principlesMatch >= 3 && pr) {
+  if (contributionScore >= 25 || (principlesMatch >= 3 && pr)) {
     await triggerExecutiveAlert(contributor, pr, contributionScore);
   }
 }
@@ -180,9 +191,14 @@ async function handleIssue(event: GitHubEvent) {
   if (issue.body && issue.body.length > 100) contributionScore += 3;
 
   // Labels indicating good first issues, bugs, etc.
-  const valuableLabels = ['good first issue', 'bug', 'enhancement', 'documentation'];
-  const hasValuableLabels = issue.labels.some(label =>
-    valuableLabels.includes(label.name.toLowerCase())
+  const valuableLabels = [
+    "good first issue",
+    "bug",
+    "enhancement",
+    "documentation",
+  ];
+  const hasValuableLabels = issue.labels.some((label) =>
+    valuableLabels.includes(label.name.toLowerCase()),
   );
   if (hasValuableLabels) contributionScore += 3;
 
@@ -190,15 +206,15 @@ async function handleIssue(event: GitHubEvent) {
   await recordContributor(contributor);
   await recordContributorEvent({
     contributorId: contributor.id.toString(),
-    eventType: 'issue',
+    eventType: "issue",
     eventId: issue.id.toString(),
     score: contributionScore,
     metadata: {
       issueNumber: issue.number,
       title: issue.title,
       state: issue.state,
-      labels: issue.labels.map(l => l.name)
-    }
+      labels: issue.labels.map((l) => l.name),
+    },
   });
 
   await updateContributorScore(contributor.id.toString(), contributionScore);
@@ -214,12 +230,12 @@ async function handlePush(event: GitHubEvent) {
   await recordContributor(contributor);
   await recordContributorEvent({
     contributorId: contributor.id.toString(),
-    eventType: 'push',
+    eventType: "push",
     eventId: `push-${Date.now()}`,
     score: 2, // Small score for commits
     metadata: {
-      repository: event.repository?.full_name
-    }
+      repository: event.repository?.full_name,
+    },
   });
 
   await updateContributorScore(contributor.id.toString(), 2);
@@ -228,13 +244,16 @@ async function handlePush(event: GitHubEvent) {
 /**
  * Record contributor in database
  */
-async function recordContributor(contributor: GitHubEvent['sender']) {
-  await db.insert(contributors).values({
-    githubId: contributor.id.toString(),
-    username: contributor.login,
-    profileUrl: contributor.html_url,
-    joinedAt: new Date(),
-  }).onConflictDoNothing();
+async function recordContributor(contributor: GitHubEvent["sender"]) {
+  await db
+    .insert(contributors)
+    .values({
+      githubId: contributor.id.toString(),
+      username: contributor.login,
+      profileUrl: contributor.html_url,
+      joinedAt: new Date(),
+    })
+    .onConflictDoNothing();
 }
 
 /**
@@ -259,7 +278,10 @@ async function recordContributorEvent(event: {
 /**
  * Update contributor's cumulative score
  */
-async function updateContributorScore(contributorId: string, additionalScore: number) {
+async function updateContributorScore(
+  contributorId: string,
+  additionalScore: number,
+) {
   // Get current score or create new one
   const existing = await db
     .select()
@@ -268,15 +290,16 @@ async function updateContributorScore(contributorId: string, additionalScore: nu
     .limit(1);
 
   if (existing.length > 0) {
+    const existingRecord = existing[0]!;
     await db
       .update(contributorScores)
       .set({
-        totalScore: existing[0].totalScore + additionalScore,
-        eventCount: existing[0].eventCount + 1,
+        totalScore: existingRecord.totalScore + additionalScore,
+        eventCount: existingRecord.eventCount + 1,
         lastActivity: new Date(),
         updatedAt: new Date(),
       })
-      .where(eq(contributorScores.id, existing[0].id));
+      .where(eq(contributorScores.id, existingRecord.id));
   } else {
     await db.insert(contributorScores).values({
       contributorId,
@@ -291,17 +314,21 @@ async function updateContributorScore(contributorId: string, additionalScore: nu
  * Trigger executive alert for high-quality contributions
  */
 async function triggerExecutiveAlert(
-  contributor: GitHubEvent['sender'],
-  pr: GitHubEvent['pull_request'] | undefined,
-  score: number
+  contributor: GitHubEvent["sender"],
+  pr: GitHubEvent["pull_request"] | undefined,
+  score: number,
 ) {
   // This would integrate with OpenClaw for executive notifications
-  console.log(`🚨 EXECUTIVE ALERT: High-quality contribution from ${contributor.login}`);
+  console.log(
+    `🚨 EXECUTIVE ALERT: High-quality contribution from ${contributor.login}`,
+  );
   console.log(`   Score: ${score}`);
 
   if (pr) {
     console.log(`   PR #${pr.number}: ${pr.title}`);
-    console.log(`   First Principles matches: ${pr.additions + pr.deletions > 100 ? 'High' : 'Medium'}`);
+    console.log(
+      `   First Principles matches: ${pr.additions + pr.deletions > 100 ? "High" : "Medium"}`,
+    );
   }
 
   // TODO: Integrate with OpenClaw notification system

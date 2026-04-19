@@ -1,58 +1,74 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@ubuntu/db/client';
-import { waitlist } from '@ubuntu/db/schema';
-import { sendEmail } from '@/lib/email';
-import { getWhatsAppProvider } from '@/lib/integrations/whatsapp';
+import { NextRequest, NextResponse } from "next/server";
+import { db } from "@ubuntu/db/client";
+import { waitlist } from "@ubuntu/db/schema";
+import { sendEmail } from "@/lib/email";
+import { getWhatsAppProvider } from "@/lib/integrations/whatsapp";
 
 export async function POST(req: NextRequest) {
   // POPIA gate — must be explicit in header
-  const popiaConsent = req.headers.get('x-popia-consent');
-  if (popiaConsent !== 'granted') {
+  const popiaConsent = req.headers.get("x-popia-consent");
+  if (popiaConsent !== "granted") {
     return NextResponse.json(
-      { error: 'POPIA consent required', code: 'POPIA_CONSENT_MISSING' },
-      { status: 403 }
+      { error: "POPIA consent required", code: "POPIA_CONSENT_MISSING" },
+      { status: 403 },
     );
   }
 
-  let body: { email?: string; name?: string; phone?: string; stokvel_coordinator?: boolean };
+  let body: {
+    email?: string;
+    name?: string;
+    phone?: string;
+    stokvel_coordinator?: boolean;
+  };
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
   const { email, name, phone, stokvel_coordinator } = body;
 
   if (!email || !name) {
-    return NextResponse.json({ error: 'Email and name are required' }, { status: 400 });
+    return NextResponse.json(
+      { error: "Email and name are required" },
+      { status: 400 },
+    );
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid email address" },
+      { status: 400 },
+    );
   }
 
   const cleanEmail = email.toLowerCase().trim();
 
   try {
-    await db.insert(waitlist).values({
-      email:               cleanEmail,
-      name,
-      phone:               phone ?? null,
-      stokvelCoordinator: stokvel_coordinator ?? false,
-      source:              'waitlist',
-    })
-    .onConflictDoNothing();
+    await db
+      .insert(waitlist)
+      .values({
+        email: cleanEmail,
+        name,
+        phone: phone ?? null,
+        stokvelCoordinator: stokvel_coordinator ?? false,
+        source: "waitlist",
+      })
+      .onConflictDoNothing();
   } catch (e) {
-    console.error('[waitlist/join] DB error:', e);
-    return NextResponse.json({ error: 'Could not save. Please try again.' }, { status: 500 });
+    console.error("[waitlist/join] DB error:", e);
+    return NextResponse.json(
+      { error: "Could not save. Please try again." },
+      { status: 500 },
+    );
   }
 
   // Confirmation email — non-blocking
   const emailResult = await sendEmail(
     {
-      from:    'Ubuntu Pools <hello@ubuntupools.app>',
-      to:      [cleanEmail],
+      from: "Ubuntu Pools <hello@ubuntupools.app>",
+      to: [cleanEmail],
       subject: `You're on the Ubuntu Pools waitlist, ${name}`,
       html: `
         <div style="font-family:sans-serif;max-width:520px;margin:0 auto;color:#1a1a1a">
@@ -79,11 +95,14 @@ export async function POST(req: NextRequest) {
         </div>
       `,
     },
-    `waitlist-confirmation/${cleanEmail}`
+    `waitlist-confirmation/${cleanEmail}`,
   );
 
   if (!emailResult.success) {
-    console.error('[waitlist/join] Email failed (non-fatal):', emailResult.error);
+    console.error(
+      "[waitlist/join] Email failed (non-fatal):",
+      emailResult.error,
+    );
   }
 
   // WhatsApp community messaging — non-blocking
@@ -91,16 +110,23 @@ export async function POST(req: NextRequest) {
     try {
       const whatsAppProvider = getWhatsAppProvider();
       // Send welcome message asynchronously
-      whatsAppProvider.sendWelcomeMessage(phone).catch(error => {
-        console.error('[waitlist/join] WhatsApp failed (non-fatal):', error);
+      whatsAppProvider.sendWelcomeMessage(phone).catch((error: any) => {
+        console.error("[waitlist/join] WhatsApp failed (non-fatal):", error);
       });
-    } catch (error) {
-      console.error('[waitlist/join] WhatsApp setup failed (non-fatal):', error);
+    } catch (error: any) {
+      console.error(
+        "[waitlist/join] WhatsApp setup failed (non-fatal):",
+        error,
+      );
     }
   }
 
   return NextResponse.json(
-    { success: true, message: "You're on the waitlist. Check your email and WhatsApp for confirmation." },
-    { status: 201 }
+    {
+      success: true,
+      message:
+        "You're on the waitlist. Check your email and WhatsApp for confirmation.",
+    },
+    { status: 201 },
   );
 }
