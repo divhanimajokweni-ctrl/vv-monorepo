@@ -6,3 +6,5 @@ export const db = createDatabase({ ...schema, ...schemaSpine });
 export * from "./client";
 export * from "./schema";
 export * from "./schema-spine";
+export * from "./schema-credit";
+export * from "./schema-games";

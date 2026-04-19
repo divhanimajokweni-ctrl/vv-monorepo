@@ -6,6 +6,37 @@ export interface EventEmitter {
   emit(event: string, data: unknown): Promise<void>;
 }
 
+export class EventEmissionError extends Error {
+  constructor(message: string, public readonly eventType: string) {
+    super(message);
+    this.name = 'EventEmissionError';
+  }
+}
+
+export class EventValidationError extends Error {
+  constructor(message: string, public readonly field: string) {
+    super(message);
+    this.name = 'EventValidationError';
+  }
+  validationErrors?: any[];
+}
+
+export class EventDuplicateError extends Error {
+  constructor(message: string, public readonly eventId: string) {
+    super(message);
+    this.name = 'EventDuplicateError';
+  }
+  existingEventId?: string;
+}
+
+export interface EmitResult {
+  success: boolean;
+  eventId?: string;
+  error?: string;
+  event?: any;
+  wasNew?: boolean;
+}
+
 export function createEventEmitter(): EventEmitter {
   const listeners: Map<string, EventListener[]> = new Map();
 

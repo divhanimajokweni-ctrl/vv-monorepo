@@ -111,7 +111,7 @@ export async function POST(request: NextRequest) {
             { status: 403 }
           );
         }
-        const profile = await ubuntuBackbone.syncMemberData(memberId, accessToken);
+        const profile = await ubuntuBackbone.syncMemberData(memberId);
         return NextResponse.json(profile);
 
       case 'regulate':

@@ -147,7 +147,7 @@ export async function GET(request: Request) {
       }
 
       case "getOpenDemands": {
-        const demands = await demandAggregation.getOpenDemands(category || undefined);
+        const demands = await demandAggregation.getOpenDemands(category ?? undefined);
         return NextResponse.json(demands);
       }
 
@@ -162,7 +162,7 @@ export async function GET(request: Request) {
       }
 
       case "getOpenSupplies": {
-        const supplies = await supplyAggregation.getOpenSupplies(category || undefined);
+        const supplies = await supplyAggregation.getOpenSupplies(category ?? undefined);
         return NextResponse.json(supplies);
       }
 
@@ -172,21 +172,21 @@ export async function GET(request: Request) {
       }
 
       case "listSuppliers": {
-        const suppliers = await supplierMatching.listSuppliers({
-          category: category || undefined,
-          status: status || undefined,
-        });
+        const filters: any = {};
+        if (category) filters.category = category;
+        if (status) filters.status = status;
+        const suppliers = await supplierMatching.listSuppliers(filters);
         return NextResponse.json(suppliers);
       }
 
       case "matchSuppliers": {
-        const suppliers = await supplierMatching.matchSuppliersToDemand(id!, {
-          category: category || undefined,
-          minTrustScore: searchParams.get("minTrustScore")
-            ? parseInt(searchParams.get("minTrustScore")!)
-            : undefined,
-          region: searchParams.get("region") || undefined,
-        });
+        const filters: any = {};
+        if (category) filters.category = category;
+        const minTrustScore = searchParams.get("minTrustScore");
+        if (minTrustScore) filters.minTrustScore = parseInt(minTrustScore);
+        const region = searchParams.get("region");
+        if (region) filters.region = region;
+        const suppliers = await supplierMatching.matchSuppliersToDemand(id!, filters);
         return NextResponse.json(suppliers);
       }
 
@@ -196,11 +196,12 @@ export async function GET(request: Request) {
       }
 
       case "getContracts": {
-        const contracts = await contractNegotiation.getContracts({
-          supplierId: id || undefined,
-          circleId: searchParams.get("circleId") || undefined,
-          status: status || undefined,
-        });
+        const filters: any = {};
+        if (id) filters.supplierId = id;
+        const circleId = searchParams.get("circleId");
+        if (circleId) filters.circleId = circleId;
+        if (status) filters.status = status;
+        const contracts = await contractNegotiation.getContracts(filters);
         return NextResponse.json(contracts);
       }
 
@@ -220,18 +221,18 @@ export async function GET(request: Request) {
       }
 
       case "listCircles": {
-        const circles = await procurementCircle.getCircles({
-          category: category || undefined,
-          status: status || undefined,
-        });
+        const filters: any = {};
+        if (category) filters.category = category;
+        if (status) filters.status = status;
+        const circles = await procurementCircle.getCircles(filters);
         return NextResponse.json(circles);
       }
 
       case "getIntelligence": {
         const intelligence = await marketIntel.getIntelligence(
-          category || undefined,
-          searchParams.get("product") || undefined,
-          searchParams.get("region") || undefined
+          category ?? undefined,
+          searchParams.get("product") ?? undefined,
+          searchParams.get("region") ?? undefined
         );
         return NextResponse.json(intelligence);
       }

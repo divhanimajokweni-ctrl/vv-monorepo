@@ -5,7 +5,7 @@
 
 import { z } from 'zod';
 import { randomUUID } from 'crypto';
-import { SignatureVerifier } from '@ubuntu/domain-core/signature-verifier';
+import { signatureVerifier } from '@ubuntu/domain-core/signature-verifier';
 import {
   type CreditPoolConfig,
   type MemberCreditProfile,
@@ -488,7 +488,7 @@ export class CreditService {
 
     // If signature provided, verify it against canonical request payload
     if (request.signature && request.signerPublicKey) {
-      const verifier = new SignatureVerifier();
+      const verifier = signatureVerifier;
       const { poolId, memberId, amount, termDays, purpose } = request;
       const result = verifier.verify({
         data: { poolId, memberId, amount, termDays, purpose: purpose || null } as Record<string, unknown>,
