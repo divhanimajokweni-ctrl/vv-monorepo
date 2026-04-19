@@ -143,6 +143,7 @@ By contributing to Ubuntu Pools, you agree to:
 - **Testing**: Minimum 85% coverage, integration tests for critical paths
 - **Performance**: Optimize for scale (10k+ concurrent users)
 - **Security**: Zero-trust architecture, cryptographic verification
+- **Monorepo**: Turbo-powered apps/packages workspace
 
 ### Code Review Process
 1. **Automated Checks**: TypeScript, ESLint, tests must pass

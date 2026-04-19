@@ -45,6 +45,26 @@
 
 ---
 
+## Quick Start
+
+```bash
+# Install dependencies
+bun install
+
+# Set up environment
+cp .env.example .env.local
+# Edit .env.local with your database URL
+
+# Generate & run migrations
+bun run db:generate
+bun run db:migrate
+
+# Start development
+bun run dev
+```
+
+---
+
 ## Local Development 🟢
 
 ### 1. Install Dependencies
@@ -71,7 +91,7 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 ### 3. Run Development Servers
 
-The Ubuntu Pools workspace includes three applications that can run independently:
+The Ubuntu Pools workspace includes four applications that can run independently:
 
 ```bash
 # Run all applications in parallel
@@ -81,6 +101,7 @@ bun run dev
 bun run dev:web        # Next.js frontend (http://localhost:3000)
 bun run dev:worker     # Background job processor
 bun run dev:realtime   # Socket.io real-time server (http://localhost:4001)
+bun run dev:admin      # Admin dashboard (http://localhost:3001)
 ```
 
 ### 4. Verify Installation
@@ -90,6 +111,9 @@ Test each application:
 ```bash
 # Test web application
 curl http://localhost:3000/api/health
+
+# Test admin application
+curl http://localhost:3001/api/health
 
 # Test real-time server (if running)
 curl http://localhost:4001/health

@@ -12,7 +12,7 @@
 
 </div>
 
-This guide provides comprehensive instructions for setting up a local development environment for the Ubuntu Pools monorepo. The repository is structured as an **apps/packages workspace** with three deployable applications (web, worker, realtime) and 17 domain packages for clean separation of concerns.
+This guide provides comprehensive instructions for setting up a local development environment for the Ubuntu Pools monorepo. The repository is structured as an **apps/packages workspace** with four deployable applications (web, worker, realtime, admin) and 19 domain packages for clean separation of concerns.
 
 ## Workspace Architecture
 
@@ -22,6 +22,7 @@ Ubuntu Pools is built as a **Turbo-powered monorepo** with clean domain boundari
 - **`apps/web`**: Next.js frontend application (port 3000)
 - **`apps/worker`**: Background job processor for async tasks
 - **`apps/realtime`**: Socket.io server for live connections (port 4001)
+- **`apps/admin`**: Admin dashboard application
 
 ### Domain Packages (`packages/`)
 - **`packages/config`**: Environment and runtime configuration
@@ -34,12 +35,15 @@ Ubuntu Pools is built as a **Turbo-powered monorepo** with clean domain boundari
 - **`packages/credit`**: Financial services and credit facilities
 - **`packages/ledger`**: Transaction recording and accounting
 - **`packages/games`**: Educational gaming platform
-- **`packages/lindiwe`**: AI behavioral intelligence
+- **`packages/lindiwe`**: AI behavioral intelligence (Lindiwe AI)
 - **`packages/messaging`**: Communications and notifications
 - **`packages/sovereignty`**: Data privacy and user rights
 - **`packages/ui`**: Shared UI components
 - **`packages/observability`**: Logging and monitoring
 - **`packages/cache`**: Redis and caching utilities
+- **`packages/security`**: Security controls and incident response
+- **`packages/inference`**: ML inference pipelines
+- **`packages/test-utils`**: Testing utilities
 
 ### Development Commands
 ```bash
@@ -50,15 +54,25 @@ bun install
 bun run dev
 
 # Run individual applications
-bun run dev:web        # Frontend only
+bun run dev:web        # Frontend only (port 3000)
 bun run dev:worker     # Background jobs only
-bun run dev:realtime   # Real-time server only
+bun run dev:realtime   # Real-time server only (port 4001)
 
 # Run workspace-wide commands
 bun run build          # Build all packages/apps
 bun run test           # Run all tests
 bun run lint           # Lint all code
-bun run typecheck      # Type check all code
+bun run typecheck     # Type check all code
+
+# Database operations (Drizzle ORM)
+bun run db:generate   # Generate migrations
+bun run db:migrate   # Run migrations
+bun run db:studio   # Open database studio
+bun run db:seed     # Seed database
+
+# Security
+bun run audit         # Security audit
+bun run audit:fix    # Auto-fix security issues
 ```
 
 **🆕 New Features Available:**
