@@ -1,0 +1,48 @@
+name: daily-reconciliation
+schedule: "0 6 * * *"
+description: >
+  Reconcile Dodo Payments webhooks against ledger entries.
+  Flag any contribution that has a Dodo payment record
+  but no corresponding balanced ledger entry.
+
+tasks:
+  - id: fetch-dodo-transactions
+    action: http_get
+    url: "https://api.dodopayments.com/v1/transactions"
+    headers:
+      Authorization: "Bearer ${DODO_PAYMENTS_CLIENT_SECRET}"
+    params:
+      from: "${YESTERDAY_ISO}"
+      to: "${TODAY_ISO}"
+
+  - id: cross-reference-ledger
+    action: sql_query
+    query: >
+      SELECT
+        pc.idempotency_key,
+        pc.status,
+        pc.amount_minor_units,
+        le.id as ledger_entry_id,
+        le.total_debits,
+        le.total_credits
+      FROM pool_contributions pc
+      LEFT JOIN ledger_entries le ON le.event_id = pc.id
+      WHERE pc.created_at >= NOW() - INTERVAL '24 hours'
+        AND (le.id IS NULL OR pc.status != 'POSTED')
+
+  - id: flag-discrepancies
+    action: compare
+    source: fetch-dodo-transactions
+    target: cross-reference-ledger
+    match_on: idempotency_key
+    on_mismatch: write_to_friction_log
+
+  - id: write-reconciliation-report
+    action: write_json
+    path: "logs/reconciliation-${TIMESTAMP}.json"
+
+  - id: alert-if-discrepancies
+    action: conditional_alert
+    condition: "discrepancy_count > 0"
+    message: "Reconciliation found {discrepancy_count} unmatched transactions. Review logs/reconciliation-${TIMESTAMP}.json"
+    channels: [sentry, whatsapp_finance_lead]

@@ -1,0 +1,76 @@
+name: onboarding-validator
+trigger: on_demand
+description: >
+  Validate that the complete onboarding flow works for a new village
+  before real members are invited. Uses test fixtures, not real money.
+  All 9 spine steps must pass.
+
+tasks:
+  - id: create-test-village
+    action: api_call
+    endpoint: "POST /api/villages"
+    payload:
+      name: "TEST_VILLAGE_${TIMESTAMP}"
+      isTestVillage: true
+
+  - id: create-test-members
+    action: repeat
+    count: 3
+    action: api_call
+    endpoint: "POST /api/members"
+    payload:
+      email: "test-member-${INDEX}@ubuntupools.test"
+      villageId: "${create-test-village.id}"
+
+  - id: run-contribution-spine
+    action: api_call
+    endpoint: "POST /api/villages/${village_id}/pools/contribute"
+    payload:
+      memberId: "${create-test-members[0].id}"
+      poolId: "${pool_id}"
+      amount: 10000
+      idempotencyKey: "test-${TIMESTAMP}-onboarding-check"
+
+  - id: verify-ledger-entry
+    action: sql_query
+    query: >
+      SELECT id, total_debits, total_credits
+      FROM ledger_entries
+      WHERE member_id = '${test_member_id}'
+        AND village_id = '${test_village_id}'
+    expect_balanced: true
+
+  - id: verify-audit-trace
+    action: sql_query
+    query: >
+      SELECT id FROM audit_log
+      WHERE village_id = '${test_village_id}'
+    expect_rows_min: 1
+
+  - id: verify-projection-updated
+    action: sql_query
+    query: >
+      SELECT last_event_id, refreshed_at
+      FROM projections
+      WHERE village_id = '${test_village_id}'
+    expect_rows: 1
+
+  - id: cleanup-test-village
+    action: api_call
+    endpoint: "DELETE /api/villages/${test_village_id}"
+    payload:
+      confirm: true
+      isTestVillage: true
+
+  - id: report-pass-fail
+    action: write_json
+    path: "logs/onboarding-validation-${TIMESTAMP}.json"
+    include: all
+
+  - id: gate-village-launch
+    action: conditional
+    condition: "any_step_failed"
+    on_true: halt_and_alert
+    message: "Village ${VILLAGE_NAME} NOT cleared for launch — onboarding validation failed. See logs."
+    on_false: post_clearance
+    message: "Village ${VILLAGE_NAME} cleared for launch. All 9 spine steps validated."

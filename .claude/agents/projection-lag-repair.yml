@@ -1,0 +1,47 @@
+name: projection-lag-repair
+trigger: webhook
+description: >
+  When projection lag exceeds threshold, identify the
+  unprocessed events and replay them through the projection pipeline.
+  Do NOT modify financial data — only refresh derived state.
+
+tasks:
+  - id: identify-stale-villages
+    action: sql_query
+    query: >
+      SELECT village_id, last_event_id, lag_seconds, unprocessed_events
+      FROM projection_lag
+      WHERE lag_seconds > 30 OR unprocessed_events > 0
+      ORDER BY lag_seconds DESC
+
+  - id: fetch-unprocessed-events
+    action: sql_query
+    query: >
+      SELECT de.*
+      FROM domain_events de
+      JOIN projections p ON p.village_id = de.village_id
+      WHERE de.created_at > p.refreshed_at
+        AND de.village_id = ANY(${stale_village_ids})
+      ORDER BY de.created_at ASC
+
+  - id: replay-projections
+    action: api_call
+    for_each: fetch-unprocessed-events
+    endpoint: "internal://projection/replay"
+    payload:
+      eventId: "${event.id}"
+      villageId: "${event.village_id}"
+    on_error: log_and_continue
+
+  - id: verify-repair
+    action: sql_query
+    query: >
+      SELECT COUNT(*) as remaining_lag
+      FROM projection_lag
+      WHERE lag_seconds > 30 OR unprocessed_events > 0
+
+  - id: post-repair-report
+    action: conditional_alert
+    condition: "remaining_lag > 0"
+    message: "Projection lag repair incomplete. {remaining_lag} villages still lagging."
+    channels: [sentry, whatsapp_tech_lead]

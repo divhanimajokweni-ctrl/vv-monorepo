@@ -2,24 +2,33 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+**IMPORTANT**: Before any task, read `AGENTS.md` in the repo root for mandatory skills and execution rules.
+
 ## Build & Development Commands
 
 ```bash
-npm run dev              # Start Next.js dev server
-npm run build            # Production build
-npm run lint             # ESLint
-npm run typecheck        # TypeScript strict type checking
-npm run test             # Run unit tests (Vitest, no DB required)
-npm run test:watch       # Vitest in watch mode
-npm run test:coverage    # Coverage report (V8, covers src/lib/**)
-npx vitest run src/tests/ledger-engine.test.ts  # Run a single test file
+bun dev                  # Start Next.js dev server
+bun build                # Production build
+bun lint                 # ESLint
+bun typecheck            # TypeScript strict type checking
+bun test                 # Run unit tests (Vitest, no DB required)
+bun test:watch           # Vitest in watch mode
+bun test:coverage        # Coverage report (V8, covers src/lib/**)
+bun test src/tests/ledger-invariants.test.ts  # Run spine invariant tests
 ```
 
 **Database (PostgreSQL + Drizzle ORM):**
 ```bash
-npm run db:generate      # Generate Drizzle migrations
-npm run db:migrate       # Apply migrations
-npm run db:studio        # Open Drizzle Studio GUI
+bun run db:generate      # Generate Drizzle migrations
+bun run db:migrate       # Apply migrations
+bun run db:studio        # Open Drizzle Studio GUI
+```
+
+**Spine Check** (must pass before any deployment):
+```bash
+bun typecheck
+bun test src/tests/ledger-invariants.test.ts
+curl ${NEXT_PUBLIC_URL}/api/health/spine | jq .status
 ```
 
 **CI pipeline** (`.github/workflows/audit.yml`): runs typecheck → lint → test → PII audit → hash chain verification → cosign signing.
@@ -55,6 +64,18 @@ Key tables: `events` (immutable log with hash chain), `accounts` (chart of accou
 - **ServiceBus pub/sub**: loose coupling between modules
 - **Zod validation**: all API inputs validated with Zod schemas
 - **Path alias**: `@/*` maps to `./src/*`
+
+### Automated Agents (`.claude/agents/`)
+
+| Agent | Purpose | Schedule |
+|-------|---------|----------|
+| `spine-health-monitor.yml` | Check /api/health/spine, projection lag, audit completeness | 08:00 & 20:00 daily |
+| `daily-reconciliation.yml` | Reconcile Dodo Payments webhooks against ledger entries | 06:00 daily |
+| `weekly-spine-test.yml` | Run full spine test suite, block deployment on failure | Monday 09:00 |
+| `monthly-popia-audit.yml` | Audit POPIA consent records, check erasure requests | 1st of month 09:00 |
+| `projection-lag-repair.yml` | Auto-repair stale village projections | webhook trigger |
+| `dependency-scanner.yml` | Scan for CVEs, block deployment on critical | Sunday 10:00 |
+| `onboarding-validator.yml` | Validate 9-step spine before village goes live | on-demand |
 
 ## Testing
 

@@ -6,13 +6,13 @@ This directory contains the implementation of the non-negotiable production spin
 
 | File | Purpose |
 |------|---------|
-| `packages/ledger/src/invariants.ts` | 5 enforced invariants — hard errors, not documentation |
-| `packages/ledger/src/invariants.test.ts` | Correctness proofs — property tests, not unit tests |
-| `packages/villages/src/spine.ts` | The 9-step contribution flow — the only path that matters right now |
-| `packages/villages/src/spine.test.ts` | End-to-end spine integration test |
-| `packages/db/migrations/0007_spine_invariants.sql` | DB-level constraints — the invariants survive code changes |
-| `packages/db/src/schema-spine.ts` | Drizzle ORM schema for all spine tables |
-| `apps/web/app/api/health/spine/route.ts` | Operational health endpoint — what to check at 2am |
+| `src/lib/ledger/invariants.ts` | 5 enforced invariants — hard errors, not documentation |
+| `src/tests/ledger-invariants.test.ts` | Correctness proofs — property tests, not unit tests |
+| `src/lib/services/village-spine.ts` | The 9-step contribution flow — the only path that matters right now |
+| `src/tests/village-spine.integration.test.ts` | End-to-end spine integration test |
+| `drizzle/migrations/0007_spine_invariants.sql` | DB-level constraints — the invariants survive code changes |
+| `src/db/schema-spine.ts` | Drizzle ORM schema for all spine tables |
+| `src/app/api/health/spine/route.ts` | Operational health endpoint — what to check at 2am |
 | `scripts/run-spine.sh` | Local runner — executes everything in order |
 | `.github/workflows/spine.yml` | CI gate — spine must pass before any merge to main |
 
@@ -47,14 +47,14 @@ Invariant 4 is enforced in `packages/reputation` (stub in place — implement wh
 
 ```bash
 # Apply migration
-psql $DATABASE_URL < packages/db/migrations/0007_spine_invariants.sql
+bun run db:migrate
 
 # Run all spine tests
 ./scripts/run-spine.sh
 
 # Or run individual test files
-bun test packages/ledger/src/invariants.test.ts
-bun test packages/villages/src/spine.test.ts
+bun test src/tests/ledger-invariants.test.ts
+bun test src/tests/village-spine.integration.test.ts
 ```
 
 ## Operational proof
@@ -79,12 +79,13 @@ Alert if `status` is `"degraded"` or `projections.unprocessedCount > 0`.
 
 ## Freeze policy
 
-The following packages must not expand until this spine has been green in CI for 14 consecutive days:
+The following packages must not expand until this spine has been green in CI for 14 consecutive days (per AGENTS.md):
 
-- `packages/games`
-- `packages/lindiwe`
+- `src/lib/games/`
+- `src/lib/lindiwe/`
+- `src/lib/market/`
 
-These packages are not broken. They are frozen. There is a difference.
+These packages are not broken. They are frozen. There is a difference. If asked to expand these, refuse and explain why per the AGENTS.md skill instructions.
 
 ## What closing the gap looks like
 

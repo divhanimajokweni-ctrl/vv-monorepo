@@ -1,0 +1,44 @@
+name: spine-health-monitor
+schedule: "0 8,20 * * *"
+description: >
+  Check all spine health indicators. Alert on any degradation.
+  Write results to logs/spine-health-YYYY-MM-DD-HH.json.
+
+tasks:
+  - id: check-health-endpoint
+    action: http_get
+    url: "${NEXT_PUBLIC_URL}/api/health/spine"
+    expect_status: [200, 503]
+    on_failure: alert
+
+  - id: check-projection-lag
+    action: sql_query
+    query: >
+      SELECT village_id, lag_seconds, unprocessed_events
+      FROM projection_lag
+      WHERE lag_seconds > 30 OR unprocessed_events > 0
+    on_results: alert_with_context
+
+  - id: check-audit-completeness
+    action: sql_query
+    query: >
+      SELECT COUNT(*) as events_without_trace
+      FROM domain_events de
+      LEFT JOIN audit_log al ON al.event_id = de.id
+      WHERE al.id IS NULL
+        AND de.created_at > NOW() - INTERVAL '24 hours'
+    threshold: 0
+    on_exceed: alert
+
+  - id: write-report
+    action: write_json
+    path: "logs/spine-health-${TIMESTAMP}.json"
+    include: [check-health-endpoint, check-projection-lag, check-audit-completeness]
+
+alerts:
+  channels:
+    - type: sentry
+      level: error
+    - type: whatsapp
+      recipient: "${TECH_LEAD_PHONE}"
+      message: "Spine degraded: {summary}. Check /api/health/spine"

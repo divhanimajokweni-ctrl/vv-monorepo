@@ -1,0 +1,40 @@
+name: dependency-scanner
+schedule: "0 10 * * 0"
+description: >
+  Scan all dependencies for known vulnerabilities.
+  Auto-create GitHub issues for critical CVEs.
+  Block deployment if CRITICAL severity found.
+
+tasks:
+  - id: bun-audit
+    action: shell
+    command: "bun audit --json"
+    output: audit-results
+
+  - id: parse-critical-vulnerabilities
+    action: filter
+    source: audit-results
+    condition: "severity IN ('critical', 'high')"
+    output: critical-vulns
+
+  - id: create-github-issues
+    action: github_api
+    for_each: critical-vulns
+    endpoint: "POST /repos/${GITHUB_REPO}/issues"
+    body:
+      title: "[SECURITY] ${vuln.package} — ${vuln.severity}: ${vuln.title}"
+      body: >
+        **Package:** ${vuln.package}@${vuln.version}
+        **Severity:** ${vuln.severity}
+        **CVE:** ${vuln.cve}
+        **Fix:** Upgrade to ${vuln.fix_version}
+        **POPIA/Financial Risk:** ${vuln.affects_data_handling}
+      labels: ["security", "spine-health", "${vuln.severity}"]
+
+  - id: block-on-critical
+    action: conditional
+    condition: "critical_count > 0"
+    action: set_github_status
+    state: failure
+    context: "security/dependencies"
+    description: "${critical_count} critical CVEs found — deployment blocked"

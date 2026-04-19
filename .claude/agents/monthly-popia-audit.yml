@@ -1,0 +1,55 @@
+name: monthly-popia-audit
+schedule: "0 9 1 * *"
+description: >
+  Audit POPIA consent records against active member list.
+  Flag members who lack valid consent records.
+  Generate report for Compliance Lead review.
+
+tasks:
+  - id: active-members-without-consent
+    action: sql_query
+    query: >
+      SELECT m.id, m.created_at, m.village_id
+      FROM members m
+      WHERE m.is_active = true
+        AND NOT EXISTS (
+          SELECT 1 FROM consent_records cr
+          WHERE cr.member_id = m.id
+            AND cr.consent_type = 'POPIA_DATA_PROCESSING'
+            AND cr.is_valid = true
+            AND cr.expires_at > NOW()
+        )
+
+  - id: erasure-requests-pending
+    action: sql_query
+    query: >
+      SELECT COUNT(*) as pending_erasures
+      FROM sovereignty_requests
+      WHERE status = 'PENDING'
+        AND created_at < NOW() - INTERVAL '30 days'
+
+  - id: data-retention-check
+    action: sql_query
+    query: >
+      SELECT COUNT(*) as overdue_records
+      FROM domain_events
+      WHERE created_at < NOW() - INTERVAL '5 years'
+        AND NOT EXISTS (
+          SELECT 1 FROM retention_exemptions re
+          WHERE re.event_id = domain_events.id
+        )
+
+  - id: generate-compliance-report
+    action: write_json
+    path: "logs/popia-audit-${MONTH}-${YEAR}.json"
+    include: [active-members-without-consent, erasure-requests-pending, data-retention-check]
+
+  - id: alert-compliance-lead
+    action: email
+    to: "${COMPLIANCE_LEAD_EMAIL}"
+    subject: "Monthly POPIA Audit — ${MONTH} ${YEAR}"
+    body: >
+      POPIA audit complete. {members_without_consent} members lack valid consent.
+      {pending_erasures} erasure requests pending > 30 days.
+      Full report attached.
+    attachment: "logs/popia-audit-${MONTH}-${YEAR}.json"

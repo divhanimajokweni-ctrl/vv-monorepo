@@ -1,0 +1,42 @@
+name: weekly-spine-test
+schedule: "0 9 * * 1"
+description: >
+  Run the full spine test suite and post results.
+  Blocks any pending deployments if tests fail.
+
+tasks:
+  - id: run-unit-tests
+    action: shell
+    command: "bun test src/tests/ledger-invariants.test.ts --reporter=json"
+    output: unit-test-results
+
+  - id: run-integration-tests
+    action: shell
+    command: >
+      DATABASE_URL=${DATABASE_URL}
+      bun test src/tests/village-spine.integration.test.ts
+      --include "**/*.integration.test.ts"
+      --reporter=json
+    output: integration-test-results
+
+  - id: check-migration-applied
+    action: sql_query
+    query: >
+      SELECT conname FROM pg_constraint
+      WHERE conname = 'balanced_posting'
+    expect_rows: 1
+    on_fail: alert_critical
+
+  - id: post-results-to-slack
+    action: http_post
+    url: "${SLACK_WEBHOOK_URL}"
+    body:
+      text: "Weekly spine test: {pass_count} passed, {fail_count} failed. {status_emoji}"
+
+  - id: block-deployment-on-failure
+    action: conditional
+    condition: "fail_count > 0"
+    action: set_github_status
+    state: failure
+    context: "spine/weekly"
+    description: "Spine tests failing — deployment blocked"
