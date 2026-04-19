@@ -39,20 +39,23 @@ const PREFER_CLOUD: TaskType[] = [
 "investor_narrative",
 ];
 export class InferenceRouter {
-private localEndpoint: string;
-private localModel: string;
-private cloudApiKey: string;
-private localHealthy: boolean = false;
-constructor(config: {
-localEndpoint?: string; // e.g. "http://localhost:11434" (Ollama)
-localModel?: string; // e.g. "gemma4:27b" or "gemma4:4b" for edge
-cloudApiKey: string;
-}) {
-this.localEndpoint = config.localEndpoint ?? "http://localhost:11434";
-this.localModel = config.localModel ?? "gemma3:4b"; // Ollama model name
-this.cloudApiKey = config.cloudApiKey;
-this.checkLocalHealth();
-}
+  private localEndpoint: string;
+  private localModel: string;
+  private cloudApiKey: string;
+  private openRouterApiKey?: string;
+  private localHealthy: boolean = false;
+  constructor(config: {
+    localEndpoint?: string; // e.g. "http://localhost:11434" (Ollama)
+    localModel?: string; // e.g. "gemma4:27b" or "gemma4:4b" for edge
+    cloudApiKey?: string;
+    openRouterApiKey?: string;
+  }) {
+    this.localEndpoint = config.localEndpoint ?? "http://localhost:11434";
+    this.localModel = config.localModel ?? "gemma3:4b"; // Ollama model name
+    this.cloudApiKey = config.cloudApiKey!;
+    this.openRouterApiKey = config.openRouterApiKey;
+    this.checkLocalHealth();
+  }
 private async checkLocalHealth(): Promise<void> {
 try {
 const res = await fetch(`${this.localEndpoint}/api/tags`, {
@@ -117,41 +120,78 @@ latencyMs: Date.now() - t0,
 };
 }
 // ── CLOUD: Anthropic API ───────────────────────────────────────
-private async inferCloud(req: InferenceRequest): Promise<InferenceResponse> {
-const t0 = Date.now();
-const body: Record<string, unknown> = {
-model: "claude-sonnet-4-5-20251001",
-max_tokens: req.maxTokens ?? 1024,
-messages: [{ role: "user", content: req.prompt }],
-};
-if (req.systemPrompt) body.system = req.systemPrompt;
-const res = await fetch("https://api.anthropic.com/v1/messages", {
-method: "POST",
-headers: {
-"Content-Type": "application/json",
-"x-api-key": this.cloudApiKey,
-"anthropic-version": "2023-06-01",
-},
-body: JSON.stringify(body),
-});
-const data = await res.json();
-const text = data.content
-?.filter((b: { type: string }) => b.type === "text")
-.map((b: { text: string }) => b.text)
-.join("") ?? "";
-return {
-text,
-model: "claude-sonnet-4-5",
-tier: "cloud",
-latencyMs: Date.now() - t0,
-};
-}
+  private async inferCloud(req: InferenceRequest): Promise<InferenceResponse> {
+  const t0 = Date.now();
+  const body: Record<string, unknown> = {
+    model: "claude-sonnet-4-5-20251001",
+    max_tokens: req.maxTokens ?? 1024,
+    messages: [{ role: "user", content: req.prompt }],
+  };
+  if (req.systemPrompt) body.system = req.systemPrompt;
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": this.cloudApiKey,
+      "anthropic-version": "2023-06-01",
+    },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json();
+  const text = data.content
+    ?.filter((b: { type: string }) => b.type === "text")
+    .map((b: { text: string }) => b.text)
+    .join("") ?? "";
+  return {
+    text,
+    model: "claude-sonnet-4-5",
+    tier: "cloud",
+    latencyMs: Date.now() - t0,
+  };
+  }
+
+  // ── OPENROUTER: Alternative cloud API ────────────────────────
+  async inferOpenRouter(
+    req: Omit<InferenceRequest, "tier">
+  ): Promise<InferenceResponse> {
+    const t0 = Date.now();
+    const messages = [];
+    if (req.systemPrompt) {
+      messages.push({ role: "system", content: req.systemPrompt });
+    }
+    messages.push({ role: "user", content: req.prompt });
+
+    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this.openRouterApiKey}`,
+        "HTTP-Referer": "https://ubuntu-pools.com",
+        "X-OpenRouter-Title": "Ubuntu Pools",
+      },
+      body: JSON.stringify({
+        model: "openai/gpt-5.2",
+        messages,
+        max_tokens: req.maxTokens ?? 1024,
+      }),
+    });
+
+    const data = await res.json();
+    const text = data.choices?.[0]?.message?.content ?? "";
+    return {
+      text,
+      model: data.model ?? "openai/gpt-5.2",
+      tier: "cloud",
+      latencyMs: Date.now() - t0,
+    };
+  }
 }
 // Singleton export for use across services
 export function createRouter(env: NodeJS.ProcessEnv): InferenceRouter {
-return new InferenceRouter({
-localEndpoint: env.LOCAL_INFERENCE_ENDPOINT,
-localModel: env.LOCAL_MODEL_NAME,
-cloudApiKey: env.ANTHROPIC_API_KEY!,
-});
+  return new InferenceRouter({
+    localEndpoint: env.LOCAL_INFERENCE_ENDPOINT,
+    localModel: env.LOCAL_MODEL_NAME,
+    cloudApiKey: env.ANTHROPIC_API_KEY,
+    openRouterApiKey: env.OPENROUTER_API_KEY,
+  });
 }
