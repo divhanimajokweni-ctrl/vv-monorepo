@@ -1,11 +1,2 @@
-export interface EventService {
-  emit(eventType: string, payload: unknown): Promise<void>;
-}
-
-export class LedgerEventService implements EventService {
-  async emit(eventType: string, payload: unknown): Promise<void> {
-    console.log(`Event: ${eventType}`, payload);
-  }
-}
-
-export const eventService = new LedgerEventService();
+// Re-export the domain-core EventService interface for consistency
+export type { EventService } from "../../domain-core/src/event-service";
