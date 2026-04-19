@@ -4,8 +4,6 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   reactStrictMode: true,
-  serverExternalPackages: [],
-  allowedDevOrigins: ["*.replit.dev", "*.worf.replit.dev"],
   images: {
     remotePatterns: [
       {
