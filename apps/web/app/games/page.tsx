@@ -218,17 +218,17 @@ function SlotsGame({ onEnd }) {
     let ticks = 0;
     const interval = setInterval(() => {
       setReels([
-        SLOT_SYMBOLS[Math.floor(Math.random() * SLOT_SYMBOLS.length)],
-        SLOT_SYMBOLS[Math.floor(Math.random() * SLOT_SYMBOLS.length)],
-        SLOT_SYMBOLS[Math.floor(Math.random() * SLOT_SYMBOLS.length)],
+        SLOT_SYMBOLS[Math.floor(Math.random() * SLOT_SYMBOLS.length)]!,
+        SLOT_SYMBOLS[Math.floor(Math.random() * SLOT_SYMBOLS.length)]!,
+        SLOT_SYMBOLS[Math.floor(Math.random() * SLOT_SYMBOLS.length)]!,
       ]);
       ticks++;
       if (ticks >= 18) {
         clearInterval(interval);
         const final = [
-          SLOT_SYMBOLS[Math.floor(Math.random() * SLOT_SYMBOLS.length)],
-          SLOT_SYMBOLS[Math.floor(Math.random() * SLOT_SYMBOLS.length)],
-          SLOT_SYMBOLS[Math.floor(Math.random() * SLOT_SYMBOLS.length)],
+          SLOT_SYMBOLS[Math.floor(Math.random() * SLOT_SYMBOLS.length)]!,
+          SLOT_SYMBOLS[Math.floor(Math.random() * SLOT_SYMBOLS.length)]!,
+          SLOT_SYMBOLS[Math.floor(Math.random() * SLOT_SYMBOLS.length)]!,
         ];
         setReels(final);
         setSpinning(false);
@@ -709,6 +709,9 @@ function StokvelGame({ onEnd }: { onEnd: (s: any) => void }) {
 
   const decide = useCallback((opt: any) => {
     const decisionTime = Date.now();
+    const newPool = pool + opt.effect.pool;
+    const newTrust = trust + opt.effect.trust;
+    setPool(newPool);
     setTrust(newTrust);
     setLog((l) => [
       `R${round}: ${opt.label} → Pool R${newPool.toLocaleString()}`,
@@ -724,7 +727,7 @@ function StokvelGame({ onEnd }: { onEnd: (s: any) => void }) {
         game: "stokvel",
       });
     } else setPhase((p) => p + 1);
-  }, [newTrust, round, onEnd]);
+  }, [pool, trust, round, onEnd]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>

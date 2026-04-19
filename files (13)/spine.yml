@@ -1,0 +1,197 @@
+# .github/workflows/spine.yml
+#
+# SPINE CI GATE
+# Corrected for the actual monolithic Next.js repo structure.
+# Paths: src/lib/, src/tests/, drizzle/migrations/ — no packages/ directory.
+#
+# Triggers on any push or PR touching spine files.
+# Every invariant and spine step runs as a named job so failures
+# are immediately identifiable in the Actions tab.
+
+name: Spine
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - "src/lib/ledger/**"
+      - "src/lib/services/village-spine.ts"
+      - "src/db/schema-spine.ts"
+      - "src/tests/ledger-invariants.test.ts"
+      - "src/tests/village-spine.integration.test.ts"
+      - "src/app/api/health/spine/**"
+      - "drizzle/migrations/0007_spine_invariants.sql"
+      - "scripts/run-spine.sh"
+      - ".github/workflows/spine.yml"
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  # ─── Job 1: Type check (no DB required) ──────────────────────────────────
+  typecheck:
+    name: TypeScript — spine files
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      - name: Verify spine files exist at correct paths
+        run: |
+          for f in \
+            src/lib/ledger/invariants.ts \
+            src/lib/services/village-spine.ts \
+            src/db/schema-spine.ts \
+            src/app/api/health/spine/route.ts; do
+            test -f "$f" || (echo "Missing: $f" && exit 1)
+          done
+
+      - name: TypeScript check
+        run: bun typecheck
+
+  # ─── Job 2: Invariant unit tests (no DB required) ─────────────────────────
+  invariant-tests:
+    name: Invariant unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: typecheck
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      - name: Invariant 1 — idempotency key required
+        run: bun test src/tests/ledger-invariants.test.ts --name-pattern="idempotency key required"
+
+      - name: Invariant 2 — double-entry must balance
+        run: bun test src/tests/ledger-invariants.test.ts --name-pattern="double-entry must balance"
+
+      - name: Invariant 2 property — 100 random amounts
+        run: bun test src/tests/ledger-invariants.test.ts --name-pattern="100 random equal amounts"
+
+      - name: Invariant 3 — projection-only pool balance
+        run: bun test src/tests/ledger-invariants.test.ts --name-pattern="pool balance is projection-only"
+
+      - name: Invariant 4 — reputation mutation guard
+        run: bun test src/tests/ledger-invariants.test.ts --name-pattern="reputation mutation guard"
+
+      - name: Invariant 5 — notification event source
+        run: bun test src/tests/ledger-invariants.test.ts --name-pattern="notification must have event source"
+
+      - name: Full invariant test file
+        run: bun test src/tests/ledger-invariants.test.ts
+
+  # ─── Job 3: DB migration + spine integration tests ─────────────────────────
+  integration-tests:
+    name: Spine integration — all 9 steps
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: invariant-tests
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: ubuntu
+          POSTGRES_PASSWORD: ubuntu
+          POSTGRES_DB: ubuntu_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://ubuntu:ubuntu@localhost:5432/ubuntu_test
+      NODE_ENV: test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      - name: Apply spine migration
+        run: |
+          psql "$DATABASE_URL" < drizzle/migrations/0007_spine_invariants.sql
+          echo "Migration applied"
+
+      - name: Verify balanced_posting constraint
+        run: |
+          psql "$DATABASE_URL" -c \
+            "SELECT conname FROM pg_constraint WHERE conname = 'balanced_posting'" \
+          | grep -q balanced_posting
+          echo "CHECK constraint confirmed"
+
+      - name: Verify projection_lag view
+        run: |
+          psql "$DATABASE_URL" -c "SELECT * FROM projection_lag LIMIT 1"
+          echo "View confirmed"
+
+      - name: Step 1 — member authentication
+        run: |
+          bun test src/tests/village-spine.integration.test.ts \
+            --include "**/*.integration.test.ts" \
+            --name-pattern="member authentication"
+
+      - name: Step 2 — village membership
+        run: |
+          bun test src/tests/village-spine.integration.test.ts \
+            --include "**/*.integration.test.ts" \
+            --name-pattern="village membership"
+
+      - name: Full spine — all 9 steps complete
+        run: |
+          bun test src/tests/village-spine.integration.test.ts \
+            --include "**/*.integration.test.ts" \
+            --name-pattern="completes all 9 steps"
+
+      - name: Full spine — step 1 failure leaves ledger clean
+        run: |
+          bun test src/tests/village-spine.integration.test.ts \
+            --include "**/*.integration.test.ts" \
+            --name-pattern="step 1 failure prevents"
+
+      - name: Full spine — idempotent replay
+        run: |
+          bun test src/tests/village-spine.integration.test.ts \
+            --include "**/*.integration.test.ts" \
+            --name-pattern="is idempotent"
+
+      - name: Full spine — notification failure non-fatal
+        run: |
+          bun test src/tests/village-spine.integration.test.ts \
+            --include "**/*.integration.test.ts" \
+            --name-pattern="notification failure is non-fatal"
+
+      - name: Full spine — audit trace queryable
+        run: |
+          bun test src/tests/village-spine.integration.test.ts \
+            --include "**/*.integration.test.ts" \
+            --name-pattern="audit trace is queryable"
+
+      - name: Full integration test file
+        run: |
+          bun test src/tests/village-spine.integration.test.ts \
+            --include "**/*.integration.test.ts"
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spine-integration-results
+          path: coverage/

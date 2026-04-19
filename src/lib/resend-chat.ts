@@ -9,7 +9,7 @@ const resend = createResendAdapter({
   webhookSecret: process.env.RESEND_WEBHOOK_SECRET,
 });
 
-const chat = new Chat({
+export const chat = new Chat({
   userName: 'email-bot',
   adapters: { resend },
   state: new MemoryStateAdapter(),
@@ -18,10 +18,10 @@ const chat = new Chat({
 // New email thread handler
 chat.onNewMention(async (thread, message) => {
   await thread.subscribe();
-  
+
   // Log incoming email
   console.log(`New email from ${message.author.userId}: ${message.text}`);
-  
+
   // Auto reply
   await thread.post(`Got your email: ${message.text}`);
 });
@@ -32,4 +32,4 @@ chat.onSubscribedMessage(async (thread, message) => {
   await thread.post(`Reply: ${message.text}`);
 });
 
-export { chat, resend };
+export { resend };

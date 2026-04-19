@@ -131,4 +131,8 @@ class BreachResponse {
   }
 }
 
-export { SecretsManager, IntrusionDetector, BreachResponse };
+export const breachResponse = {
+  recordFailedAttempt: (ip: string) => BreachResponse.recordFailedAttempt(ip),
+};
+
+export { SecretsManager, IntrusionDetector, BreachResponse, SecretsManager as secretsManager, IntrusionDetector as intrusionDetector };

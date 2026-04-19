@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { GraphNodeInputSchema } from "@ubuntu/reputation/types";
+import { GraphNodeInputSchema } from "@ubuntu/reputation/trust-graph/types";
 import { TrustGraphEngine } from "@ubuntu/reputation/graph-engine";
 
 const engine = new TrustGraphEngine();

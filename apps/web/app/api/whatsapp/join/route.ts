@@ -6,7 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getWhatsAppProvider } from '@/lib/integrations/whatsapp';
+import { getWhatsAppProvider } from '@ubuntu/messaging';
 import { requireAuth } from '@ubuntu/auth/middleware';
 
 const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute

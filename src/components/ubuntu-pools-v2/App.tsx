@@ -217,3 +217,6 @@ function GameCard({ game, onPlay }: GameCardProps) {
     </motion.div>
   );
 }
+export default function UbuntuPoolsApp() {
+  return null;
+}

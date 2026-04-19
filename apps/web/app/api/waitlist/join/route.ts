@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@ubuntu/db/client";
 import { waitlist } from "@ubuntu/db/schema";
 import { sendEmail } from "@/lib/email";
-import { getWhatsAppProvider } from "@/lib/integrations/whatsapp";
+import { getWhatsAppProvider } from "@ubuntu/messaging";
 
 export async function POST(req: NextRequest) {
   // POPIA gate — must be explicit in header
@@ -101,7 +101,7 @@ export async function POST(req: NextRequest) {
   if (!emailResult.success) {
     console.error(
       "[waitlist/join] Email failed (non-fatal):",
-      emailResult.error,
+      emailResult.error || 'Unknown error',
     );
   }
 

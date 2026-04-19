@@ -1,1 +1,1 @@
-export * from "./provider";
+export { getWhatsAppProvider, whatsAppProvider, createWhatsAppProvider, initializeWhatsApp, WhatsAppProvider, type WhatsAppConfig, type WhatsAppMessage, type WhatsAppContact } from "./provider";
