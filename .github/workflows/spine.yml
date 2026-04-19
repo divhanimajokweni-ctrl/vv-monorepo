@@ -1,16 +1,3 @@
-# .github/workflows/spine.yml
-#
-# SPINE CI — runs on every push and pull request.
-#
-# This workflow is the non-negotiable gate.
-# No code merges to main unless the spine passes.
-#
-# What it proves on every run:
-#   - All 5 invariants hold
-#   - All 9 spine steps complete end-to-end
-#   - TypeScript compiles cleanly for spine packages
-#   - The health endpoint returns a parseable response
-
 name: Spine
 
 on:
@@ -20,8 +7,7 @@ on:
       - "packages/ledger/**"
       - "packages/villages/**"
       - "packages/db/**"
-      - "apps/web/app/api/health/**"
-      - "scripts/run-spine.sh"
+      - "apps/web/app/api/health/spine/**"
       - ".github/workflows/spine.yml"
   pull_request:
     branches: [main, develop]
