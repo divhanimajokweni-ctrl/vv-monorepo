@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 
 const LindiweEngine = {
   signals: [] as any[],
@@ -196,7 +196,7 @@ const INIT_LEADERBOARD = [
   },
 ];
 
-function SlotsGame({ onEnd }) {
+function SlotsGame({ onEnd }: { onEnd: (result: { score: number; decisionMs: number; risk: string; altruistic: boolean; game: string }) => void }) {
   const [reels, setReels] = useState(["🎰", "🎰", "🎰"]);
   const [spinning, setSpinning] = useState(false);
   const [bet, setBet] = useState(200);
@@ -412,7 +412,7 @@ function SlotsGame({ onEnd }) {
   );
 }
 
-function DiceGame({ onEnd }) {
+function DiceGame({ onEnd }: { onEnd: (result: { score: number; decisionMs: number; risk: string; altruistic: boolean; game: string }) => void }) {
   const [dice, setDice] = useState([1, 1]);
   const [rolling, setRolling] = useState(false);
   const [bet, setBet] = useState(300);
@@ -499,7 +499,7 @@ function DiceGame({ onEnd }) {
           letterSpacing: 2,
         }}
       >
-        TOTAL: {dice[0] + dice[1]}
+        TOTAL: {dice[0]! + dice[1]!}
       </div>
 
       <div
@@ -709,9 +709,9 @@ function StokvelGame({ onEnd }: { onEnd: (s: any) => void }) {
 
   const decide = useCallback((opt: any) => {
     const decisionTime = Date.now();
-    const newPool = pool + opt.effect.pool;
+    const newPool = poolBalance + opt.effect.pool;
     const newTrust = trust + opt.effect.trust;
-    setPool(newPool);
+    setPoolBalance(newPool);
     setTrust(newTrust);
     setLog((l) => [
       `R${round}: ${opt.label} → Pool R${newPool.toLocaleString()}`,
@@ -727,7 +727,7 @@ function StokvelGame({ onEnd }: { onEnd: (s: any) => void }) {
         game: "stokvel",
       });
     } else setPhase((p) => p + 1);
-  }, [pool, trust, round, onEnd]);
+  }, [poolBalance, trust, round, onEnd]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
@@ -1024,7 +1024,7 @@ function SnakesGame({ onEnd }: { onEnd: (s: any) => void }) {
   };
 
   const renderSnakesAndLadders = () => {
-    const elements = [];
+    const elements: React.JSX.Element[] = [];
 
     // Render snakes
     SNAKES.forEach(({ start, end, color }) => {
@@ -1443,10 +1443,14 @@ function Game2048({ onEnd }: { onEnd: (s: any) => void }) {
   function addTile(g: number[][]) {
     const empties = [];
     for (let r = 0; r < 4; r++)
-      for (let c = 0; c < 4; c++) if (!g[r][c]) empties.push([r, c]);
+      for (let c = 0; c < 4; c++) if (!g[r]![c]) empties.push([r, c]);
     if (empties.length) {
-      const [r, c] = empties[Math.floor(Math.random() * empties.length)];
-      g[r][c] = Math.random() < 0.9 ? 2 : 4;
+      const randomIndex = Math.floor(Math.random() * empties.length);
+      const position = empties[randomIndex];
+      if (position) {
+        const [r, c] = position as [number, number];
+        g[r]![c] = Math.random() < 0.9 ? 2 : 4;
+      }
     }
   }
 
