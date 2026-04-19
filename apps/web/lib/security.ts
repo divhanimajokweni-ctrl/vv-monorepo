@@ -38,9 +38,9 @@ class SecretsManager {
       throw new Error('Invalid encrypted text format');
     }
 
-    const iv = Buffer.from(parts[0], 'hex');
-    const authTag = Buffer.from(parts[1], 'hex');
-    const encrypted = parts[2];
+    const iv = Buffer.from(parts[0]!, 'hex');
+    const authTag = Buffer.from(parts[1]!, 'hex');
+    const encrypted = parts[2]!;
 
     const decipher = createDecipheriv(this.ALGORITHM, key, iv);
     decipher.setAuthTag(authTag);
@@ -48,7 +48,7 @@ class SecretsManager {
     let decrypted = decipher.update(encrypted, 'hex', 'utf8');
     decrypted += decipher.final('utf8');
 
-    return decrypted;
+    return decrypted as string;
   }
 }
 

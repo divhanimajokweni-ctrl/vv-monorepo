@@ -20,7 +20,7 @@
 
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { sql } from "drizzle-orm";
+import { sql as drizzleSql } from "drizzle-orm";
 import * as schema from "./schema";
 import * as schemaCredit from "./schema-credit";
 import * as schemaVillage from "./schema-village";
@@ -72,7 +72,7 @@ function getDb() {
 
 export const db = new Proxy(
   {} as ReturnType<typeof getDb> & {
-    execute: (query: ReturnType<typeof sql>) => Promise<{ rows: Record<string, unknown>[] }>;
+    // execute: (query: any) => Promise<{ rows: Record<string, unknown>[] }>;
   },
   {
     get(_target, prop) {

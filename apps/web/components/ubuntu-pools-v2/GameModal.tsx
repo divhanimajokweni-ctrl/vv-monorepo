@@ -87,9 +87,9 @@ export default function GameModal({ game, onClose, onEnd }: { game: Game; onClos
       setActiveAudio(null);
 
       const result = [
-        symbols[Math.floor(Math.random() * symbols.length)],
-        symbols[Math.floor(Math.random() * symbols.length)],
-        symbols[Math.floor(Math.random() * symbols.length)],
+        symbols[Math.floor(Math.random() * symbols.length)]!,
+        symbols[Math.floor(Math.random() * symbols.length)]!,
+        symbols[Math.floor(Math.random() * symbols.length)]!,
       ];
       setReels(result);
       setIsSpinning(false);

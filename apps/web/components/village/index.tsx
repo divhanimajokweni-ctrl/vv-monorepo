@@ -12,10 +12,6 @@ export function PoolView({ poolId }: { poolId: string }) {
   return <div className="pool-view">Pool: {poolId}</div>;
 }
 
-export function YieldCard({ poolId }: { poolId: string }) {
-  return <div className="yield-card">Yield: {poolId}</div>;
-}
-
 export function BufferStatusCard({ poolId, currentBuffer, targetBuffer, protectionLevel }: { poolId: string; currentBuffer?: number; targetBuffer?: number; protectionLevel?: string }) {
   return <div className="buffer-status-card">Buffer: {poolId} - {currentBuffer}/{targetBuffer} ({protectionLevel})</div>;
 }
@@ -34,10 +30,6 @@ export function ThePulse() {
 
 export function TribalImpactDashboard({ villageId }: { villageId: string }) {
   return <div className="tribal-impact-dashboard">Dashboard: {villageId}</div>;
-}
-
-export function CommonsVault({ vaultId }: { vaultId: string }) {
-  return <div className="commons-vault">Vault: {vaultId}</div>;
 }
 
 export default {
