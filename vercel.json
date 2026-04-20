@@ -1,6 +1,5 @@
 {
-  "framework": "nextjs",
+  "framework": null,
   "buildCommand": "bun run build",
-  "installCommand": "bun install",
-  "rootDirectory": "apps/web"
+  "installCommand": "bun install"
 }
