@@ -26,6 +26,8 @@
   "devDependencies": {
     "@playwright/test": "^1.59.1",
     "@types/node": "^25.6.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
     "@vitest/coverage-v8": "^4.1.4",
     "tsx": "^4.21.0",
     "turbo": "^2.9.6",
@@ -36,6 +38,7 @@
     "@bubblewrap/cli": "^1.24.1",
     "buble": "^0.20.0",
     "lucide-react": "^1.8.0",
-    "postgres": "^3.4.4"
+    "postgres": "^3.4.4",
+    "vercel": "^51.7.0"
   }
 }
