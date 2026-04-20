@@ -9,6 +9,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "declaration": true,
+    "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
       "@/*": ["apps/web/*"],

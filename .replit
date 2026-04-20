@@ -58,6 +58,10 @@ author = "agent"
 task = "workflow.run"
 args = "Start application"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "CI/CD Pipeline"
+
 [[workflows.workflow]]
 name = "Start application"
 author = "agent"
@@ -70,3 +74,14 @@ outputType = "webview"
 task = "shell.exec"
 args = "npm run dev"
 waitForPort = 5000
+
+[[workflows.workflow]]
+name = "CI/CD Pipeline"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "name: CI/CD Pipeline  on:   push:     branches: [main, develop]   pull_request:     branches: [main]   workflow_dispatch:  permissions:   contents: read   security-events: write  env:   BUN_VERSION: latest  jobs:   lint-and-typecheck:     name: Lint & Type Check     runs-on: ubuntu-latest     steps:       - name: Checkout repository         uses: actions/checkout@v4        - name: Setup Bun         uses: oven-sh/setup-bun@v2         with:           bun-version: ${{ env.BUN_VERSION }}        - name: Install dependencies         run: bun install --frozen-lockfile        - name: Run ESLint         run: bun run lint         continue-on-error: true        - name: Run TypeScript type check         run: bun run typecheck         continue-on-error: true    test:     name: Tests     runs-on: ubuntu-latest     steps:       - name: Checkout repository         uses: actions/checkout@v4        - name: Setup Bun         uses: oven-sh/setup-bun@v2         with:           bun-version: ${{ env.BUN_VERSION }}        - name: Install dependencies         run: bun install --frozen-lockfile        - name: Run tests         run: bun run test    build:     name: Build     runs-on: ubuntu-latest     needs: [lint-and-typecheck, test]     env:       DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}     steps:       - name: Checkout repository         uses: actions/checkout@v4        - name: Setup Bun         uses: oven-sh/setup-bun@v2         with:           bun-version: ${{ env.BUN_VERSION }}        - name: Install dependencies         run: bun install --frozen-lockfile        - name: Build application         run: NEXT_IGNORE_LOCKFILE_PATCH=1 bun run build         env:           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}        - name: Upload build artifacts         uses: actions/upload-artifact@v4         with:           name: nextjs-build           path: |             apps/web/.next             apps/web/public             packages/**/dist           retention-days: 7    security-scan:     name: Security Scan     runs-on: ubuntu-latest     steps:       - name: Checkout repository         uses: actions/checkout@v4        - name: Setup Bun         uses: oven-sh/setup-bun@v2         with:           bun-version: ${{ env.BUN_VERSION }}        - name: Install dependencies         run: bun install --frozen-lockfile        - name: Run dependency audit         run: bun audit         continue-on-error: true        - name: Initialize CodeQL         uses: github/codeql-action/init@v3         with:           languages: javascript-typescript           queries: security-extended        - name: Autobuild         uses: github/codeql-action/autobuild@v3        - name: Perform CodeQL Analysis         uses: github/codeql-action/analyze@v3    deploy-staging:     name: Deploy to Staging     runs-on: ubuntu-latest     needs: [build]     if: github.ref == 'refs/heads/develop'     environment: staging     steps:       - name: Checkout repository         uses: actions/checkout@v4        - name: Download build artifacts         uses: actions/download-artifact@v4         with:           name: nextjs-build           path: .        - name: Deploy to Vercel (Staging)         run: |           npm i -g vercel           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --env=DATABASE_URL=${{ secrets.STAGING_DATABASE_URL }}         env:           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}    deploy-production:     name: Deploy to Production     runs-on: ubuntu-latest     needs: [build]     if: github.ref == 'refs/heads/main' && github.event_name == 'push'     environment: production     steps:       - name: Checkout repository         uses: actions/checkout@v4        - name: Download build artifacts         uses: actions/download-artifact@v4         with:           name: nextjs-build           path: .        - name: Deploy to Vercel (Production)         run: |           npm i -g vercel           vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }} --env=DATABASE_URL=${{ secrets.PRODUCTION_DATABASE_URL }}         env:           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}    notify-failure:     name: Notify on Failure     runs-on: ubuntu-latest     needs: [deploy-staging, deploy-production]     if: failure()     steps:       - name: Send failure notification         run: |           echo \"Deployment failed. Check GitHub Actions logs for details.\""
+
+[workflows.workflow.metadata]
+isValidation = true
