@@ -35,6 +35,7 @@
   "dependencies": {
     "@bubblewrap/cli": "^1.24.1",
     "buble": "^0.20.0",
-    "lucide-react": "^1.8.0"
+    "lucide-react": "^1.8.0",
+    "postgres": "^3.4.4"
   }
 }
