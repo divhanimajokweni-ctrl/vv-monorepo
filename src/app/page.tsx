@@ -1,11 +1,18 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
-export default function Page() {
-  // Read the dashboard HTML file
+export async function getStaticProps() {
   const dashboardPath = join(process.cwd(), 'public', 'dashboard.html');
   const dashboardHtml = readFileSync(dashboardPath, 'utf8');
 
+  return {
+    props: {
+      dashboardHtml,
+    },
+  };
+}
+
+export default function Page({ dashboardHtml }: { dashboardHtml: string }) {
   return (
     <div
       dangerouslySetInnerHTML={{ __html: dashboardHtml }}
