@@ -1,5 +1,9 @@
 {
   "framework": null,
-  "buildCommand": "bun run build",
-  "installCommand": "bun install"
+  "buildCommand": "TURBO_FORCE=true TURBO_REMOTE_CACHE_DISABLED=true bun run build",
+  "installCommand": "bun install",
+  "env": {
+    "TURBO_FORCE": "true",
+    "TURBO_REMOTE_CACHE_DISABLED": "true"
+  }
 }
