@@ -10,6 +10,9 @@ const nextConfig = {
   },
   // Ensure proper output for Vercel
   output: 'standalone',
+  experimental: {
+    serverComponentsHmrCache: true,
+  },
 };
 
 module.exports = nextConfig;
