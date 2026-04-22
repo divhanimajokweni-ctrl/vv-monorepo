@@ -13,7 +13,6 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@vv/shared-kernel": "workspace:*",
     "node-forge": "^1.3.1",
     "pkcs11js": "^2.0.1"
   },

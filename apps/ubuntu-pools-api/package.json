@@ -2,6 +2,7 @@
   "name": "ubuntu-pools-api",
   "version": "1.0.0",
   "description": "Ubuntu Pools API - REST API for pool management",
+  "type": "module",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",

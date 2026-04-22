@@ -13,7 +13,6 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@vv/shared-kernel": "workspace:*",
     "mathjs": "^12.4.2"
   },
   "devDependencies": {
