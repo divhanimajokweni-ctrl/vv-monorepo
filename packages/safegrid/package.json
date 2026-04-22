@@ -1,0 +1,31 @@
+{
+  "name": "@vv/safegrid",
+  "version": "1.0.0",
+  "description": "SafeGrid - Deduplication and threat detection engine",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src/**/*.ts",
+    "test": "jest",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@vv/shared-kernel": "workspace:*",
+    "bloom-filters": "^2.0.1",
+    "murmurhash": "^2.0.1",
+    "lru-cache": "^10.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "typescript": "^5.4.5"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  }
+}

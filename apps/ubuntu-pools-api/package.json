@@ -15,7 +15,6 @@
     "health": "curl -f http://localhost:3001/api/health || exit 1"
   },
   "dependencies": {
-    "@vv/shared-kernel": "workspace:*",
     "express": "^4.19.2",
     "cors": "^2.8.5",
     "helmet": "^7.1.0",
