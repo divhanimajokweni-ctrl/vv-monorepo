@@ -160,3 +160,71 @@ body {
     transform: translateZ(0);
   }
 }
+
+/* Ubuntu Pools Landing Page Styles */
+:root {
+  --primary: #94b49f; /* Sage Green */
+  --accent: #d4a373;  /* Ochre */
+  --ink: #1a1a1a;
+  --paper: #fcfaf7;
+}
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--paper);
+  color: var(--ink);
+  scroll-behavior: smooth;
+}
+.font-serif { font-family: 'Playfair Display', serif; }
+.font-mono { font-family: 'JetBrains Mono', monospace; }
+
+.organic-shape {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+}
+
+.pattern-dots {
+  background-image: radial-gradient(#1a1a1a 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.blueprint-card {
+  background: white;
+  border-radius: 40px;
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.blueprint-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(148, 180, 159, 0.1);
+}
+
+.split-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+
+@media (max-width: 1024px) {
+  .split-layout { grid-template-columns: 1fr; }
+}
+
+.nav-link {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 900;
+  opacity: 0.4;
+  transition: opacity 0.3s;
+}
+.nav-link:hover, .nav-link.active {
+  opacity: 1;
+}
+
+.token-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 4px 8px;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 4px;
+  background: #f0f0f0;
+}

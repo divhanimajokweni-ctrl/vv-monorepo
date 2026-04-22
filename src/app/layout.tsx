@@ -5,18 +5,17 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title:       'Ubuntu Pools — Community Savings',
-  description: 'Community savings built on Ubuntu philosophy. Stake from R500.',
+  title: 'Ubuntu Pools | UI/UX Architecture & Layout Blueprint',
+  description: 'A technical and aesthetic guide to building the world\'s first meritocratic community wealth governance platform, rooted in South African POPIA compliance and AWS Cape Town sovereignty.',
   icons: { icon: '/favicon.ico' },
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes',
-  themeColor: '#0f172a',
+  viewport: 'width=device-width, initial-scale=1.0',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&family=Playfair+Display:ital,wght@0,900;1,900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
       </head>
       <body style={{ margin: 0, padding: 0 }}>
         <ClerkProvider>

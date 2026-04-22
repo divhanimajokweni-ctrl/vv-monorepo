@@ -1,88 +1,82 @@
-/**
- * Ubuntu Pools — Villages API
- * REST endpoints for Village OS management
- */
-
-import { NextRequest, NextResponse } from "next/server";
-import { villageService } from "@ubuntu/villages";
+import { NextResponse } from "next/server";
+import { currentUser } from "@clerk/nextjs/server";
+import { db } from "@/lib/db";
+import { villages, members } from "@/lib/db/schema";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 const CreateVillageSchema = z.object({
-  name: z.string().min(1).max(100),
-  description: z.string().max(500).optional(),
-  currency: z.string().length(3).default("USD"),
-  isPublic: z.boolean().default(true),
-  tags: z.array(z.string()).optional(),
-  location: z
-    .object({
-      country: z.string().optional(),
-      region: z.string().optional(),
-      coordinates: z
-        .object({
-          lat: z.number(),
-          lng: z.number(),
-        })
-        .optional(),
-    })
-    .optional(),
-  settings: z
-    .object({
-      minContribution: z.number().positive().optional(),
-      maxMembers: z.number().positive().optional(),
-      votingPeriodDays: z.number().positive().optional(),
-      quorumThreshold: z.number().min(1).max(100).optional(),
-      approvalThreshold: z.number().min(1).max(100).optional(),
-    })
-    .optional(),
+  name: z.string().min(1),
+  description: z.string().optional(),
+  contributionAmount: z.number().min(1), // in cents
+  cycleWeeks: z.number().min(1).default(4),
 });
 
-export async function POST(request: NextRequest) {
+// GET /api/villages - List villages for current user
+export async function GET() {
+  const user = await currentUser();
+  if (!user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    // Get villages where user is a member
+    const userVillages = await db
+      .select({
+        id: villages.id,
+        name: villages.name,
+        description: villages.description,
+        contributionAmount: villages.contributionAmount,
+        cycleWeeks: villages.cycleWeeks,
+        createdAt: villages.createdAt,
+        role: members.role,
+      })
+      .from(members)
+      .innerJoin(villages, eq(members.villageId, villages.id))
+      .where(eq(members.userId, user.id));
+
+    return NextResponse.json(userVillages);
+  } catch (error) {
+    console.error('Failed to fetch villages:', error);
+    return NextResponse.json({ error: "Failed to fetch villages" }, { status: 500 });
+  }
+}
+
+// POST /api/villages - Create a new village
+export async function POST(request: Request) {
+  const user = await currentUser();
+  if (!user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const body = await request.json();
-    const result = CreateVillageSchema.safeParse(body);
+    const validatedData = CreateVillageSchema.parse(body);
 
-    if (!result.success) {
-      return NextResponse.json(
-        { error: "VALIDATION_ERROR", details: result.error.issues },
-        { status: 400 }
-      );
-    }
+    // Create village
+    const [village] = await db
+      .insert(villages)
+      .values({
+        name: validatedData.name,
+        description: validatedData.description,
+        contributionAmount: validatedData.contributionAmount,
+        cycleWeeks: validatedData.cycleWeeks,
+      })
+      .returning();
 
-    const founderId = request.headers.get("x-user-id") || "system";
-    const village = await villageService.createVillage({
-      ...result.data,
-      founderId,
+    // Add creator as admin member
+    await db.insert(members).values({
+      userId: user.id,
+      villageId: village.id,
+      role: 'admin',
     });
 
     return NextResponse.json(village, { status: 201 });
   } catch (error) {
-    console.error("[POST /api/villages] Error:", error);
-    return NextResponse.json(
-      { error: "INTERNAL_ERROR", message: "Failed to create village" },
-      { status: 500 }
-    );
-  }
-}
-
-export async function GET(request: NextRequest) {
-  try {
-    const searchParams = request.nextUrl.searchParams;
-    const search = searchParams.get("search") || undefined;
-    const limit = parseInt(searchParams.get("limit") || "20", 10);
-    const offset = parseInt(searchParams.get("offset") || "0", 10);
-
-    const villages = await villageService.listVillages({
-      search,
-      limit: Math.min(limit, 100),
-      offset,
-    });
-
-    return NextResponse.json(villages);
-  } catch (error) {
-    console.error("[GET /api/villages] Error:", error);
-    return NextResponse.json(
-      { error: "INTERNAL_ERROR", message: "Failed to list villages" },
-      { status: 500 }
-    );
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ error: "Invalid input", details: error.flatten() }, { status: 400 });
+    }
+    console.error('Failed to create village:', error);
+    return NextResponse.json({ error: "Failed to create village" }, { status: 500 });
   }
 }

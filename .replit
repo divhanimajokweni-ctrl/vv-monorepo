@@ -7,6 +7,10 @@ channel = "stable-25_05"
 packages = ["lms", "undollar", "kubernetes", "scc", "gemini-cli", "ollama"]
 
 [[ports]]
+localPort = 1420
+externalPort = 4200
+
+[[ports]]
 localPort = 1455
 
 [[ports]]
