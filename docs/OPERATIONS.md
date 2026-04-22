@@ -1,47 +1,37 @@
-# Ubuntu Pools — Operations & Deployment Guide
+# Ubuntu Pools — Operations Guide
 
-> This guide covers deployment, scaling, and operations for the Ubuntu Pools platform. For feature documentation, see [README.md](./README.md).
-
----
-
-## Feature Status Legend
-
-| Status | Icon | Description |
-|--------|------|-------------|
-| **Implemented** | 🟢 | Fully functional, tested, and integrated |
-| **In Progress** | 🟡 | Partially implemented, active development |
-| **Planned** | 🔵 | Documented but not yet implemented |
-
----
-
-## Table of Contents
-
-1. [Prerequisites](#prerequisites)
-2. [Local Development](#local-development)
-3. [Cloud Development Environments](#cloud-development-environments)
-4. [Testing](#testing)
-5. [Type Checking & Linting](#type-checking--linting)
-6. [Database Setup](#database-setup)
-7. [Database Operations](#database-operations)
-8. [Production Build](#production-build)
-9. [Deployment](#deployment)
-10. [CI/CD Pipeline](#ci-cd-pipeline)
-11. [Scaling Considerations](#scaling-considerations)
-12. [Observability & Monitoring](#observability--monitoring)
-13. [Security Operations](#security-operations)
-14. [Rate Limiting](#rate-limiting)
-15. [Disaster Recovery](#disaster-recovery)
-16. [Troubleshooting](#troubleshooting)
-17. [Future Vision](#future-vision)
+> Operations guide for the minimal Ubuntu Pools platform. See [README.md](./README.md) for overview and [DEVELOPMENT_SETUP.md](./DEVELOPMENT_SETUP.md) for development setup.
 
 ---
 
 ## Prerequisites
 
-- **Bun** 1.2.0+ (recommended) or **Node.js** 18+
+- **Bun** 1.3+ or **Node.js** 18+
 - **PostgreSQL** 15+ database
-- **Redis** 7+ (for caching and background jobs)
+- **Redis** 7+ (optional, for caching)
 - **Git** for version control
+
+---
+
+## Quick Start
+
+```bash
+# Clone and setup
+git clone https://github.com/divhanimajokweni-ctrl/ubuntu-pools.git
+cd ubuntu-pools
+bun install
+
+# Database setup
+createdb ubuntu_pools
+cp .env.local.example .env.local
+# Edit .env.local with your keys
+
+# Run migrations
+bunx drizzle-kit push
+
+# Start development
+bun run dev
+```
 
 ---
 

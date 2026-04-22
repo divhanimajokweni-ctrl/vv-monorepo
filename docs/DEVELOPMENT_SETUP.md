@@ -1,168 +1,111 @@
-# Ubuntu Pools + SafeGrid Development Environment Setup
+# Ubuntu Pools Development Environment Setup
 
 ## Overview
 
 <div align="center">
 
-## 🚀 Enterprise-Grade Development Environment
-*Multi-Factor Sybil Defense • Dynamic Governance • Behavioral Intelligence*
+## 🚀 Minimal Viable Ubuntu Pools
+*First Principles • Village Scale • POPIA Compliant*
 
-[![Phase 15 Complete](https://img.shields.io/badge/Phase_15-Complete-28a745?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
-[![Security](https://img.shields.io/badge/Security-Enterprise-FF6B6B?style=for-the-badge&logo=shield&logoColor=white)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
+[![Phase 1 & 2 Complete](https://img.shields.io/badge/Phase_1_%26_2-Complete-28a745?style=for-the-badge&logo=ubuntu&logoColor=white)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
+[![Minimal](https://img.shields.io/badge/Architecture-Minimal-FF6B6B?style=for-the-badge&logo=simplest&logoColor=white)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
 
 </div>
 
-This guide provides comprehensive instructions for setting up a local development environment for the Ubuntu Pools monorepo. The repository is structured as an **apps/packages workspace** with four deployable applications (web, worker, realtime, admin) and 19 domain packages for clean separation of concerns.
+This guide provides instructions for setting up a local development environment for the **minimal Ubuntu Pools platform**. Following Phase 1 & 2, we've simplified to a single Next.js application with village-scale ROSCA functionality.
 
-## Workspace Architecture
+## Architecture Overview
 
-Ubuntu Pools is built as a **Turbo-powered monorepo** with clean domain boundaries:
+The platform now uses a **first-principles approach** with minimal complexity:
 
-### Applications (`apps/`)
-- **`apps/web`**: Next.js frontend application (port 3000)
-- **`apps/worker`**: Background job processor for async tasks
-- **`apps/realtime`**: Socket.io server for live connections (port 4001)
-- **`apps/admin`**: Admin dashboard application
-
-### Domain Packages (`packages/`)
-- **`packages/config`**: Environment and runtime configuration
-- **`packages/domain-core`**: Shared primitives (types, events, money)
-- **`packages/db`**: Database layer and migrations
-- **`packages/auth`**: Authentication and authorization
-- **`packages/villages`**: Community and village management
-- **`packages/governance`**: Democratic decision making
-- **`packages/reputation`**: Trust scoring and behavioral analysis
-- **`packages/credit`**: Financial services and credit facilities
-- **`packages/ledger`**: Transaction recording and accounting
-- **`packages/games`**: Educational gaming platform
-- **`packages/lindiwe`**: AI behavioral intelligence (Lindiwe AI)
-- **`packages/messaging`**: Communications and notifications
-- **`packages/sovereignty`**: Data privacy and user rights
-- **`packages/ui`**: Shared UI components
-- **`packages/observability`**: Logging and monitoring
-- **`packages/cache`**: Redis and caching utilities
-- **`packages/security`**: Security controls and incident response
-- **`packages/inference`**: ML inference pipelines
-- **`packages/test-utils`**: Testing utilities
+### Single Application Structure
+- **`src/app/`**: Next.js App Router with landing page and API routes
+- **`src/lib/`**: Business logic (database, auth, payments, utilities)
+- **`src/components/`**: React components (future expansion)
+- **5 Tables**: `users`, `villages`, `members`, `contributions`, `payouts`
 
 ### Development Commands
 ```bash
-# Install all workspace dependencies
+# Install dependencies
 bun install
 
-# Run all applications in parallel
+# Start development server
 bun run dev
 
-# Run individual applications
-bun run dev:web        # Frontend only (port 3000)
-bun run dev:worker     # Background jobs only
-bun run dev:realtime   # Real-time server only (port 4001)
+# Build for production
+bun run build
 
-# Run workspace-wide commands
-bun run build          # Build all packages/apps
-bun run test           # Run all tests
-bun run lint           # Lint all code
-bun run typecheck     # Type check all code
+# Run TypeScript checking
+bun run typecheck
 
-# Database operations (Drizzle ORM)
-bun run db:generate   # Generate migrations
-bun run db:migrate   # Run migrations
-bun run db:studio   # Open database studio
-bun run db:seed     # Seed database
-
-# Security
-bun run audit         # Security audit
-bun run audit:fix    # Auto-fix security issues
+# Database operations
+bunx drizzle-kit generate  # Generate schema
+bunx drizzle-kit push      # Push to database
 ```
-
-**🆕 New Features Available:**
-- **Ubuntu Pools V2.0**: Cyberpunk gamified financial literacy at `/ubuntu-pools-v2`
-- **3 Core Games**: Pool Defense Lottery, Global Shocks Crop Trading, Stokvel Strategy
-- **Dual AI Tracking**: Impulse Stability & Altruism Index with real-time behavioral analysis
-- **Offline-First Architecture**: localStorage persistence with signal queuing
-- **Financial Intelligence Arcade**: 5+ educational games with behavioral signals
-- **Lindiwe AI Integration**: Game telemetry feeds credit risk models
-- **Prestige Scoring**: Non-transferable reputation from financial wisdom
-- **Landing Page Overhaul**: Complete redesign with Ubuntu design system
-- **UbuntuDJ Integration**: Component analysis and DJ-inspired UI components
-- **Enhanced Authentication**: Vercel OAuth alongside Clerk authentication
-- **Responsive Accessibility**: Improved mobile experience and accessibility features
-- **Multi-Factor Sybil Defense**: Test 4-layer verification systems
-- **Dynamic Governance Quorum**: Experiment with scaling governance models
-- **Behavioral Intelligence**: Debug Lindiwe AI signal processing
-- **Emergency Protocols**: Test Archivist freeze mechanisms
-- **Advanced Caching**: Redis warming and invalidation testing
-
-## Table of Contents
-
-1. [Prerequisites](#prerequisites)
-2. [Repository Setup](#repository-setup)
-3. [Database Configuration](#database-configuration)
-4. [Redis Setup](#redis-setup)
-5. [Authentication Setup](#authentication-setup)
-6. [Ubuntu Pools Setup](#ubuntu-pools-setup)
-7. [SafeGrid Setup](#safegrid-setup)
-8. [Running Both Services](#running-both-services)
-9. [Integration Testing](#integration-testing)
-10. [Development Workflow](#development-workflow)
-11. [Troubleshooting](#troubleshooting)
-12. [Advanced Configuration](#advanced-configuration)
 
 ## Prerequisites
 
 ### Required Software
-
-- **Go 1.21+**: `https://golang.org/dl/`
 - **Bun 1.x**: `curl -fsSL https://bun.sh/install | bash`
 - **PostgreSQL 15+**: `brew install postgresql` (macOS) or `sudo apt install postgresql` (Ubuntu)
 - **Redis 7+**: `brew install redis` (macOS) or `sudo apt install redis-server` (Ubuntu)
-- **Git**: `brew install git` (macOS) or `sudo apt install git` (Ubuntu)
-- **Docker Desktop**: `https://www.docker.com/products/docker-desktop` (optional, for containerized development)
 
 ### Required Accounts
-
-- **GitHub Account**: Access to both repositories
 - **Clerk Account**: For authentication (`https://clerk.com`)
-- **AWS Account**: For Secrets Manager and RDS (optional for local development)
+- **Dodo Payments**: For payment processing (production)
 
-### System Requirements
-
-- **RAM**: 8GB minimum, 16GB recommended
-- **Disk Space**: 10GB free space
-- **Network**: Stable internet connection for package downloads
-
-### Environment Variables Template
-
-Create a `.env.local` file in each repository root:
-
+### Environment Variables
+Create `.env.local` in the project root:
 ```bash
-# Ubuntu Pools (.env.local)
-DATABASE_URL=postgresql://ubuntu_dev:password@localhost:5432/ubuntu_pools_dev
-REDIS_URL=redis://localhost:6379
+DATABASE_URL=postgresql://user:password@localhost:5432/ubuntu_pools
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
 CLERK_SECRET_KEY=sk_test_...
-NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
-NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
-
-# SafeGrid (.env)
-DATABASE_URL=postgresql://safegrid_dev:password@localhost:5432/safegrid_dev
-REDIS_URL=redis://localhost:6379
-CLERK_SECRET_KEY=sk_test_...
-UBUNTU_POOLS_API_URL=http://localhost:3000
-UBUNTU_POOLS_API_KEY=dev_service_key
-PORT=8080
+UPSTASH_REDIS_REST_URL=https://...
+UPSTASH_REDIS_REST_TOKEN=...
+RESEND_API_KEY=re_...
 ```
 
-## Repository Setup
+## Quick Start
 
-### 1. Create Development Directory
-
+### 1. Clone and Install
 ```bash
-mkdir ~/ubuntu-ecosystem-dev
-cd ~/ubuntu-ecosystem-dev
+git clone https://github.com/divhanimajokweni-ctrl/ubuntu-pools.git
+cd ubuntu-pools
+bun install
 ```
+
+### 2. Database Setup
+```bash
+# Start PostgreSQL and Redis (if not running)
+# macOS
+brew services start postgresql
+brew services start redis
+
+# Ubuntu/Debian
+sudo systemctl start postgresql
+sudo systemctl start redis-server
+
+# Create database
+createdb ubuntu_pools
+```
+
+### 3. Environment Setup
+```bash
+cp .env.local.example .env.local
+# Edit .env.local with your API keys
+```
+
+### 4. Database Migration
+```bash
+bunx drizzle-kit push
+```
+
+### 5. Start Development
+```bash
+bun run dev
+```
+
+Visit `http://localhost:3000` to see the Ubuntu Pools landing page.
 
 ### 2. Clone Both Repositories
 
@@ -211,217 +154,63 @@ ubuntu-ecosystem-dev/
     └── bun.lock
 ```
 
-## Database Configuration
+## Troubleshooting
 
-### Option 1: Local PostgreSQL (Recommended for Development)
-
-#### Install and Start PostgreSQL
-
-**macOS:**
+### Build Issues
+If you encounter build errors:
 ```bash
-brew services start postgresql
-createdb ubuntu_pools_dev
-createdb safegrid_dev
-```
+# Clear Next.js cache
+rm -rf .next
 
-**Ubuntu/Debian:**
-```bash
-sudo systemctl start postgresql
-sudo -u postgres createdb ubuntu_pools_dev
-sudo -u postgres createdb safegrid_dev
-```
-
-#### Create Database Users
-
-```bash
-# Connect to PostgreSQL
-psql postgres
-
-# Create users and grant permissions
-CREATE USER ubuntu_dev WITH PASSWORD 'password';
-CREATE USER safegrid_dev WITH PASSWORD 'password';
-
-GRANT ALL PRIVILEGES ON DATABASE ubuntu_pools_dev TO ubuntu_dev;
-GRANT ALL PRIVILEGES ON DATABASE safegrid_dev TO safegrid_dev;
-
-ALTER USER ubuntu_dev CREATEDB;
-ALTER USER safegrid_dev CREATEDB;
-
-\q
-```
-
-#### Run Ubuntu Pools Migrations
-
-```bash
-cd ubuntu-pools
-
-# Install dependencies
+# Reinstall dependencies
+rm -rf node_modules
 bun install
 
-# Generate and run migrations
-bunx drizzle-kit generate
+# Try build again
+bun run build
+```
+
+### Database Issues
+```bash
+# Check PostgreSQL is running
+psql -c "SELECT version();"
+
+# Reset database
+dropdb ubuntu_pools
+createdb ubuntu_pools
 bunx drizzle-kit push
-
-# Seed initial data (if available)
-bun run db:seed
 ```
 
-#### Run SafeGrid Migrations
-
+### Port Conflicts
 ```bash
-cd ../safegrid
+# Check what's using port 3000
+lsof -i :3000
 
-# Apply SafeGrid schema from integration guide
-psql -d safegrid_dev -f sql/migrations/0001_safegrid_schema.sql
-
-# Verify schema
-psql -d safegrid_dev -c "SELECT schemaname, tablename FROM pg_tables WHERE schemaname = 'safegrid';"
+# Kill process
+kill -9 <PID>
 ```
 
-### Option 2: Docker Compose (Alternative)
+---
 
-Create `docker-compose.yml` in the root development directory:
+## API Documentation
 
-```yaml
-version: '3.8'
+### Authentication
+All API routes require Clerk authentication. Use the Clerk JWT token in the Authorization header.
 
-services:
-  postgres:
-    image: postgres:15
-    environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: dev
-      POSTGRES_PASSWORD: password
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+### Core Endpoints
 
-  redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
+#### Villages
+- `GET /api/villages` - List user's villages
+- `POST /api/villages` - Create new village
 
-volumes:
-  postgres_data:
-  redis_data:
-```
+#### Contributions
+- `POST /api/contributions` - Make a contribution
 
-Create `init-db.sql`:
+#### Payouts
+- `GET /api/payouts` - List user's payouts
+- `POST /api/payouts` - Process payout (admin only)
 
-```sql
--- Create databases
-CREATE DATABASE ubuntu_pools_dev;
-CREATE DATABASE safegrid_dev;
 
--- Create users
-CREATE USER ubuntu_dev WITH PASSWORD 'password';
-CREATE USER safegrid_dev WITH PASSWORD 'password';
-
--- Grant permissions
-GRANT ALL PRIVILEGES ON DATABASE ubuntu_pools_dev TO ubuntu_dev;
-GRANT ALL PRIVILEGES ON DATABASE safegrid_dev TO safegrid_dev;
-```
-
-Start services:
-```bash
-docker-compose up -d
-```
-
-## Redis Setup
-
-### Local Redis Installation
-
-**macOS:**
-```bash
-brew services start redis
-```
-
-**Ubuntu/Debian:**
-```bash
-sudo systemctl start redis-server
-```
-
-### Verify Redis Connection
-
-```bash
-redis-cli ping
-# Should respond: PONG
-```
-
-### Redis Configuration (Optional)
-
-Create `redis.conf` for development:
-
-```conf
-# Basic development config
-bind 127.0.0.1
-port 6379
-timeout 0
-tcp-keepalive 300
-daemonize no
-loglevel notice
-databases 16
-save 900 1
-save 300 10
-save 60 10000
-```
-
-## Authentication Setup
-
-### Clerk Configuration
-
-1. **Create Clerk Application**
-   - Go to https://clerk.com
-   - Create new application: "Ubuntu Ecosystem Dev"
-   - Choose "Sign in + Sign up" mode
-
-2. **Configure Sign-in/Sign-up URLs**
-   - Home URL: `http://localhost:3000`
-   - Sign-in URL: `http://localhost:3000/sign-in`
-   - Sign-up URL: `http://localhost:3000/sign-up`
-   - After sign-in URL: `http://localhost:3000`
-   - After sign-up URL: `http://localhost:3000`
-
-3. **Get API Keys**
-   - Copy `CLERK_SECRET_KEY` (sk_test_...)
-   - Copy `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` (pk_test_...)
-
-4. **Configure JWT Templates (Optional)**
-    - Add custom claims for Ubuntu Score integration
-
-### Vercel Authentication Setup (Alternative/Additional)
-
-The platform now supports Vercel OAuth authentication alongside Clerk:
-
-1. **Vercel OAuth Configuration**
-   - The platform automatically detects Vercel environment
-   - No additional setup required for Vercel OAuth
-   - Users can sign in with their Vercel accounts
-
-2. **Dual Authentication Support**
-   - Clerk remains the primary authentication method
-   - Vercel OAuth provides an additional sign-in option
-   - Both authentication methods maintain the same user experience
-
-3. **Environment Variables**
-   - No additional environment variables needed for Vercel OAuth
-   - Works automatically in Vercel deployments
-
-### Service Account Setup
-
-For SafeGrid API-to-API communication:
-
-```bash
-# Generate a service account key (simple approach for dev)
-openssl rand -base64 32
-# Output: something like: 8V7wJ8HqP2nQX5rKvY4mNzLxT3gF9pD1sW6cB2aE4=
-```
-
-## Ubuntu Pools Setup
 
 ### 1. Install Dependencies
 

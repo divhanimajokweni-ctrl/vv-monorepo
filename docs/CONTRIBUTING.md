@@ -1,10 +1,10 @@
-# 🤝 Contributing to Ubuntu Pools Platform
+# 🤝 Contributing to Ubuntu Pools
 
-> *"I am because we are"* — Together we build collective prosperity through trust-based systems.
+> *"I am because we are"* — A minimal, first-principles Ubuntu Pools platform for village-scale ROSCA operations.
 
 ## 🌍 Mission Alignment
 
-All contributions must align with our core mission: **Building collective prosperity through trust-based governance, immutable ledger, and community-driven impact**. Every line of code, documentation update, and design decision should advance this mission.
+Following Phase 1 & 2 deconstruction and reconstruction, Ubuntu Pools focuses on **village-scale collective finance** with minimal complexity. Contributions should advance the core mission of providing accessible ROSCA functionality while maintaining simplicity and reliability.
 
 ---
 
@@ -44,10 +44,13 @@ All contributions must align with our core mission: **Building collective prospe
 ## 🎯 What We Build
 
 ### Platform Purpose
-Ubuntu Pools is a **financial technology platform** that operationalizes the African philosophy of Ubuntu through:
+Ubuntu Pools is a **minimal financial technology platform** that provides village-scale ROSCA (Rotating Savings and Credit Association) functionality:
 
-- **Collective Finance**: Rotating savings and credit associations (ROSCAs)
-- **Trust-Based Governance**: Reputation systems without centralized authorities
+- **Simple ROSCA Operations**: Village creation, member management, contributions, and payouts
+- **Direct Database Operations**: No complex event sourcing or AI layers
+- **Clerk Authentication**: Secure user management
+- **Dodo Payments Integration**: Reliable payment processing
+- **Ubuntu Design System**: Clean, purposeful visual design
 - **Behavioral Intelligence**: AI-powered credit assessment through game-based learning
 - **Community Sovereignty**: User-controlled data and decision-making
 
