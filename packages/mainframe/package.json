@@ -1,0 +1,10 @@
+{
+  "name": "mainframe",
+  "version": "1.0.0",
+  "description": "Mainframe simulator package",
+  "main": "src/index.ts",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
