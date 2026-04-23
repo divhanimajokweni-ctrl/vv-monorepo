@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "VV Monorepo for security testing pipeline",
   "scripts": {
-    "fixtures:generate": "echo 'Generating test fixtures...'",
+    "fixtures:generate": "node scripts/generate-fixtures.js",
     "test": "echo 'Running all tests...'",
     "replay": "echo 'Running replay...'",
     "test:staging": "echo 'Running synthetic breach suite...'",
