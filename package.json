@@ -7,7 +7,10 @@
     "test": "vitest run",
     "replay": "node scripts/replay.js",
     "test:staging": "node scripts/test-staging.js",
-    "deploy:attest": "node scripts/deploy-attest.js"
+    "deploy:attest": "node scripts/deploy-attest.js",
+    "shadow:start": "tsx tools/shadow-evaluator/src/index.ts",
+    "shadow:report": "tsx tools/shadow-evaluator/src/report.ts",
+    "shadow:compare": "tsx tools/cli/src/vv-shadow-diverge.ts"
   },
   "devDependencies": {
     "tsx": "^4.7.0",
