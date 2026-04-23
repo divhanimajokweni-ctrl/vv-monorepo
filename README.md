@@ -182,6 +182,7 @@ Inspired by Ubuntu's aesthetic principles:
 - [Dashboard API](./packages/dashboard/README.md)
 
 ### Guides
+- [Wiki Home](./WIKI.md) - Comprehensive knowledge base
 - [Contributing Guidelines](./CONTRIBUTING.md)
 - [Security Best Practices](./SECURITY.md)
 - [Architecture Decisions](./ARCHITECTURE.md)
