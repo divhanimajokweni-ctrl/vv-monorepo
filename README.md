@@ -20,6 +20,10 @@ The VVU platform is structured as a monorepo with the following key components:
 
 ### Core Packages
 
+#### 📦 Shared Kernel
+Common utilities and types shared across packages.
+- [Index](./packages/shared-kernel/src/index.ts) - Core exports
+
 #### 🔐 SafeKrypte
 Advanced cryptographic simulation package for secure data handling.
 - [Simulator](./packages/safekrypte/src/simulator.ts) - HTTP server for signing operations
@@ -200,6 +204,8 @@ We welcome contributions from the community! Please see our [Contributing Guide]
 ```
 vv-monorepo/
 ├── packages/
+│   ├── shared-kernel/          # Common utilities and types
+│   │   └── src/index.ts        # Core shared exports
 │   ├── dashboard/              # Visual interfaces and APIs
 │   │   ├── src/
 │   │   │   ├── UnifiedDashboard.tsx     # Main routed interface
