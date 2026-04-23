@@ -5,9 +5,9 @@
   "scripts": {
     "fixtures:generate": "node scripts/generate-fixtures.js",
     "test": "echo 'Running all tests...'",
-    "replay": "echo 'Running replay...'",
-    "test:staging": "echo 'Running synthetic breach suite...'",
-    "deploy:attest": "echo 'Generating deployment attestation...'"
+    "replay": "node scripts/replay.js",
+    "test:staging": "node scripts/test-staging.js",
+    "deploy:attest": "node scripts/deploy-attest.js"
   },
   "devDependencies": {
     "tsx": "^4.7.0"
