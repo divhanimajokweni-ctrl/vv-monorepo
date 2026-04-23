@@ -1,5 +1,15 @@
-console.log('Safekrypte simulator started');
+import express from 'express';
 
-setInterval(() => {
-  console.log('Simulating safekrypte operations...');
-}, 2000);
+const app = express();
+app.use(express.json());
+
+console.log('Safekrypte simulator started on port 3001');
+
+app.post('/sign', (req, res) => {
+  const { payload, keyId } = req.body;
+  // Mock signature
+  const signature = '0x' + Math.random().toString(16).substring(2, 66);
+  res.json({ signature });
+});
+
+app.listen(3001);
