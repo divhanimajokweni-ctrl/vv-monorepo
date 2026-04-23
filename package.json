@@ -1,0 +1,18 @@
+{
+  "name": "vv-monorepo",
+  "version": "1.0.0",
+  "description": "VV Monorepo for security testing pipeline",
+  "scripts": {
+    "fixtures:generate": "echo 'Generating test fixtures...'",
+    "test": "echo 'Running all tests...'",
+    "replay": "echo 'Running replay...'",
+    "test:staging": "echo 'Running synthetic breach suite...'",
+    "deploy:attest": "echo 'Generating deployment attestation...'"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
