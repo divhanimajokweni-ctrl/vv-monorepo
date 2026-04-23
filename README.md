@@ -251,6 +251,33 @@ vv-monorepo/
 └── tsconfig.json              # TypeScript configuration
 ```
 
+## 💰 Sponsors & Funding
+
+We appreciate all contributions to Venture Visual Ubuntu! If you find this project valuable, consider supporting its development:
+
+### 🏆 Gold Sponsors
+<!-- Add gold sponsors here -->
+
+### 🥈 Silver Sponsors
+<!-- Add silver sponsors here -->
+
+### 🥉 Bronze Sponsors
+<!-- Add bronze sponsors here -->
+
+### 💳 Become a Sponsor
+- [GitHub Sponsors](https://github.com/sponsors/divhanimajokweni-ctrl)
+- [Ko-fi](https://ko-fi.com/vvubuntu)
+- [Buy Me a Coffee](https://www.buymeacoffee.com/vvubuntu)
+- Direct donations via cryptocurrency (contact for wallet addresses)
+
+### 🎯 Funding Goals
+- **$500/month**: Enhanced testing infrastructure and CI/CD improvements
+- **$1,000/month**: Professional UI/UX design and accessibility audits
+- **$2,000/month**: Full production deployment and monitoring setup
+- **$5,000/month**: Dedicated security research and formal verification
+
+Your sponsorship helps maintain the Security Spine's eight-layer isolation and ensures continuous development of privacy-respecting, secure systems.
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
