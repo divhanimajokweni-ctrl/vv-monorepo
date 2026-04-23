@@ -1,7 +1,10 @@
 const args = process.argv.slice(2);
 
-const env = args.find(arg => arg.startsWith('--env='))?.split('=')[1];
-const artifact = args.find(arg => arg.startsWith('--artifact='))?.split('=')[1];
+let env, artifact;
+const envIndex = args.indexOf('--env');
+if (envIndex !== -1) env = args[envIndex + 1];
+const artifactIndex = args.indexOf('--artifact');
+if (artifactIndex !== -1) artifact = args[artifactIndex + 1];
 
 console.log(`Generating deployment attestation for env: ${env}, artifact: ${artifact}`);
 
