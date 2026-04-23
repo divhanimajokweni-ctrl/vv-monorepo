@@ -1,0 +1,10 @@
+{
+  "name": "safekrypte",
+  "version": "1.0.0",
+  "description": "Safekrypte simulator package",
+  "main": "src/simulator.ts",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
