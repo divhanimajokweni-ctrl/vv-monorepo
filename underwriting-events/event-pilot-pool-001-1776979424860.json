@@ -1,0 +1,21 @@
+{
+  "eventId": "event-pilot-pool-001-1776979424860",
+  "poolId": "pilot-pool-001",
+  "policyHash": "8f4e2d1a9b3c7f6e5d4a3b2c1d0e9f8a",
+  "stage": "VIABILITY",
+  "inputs": {},
+  "outputs": {
+    "decision": "PASS",
+    "liabilityCapCents": 50000000,
+    "premiumBps": 150,
+    "conditions": [
+      "production_downtime",
+      "cost_overrun",
+      "sla_breach"
+    ]
+  },
+  "underwriter": "0xfirst-underwriter-001",
+  "signature": "0xebc7d2fb47d2c",
+  "signedAt": 1776979424860,
+  "expiresAt": 1808515424860
+}
