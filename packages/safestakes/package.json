@@ -1,0 +1,10 @@
+{
+  "name": "safestakes",
+  "version": "1.0.0",
+  "description": "Safestakes simulator package",
+  "main": "src/simulator.ts",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
