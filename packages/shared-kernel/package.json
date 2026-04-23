@@ -1,0 +1,13 @@
+{
+  "name": "@vv-monorepo/shared-kernel",
+  "version": "1.0.0",
+  "description": "Shared kernel utilities for VV Monorepo",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "echo 'Building shared-kernel...'",
+    "test": "echo 'Testing shared-kernel...'"
+  },
+  "keywords": ["shared", "kernel", "utilities"],
+  "author": "",
+  "license": "ISC"
+}

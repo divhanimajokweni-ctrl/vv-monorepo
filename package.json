@@ -2,9 +2,13 @@
   "name": "vv-monorepo",
   "version": "1.0.0",
   "description": "VV Monorepo for security testing pipeline",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "fixtures:generate": "node scripts/generate-fixtures.js",
+    "build": "npm run build --workspaces",
     "test": "vitest run",
+    "fixtures:generate": "node scripts/generate-fixtures.js",
     "replay": "node scripts/replay.js",
     "test:staging": "node scripts/test-staging.js",
     "deploy:attest": "node scripts/deploy-attest.js",
