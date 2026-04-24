@@ -23,17 +23,18 @@
 
 1. [💭 Conceptualization & Philosophy](#conceptualization--philosophy)
 2. [🏗️ Architecture Overview](#architecture-overview)
-3. [📁 Codebase Structure](#codebase-structure)
-4. [🚀 Getting Started](#getting-started)
-5. [🛠️ Development Guide](#development-guide)
-6. [🤝 Contributing](#contributing)
-7. [💰 Sponsorship & Funding](#sponsorship--funding)
-8. [🔗 Feature Integration](#feature-integration)
-9. [🧪 Testing](#testing)
-10. [📈 Scaling Strategies](#scaling-strategies)
-11. [🚢 Deployment](#deployment)
-12. [🔮 Future Aspirations](#future-aspirations)
-13. [🔧 Troubleshooting](#troubleshooting)
+3. [🔐 Governance & Compliance Framework](#governance--compliance-framework)
+4. [📁 Codebase Structure](#codebase-structure)
+5. [🚀 Getting Started](#getting-started)
+6. [🛠️ Development Guide](#development-guide)
+7. [🤝 Contributing](#contributing)
+8. [💰 Sponsorship & Funding](#sponsorship--funding)
+9. [🔗 Feature Integration](#feature-integration)
+10. [🧪 Testing](#testing)
+11. [📈 Scaling Strategies](#scaling-strategies)
+12. [🚢 Deployment](#deployment)
+13. [🔮 Future Aspirations](#future-aspirations)
+14. [🔧 Troubleshooting](#troubleshooting)
 
 ---
 
@@ -385,6 +386,70 @@ Ubuntu Pools follows a **microservices-inspired architecture** within a monorepo
 │  └─────────────┘  └─────────────┘  └─────────────┘  └────────────┘ │
 └─────────────────────────────────────────────────────────────────────┘
 ```
+
+---
+
+## 🔐 Governance & Compliance Framework
+
+<div align="center">
+
+## 🏛️ **UBUNTUctrl Trust** • ⚖️ **FSCA Compliance** • 🔏 **Multi-Signature Governance**
+
+</div>
+
+The Ubuntu Pools platform implements a sophisticated governance and compliance framework designed to meet South African financial regulatory requirements while preserving the system's autonomous execution model.
+
+### Core Governance Components
+
+| Component | Description | Status |
+|-----------|-------------|--------|
+| **UBUNTUctrl Trust** | Legal principal and fiduciary wrapper for autonomous execution | ✅ Registered (interim committee active) |
+| **Ad-Hoc Committee** | 5-member interim governance body with regulatory oversight | ✅ Operational |
+| **Multi-Signature Actions** | Cryptographically enforced governance decisions | ✅ Implemented |
+| **Policy Approval Workflow** | CI/CD-integrated policy change governance | ✅ Executable |
+| **SafeKrypte Integration** | Hardware-backed cryptographic signing | ✅ Core integration |
+
+### Regulatory Compliance
+
+**Financial Sector Conduct Authority (FSCA) Alignment:**
+- **FAIS Act Compliance**: Authorized intermediaries with clear accountability
+- **Fiduciary Standards**: Trust-based governance with beneficiary protection
+- **Audit Trails**: Immutable governance action logging
+- **Data Sovereignty**: POPIA-compliant user data controls
+
+### Governance Architecture
+
+```mermaid
+graph TD
+    A[Ad-Hoc Committee] --> B[GovernanceAction Schema]
+    B --> C[Multi-Signature Verification]
+    C --> D[SafeKrypte Enforcement]
+    D --> E[executeSlash Gate]
+    E --> F[CI/CD Policy Checks]
+    F --> G[FSCA-Compliant Execution]
+```
+
+### Key Documents
+
+- **[VVU Architecture Spec](vvu-architecture-spec.md)**: Complete governance and compliance framework
+- **Policy Approval Workflow**: Multi-signature policy change implementation
+- **Beneficiary Architecture**: Three-layer legal beneficiary structure
+- **Trust Registration**: Formal establishment of UBUNTUctrl Trust
+
+### Governance Actions
+
+The system supports cryptographically enforced governance actions:
+
+| Action Type | Purpose | Quorum Required |
+|-------------|---------|-----------------|
+| `APPROVE_POLICY_HASH` | Policy framework approval | 3 of 5 members |
+| `ADD_UNDERWRITER` | Authorized underwriter appointment | 3 of 5 members |
+| `REMOVE_UNDERWRITER` | Underwriter removal | 4 of 5 members |
+| `EMERGENCY_PAUSE` | System emergency suspension | 4 of 5 members |
+| `EMERGENCY_RESUME` | System resumption | 3 of 5 members |
+
+**Canonical Statement:**
+> *"The system executes deterministically and autonomously within predefined, FSCA-aligned parameters; however, all operations are governed under a designated legal principal—the Guardianship Council operated UBUNTUctrl Trust—which serves as the accountable entity for regulatory, fiduciary, and compliance obligations."*
 
 ---
 

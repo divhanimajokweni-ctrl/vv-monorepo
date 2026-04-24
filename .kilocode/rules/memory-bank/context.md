@@ -10,6 +10,29 @@ Phase 14 implements game telemetry integration with Lindiwe AI, ensuring proper 
 
 ## Recently Completed
 
+- [x] **VVU Architecture Spec Updated** (2026-04-24)
+  - Added comprehensive compliance reconciliation insert for VVU (Village Value Unit) architecture
+  - Documented governance and regulatory accountability framework
+  - Established UBUNTUctrl Trust as legal principal for FSCA compliance
+  - Defined system-governance separation with clear beneficiary architecture
+  - Created canonical positioning statements for investor/regulator communications
+  - Added interim governance resolution with Ad-Hoc UBUNTUctrl Committee structure
+  - Defined 5-member committee composition and decision-making protocols
+  - Established GovernanceAction schema for multi-signature approvals
+  - Outlined transition plan from committee to permanent trust registration
+  - Added complete Policy Approval Workflow implementation (Constraint B)
+  - Defined GovernanceAction schema with multi-signature verification
+  - Implemented governance verification gate in executeSlash core
+  - Created vv-governance CLI tool for committee signing workflows
+  - Added CI/CD integration to enforce governance approval for policy changes
+  - Included invariant tests proving governance enforcement
+  - Provided deployment scripts and commit message standards
+- [x] **README Updated** (2026-04-24)
+  - Added Governance & Compliance Framework section to main README
+  - Created table of contents entry for regulatory compliance documentation
+  - Included VVU architecture spec reference and governance action types
+  - Added FSCA compliance overview and canonical positioning statement
+  - Established clear linkage between technical governance and regulatory requirements
 - [x] **Local Development Optimization** (2026-04-20)
   - Added experimental serverComponentsHmrCache to next.config.js for faster Hot Module Replacement on Server Components
 - [x] **Documentation Updated** (2026-04-15)
