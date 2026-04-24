@@ -41,6 +41,27 @@
 
 ## 🎯 Recent Developments (2026)
 
+### ✅ Compliance Attestations Complete — KAYA POPIA & LEX Frameworks (2026-04-24)
+<div align="center">
+
+## 🛡️ **POPIA Compliance** • ⚖️ **FAIS Accountability** • 🔐 **Cryptographic Integrity**
+
+</div>
+
+**Complete Regulatory Foundation:**
+- **KAYA POPIA Attestation**: Signed data processing framework covering 9 data categories
+- **LEX Responsible Party Reconciliation**: FAIS-compliant accountability mapping for all system actions
+- **Cryptographic Document Integrity**: Ed25519 signatures from authorized compliance officers
+- **CI/CD Compliance Gates**: Automated verification of attestations and pool coverage on every PR
+- **Regulatory Audit Trail**: Complete compliance documentation with cryptographic proof
+
+**🚀 Key Achievements:**
+- 🛡️ **POPIA Framework**: Data processing mapped with consent mechanisms and retention policies
+- ⚖️ **FAIS Compliance**: All system actions legally accountable through UBUNTUctrl Committee
+- 🔐 **Cryptographic Signing**: Real Ed25519 signatures from data-protection-officer and trustee keys
+- 🏛️ **Legal Infrastructure**: Complete regulatory foundation for FSCA audits and underwriter diligence
+- 📜 **Automated Verification**: CI/CD gates prevent compliance drift with cryptographic enforcement
+
 ### ✅ Cryptographic Foundation Complete — SafeKrypte Implementation (2026-04-24)
 <div align="center">
 
@@ -154,6 +175,8 @@ Advanced trust mechanisms including reputation friction, invite chains, and port
 |---------|--------|-------------|
 | 🔐 **SafeKrypte** | ✅ **NEW** | Production Ed25519 cryptographic framework with keystore |
 | 🏛️ **UBUNTUctrl Trust** | ✅ **NEW** | FSCA-compliant governance with multi-signature enforcement |
+| 🛡️ **KAYA POPIA** | ✅ **NEW** | Signed data processing attestation with 9 compliance categories |
+| ⚖️ **LEX FAIS** | ✅ **NEW** | Responsible party reconciliation with legal accountability mapping |
 | 💳 **Dodo Payments** | ✅ **Active** | Exclusive financial backbone with webhook integration |
 | 📧 **Resend Email** | ✅ Active | Bidirectional email with webhook endpoints |
 | ⚡ **Redis Caching** | ✅ Active | Session management & high-performance caching |
@@ -179,10 +202,12 @@ Advanced trust mechanisms including reputation friction, invite chains, and port
 | 📊 **Monitoring** | 🟢 Active | Sentry error tracking + Vercel Speed Insights |
 | 📈 **Performance** | 🟢 Active | Vercel Speed Insights for real user metrics |
 | 💳 **Payments** | 🟢 Active | Dodo Payments integration (single file) |
-| 🔐 **Cryptography** | ✅ **NEW** | SafeKrypte Ed25519 with 11 production keys |
+| 🔐 **Cryptography** | ✅ **NEW** | SafeKrypte Ed25519 with 13 production keys |
 | 🏛️ **Governance** | ✅ **NEW** | UBUNTUctrl Trust with multi-signature enforcement |
+| 🛡️ **POPIA Compliance** | ✅ **NEW** | KAYA attestation with 9 data categories |
+| ⚖️ **FAIS Compliance** | ✅ **NEW** | LEX reconciliation with legal accountability |
 | 🎨 **Design System** | ✅ **NEW** | Ubuntu visual DNA (sage greens, organic shapes, intentional typography) |
-| 📦 **Codebase** | 🟢 Production | 2,100+ lines added cryptographic framework |
+| 📦 **Codebase** | 🟢 Production | 2,700+ lines added compliance framework |
 
 <div align="center">
 
@@ -190,8 +215,9 @@ Advanced trust mechanisms including reputation friction, invite chains, and port
 [![Uptime](https://img.shields.io/badge/Uptime-99.9%25-28a745?style=flat-square)](https://vercel.com/)
 [![Tests](https://img.shields.io/badge/Tests-Passing-28a745?style=flat-square)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
 [![Cryptography](https://img.shields.io/badge/Cryptography-Ed25519-9B59B6?style=flat-square)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
-[![Governance](https://img.shields.io/badge/Governance-FSCA_Compliance-2ECC71?style=flat-square)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
-[![Phase](https://img.shields.io/badge/Phase_16-Complete-FF6B6B?style=flat-square)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
+[![POPIA](https://img.shields.io/badge/POPIA-Compliant-3498DB?style=flat-square)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
+[![FAIS](https://img.shields.io/badge/FAIS-Compliant-E74C3C?style=flat-square)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
+[![Phase](https://img.shields.io/badge/Phase_17-Complete-FF6B6B?style=flat-square)](https://github.com/divhanimajokweni-ctrl/ubuntu-pools)
 
 </div>
 
@@ -481,6 +507,8 @@ graph TD
 ### Key Documents
 
 - **[VVU Architecture Spec](vvu-architecture-spec.md)**: Complete governance and compliance framework
+- **[KAYA POPIA Attestation](contracts/compliance/kaya-popia-attestation-signed.json)**: Signed data processing compliance framework
+- **[LEX Responsible Party Reconciliation](contracts/compliance/lex-responsible-party-signed.json)**: FAIS accountability mapping
 - **[Underwriter-Committee Contract Template](underwriter-committee-contract-template.md)**: Legal agreement for authorized underwriters
 - **[Beneficiary Legal Instruments](beneficiary-legal-instruments.md)**: Three-layer beneficiary framework and rights
 - **Policy Approval Workflow**: Multi-signature policy change implementation
@@ -518,20 +546,30 @@ The Ubuntu Pools platform implements a complete cryptographic infrastructure des
 | Component | Technology | Purpose |
 |-----------|------------|---------|
 | **SafeKrypte Engine** | Ed25519 + HTTP API | Cryptographic signing and verification operations |
-| **Keystore** | Secure Key Storage | 11 production key pairs with expiration management |
+| **Keystore** | Secure Key Storage | 13 production key pairs with expiration management |
 | **Multi-Signature** | Threshold Cryptography | Governance quorum enforcement (3 of 5) |
+| **Compliance CLI** | vv-sign/vv-verify | Document signing and verification tools |
 | **Audit Trails** | Immutable Logs | Complete cryptographic operation history |
 | **Key Rotation** | Ceremony-Based | Secure key lifecycle management |
 
 ### Production Key Infrastructure
 
-**Active Key Pairs (11 Total):**
+**Active Key Pairs (13 Total):**
 - `safe-stakes-executor-key`: Slashing decision cryptographic signatures
 - `arbiter-key`: Escrow release authorizations with hardware backing
 - `rotation-current-key`: Active signing key for security ceremonies
 - `shadow-signer-key`: AI evaluation result attestations
 - `trustee-1` through `trustee-5`: Governance committee multi-signature validation
 - `underwriter-key-1/2`: Financial backing contract cryptographic enforcement
+- `data-protection-officer-key`: POPIA compliance attestation signing
+- `trustee-1-key`: FAIS reconciliation and legal accountability signing
+
+### Compliance Document Infrastructure
+
+**Signed Attestations:**
+- **KAYA POPIA Attestation**: Data processing framework with 9 categories and consent mechanisms
+- **LEX Responsible Party Reconciliation**: FAIS accountability mapping for all system actions
+- **Cryptographic Integrity**: All documents signed with Ed25519 keys and verified in CI/CD
 
 ### Security Architecture
 
