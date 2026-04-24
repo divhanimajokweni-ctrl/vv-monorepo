@@ -1,0 +1,10 @@
+{
+  "pools": [
+    {
+      "poolId": "pilot-pool-001",
+      "name": "Pilot Pool",
+      "policyHash": "abc123def456",
+      "status": "active"
+    }
+  ]
+}

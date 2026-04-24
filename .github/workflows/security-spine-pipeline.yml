@@ -1,0 +1,52 @@
+name: Security Spine Pipeline
+on:
+  push:
+    branches: [ main, turbo ]
+  pull_request:
+    branches: [ main, turbo ]
+
+jobs:
+  schema-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+
+  compliance-attestation-check:
+    runs-on: ubuntu-latest
+    needs: schema-validation
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - name: Verify KAYA POPIA attestation
+        run: node scripts/verify-doc.js contracts/compliance/kaya-popia-attestation-signed.json data-protection-officer-key
+      - name: Verify LEX responsible party reconciliation
+        run: node scripts/verify-doc.js contracts/compliance/lex-responsible-party-signed.json trustee-1-key
+      - name: Ensure attested pools match active pools
+        run: npx tsx scripts/ci/check-pool-coverage.ts
+
+  placeholder-check:
+    runs-on: ubuntu-latest
+    needs: schema-validation
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./scripts/ci/placeholder-check.sh
+
+  security-tests:
+    runs-on: ubuntu-latest
+    needs: compliance-attestation-check
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: npm test -- --testPathPattern="governance|security|safekrypte"

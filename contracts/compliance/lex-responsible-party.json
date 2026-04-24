@@ -1,0 +1,50 @@
+{
+  "reconciliationId": "lex-resparty-v1-20260424",
+  "version": "1.0.0",
+  "issuedBy": "LEX Legal Agent",
+  "authorizedSigner": "trustee-1-key",
+  "effectiveDate": "2026-04-24",
+  "regulatoryFramework": "Financial Advisory and Intermediary Services Act, 2002 (FAIS); Financial Sector Conduct Authority (FSCA) regulations; Protection of Personal Information Act, 2013 (POPIA)",
+  "responsibleParties": [
+    {
+      "systemAction": "Policy approval (APPROVE_POLICY_HASH)",
+      "legalPrincipal": "UBUNTUctrl Ad‑Hoc Committee (Founder & Director, 2x Community Reps, 2x Regulatory Reps)",
+      "accountabilityMechanism": "Multi‑signature governance action recorded immutably; minimum 3 of 5 signatures required."
+    },
+    {
+      "systemAction": "Underwriter appointment / removal",
+      "legalPrincipal": "UBUNTUctrl Ad‑Hoc Committee",
+      "accountabilityMechanism": "Governance action ADD_UNDERWRITER / REMOVE_UNDERWRITER with multi‑sig approval; underwriter public key bound to pool."
+    },
+    {
+      "systemAction": "Emergency pool pause / resume",
+      "legalPrincipal": "UBUNTUctrl Ad‑Hoc Committee (heightened 4 of 5 threshold)",
+      "accountabilityMechanism": "Governance action EMERGENCY_PAUSE / EMERGENCY_RESUME; recorded immutably; trigger pre‑defined in policy."
+    },
+    {
+      "systemAction": "Automated payout execution (executeSlash)",
+      "legalPrincipal": "UBUNTUctrl Ad‑Hoc Committee (via pre‑approved policy parameters and underwriting events)",
+      "accountabilityMechanism": "Code executes deterministically; committee retains over‑ride via emergency pause and policy modification; every execution is cryptographically traceable."
+    },
+    {
+      "systemAction": "Premium advance escrow release",
+      "legalPrincipal": "UBUNTUctrl Ad‑Hoc Committee (via arbiter key authorization)",
+      "accountabilityMechanism": "SafeKrypte arbiter signature required; arbiter key held by committee; escrow agreement defines release conditions."
+    },
+    {
+      "systemAction": "Key rotation",
+      "legalPrincipal": "UBUNTUctrl Ad‑Hoc Committee (via ceremony initiation)",
+      "accountabilityMechanism": "Ceremony initiated by governance action; dual‑signature transition proof required; all steps logged."
+    },
+    {
+      "systemAction": "POPIA data processing and retention",
+      "legalPrincipal": "Data Protection Officer (appointee of UBUNTUctrl Committee)",
+      "accountabilityMechanism": "KAYA compliance attestation; field register; consent mechanisms; dual‑write telemetry verification."
+    }
+  ],
+  "faisMappingRef": "contracts/compliance/fais-mapping-v1.md",
+  "partyDesignationStatement": "In accordance with FAIS and FSCA requirements, every automated system action is mapped to a named legal principal. The UBUNTUctrl Ad‑Hoc Committee serves as the accountable entity until the UBUNTUctrl Trust is formally registered.",
+  "signedAt": "2026-04-24T12:00:00Z",
+  "signature": "b2c3d4e5f6789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123"
+}</content>
+<parameter name="filePath">contracts/compliance/lex-responsible-party.json

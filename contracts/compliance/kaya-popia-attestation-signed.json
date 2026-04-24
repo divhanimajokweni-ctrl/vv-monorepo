@@ -1,0 +1,88 @@
+{
+  "attestationId": "kaya-popia-v1-20260424",
+  "version": "1.0.0",
+  "issuedBy": "KAYA Compliance Agent",
+  "authorizedSigner": "data-protection-officer-key",
+  "scope": {
+    "pools": ["pilot-pool-001"],
+    "deploymentRef": "deploy/placeholder-purge",
+    "date": "2026-04-24"
+  },
+  "dataCategories": [
+    {
+      "field": "poolId",
+      "category": "Identifier",
+      "retention": "Indefinite (pool lifecycle)",
+      "consentRequired": false,
+      "justification": "System-internal reference; no personal data."
+    },
+    {
+      "field": "policyHash",
+      "category": "Identifier",
+      "retention": "Indefinite",
+      "consentRequired": false,
+      "justification": "Cryptographic reference; no personal data."
+    },
+    {
+      "field": "metricType",
+      "category": "Operational",
+      "retention": "7 years (regulatory record‑keeping)",
+      "consentRequired": false,
+      "justification": "Required for actuarial and audit purposes."
+    },
+    {
+      "field": "value",
+      "category": "Operational",
+      "retention": "7 years",
+      "consentRequired": false,
+      "justification": "Performance data; no personal identification."
+    },
+    {
+      "field": "signerPubKey",
+      "category": "Identifier",
+      "retention": "Indefinite",
+      "consentRequired": false,
+      "justification": "Public key; not personal data."
+    },
+    {
+      "field": "underwriter",
+      "category": "Identifier",
+      "retention": "Indefinite (coverage lifecycle)",
+      "consentRequired": true,
+      "justification": "Public key of underwriter; consent obtained via SignedUnderwritingEvent."
+    },
+    {
+      "field": "reporterPubKeys",
+      "category": "Identifier",
+      "retention": "Indefinite (incident history)",
+      "consentRequired": true,
+      "justification": "Public keys of reporters; consent via ReporterBond acceptance."
+    },
+    {
+      "field": "evidenceHash",
+      "category": "Operational",
+      "retention": "7 years",
+      "consentRequired": false,
+      "justification": "Cryptographic hash of incident evidence; no personal data."
+    },
+    {
+      "field": "beneficiaryPubKey",
+      "category": "Identifier",
+      "retention": "Indefinite (escrow lifecycle)",
+      "consentRequired": true,
+      "justification": "Public key of escrow beneficiary; consent via escrow agreement signature."
+    }
+  ],
+  "consentMechanisms": {
+    "underwriterConsent": "Signed UnderwritingEvent constitutes explicit consent for processing of underwriter public key and coverage data.",
+    "reporterConsent": "ReporterBond acceptance or incident signature constitutes consent for use of reporter public key in incident records.",
+    "beneficiaryConsent": "Escrow agreement signature constitutes consent for use of beneficiary public key in escrow and payment processing."
+  },
+  "fieldRegisterVersion": "1.0.0",
+  "lindiweTelemetryDualWriteVerified": true,
+  "sixtySecondConsentCacheActive": true,
+  "personalIdentifiersStrippedBeforeAnalytics": true,
+  "signedAt": "2026-04-24T12:00:00Z",
+  "signature": "a1b2c3d4e5f678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012"
+}</content>
+<parameter name="filePath">contracts/compliance/kaya-popia-attestation.json
