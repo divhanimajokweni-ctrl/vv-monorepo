@@ -1,0 +1,166 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.App-header {
+  padding: 2rem 0;
+  border-bottom: 2px solid #e0e0e0;
+  margin-bottom: 2rem;
+}
+
+.logo h1 {
+  color: #2c3e50;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #7f8c8d;
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+.App-main {
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.status-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+.status-card h3 {
+  margin-top: 0;
+  color: #2c3e50;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.status-indicator {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.status-indicator.healthy {
+  background-color: #27ae60;
+  color: white;
+}
+
+.status-indicator.unknown {
+  background-color: #f39c12;
+  color: white;
+}
+
+.status-details {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.action-section {
+  margin-bottom: 3rem;
+}
+
+.action-section h2 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.action-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.action-btn {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.action-btn:hover {
+  background: #2980b9;
+}
+
+.info-section {
+  background: #f8f9fa;
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+
+.info-section h2 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.info-section p {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.key-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.feature {
+  text-align: left;
+}
+
+.feature h4 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.feature p {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.App-footer {
+  margin-top: 3rem;
+  padding: 2rem 0;
+  border-top: 2px solid #e0e0e0;
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.App-footer p {
+  margin: 0.5rem 0;
+}
