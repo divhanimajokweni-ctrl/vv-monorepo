@@ -25,7 +25,9 @@
     "atlas:check": "tsx tools/atlas/src/check.ts",
     "deploy:production": "./scripts/deploy-production.sh",
     "connect:domain": "./scripts/connect-domain.sh",
-    "verify:launch": "./scripts/verify-launch.sh"
+    "verify:launch": "./scripts/verify-launch.sh",
+    "dns:setup": "./scripts/dns-setup.sh",
+    "final:verify": "./scripts/final-verification.sh"
   },
   "devDependencies": {
     "@playwright/test": "^1.59.1",
