@@ -11,20 +11,23 @@
 
 ## Parties
 
-### 1. The Committee (Principal)
+### 1. The Company (Principal)
 
-**Ad-Hoc UBUNTUctrl Committee**  
-*Interim Guardianship Council for Venture Vision Ubuntu System*  
+**VAGUELY VANITY LLC (Pty) Ltd**  
+*Registration No. 2026/259053/07*  
+*Trading as Venture Vision Ubuntu*  
 
-Represented by:  
-- **Founder & Director**: [Name], representing Venture Vision Ubuntu (Pty) Ltd  
-- **Independent Community Representative**: [Name]  
-- **Independent Community Representative**: [Name]  
-- **Regulatory-Nominated Representative**: [Name] (FAIS/FSCA approved)  
-- **Regulatory-Nominated Representative**: [Name] (FAIS/FSCA approved)  
+Represented by the **UBUNTUctrl Ad-Hoc Committee** (Interim Guardianship Council):
 
-**Collective Address for Service:** [Physical Address]  
-**Collective Email:** committee@ubuntu-pools.za  
+- **Founder & Director**: Mihle Majokweni, representing VAGUELY VANITY LLC (Pty) Ltd
+- **Independent Community Representative**: [Name]
+- **Independent Community Representative**: [Name]
+- **Regulatory-Nominated Representative**: [Name] (FAIS/FSCA approved)
+- **Regulatory-Nominated Representative**: [Name] (FAIS/FSCA approved)
+
+**Registered Address:** 14 Bird Street, Gqeberha  
+**Email:** committee@ubuntu-pools.za  
+**SARS Tax Number:** 9106703292  
 
 ### 2. The Underwriter (Service Provider)
 
@@ -51,6 +54,8 @@ D. This agreement establishes the terms under which the Underwriter shall provid
 E. Upon registration of the UBUNTUctrl Trust, this agreement shall automatically novate to the Trust as the successor principal;
 
 **NOW THEREFORE**, the parties agree as follows:
+
+*This agreement is made between VAGUELY VANITY LLC (Pty) Ltd trading as Venture Vision Ubuntu (the "Company") and the Underwriter, with the Company operating under the governance of the UBUNTUctrl Ad-Hoc Committee.*
 
 ---
 
@@ -255,12 +260,12 @@ Upon termination:
 Upon registration of the UBUNTUctrl Trust:
 
 9.1.1 This agreement shall automatically novate to the Trust;  
-9.1.2 The Trust shall assume all rights and obligations of the Committee;  
+9.1.2 The Trust shall assume all rights and obligations of VAGUELY VANITY LLC (Pty) Ltd trading as Venture Vision Ubuntu;  
 9.1.3 The Underwriter's consent to novation is hereby given.
 
 ### 9.2 Trust Registration Notice
 
-The Committee shall notify the Underwriter within 5 business days of Trust registration.
+VAGUELY VANITY LLC (Pty) Ltd trading as Venture Vision Ubuntu shall notify the Underwriter within 5 business days of Trust registration.
 
 ---
 
@@ -318,9 +323,9 @@ This agreement is governed by South African law.
 
 ## Signatures
 
-### Ad-Hoc UBUNTUctrl Committee
+### VAGUELY VANITY LLC (Pty) Ltd trading as Venture Vision Ubuntu
 
-**By its authorized representatives:**
+**Executed through the UBUNTUctrl Ad-Hoc Committee by its authorized representatives:**
 
 _______________________________    _______________________________  
 Founder & Director                  Independent Community Representative  

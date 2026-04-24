@@ -8,42 +8,42 @@
   "responsibleParties": [
     {
       "systemAction": "Policy approval (APPROVE_POLICY_HASH)",
-      "legalPrincipal": "UBUNTUctrl Ad‑Hoc Committee (Founder & Director, 2x Community Reps, 2x Regulatory Reps)",
-      "accountabilityMechanism": "Multi‑signature governance action recorded immutably; minimum 3 of 5 signatures required."
+      "legalPrincipal": "VAGUELY VANITY LLC (Pty) Ltd (Registration No. 2026/259053/07) trading as Venture Vision Ubuntu, operating under the governance of the UBUNTUctrl Ad‑Hoc Committee",
+      "accountabilityMechanism": "Multi‑signature governance action recorded immutably; minimum 3 of 5 signatures required; company is the legal contracting party."
     },
     {
       "systemAction": "Underwriter appointment / removal",
-      "legalPrincipal": "UBUNTUctrl Ad‑Hoc Committee",
-      "accountabilityMechanism": "Governance action ADD_UNDERWRITER / REMOVE_UNDERWRITER with multi‑sig approval; underwriter public key bound to pool."
+      "legalPrincipal": "VAGUELY VANITY LLC (Pty) Ltd trading as Venture Vision Ubuntu",
+      "accountabilityMechanism": "Governance action ADD_UNDERWRITER / REMOVE_UNDERWRITER with multi‑sig approval; underwriter public key bound to pool; company executes contracts."
     },
     {
       "systemAction": "Emergency pool pause / resume",
-      "legalPrincipal": "UBUNTUctrl Ad‑Hoc Committee (heightened 4 of 5 threshold)",
-      "accountabilityMechanism": "Governance action EMERGENCY_PAUSE / EMERGENCY_RESUME; recorded immutably; trigger pre‑defined in policy."
+      "legalPrincipal": "VAGUELY VANITY LLC (Pty) Ltd trading as Venture Vision Ubuntu, through UBUNTUctrl Ad‑Hoc Committee (heightened 4 of 5 threshold)",
+      "accountabilityMechanism": "Governance action EMERGENCY_PAUSE / EMERGENCY_RESUME; recorded immutably; trigger pre‑defined in policy; company maintains operational control."
     },
     {
       "systemAction": "Automated payout execution (executeSlash)",
-      "legalPrincipal": "UBUNTUctrl Ad‑Hoc Committee (via pre‑approved policy parameters and underwriting events)",
-      "accountabilityMechanism": "Code executes deterministically; committee retains over‑ride via emergency pause and policy modification; every execution is cryptographically traceable."
+      "legalPrincipal": "VAGUELY VANITY LLC (Pty) Ltd trading as Venture Vision Ubuntu, operating under the governance of the UBUNTUctrl Ad‑Hoc Committee (via pre‑approved policy parameters and underwriting events)",
+      "accountabilityMechanism": "Code executes deterministically; company, through the ad‑hoc committee, retains oversight and emergency intervention capability; every execution is cryptographically traceable."
     },
     {
       "systemAction": "Premium advance escrow release",
-      "legalPrincipal": "UBUNTUctrl Ad‑Hoc Committee (via arbiter key authorization)",
-      "accountabilityMechanism": "SafeKrypte arbiter signature required; arbiter key held by committee; escrow agreement defines release conditions."
+      "legalPrincipal": "VAGUELY VANITY LLC (Pty) Ltd trading as Venture Vision Ubuntu, through UBUNTUctrl Ad‑Hoc Committee (via arbiter key authorization)",
+      "accountabilityMechanism": "SafeKrypte arbiter signature required; arbiter key held by committee; escrow agreement defines release conditions; company is the escrow custodian."
     },
     {
       "systemAction": "Key rotation",
-      "legalPrincipal": "UBUNTUctrl Ad‑Hoc Committee (via ceremony initiation)",
-      "accountabilityMechanism": "Ceremony initiated by governance action; dual‑signature transition proof required; all steps logged."
+      "legalPrincipal": "VAGUELY VANITY LLC (Pty) Ltd trading as Venture Vision Ubuntu, through UBUNTUctrl Ad‑Hoc Committee (via ceremony initiation)",
+      "accountabilityMechanism": "Ceremony initiated by governance action; dual‑signature transition proof required; all steps logged; company maintains key custody."
     },
     {
       "systemAction": "POPIA data processing and retention",
-      "legalPrincipal": "Data Protection Officer (appointee of UBUNTUctrl Committee)",
-      "accountabilityMechanism": "KAYA compliance attestation; field register; consent mechanisms; dual‑write telemetry verification."
+      "legalPrincipal": "Data Protection Officer (appointee of VAGUELY VANITY LLC (Pty) Ltd trading as Venture Vision Ubuntu)",
+      "accountabilityMechanism": "KAYA compliance attestation; field register; consent mechanisms; dual‑write telemetry verification; company is the data controller."
     }
   ],
   "faisMappingRef": "contracts/compliance/fais-mapping-v1.md",
-  "partyDesignationStatement": "In accordance with FAIS and FSCA requirements, every automated system action is mapped to a named legal principal. The UBUNTUctrl Ad‑Hoc Committee serves as the accountable entity until the UBUNTUctrl Trust is formally registered.",
+  "partyDesignationStatement": "In accordance with FAIS and FSCA requirements, every automated system action is mapped to a named legal principal. VAGUELY VANITY LLC (Pty) Ltd (Registration No. 2026/259053/07) trading as Venture Vision Ubuntu serves as the operating entity, operating under the governance of the UBUNTUctrl Ad‑Hoc Committee until the UBUNTUctrl Trust is formally registered.",
   "signedAt": "2026-04-24T12:00:00Z",
   "signature": "b2c3d4e5f6789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123"
 }</content>

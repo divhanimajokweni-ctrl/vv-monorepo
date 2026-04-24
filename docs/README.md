@@ -508,6 +508,27 @@ The Ubuntu Pools platform implements a sophisticated governance and compliance f
 - **Audit Trails**: Immutable governance action logging
 - **Data Sovereignty**: POPIA-compliant user data controls
 
+### Legal Entity Structure
+
+**Operating Entity:**
+- **Registered Company**: VAGUELY VANITY LLC (Pty) Ltd
+- **Registration Number**: 2026/259053/07
+- **SARS Tax Number**: 9106703292
+- **Trading As**: Venture Vision Ubuntu (t/a)
+- **Registered Address**: 14 Bird Street, Gqeberha
+- **Director**: Mihle Majokweni
+
+**Governance Structure:**
+- **Interim Governance**: UBUNTUctrl Ad-Hoc Committee (5 members)
+- **Future Governance**: UBUNTUctrl Trust (upon registration)
+- **Regulatory Oversight**: FSCA-compliant operations
+- **Legal Accountability**: All system actions mapped to named principals
+
+**Contractual Reference:**
+> **VAGUELY VANITY LLC (Pty) Ltd (Registration No. 2026/259053/07) trading as Venture Vision Ubuntu**
+
+This construction satisfies FAIS requirements for clear legal accountability while maintaining brand consistency.
+
 ### Governance Architecture
 
 ```mermaid
