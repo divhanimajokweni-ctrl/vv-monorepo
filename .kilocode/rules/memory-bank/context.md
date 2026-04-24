@@ -33,6 +33,13 @@ Phase 14 implements game telemetry integration with Lindiwe AI, ensuring proper 
   - Included VVU architecture spec reference and governance action types
   - Added FSCA compliance overview and canonical positioning statement
   - Established clear linkage between technical governance and regulatory requirements
+- [x] **Constraint C Implemented** (2026-04-24)
+  - Created comprehensive Underwriter-Committee Contract Template
+  - Defined legal framework for Ad-Hoc Committee as contracting principal
+  - Established underwriting obligations, regulatory compliance, and liability terms
+  - Included automatic novation clause for transition to UBUNTUctrl Trust
+  - Added dispute resolution, confidentiality, and termination provisions
+  - Integrated FSCA compliance requirements throughout the agreement
 - [x] **Local Development Optimization** (2026-04-20)
   - Added experimental serverComponentsHmrCache to next.config.js for faster Hot Module Replacement on Server Components
 - [x] **Documentation Updated** (2026-04-15)

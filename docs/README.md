@@ -432,6 +432,7 @@ graph TD
 ### Key Documents
 
 - **[VVU Architecture Spec](vvu-architecture-spec.md)**: Complete governance and compliance framework
+- **[Underwriter-Committee Contract Template](underwriter-committee-contract-template.md)**: Legal agreement for authorized underwriters
 - **Policy Approval Workflow**: Multi-signature policy change implementation
 - **Beneficiary Architecture**: Three-layer legal beneficiary structure
 - **Trust Registration**: Formal establishment of UBUNTUctrl Trust
