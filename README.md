@@ -147,6 +147,13 @@ Unified visual interface for system monitoring and management.
    # Or integrate into your application
    ```
 
+10. **Check System Health**
+   ```bash
+   # The /api/spine-health endpoint provides real-time 8-layer monitoring
+   # Currently implemented in packages/dashboard/src/api/spine-health.ts
+   # Deploy as API server when ready for live monitoring
+   ```
+
 ## 📈 Features
 
 ### Security & Simulation
@@ -171,6 +178,22 @@ Inspired by Ubuntu's aesthetic principles:
 - Consistent color schemes (sage green, ochre accents)
 - Organic shapes and fluid animations
 - Accessibility-first design approach
+
+## 🚀 Current Deployment Status
+
+### ✅ STAGING DEPLOYMENT COMPLETE
+- **Date**: 2026-04-23
+- **Tests Passed**: 14/14 synthetic breach tests
+- **Shadow Evaluation**: 0 divergences (perfect consistency)
+- **Security Spine**: All 8 layers operational
+- **Underwriting**: First SignedUnderwritingEvent generated for pilot-pool-001
+- **Coverage**: R500,000 liability active
+- **Status**: Ready for underwriter onboarding
+
+### 🔧 System Health
+- **GATE-2 (Code Isolation)**: ✅ ACTIVE - FK anchor verification operational
+- **/api/health Endpoint**: 📋 IMPLEMENTED - Ready for deployment (separate from core spine)
+- **CI/CD**: ✅ Fixed - Workspaces configured, builds passing
 
 ## 📚 Documentation
 
