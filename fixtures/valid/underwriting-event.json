@@ -1,0 +1,10 @@
+[
+  {
+    "eventId": "underwrite-pilot-pool-001-001",
+    "poolId": "pilot-pool-001",
+    "policyHash": "abc123def456",
+    "expiresAt": 1764186000000,
+    "underwriter": "test-underwriter-1",
+    "signature": "b2c3d4e5f6789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123"
+  }
+]

@@ -17,6 +17,13 @@ jobs:
       - run: npm run typecheck
       - run: npm run lint
 
+  atlas-boundary-check:
+    runs-on: ubuntu-latest
+    needs: schema-validation
+    steps:
+      - uses: actions/checkout@v4
+      - run: npx tsx tools/atlas/src/check.ts
+
   compliance-attestation-check:
     runs-on: ubuntu-latest
     needs: schema-validation
@@ -39,6 +46,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: ./scripts/ci/placeholder-check.sh
+
+  underwriting-integrity-check:
+    runs-on: ubuntu-latest
+    needs: schema-validation
+    steps:
+      - uses: actions/checkout@v4
+      - run: npx tsx scripts/prod/verify-underwriting-integrity.ts
 
   security-tests:
     runs-on: ubuntu-latest

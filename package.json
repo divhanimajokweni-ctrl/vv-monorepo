@@ -21,7 +21,8 @@
     "governance": "tsx tools/cli/src/vv-governance.ts",
     "safekrypte": "tsx packages/safekrypte/src/simulator.ts",
     "generate-keys": "tsx scripts/generate-keys.ts",
-    "placeholder-purge": "./scripts/placeholder-purge.sh"
+    "placeholder-purge": "./scripts/placeholder-purge.sh",
+    "atlas:check": "tsx tools/atlas/src/check.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.59.1",

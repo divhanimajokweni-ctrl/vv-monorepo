@@ -1,0 +1,8 @@
+[
+  {
+    "poolId": "pilot-pool-001",
+    "status": "ACTIVE",
+    "activePolicyHash": "abc123def456",
+    "balanceCents": 1000000
+  }
+]
