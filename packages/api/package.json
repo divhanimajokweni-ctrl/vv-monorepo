@@ -1,0 +1,20 @@
+{
+  "name": "@vv-monorepo/api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/server.ts",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "@noble/ed25519": "^2.0.0",
+    "@vercel/node": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}</content>
+<parameter name="filePath">packages/api/package.json
