@@ -23,7 +23,9 @@
     "generate-keys": "tsx scripts/generate-keys.ts",
     "placeholder-purge": "./scripts/placeholder-purge.sh",
     "atlas:check": "tsx tools/atlas/src/check.ts",
-    "deploy:production": "./scripts/deploy-production.sh"
+    "deploy:production": "./scripts/deploy-production.sh",
+    "connect:domain": "./scripts/connect-domain.sh",
+    "verify:launch": "./scripts/verify-launch.sh"
   },
   "devDependencies": {
     "@playwright/test": "^1.59.1",
