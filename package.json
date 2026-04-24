@@ -17,7 +17,11 @@
     "db:studio": "turbo run db:studio",
     "db:seed": "turbo run db:seed",
     "audit": "bun audit",
-    "audit:fix": "bun update"
+    "audit:fix": "bun update",
+    "governance": "tsx tools/cli/src/vv-governance.ts",
+    "safekrypte": "tsx packages/safekrypte/src/simulator.ts",
+    "generate-keys": "tsx scripts/generate-keys.ts",
+    "placeholder-purge": "./scripts/placeholder-purge.sh"
   },
   "devDependencies": {
     "@playwright/test": "^1.59.1",
@@ -34,6 +38,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^7.0.4",
+    "@noble/ed25519": "^2.0.0",
     "drizzle-orm": "^0.45.1",
     "next": "^16.2.1",
     "postgres": "^3.4.9",
