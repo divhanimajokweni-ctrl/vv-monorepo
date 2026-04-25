@@ -1,0 +1,40 @@
+SHADOW EVALUATOR ROOT CAUSE FIX
+================================
+File: tools/shadow-evaluator/src/index.ts
+
+ROOT PROBLEM:
+  Line ~line 240 (in main()):
+    await fs.writeFile('shadow-results/divergence-count.txt', report.divergenceCount.toString());
+  
+  This OVERWRITES on every run. When batches 2 and 3 ran clean (0 divergences),
+  they wiped the evidence from batch 1 (20 divergences).
+
+FIX — REPLACE THE WRITE with an APPEND + RECONCILE pattern:
+
+BEFORE:
+  await fs.writeFile('shadow-results/divergence-count.txt', report.divergenceCount.toString());
+
+AFTER:
+  // NEVER overwrite — append run metadata, let reconcile-audit.ts derive the count
+  const runMeta = JSON.stringify({
+    runId: `run-${Date.now()}`,
+    mode: report.mode,
+    totalEvaluated: report.totalEvaluated,
+    divergenceCount: report.divergenceCount,
+    ranAt: Date.now(),
+  }) + '\n';
+  await fs.appendFile('shadow-results/run-manifest.jsonl', runMeta);
+  
+  // divergence-count.txt is now READ-ONLY for CI/CD tooling
+  // Only scripts/ops/reconcile-audit.ts is authoritative
+  console.log('[SHADOW] Run metadata appended to run-manifest.jsonl');
+  console.log('[SHADOW] Do NOT read divergence-count.txt in CI. Use reconcile-audit.ts');
+
+ALSO FIX in passive-mirror liveEvaluator():
+  Current mock always returns { allowed: true } 
+  This is why batches 2 and 3 had zero divergences — 
+  the live outcome was also mocked as true, creating artificial agreement.
+  
+  The liveEvaluator must call the ACTUAL executeSlash dry-run path,
+  or accept the real live outcome as input (it already does via evaluateIncident params).
+  The mock is the bug — remove it.

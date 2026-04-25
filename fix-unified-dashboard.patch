@@ -1,0 +1,51 @@
+UNIFIED DASHBOARD SURGICAL FIX
+==============================
+File: packages/dashboard/src/UnifiedDashboard.tsx
+
+ROOT PROBLEM:
+  Three functions declared twice each:
+    - ApplicationsPage (enhanced + placeholder)
+    - InfrastructurePage (enhanced + placeholder)  
+    - LayersPage (enhanced + placeholder)
+  TypeScript resolves to the LAST declaration = placeholder wins.
+  The beautiful enhanced UI is dead code.
+
+SURGICAL FIX — DELETE LINES ~280-312 (the placeholder versions):
+
+Lines to DELETE (bottom of file, before export default):
+  // Placeholder pages
+  const ApplicationsPage: React.FC = () => (
+    <div style={{ padding: '2rem' }}>
+      <h2>📱 Venture Vision Ubuntu Applications</h2>
+      <p>Routing to prospective applications...</p>
+      <ul>...</ul>
+    </div>
+  );
+
+  const InfrastructurePage: React.FC = () => (
+    <div style={{ padding: '2rem' }}>
+      <h2>🏗️ System Infrastructure</h2>
+      ...
+    </div>
+  );
+
+  const LayersPage: React.FC = () => (
+    <div style={{ padding: '2rem' }}>
+      <h2>📚 Security Spine Layers</h2>
+      ...
+    </div>
+  );
+
+RESULT:
+  Enhanced versions (with animation, hover states, aria labels) become active.
+  ~60 lines of dead code removed.
+  No logic changes needed — this is a pure deletion.
+
+ALSO ADD to navButtonStyle hover state (currently missing):
+  ':hover': {
+    background: 'rgba(22, 163, 74, 0.1)',
+    border: '1px solid rgba(22, 163, 74, 0.3)',
+  }
+  
+  Note: React inline styles don't support :hover — add onMouseEnter/Leave 
+  to the nav buttons (same pattern as ApplicationsPage cards already use).
