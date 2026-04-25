@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>
+      VVU · Venture Vision Ubuntu | Brand Identity & Technical Guidelines
+    </title>
+    <!-- Google Fonts: Modern African Tech Aesthetic -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        /* PRIMARY BRAND PALETTE — Earth-Tech Fusion */
+        --vvu-sage: #8a9a5b;
+        --vvu-ochre: #cc7722;
+        --vvu-charcoal: #2f2f2f;
+        --vvu-paper: #f4f5f0;
+        --vvu-white: #ffffff;
+
+        /* EXTENDED UI & NEUTRALS */
+        --vvu-stone: #e2e3db;
+        --vvu-gravel: #5a5a55;
+        --vvu-success: #2a7a3b;
+        --vvu-warning: #e68a2e;
+        --vvu-error: #c73a3a;
+
+        /* SPATIAL SYSTEM */
+        --radius-sm: 6px;
+        --radius-md: 12px;
+        --radius-lg: 20px;
+        --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.04),
+          0 1px 2px rgba(0, 0, 0, 0.03);
+        --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+        --transition: all 0.2s ease;
+
+        /* TYPOGRAPHY */
+        --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Helvetica, sans-serif;
+        --font-mono: "JetBrains Mono", "Fira Code", SF Mono, monospace;
+      }
+
+      body {
+        background-color: var(--vvu-paper);
+        font-family: var(--font-sans);
+        color: var(--vvu-charcoal);
+        line-height: 1.5;
+        padding: 2rem 1.5rem;
+      }
+
+      /* MAIN GUIDELINES CONTAINER */
+      .guidelines-container {
+        max-width: 1280px;
+        margin: 0 auto;
+        background: var(--vvu-white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+        transition: var(--transition);
+      }
+
+      /* inner content */
+      .brand-content {
+        padding: 3rem 2rem;
+      }
+
+      @media (max-width: 720px) {
+        body {
+          padding: 1rem;
+        }
+        .brand-content {
+          padding: 2rem 1.25rem;
+        }
+      }
+
+      /* decorative african-tech border accent */
+      .guidelines-container {
+        position: relative;
+      }
+      .guidelines-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: linear-gradient(
+          90deg,
+          var(--vvu-sage) 0%,
+          var(--vvu-ochre) 50%,
+          var(--vvu-charcoal) 100%
+        );
+      }
+
+      /* headers & section styling */
+      .section {
+        margin-bottom: 4rem;
+      }
+
+      .section-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+        color: var(--vvu-charcoal);
+        border-left: 5px solid var(--vvu-sage);
+        padding-left: 1.25rem;
+        margin-bottom: 2rem;
+      }
+
+      .subsection-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 2rem 0 1rem 0;
+        color: var(--vvu-charcoal);
+        letter-spacing: -0.2px;
+      }
+
+      .badge-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+        color: var(--vvu-sage);
+        display: inline-block;
+        margin-bottom: 0.5rem;
+      }
+
+      /* LOGO AREA */
+      .logo-showcase {
+        background: var(--vvu-paper);
+        border-radius: var(--radius-md);
+        padding: 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+      }
+
+      .logo-horizontal svg {
+        width: 100%;
+        max-width: 380px;
+        height: auto;
+      }
+
+      .logo-mark svg {
+        width: 80px;
+        height: 80px;
+      }
+
+      .logo-note {
+        font-size: 0.85rem;
+        color: var(--vvu-gravel);
+        background: var(--vvu-paper);
+        padding: 0.75rem 1rem;
+        border-radius: var(--radius-sm);
+        font-family: var(--font-mono);
+      }
+
+      /* COLOR SWATCHES */
+      .swatch-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.25rem;
+        margin: 1.5rem 0;
+      }
+
+      .swatch {
+        border-radius: var(--radius-md);
+        height: 110px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 1rem;
+        color: white;
+        font-weight: 500;
+        font-size: 0.85rem;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05), var(--shadow-sm);
+      }
+
+      .swatch span {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        opacity: 0.85;
+        margin-top: 4px;
+      }
+
+      .swatch-light {
+        color: var(--vvu-charcoal);
+      }
+
+      /* TYPOGRAPHY SPECIMEN */
+      .type-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1.75rem;
+        background: var(--vvu-paper);
+        padding: 1.75rem;
+        border-radius: var(--radius-md);
+        margin-top: 1rem;
+      }
+
+      .type-item {
+        border-bottom: 1px dashed var(--vvu-stone);
+        padding-bottom: 1.25rem;
+      }
+
+      .type-sample {
+        font-family: var(--font-sans);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--vvu-charcoal);
+      }
+
+      .mono-sample {
+        font-family: var(--font-mono);
+        background: #1e1e1e;
+        color: #e2e3db;
+        padding: 0.9rem 1rem;
+        border-radius: var(--radius-sm);
+        font-size: 0.85rem;
+        overflow-x: auto;
+      }
+
+      /* BUTTONS + UI ELEMENTS */
+      .component-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        margin: 1.5rem 0;
+        align-items: flex-start;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.7rem 1.5rem;
+        border-radius: 40px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: var(--transition);
+        cursor: default;
+        border: none;
+        font-family: var(--font-sans);
+      }
+
+      .btn-primary {
+        background: var(--vvu-sage);
+        color: white;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .btn-primary:hover {
+        background: #6f7e48;
+        transform: translateY(-1px);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        border: 1.5px solid var(--vvu-ochre);
+        color: var(--vvu-ochre);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(204, 119, 34, 0.08);
+      }
+
+      .btn-outline-charcoal {
+        border: 1px solid var(--vvu-charcoal);
+        background: transparent;
+        color: var(--vvu-charcoal);
+      }
+
+      /* card ui */
+      .sample-card {
+        background: var(--vvu-white);
+        border-radius: var(--radius-md);
+        padding: 1.5rem;
+        border: 1px solid var(--vvu-stone);
+        box-shadow: var(--shadow-sm);
+        max-width: 320px;
+        transition: var(--transition);
+      }
+
+      .sample-card:hover {
+        box-shadow: var(--shadow-md);
+        border-color: var(--vvu-sage);
+      }
+
+      .ubuntu-score {
+        font-family: var(--font-mono);
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: var(--vvu-sage);
+        letter-spacing: -1px;
+      }
+
+      /* trustee badge */
+      .trustee-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: var(--vvu-paper);
+        padding: 0.75rem 1rem;
+        border-radius: var(--radius-sm);
+        font-family: var(--font-mono);
+      }
+
+      /* responsive utilities */
+      .flex-between {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      hr {
+        border: none;
+        border-top: 1px solid var(--vvu-stone);
+        margin: 2rem 0;
+      }
+
+      footer {
+        border-top: 1px solid var(--vvu-stone);
+        padding-top: 2rem;
+        margin-top: 2rem;
+        font-size: 0.8rem;
+        color: var(--vvu-gravel);
+        text-align: center;
+      }
+
+      .brand-quote {
+        background: linear-gradient(
+          120deg,
+          rgba(138, 154, 91, 0.08) 0%,
+          rgba(204, 119, 34, 0.05) 100%
+        );
+        border-left: 4px solid var(--vvu-ochre);
+        padding: 1.5rem;
+        border-radius: var(--radius-sm);
+        font-style: normal;
+        margin: 2rem 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="guidelines-container">
+      <div class="brand-content">
+        <!-- header -->
+        <div class="flex-between" style="margin-bottom: 1rem">
+          <div>
+            <span class="badge-label">BRARK IDENTITY SYSTEM v2.0</span>
+            <h1
+              style="
+                font-size: 2.2rem;
+                font-weight: 800;
+                letter-spacing: -0.02em;
+                margin-top: 0.2rem;
+              "
+            >
+              VVU · Venture Vision Ubuntu
+            </h1>
+            <p
+              style="
+                color: var(--vvu-gravel);
+                max-width: 550px;
+                margin-top: 0.5rem;
+              "
+            >
+              Technical brand guidelines — ROSCA village protocol, African
+              reciprocity architecture & cryptographic trust.
+            </p>
+          </div>
+          <div>
+            <svg
+              width="56"
+              height="56"
+              viewBox="0 0 100 100"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="35"
+                cy="40"
+                r="16"
+                stroke="#8A9A5B"
+                stroke-width="6"
+              />
+              <circle
+                cx="65"
+                cy="40"
+                r="16"
+                stroke="#CC7722"
+                stroke-width="6"
+              />
+              <circle
+                cx="50"
+                cy="62"
+                r="16"
+                stroke="#2F2F2F"
+                stroke-width="6"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <!-- BRAND STORY & VALUES -->
+        <div class="brand-quote">
+          <p style="font-weight: 500; font-size: 1.1rem">
+            “I am because we are — trust through transparent cycles.”
+          </p>
+          <p style="margin-top: 0.5rem; font-size: 0.9rem">
+            VVU merges rotating savings & credit association (ROSCA) heritage
+            with cryptographic integrity. Our visual language echoes
+            <strong
+              >community interlock, organic growth, and technical
+              precision</strong
+            >.
+          </p>
+        </div>
+
+        <!-- SECTION 1: PRIMARY LOGO + SYMBOL -->
+        <div class="section">
+          <h2 class="section-title">01 · Brandmark & Logo System</h2>
+          <div class="logo-showcase">
+            <div class="logo-horizontal">
+              <svg
+                width="400"
+                height="100"
+                viewBox="0 0 400 100"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style="display: block"
+              >
+                <!-- Interlocking circles representing 'Village pooled trust' -->
+                <circle
+                  cx="32"
+                  cy="48"
+                  r="16"
+                  stroke="#8A9A5B"
+                  stroke-width="5.5"
+                />
+                <circle
+                  cx="52"
+                  cy="48"
+                  r="16"
+                  stroke="#CC7722"
+                  stroke-width="5.5"
+                />
+                <circle
+                  cx="42"
+                  cy="66"
+                  r="16"
+                  stroke="#2F2F2F"
+                  stroke-width="5.5"
+                />
+                <text
+                  x="85"
+                  y="50"
+                  font-family="'Inter', sans-serif"
+                  font-weight="800"
+                  font-size="22"
+                  fill="#2F2F2F"
+                  letter-spacing="-0.5"
+                >
+                  VENTURE VISION
+                </text>
+                <text
+                  x="85"
+                  y="74"
+                  font-family="'Inter', sans-serif"
+                  font-weight="500"
+                  font-size="16"
+                  letter-spacing="4"
+                  fill="#8A9A5B"
+                >
+                  UBUNTU
+                </text>
+              </svg>
+            </div>
+            <div class="logo-mark">
+              <svg width="80" height="80" viewBox="0 0 100 100" fill="none">
+                <circle
+                  cx="32"
+                  cy="38"
+                  r="14"
+                  stroke="#8A9A5B"
+                  stroke-width="5"
+                />
+                <circle
+                  cx="68"
+                  cy="38"
+                  r="14"
+                  stroke="#CC7722"
+                  stroke-width="5"
+                />
+                <circle
+                  cx="50"
+                  cy="60"
+                  r="14"
+                  stroke="#2F2F2F"
+                  stroke-width="5"
+                />
+              </svg>
+            </div>
+          </div>
+          <div class="logo-note">
+            ⬤ Primary logo (horizontal) · Stacked mark for app icon & favicon.
+            Interlocking geometry symbolises reciprocal contribution, validation
+            and collective growth.
+          </div>
+        </div>
+
+        <!-- SECTION 2: COLOR PALETTE (TECHNICAL) -->
+        <div class="section">
+          <h2 class="section-title">02 · Earth-Tech Color System</h2>
+          <div class="swatch-grid">
+            <div class="swatch" style="background: var(--vvu-sage)">
+              Village Sage<br /><span>#8A9A5B</span
+              ><span style="font-weight: normal">
+                — Primary, trust anchors, CTAs</span
+              >
+            </div>
+            <div class="swatch" style="background: var(--vvu-ochre)">
+              Heritage Ochre<br /><span>#CC7722</span
+              ><span> — Accents, highlights, earned value</span>
+            </div>
+            <div class="swatch" style="background: var(--vvu-charcoal)">
+              Charcoal Trust<br /><span>#2F2F2F</span
+              ><span> — Text, signatures, UI foundations</span>
+            </div>
+            <div
+              class="swatch swatch-light"
+              style="background: var(--vvu-paper); color: #2f2f2f"
+            >
+              Paper White<br /><span>#F4F5F0</span
+              ><span> — Background canvas, spaciousness</span>
+            </div>
+            <div class="swatch" style="background: var(--vvu-gravel)">
+              Gravel Utilitiy<br /><span>#5A5A55</span
+              ><span> — Secondary text, borders</span>
+            </div>
+          </div>
+          <p style="font-size: 0.85rem; margin-top: 0.5rem">
+            ✓ AA accessibility compliance: Sage + Charcoal on paper exceed
+            contrast ratios. Use Ochre for highlighting contributions & Ubuntu
+            Score progression.
+          </p>
+        </div>
+
+        <!-- SECTION 3: TYPOGRAPHY + HIERARCHY -->
+        <div class="section">
+          <h2 class="section-title">03 · Voice & Typography</h2>
+          <div class="type-grid">
+            <div class="type-item">
+              <span class="badge-label">DISPLAY / HEADINGS</span>
+              <div
+                class="type-sample"
+                style="font-size: 2rem; font-weight: 800"
+              >
+                Ubuntu Pools — collective liquidity
+              </div>
+              <div
+                class="type-sample"
+                style="font-size: 1.5rem; font-weight: 700; margin-top: 0.5rem"
+              >
+                Trust is cryptographic + relational
+              </div>
+              <p
+                style="
+                  margin-top: 0.5rem;
+                  font-family: var(--font-mono);
+                  font-size: 0.7rem;
+                "
+              >
+                Inter ExtraBold 800 · letter-spacing -0.02em · line-height 1.2
+              </p>
+            </div>
+            <div class="type-item">
+              <span class="badge-label">BODY / LEAD</span>
+              <div style="font-weight: 400; font-size: 1rem">
+                Rotating savings adapted for the digital age: each member
+                contributes equal shares, and a smart contract rotates the
+                payout. Reciprocal trust is quantified through the Ubuntu Score
+                & on-chain reputation.
+              </div>
+              <p
+                style="
+                  margin-top: 0.5rem;
+                  font-family: var(--font-mono);
+                  font-size: 0.7rem;
+                "
+              >
+                Inter Regular 400 · line-height 1.5 · 16px (1rem) base
+              </p>
+            </div>
+            <div class="type-item">
+              <span class="badge-label">MONOSPACE · LEDGER / ON-CHAIN</span>
+              <div class="mono-sample">
+                > TXN_ID: 0x8A9A5B..CC7722 | Ubuntu Score: 94.6<br />
+                > Signature(ed25519): "VillageTrust_SIG_2026"<br />
+                > SmartPool: 0x2F2F2F...uVillage
+              </div>
+              <p style="margin-top: 0.5rem">
+                JetBrains Mono 14px · transaction logs · contract addresses ·
+                Ubuntu Score displays
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 4: UI COMPONENTS & BRAND EXPRESSIONS -->
+        <div class="section">
+          <h2 class="section-title">04 · Component Library & Usage</h2>
+          <div class="component-grid">
+            <div>
+              <div class="badge-label">PRIMARY / SECONDARY BUTTONS</div>
+              <div
+                style="
+                  display: flex;
+                  gap: 1rem;
+                  margin-top: 0.8rem;
+                  flex-wrap: wrap;
+                "
+              >
+                <div class="btn btn-primary">Contribute to Pool</div>
+                <div class="btn btn-secondary">View Ubuntu Score</div>
+                <div class="btn btn-outline-charcoal">Trustee Signature</div>
+              </div>
+              <p style="margin-top: 1rem; font-size: 0.8rem">
+                Sage for primary actions (join pool, start cycle), Ochre for
+                highlights & verification.
+              </p>
+            </div>
+            <div>
+              <div class="badge-label">CARD · UBUNTU POOL PREVIEW</div>
+              <div class="sample-card">
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                  "
+                >
+                  <strong style="font-weight: 700">Village Cycle #03</strong>
+                  <span
+                    style="
+                      background: var(--vvu-paper);
+                      padding: 0.2rem 0.6rem;
+                      border-radius: 20px;
+                      font-size: 0.7rem;
+                    "
+                    >ROSCA</span
+                  >
+                </div>
+                <div class="ubuntu-score" style="margin: 0.8rem 0">
+                  Trust Score: 92.4
+                </div>
+                <div
+                  style="
+                    font-family: var(--font-mono);
+                    font-size: 0.7rem;
+                    color: var(--vvu-gravel);
+                  "
+                >
+                  Next allocation: 0xCC77..22
+                </div>
+                <div style="margin-top: 1rem">
+                  <span style="color: var(--vvu-ochre)">◉ Active</span>
+                  <span style="margin-left: 1rem">🔒 12 members</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- TRUSTEE SIGNATURE MARK -->
+          <div style="margin-top: 2rem">
+            <span class="badge-label"
+              >TRUSTEE SIGNATURE MARK · ON-CHAIN VERIFICATION</span
+            >
+            <div class="trustee-badge" style="margin-top: 0.5rem">
+              <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
+                <path
+                  d="M50 15 L85 30 V70 L50 85 L15 70 V30 L50 15Z"
+                  stroke="#2F2F2F"
+                  stroke-width="2.5"
+                  fill="none"
+                />
+                <text
+                  x="50"
+                  y="55"
+                  text-anchor="middle"
+                  font-family="monospace"
+                  font-size="12"
+                  fill="#2F2F2F"
+                  font-weight="bold"
+                >
+                  VVU
+                </text>
+              </svg>
+              <span style="font-family: var(--font-mono); font-size: 0.7rem"
+                >Signed Trustee Multisig | ed25519</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 5: TECHNICAL GRAMMAR & UBUNTU SCORE -->
+        <div class="section">
+          <h2 class="section-title">
+            05 · Cryptographic Identity & Ubuntu Score
+          </h2>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+              gap: 1.5rem;
+            "
+          >
+            <div
+              style="
+                background: var(--vvu-paper);
+                border-radius: var(--radius-md);
+                padding: 1.5rem;
+              "
+            >
+              <div class="badge-label">UBUNTU SCORE METRIC</div>
+              <div
+                style="
+                  font-size: 2.8rem;
+                  font-weight: 800;
+                  font-family: var(--font-mono);
+                  color: var(--vvu-sage);
+                "
+              >
+                0–1000
+              </div>
+              <p style="margin-top: 0.5rem">
+                Reputation weight: timely contributions, dispute resolution,
+                community endorsements. Displayed prominently in leaderboards &
+                pool dashboards.
+              </p>
+            </div>
+            <div
+              style="
+                background: var(--vvu-paper);
+                border-radius: var(--radius-md);
+                padding: 1.5rem;
+              "
+            >
+              <div class="badge-label">ON-CHAIN SIGNATURE FIELD</div>
+              <code
+                style="
+                  background: var(--vvu-white);
+                  padding: 0.25rem 0.5rem;
+                  border-radius: 4px;
+                  font-size: 0.75rem;
+                  font-family: monospace;
+                "
+                >wallet_signTypedData_v4</code
+              >
+              <p style="margin-top: 1rem; font-size: 0.85rem">
+                All policies use ED25519 or secp256k1 — verification badge shows
+                interlocking circle + trustee seal.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 6: BRAND VOICE & SPATIAL USE -->
+        <div class="section">
+          <h2 class="section-title">06 · Brand Application & Spatial Rules</h2>
+          <div class="flex-between" style="gap: 2rem; align-items: stretch">
+            <div
+              style="
+                flex: 1;
+                background: var(--vvu-paper);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <span class="badge-label">Clearspace / Padding</span>
+              <p style="margin-top: 0.75rem">
+                Logo requires clearspace = 1x the height of the interlocking
+                circle mark. Minimum size: 48px width for digital.
+              </p>
+              <div
+                style="
+                  height: 8px;
+                  background: var(--vvu-stone);
+                  width: 100%;
+                  margin: 1rem 0;
+                "
+              ></div>
+              <span class="badge-label">Motion & Interaction</span>
+              <p>
+                Gentle easing (0.2s) on hover states. No aggressive animations —
+                reflect stability & Ubuntu rhythm.
+              </p>
+            </div>
+            <div
+              style="
+                flex: 1;
+                background: var(--vvu-paper);
+                border-radius: var(--radius-md);
+                padding: 1.25rem;
+              "
+            >
+              <span class="badge-label">Typographic Hierarchy</span>
+              <p>
+                H1: 2rem/800 · H2: 1.5rem/700 · H3: 1.25rem/600. Body text never
+                < 0.875rem. All caps sparingly — only for labels.
+              </p>
+              <div style="margin-top: 1rem">
+                <span class="badge-label">Accessibility</span>
+                <p>
+                  Focus rings: 2px solid var(--vvu-ochre). Avoid low contrast on
+                  CTA.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CSS VARIABLES REFERENCE -->
+        <div class="section">
+          <h2 class="section-title">07 · Developer Token Reference</h2>
+          <pre
+            style="
+              background: #1e271f;
+              color: #d4d9c7;
+              padding: 1rem;
+              border-radius: var(--radius-md);
+              overflow-x: auto;
+              font-family: var(--font-mono);
+              font-size: 0.8rem;
+            "
+          >
+:root {
+  --vvu-sage: #8A9A5B;
+  --vvu-ochre: #CC7722;
+  --vvu-charcoal: #2F2F2F;
+  --vvu-paper: #F4F5F0;
+  --font-sans: 'Inter', system-ui;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius-md: 12px;
+  --transition-soft: 0.2s ease;
+}
+
+/* Example implementation: primary button */
+.btn-primary {
+  background: var(--vvu-sage);
+  border-radius: 40px;
+  transition: var(--transition-soft);
+}
+            </pre
+          >
+          <p class="logo-note" style="margin-top: 1rem">
+            📐 Implement design tokens for consistent web3 dApps, trustee
+            dashboards, and mobile interfaces.
+          </p>
+        </div>
+
+        <!-- FOOTER: ORIGIN & IDENTITY -->
+        <footer>
+          <div
+            style="
+              display: flex;
+              justify-content: center;
+              gap: 2rem;
+              flex-wrap: wrap;
+              margin-bottom: 1rem;
+            "
+          >
+            <span>✦ Gqeberha, South Africa — Ubuntu Protocol</span>
+            <span>⛓️ ROSCA + EVM Integration</span>
+            <span>🛡️ VVU Foundation 2026</span>
+          </div>
+          <div style="font-size: 0.7rem">
+            Venture Vision Ubuntu — Collective intelligence infrastructure. All
+            brand assets & cryptographic marks are proprietary to VVU identity
+            system.
+          </div>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
