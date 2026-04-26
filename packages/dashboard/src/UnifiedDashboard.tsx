@@ -233,7 +233,23 @@ const UnifiedDashboard: React.FC = () => {
         </a>
       </main>
 
-      {/* Global styles */}
+        {/* Ubuntu-inspired footer */}
+        <footer style={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          background: 'linear-gradient(180deg, transparent 0%, #0a0a0f 100%)',
+          padding: '1rem',
+          textAlign: 'center',
+          color: '#8b8b9a',
+          fontSize: '0.9rem',
+          borderTop: '1px solid #2a2a35',
+        }}>
+          <p>"I am because we are" — Ubuntu philosophy guides our community prosperity</p>
+        </footer>
+
+        {/* Global styles */}
       <style>{`
         @keyframes pulse {
           0%, 100% { opacity: 0.3; }
@@ -245,6 +261,15 @@ const UnifiedDashboard: React.FC = () => {
           100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
+        /* Ubuntu earthy color palette */
+        :root {
+          --ubuntu-green: #16a34a;
+          --ubuntu-earth: #cc7722;
+          --ubuntu-dark: #0a0a0f;
+          --ubuntu-light: #d0d0dc;
+          --ubuntu-accent: #2a2a35;
+        }
+
         /* High-quality scrolling */
         ::-webkit-scrollbar {
           width: 8px;
@@ -252,11 +277,11 @@ const UnifiedDashboard: React.FC = () => {
         }
 
         ::-webkit-scrollbar-track {
-          background: #0a0a0f;
+          background: var(--ubuntu-dark);
         }
 
         ::-webkit-scrollbar-thumb {
-          background: #2a2a35;
+          background: var(--ubuntu-accent);
           border-radius: 4px;
         }
 
@@ -266,7 +291,7 @@ const UnifiedDashboard: React.FC = () => {
 
         /* Focus indicators for accessibility */
         *:focus {
-          outline: 2px solid #16a34a;
+          outline: 2px solid var(--ubuntu-green);
           outline-offset: 2px;
         }
 

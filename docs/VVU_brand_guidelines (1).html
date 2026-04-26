@@ -1,0 +1,707 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --sage: #8A9A5B;
+  --sage-light: #b8c98a;
+  --sage-dark: #5c6b38;
+  --ochre: #CC7722;
+  --ochre-light: #e09a52;
+  --charcoal: #2F2F2F;
+  --paper: #F4F5F0;
+  --stone: #E2E3DB;
+  --gravel: #5A5A55;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.vvu-root {
+  font-family: 'Syne', sans-serif;
+  color: var(--color-text-primary);
+  background: transparent;
+  padding: 0 0 2rem;
+}
+
+.vvu-hero {
+  background: var(--charcoal);
+  border-radius: 16px;
+  padding: 2.5rem 2rem 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.vvu-hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--sage) 0%, var(--ochre) 55%, var(--sage-dark) 100%);
+}
+
+.vvu-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.vvu-hero-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--sage-light);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.vvu-hero-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.vvu-hero-sub {
+  font-size: 0.85rem;
+  color: #9a9a94;
+  margin-top: 0.75rem;
+  font-weight: 400;
+  max-width: 440px;
+  line-height: 1.6;
+}
+
+.mark-svg { flex-shrink: 0; }
+
+.vvu-quote {
+  border-left: 3px solid var(--ochre);
+  padding: 1rem 1.25rem;
+  background: rgba(204,119,34,0.08);
+  border-radius: 0 8px 8px 0;
+  margin: 1.5rem 0 0;
+}
+
+.vvu-quote p { color: #d4d4cc; font-size: 0.95rem; font-weight: 600; }
+.vvu-quote small { color: #7a7a74; font-size: 0.8rem; display: block; margin-top: 0.4rem; }
+
+.section {
+  margin-bottom: 2rem;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+}
+
+.section-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--sage);
+  letter-spacing: 1px;
+}
+
+.section-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+}
+
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.swatch {
+  border-radius: 10px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0.6rem;
+  cursor: default;
+  transition: transform 0.15s ease;
+}
+
+.swatch:hover { transform: translateY(-2px); }
+
+.swatch-name {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.swatch-hex {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+.logo-area {
+  background: var(--color-background-secondary);
+  border-radius: 12px;
+  padding: 1.75rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.logo-variant-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.logo-dark-bg {
+  background: #1E1E1E;
+  border-radius: 10px;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-light-bg {
+  background: var(--paper);
+  border-radius: 10px;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.type-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.type-row {
+  background: var(--color-background-secondary);
+  padding: 1rem 1.25rem;
+  border-radius: 0;
+  display: grid;
+  grid-template-columns: 100px 1fr auto;
+  align-items: center;
+  gap: 1rem;
+}
+
+.type-row:first-child { border-radius: 10px 10px 0 0; }
+.type-row:last-child { border-radius: 0 0 10px 10px; }
+
+.type-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.type-spec {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  text-align: right;
+}
+
+.component-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.comp-card {
+  background: var(--color-background-secondary);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.comp-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.1rem;
+  border-radius: 40px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s ease;
+  margin: 0 0.4rem 0.4rem 0;
+}
+
+.btn-sage { background: var(--sage); color: white; }
+.btn-sage:hover { background: var(--sage-dark); }
+.btn-ochre { background: transparent; border: 1.5px solid var(--ochre); color: var(--ochre); }
+.btn-outline { background: transparent; border: 1px solid var(--charcoal); color: var(--charcoal); }
+
+.pool-card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-top: 0.75rem;
+  transition: border-color 0.15s;
+}
+
+.pool-card:hover { border-color: var(--sage); }
+
+.score-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--sage);
+  margin: 0.5rem 0;
+}
+
+.active-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ochre);
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.trustee-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--color-background-secondary);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-top: 0.75rem;
+}
+
+.badge-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+.ubuntu-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.metric-card {
+  background: var(--color-background-secondary);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.metric-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--sage);
+  display: block;
+}
+
+.metric-desc {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+
+.token-block {
+  background: #12170F;
+  border-radius: 12px;
+  padding: 1.25rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.tok-var { color: #C3D49A; }
+.tok-val { color: #E8A660; }
+.tok-key { color: #7FC4A0; }
+.tok-comment { color: #556B45; }
+
+.footer-strip {
+  border-top: 0.5px solid var(--color-border-tertiary);
+  padding-top: 1.25rem;
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.footer-item {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.divider { height: 0.5px; background: var(--color-border-tertiary); margin: 0.25rem 0 1.75rem; }
+
+.animate-in {
+  animation: fadeUp 0.4s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.s1 { animation-delay: 0.05s; }
+.s2 { animation-delay: 0.1s; }
+.s3 { animation-delay: 0.15s; }
+.s4 { animation-delay: 0.2s; }
+.s5 { animation-delay: 0.25s; }
+.s6 { animation-delay: 0.3s; }
+.s7 { animation-delay: 0.35s; }
+
+.tab-bar {
+  display: flex;
+  gap: 4px;
+  padding: 0.4rem;
+  background: var(--color-background-secondary);
+  border-radius: 10px;
+  margin-bottom: 1.75rem;
+}
+
+.tab {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border-radius: 7px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-family: 'Syne', sans-serif;
+  transition: all 0.15s;
+  text-align: center;
+}
+
+.tab.active {
+  background: var(--color-background-primary);
+  color: var(--color-text-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+}
+
+.pane { display: none; }
+.pane.visible { display: block; }
+</style>
+
+<h2 class="sr-only">VVU · Venture Vision Ubuntu Brand Identity & Technical Guidelines</h2>
+
+<div class="vvu-root">
+
+  <div class="vvu-hero animate-in s1">
+    <div class="vvu-hero-grid">
+      <div>
+        <div class="vvu-hero-label">Brand Identity System · v2.0</div>
+        <div class="vvu-hero-title">Venture Vision<br>Ubuntu</div>
+        <div class="vvu-hero-sub">ROSCA village protocol, African reciprocity architecture &amp; cryptographic trust — from Gqeberha.</div>
+      </div>
+      <div class="mark-svg">
+        <svg width="72" height="72" viewBox="0 0 100 100" fill="none">
+          <circle cx="35" cy="40" r="18" stroke="#8A9A5B" stroke-width="6"/>
+          <circle cx="65" cy="40" r="18" stroke="#CC7722" stroke-width="6"/>
+          <circle cx="50" cy="64" r="18" stroke="#E2E3DB" stroke-width="6"/>
+        </svg>
+      </div>
+    </div>
+    <div class="vvu-quote">
+      <p>"I am because we are — trust through transparent cycles."</p>
+      <small>VVU merges ROSCA heritage with cryptographic integrity. Visual language echoes community interlock, organic growth, and technical precision.</small>
+    </div>
+  </div>
+
+  <div class="tab-bar animate-in s2">
+    <button class="tab active" onclick="switchTab('brand')">Brand</button>
+    <button class="tab" onclick="switchTab('type')">Typography</button>
+    <button class="tab" onclick="switchTab('ui')">Components</button>
+    <button class="tab" onclick="switchTab('tokens')">Tokens</button>
+  </div>
+
+  <div id="pane-brand" class="pane visible animate-in s3">
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <span class="section-title">Brandmark &amp; Logo System</span>
+      </div>
+      <div class="logo-area">
+        <div>
+          <span class="logo-variant-label">Dark background</span>
+          <div class="logo-dark-bg">
+            <svg width="260" height="68" viewBox="0 0 320 80" fill="none">
+              <circle cx="30" cy="40" r="16" stroke="#8A9A5B" stroke-width="5"/>
+              <circle cx="52" cy="40" r="16" stroke="#CC7722" stroke-width="5"/>
+              <circle cx="41" cy="58" r="16" stroke="#E2E3DB" stroke-width="5"/>
+              <text x="78" y="37" font-family="Syne, sans-serif" font-weight="800" font-size="19" fill="#ffffff" letter-spacing="-0.5">VENTURE VISION</text>
+              <text x="78" y="60" font-family="Syne, sans-serif" font-weight="400" font-size="14" letter-spacing="5" fill="#8A9A5B">UBUNTU</text>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <span class="logo-variant-label">Light background</span>
+          <div class="logo-light-bg">
+            <svg width="260" height="68" viewBox="0 0 320 80" fill="none">
+              <circle cx="30" cy="40" r="16" stroke="#8A9A5B" stroke-width="5"/>
+              <circle cx="52" cy="40" r="16" stroke="#CC7722" stroke-width="5"/>
+              <circle cx="41" cy="58" r="16" stroke="#2F2F2F" stroke-width="5"/>
+              <text x="78" y="37" font-family="Syne, sans-serif" font-weight="800" font-size="19" fill="#2F2F2F" letter-spacing="-0.5">VENTURE VISION</text>
+              <text x="78" y="60" font-family="Syne, sans-serif" font-weight="400" font-size="14" letter-spacing="5" fill="#8A9A5B">UBUNTU</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 0.75rem; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--color-text-secondary); padding: 0.75rem 1rem; background: var(--color-background-secondary); border-radius: 8px;">
+        Interlocking geometry: three overlapping circles symbolise reciprocal contribution, validation &amp; collective growth. Clearspace = 1× mark height.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <span class="section-title">Earth-Tech Color System</span>
+      </div>
+      <div class="color-grid">
+        <div class="swatch" style="background: #8A9A5B;">
+          <div class="swatch-name" style="color: #fff;">Village Sage</div>
+          <div class="swatch-hex" style="color: rgba(255,255,255,0.75);">#8A9A5B</div>
+        </div>
+        <div class="swatch" style="background: #CC7722;">
+          <div class="swatch-name" style="color: #fff;">Heritage Ochre</div>
+          <div class="swatch-hex" style="color: rgba(255,255,255,0.75);">#CC7722</div>
+        </div>
+        <div class="swatch" style="background: #2F2F2F;">
+          <div class="swatch-name" style="color: #fff;">Charcoal Trust</div>
+          <div class="swatch-hex" style="color: rgba(255,255,255,0.7);">#2F2F2F</div>
+        </div>
+        <div class="swatch" style="background: #F4F5F0; border: 0.5px solid #d0d1c9;">
+          <div class="swatch-name" style="color: #2F2F2F;">Paper White</div>
+          <div class="swatch-hex" style="color: #5A5A55;">#F4F5F0</div>
+        </div>
+        <div class="swatch" style="background: #5A5A55;">
+          <div class="swatch-name" style="color: #fff;">Gravel Utility</div>
+          <div class="swatch-hex" style="color: rgba(255,255,255,0.7);">#5A5A55</div>
+        </div>
+      </div>
+      <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--color-text-secondary);">
+        AA accessibility: Sage + Charcoal on Paper exceed 4.5:1 ratio. Use Ochre for contribution highlights &amp; Ubuntu Score progression.
+      </div>
+    </div>
+  </div>
+
+  <div id="pane-type" class="pane">
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <span class="section-title">Voice &amp; Typography</span>
+      </div>
+      <div class="type-grid">
+        <div class="type-row">
+          <span class="type-label">Display</span>
+          <span style="font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.03em; color: var(--color-text-primary);">Ubuntu Pools</span>
+          <span class="type-spec">800 · -0.03em · 1.1lh</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">Heading</span>
+          <span style="font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--color-text-primary);">Trust is cryptographic</span>
+          <span class="type-spec">700 · 1.5rem</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">Body</span>
+          <span style="font-family: 'Syne', sans-serif; font-size: 0.875rem; font-weight: 400; color: var(--color-text-secondary); line-height: 1.6;">Rotating savings for the digital age — each member contributes equal shares.</span>
+          <span class="type-spec">400 · 14px · 1.6lh</span>
+        </div>
+        <div class="type-row">
+          <span class="type-label">Mono</span>
+          <span style="font-family: 'DM Mono', monospace; font-size: 0.78rem; color: #7FC4A0; background: #12170F; padding: 0.25rem 0.6rem; border-radius: 5px;">&gt; TXN: 0x8A9A5B · Score: 94.6</span>
+          <span class="type-spec">DM Mono · 12px</span>
+        </div>
+      </div>
+      <div style="margin-top: 1.25rem; background: #12170F; border-radius: 12px; padding: 1.25rem;">
+        <div class="token-block" style="padding: 0; background: transparent;">
+          <span class="tok-comment">/* VVU Mono Specimen — ledger / on-chain */</span><br>
+          <span class="tok-var">&gt; TXN_ID:</span> <span class="tok-val">0x8A9A5B..CC7722</span> <span class="tok-key">| Ubuntu Score: 94.6</span><br>
+          <span class="tok-var">&gt; Signature(ed25519):</span> <span class="tok-val">"VillageTrust_SIG_2026"</span><br>
+          <span class="tok-var">&gt; SmartPool:</span> <span class="tok-key">0x2F2F2F...uVillage</span><br>
+          <span class="tok-comment">/* Next allocation: epoch 12 · 12 members */</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="pane-ui" class="pane">
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">04</span>
+        <span class="section-title">Component Library</span>
+      </div>
+      <div class="component-grid">
+        <div class="comp-card">
+          <span class="comp-label">Button system</span>
+          <div>
+            <button class="btn btn-sage">Contribute to Pool</button>
+            <button class="btn btn-ochre">View Ubuntu Score</button>
+            <button class="btn btn-outline">Trustee Signature</button>
+          </div>
+          <div style="margin-top: 0.75rem; font-size: 0.78rem; color: var(--color-text-secondary); line-height: 1.5;">
+            Sage: primary actions (join pool, start cycle). Ochre: earned value & verification.
+          </div>
+        </div>
+
+        <div class="comp-card">
+          <span class="comp-label">Pool preview card</span>
+          <div class="pool-card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <strong style="font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.875rem;">Village Cycle #03</strong>
+              <span style="background: var(--color-background-secondary); padding: 0.15rem 0.5rem; border-radius: 20px; font-size: 0.7rem; font-family: 'DM Mono', monospace; color: var(--color-text-secondary);">ROSCA</span>
+            </div>
+            <div class="score-num">Trust Score: 92.4</div>
+            <div style="font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--color-text-secondary);">Next: 0xCC77..22 · epoch 12</div>
+            <div style="margin-top: 0.75rem; font-size: 0.8rem;">
+              <span><span class="active-dot"></span>Active</span>
+              <span style="margin-left: 1rem; color: var(--color-text-secondary);">12 members</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 1.25rem;">
+        <span class="comp-label" style="display: block; margin-bottom: 0.5rem;">Trustee signature mark · on-chain verification</span>
+        <div class="trustee-badge">
+          <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+            <path d="M50 12 L88 30 V70 L50 88 L12 70 V30 L50 12Z" stroke="#8A9A5B" stroke-width="3" fill="none"/>
+            <text x="50" y="56" text-anchor="middle" font-family="DM Mono, monospace" font-size="16" fill="#8A9A5B" font-weight="500">VVU</text>
+          </svg>
+          <span class="badge-text">Signed Trustee Multisig · ed25519 · secp256k1</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 1.5rem;">
+        <span class="comp-label" style="display: block; margin-bottom: 0.75rem;">Ubuntu Score &amp; cryptographic identity</span>
+        <div class="ubuntu-metrics">
+          <div class="metric-card">
+            <span class="metric-val">0–1000</span>
+            <div class="metric-desc">Reputation weight: timely contributions, dispute resolution, community endorsements.</div>
+          </div>
+          <div class="metric-card">
+            <span style="font-family: 'DM Mono', monospace; font-size: 0.75rem; color: #8A9A5B; display: block; margin-bottom: 0.5rem;">wallet_signTypedData_v4</span>
+            <div class="metric-desc">All policies use ED25519 or secp256k1. Verification badge shows interlocking circle + trustee seal.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="pane-tokens" class="pane">
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">07</span>
+        <span class="section-title">Developer Token Reference</span>
+      </div>
+      <div class="token-block">
+<span class="tok-comment">/* VVU · Earth-Tech Design Tokens */</span>
+<span class="tok-key">:root</span> {
+  <span class="tok-var">--vvu-sage:</span>        <span class="tok-val">#8A9A5B</span>;  <span class="tok-comment">/* Primary, CTAs, trust anchors */</span>
+  <span class="tok-var">--vvu-ochre:</span>       <span class="tok-val">#CC7722</span>;  <span class="tok-comment">/* Accents, earned value */</span>
+  <span class="tok-var">--vvu-charcoal:</span>    <span class="tok-val">#2F2F2F</span>;  <span class="tok-comment">/* Text, signatures, UI base */</span>
+  <span class="tok-var">--vvu-paper:</span>       <span class="tok-val">#F4F5F0</span>;  <span class="tok-comment">/* Canvas, background */</span>
+  <span class="tok-var">--vvu-gravel:</span>      <span class="tok-val">#5A5A55</span>;  <span class="tok-comment">/* Secondary text, borders */</span>
+
+  <span class="tok-var">--font-sans:</span>       <span class="tok-val">'Syne'</span>, system-ui;
+  <span class="tok-var">--font-mono:</span>       <span class="tok-val">'DM Mono'</span>, monospace;
+  <span class="tok-var">--radius-md:</span>       <span class="tok-val">12px</span>;
+  <span class="tok-var">--radius-pill:</span>     <span class="tok-val">40px</span>;
+  <span class="tok-var">--transition:</span>      <span class="tok-val">0.2s ease</span>;
+}
+
+<span class="tok-comment">/* Button — Primary */</span>
+<span class="tok-key">.btn-primary</span> {
+  <span class="tok-var">background:</span>   <span class="tok-val">var(--vvu-sage)</span>;
+  <span class="tok-var">border-radius:</span><span class="tok-val">var(--radius-pill)</span>;
+  <span class="tok-var">transition:</span>   <span class="tok-val">var(--transition)</span>;
+  <span class="tok-var">color:</span>        <span class="tok-val">#ffffff</span>;
+}
+
+<span class="tok-comment">/* Ubuntu Score display */</span>
+<span class="tok-key">.ubuntu-score</span> {
+  <span class="tok-var">font-family:</span>  <span class="tok-val">var(--font-mono)</span>;
+  <span class="tok-var">color:</span>        <span class="tok-val">var(--vvu-sage)</span>;
+  <span class="tok-var">font-size:</span>    <span class="tok-val">2rem</span>;
+}
+      </div>
+      <div style="margin-top: 0.75rem; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--color-text-secondary); padding: 0.75rem 1rem; background: var(--color-background-secondary); border-radius: 8px;">
+        Implement tokens for consistent dApps, trustee dashboards, and mobile interfaces.
+      </div>
+    </div>
+
+    <div style="margin-top: 1.25rem;">
+      <span class="comp-label" style="display: block; margin-bottom: 0.75rem;">Spatial &amp; application rules</span>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div class="metric-card">
+          <div style="font-size: 0.8rem; font-weight: 700; margin-bottom: 0.5rem;">Clearspace</div>
+          <div class="metric-desc">Logo clearspace = 1× interlocking circle height. Minimum digital width: 48px.</div>
+        </div>
+        <div class="metric-card">
+          <div style="font-size: 0.8rem; font-weight: 700; margin-bottom: 0.5rem;">Motion</div>
+          <div class="metric-desc">Gentle 0.2s ease on all hover states. Reflect Ubuntu rhythm — stable, never aggressive.</div>
+        </div>
+        <div class="metric-card">
+          <div style="font-size: 0.8rem; font-weight: 700; margin-bottom: 0.5rem;">Hierarchy</div>
+          <div class="metric-desc">H1 800wt · H2 700wt · H3 600wt. Body ≥ 14px. All-caps labels only.</div>
+        </div>
+        <div class="metric-card">
+          <div style="font-size: 0.8rem; font-weight: 700; margin-bottom: 0.5rem;">Accessibility</div>
+          <div class="metric-desc">Focus rings: 2px solid Ochre. Avoid low contrast on CTAs. AA minimum on all backgrounds.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-strip animate-in s7">
+    <span class="footer-item">Gqeberha · Ubuntu Protocol</span>
+    <span class="footer-item">ROSCA + EVM Integration</span>
+    <span class="footer-item">VVU Foundation 2026</span>
+  </div>
+
+</div>
+
+<script>
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.pane').forEach(p => p.classList.remove('visible'));
+  event.target.classList.add('active');
+  document.getElementById('pane-' + id).classList.add('visible');
+}
+</script>

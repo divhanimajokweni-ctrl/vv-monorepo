@@ -181,10 +181,12 @@ Dual-interface visual system for water infrastructure monitoring and community p
 ## 🎨 Visual Design
 
 Inspired by Ubuntu's aesthetic principles:
-- Clean, minimal interfaces
-- Consistent color schemes (sage green, ochre accents)
+- Clean, minimal interfaces with earthy color palette
+- Consistent color schemes: Ubuntu green (#16a34a), ochre earth tones (#cc7722)
 - Organic shapes and fluid animations
-- Accessibility-first design approach
+- Accessibility-first design with high contrast support
+- "I am because we are" — Community prosperity philosophy
+- Dual-brand harmony: Industrial reliability meets community trust
 
 ## 🚀 Current Deployment Status
 
