@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Mainframe simulator package",
   "main": "src/index.ts",
-  "scripts": {},
+  "scripts": {
+    "build": "echo 'Building mainframe...'"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"

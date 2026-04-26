@@ -6,7 +6,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build --workspaces",
+    "start": "npx tsx packages/safestakes/src/simulator.ts",
     "test": "vitest run",
     "fixtures:generate": "node scripts/generate-fixtures.js",
     "replay": "node scripts/replay.js",
@@ -16,10 +16,13 @@
     "shadow:report": "tsx tools/shadow-evaluator/src/report.ts",
     "shadow:compare": "tsx tools/cli/src/vv-shadow-diverge.ts"
   },
+  "dependencies": {
+    "@kilocode/cli": "^7.2.24",
+    "opencode-ai": "^1.14.25"
+  },
   "devDependencies": {
-    "tsx": "^4.7.0",
-    "vitest": "^1.0.0",
-    "express": "^4.18.0"
+    "express": "^4.18.0",
+    "vitest": "^4.1.5"
   },
   "keywords": [],
   "author": "",

@@ -1,5 +1,5 @@
 // File: packages/mainframe/src/triad-collector.ts
-// Purpose: Continuous collection of signed Mainframe Triad metrics.
+// Purpose: Continuous collection of signed BayWater Triad metrics.
 // Every metric is signed by SafeKrypte before storage.
 // Unsigned metrics are rejected at the database level.
 
@@ -8,24 +8,24 @@ import type { MetricProof } from '@contracts/schemas';
 /**
  * Collection intervals (milliseconds)
  */
-const HEARTBEAT_INTERVAL_MS = 60_000;    // Every 60 seconds
-const COST_INTERVAL_MS = 300_000;         // Every 5 minutes
-const MTTR_INTERVAL_MS = 60_000;          // Every 60 seconds (check for new incidents)
+const FLOW_INTERVAL_MS = 60_000;          // Every 60 seconds
+const PRESSURE_INTERVAL_MS = 300_000;     // Every 5 minutes
+const LEAK_INTERVAL_MS = 60_000;          // Every 60 seconds (check for anomalies)
 
 /**
  * SLA thresholds
  */
-const UPTIME_THRESHOLD_BPS = 9950;        // 99.50%
-const COST_THRESHOLD_CENTS = 50;          // R0.50 per unit
-const MTTR_THRESHOLD_MINUTES = 4320;      // 72 hours
+const FLOW_THRESHOLD_LPM = 100;           // Minimum 100 LPM
+const PRESSURE_THRESHOLD_BAR = 2.0;       // Minimum 2.0 bar
+const LEAK_THRESHOLD_SCORE = 0.8;         // Maximum leak anomaly score
 
 /**
  * THE TRIAD COLLECTOR
  *
  * Three independent metric streams, each signed by a dedicated SafeKrypte key.
- * - Production: uptime_bps, signed by safekrypte-service-key
- * - Operation: cost_per_unit_cents, signed by safekrypte-ops-key
- * - Maintenance: mttr_minutes, signed by safekrypte-mttr-key
+ * - Flow: flow_rate_lpm, signed by safekrypte-flow-key
+ * - Pressure: pressure_bar, signed by safekrypte-pressure-key
+ * - Leak: leak_anomaly_score, signed by safekrypte-leak-key
  *
  * Each metric is stored immutably with its signature.
  * No signature = metric rejected.
@@ -44,24 +44,24 @@ class TriadCollector {
    * Start all three metric streams
    */
   start(): void {
-    console.log('📊 Starting Mainframe Triad metric collection...');
+    console.log('💧 Starting BayWater Triad metric collection...');
     console.log(`   Pool: ${this.poolId}`);
     console.log(`   Policy: ${this.policyHash.substring(0, 16)}...`);
-    console.log(`   Production heartbeat: every ${HEARTBEAT_INTERVAL_MS / 1000}s`);
-    console.log(`   Operation cost: every ${COST_INTERVAL_MS / 1000}s`);
-    console.log(`   Maintenance MTTR: every ${MTTR_INTERVAL_MS / 1000}s`);
+    console.log(`   Flow measurement: every ${FLOW_INTERVAL_MS / 1000}s`);
+    console.log(`   Pressure monitoring: every ${PRESSURE_INTERVAL_MS / 1000}s`);
+    console.log(`   Leak detection: every ${LEAK_INTERVAL_MS / 1000}s`);
 
-    // Production: immediate + periodic
-    this.collectProductionMetric();
-    this.intervals.push(setInterval(() => this.collectProductionMetric(), HEARTBEAT_INTERVAL_MS));
+    // Flow: immediate + periodic
+    this.collectFlowMetric();
+    this.intervals.push(setInterval(() => this.collectFlowMetric(), FLOW_INTERVAL_MS));
 
-    // Operation: immediate + periodic
-    this.collectOperationMetric();
-    this.intervals.push(setInterval(() => this.collectOperationMetric(), COST_INTERVAL_MS));
+    // Pressure: immediate + periodic
+    this.collectPressureMetric();
+    this.intervals.push(setInterval(() => this.collectPressureMetric(), PRESSURE_INTERVAL_MS));
 
-    // Maintenance: immediate + periodic
-    this.collectMaintenanceMetric();
-    this.intervals.push(setInterval(() => this.collectMaintenanceMetric(), MTTR_INTERVAL_MS));
+    // Leak: immediate + periodic
+    this.collectLeakMetric();
+    this.intervals.push(setInterval(() => this.collectLeakMetric(), LEAK_INTERVAL_MS));
   }
 
   /**
@@ -76,84 +76,84 @@ class TriadCollector {
   }
 
   /**
-   * Collect Production Uptime metric
+   * Collect Flow Rate metric
    */
-  private async collectProductionMetric(): Promise<void> {
-    const uptimeBps = await this.measureUptime();
+  private async collectFlowMetric(): Promise<void> {
+    const flowLpm = await this.measureFlow();
 
     const metric: Omit<MetricProof, 'signature'> = {
-      proofId: `proof-${this.poolId}-prod-${Date.now()}`,
+      proofId: `proof-${this.poolId}-flow-${Date.now()}`,
       poolId: this.poolId,
       policyHash: this.policyHash,
-      metricType: 'production_uptime_bps',
-      metricWindowStart: Date.now() - 86_400_000, // 24 hours
+      metricType: 'flow_rate_lpm',
+      metricWindowStart: Date.now() - 3_600_000, // 1 hour
       metricWindowEnd: Date.now(),
-      value: uptimeBps,
-      sourceService: 'mainframe-production',
-      signerPubKey: '0xmock-service-pubkey',
+      value: flowLpm,
+      sourceService: 'baywater-flow',
+      signerPubKey: '0xmock-flow-pubkey',
       createdAt: Date.now(),
     };
 
-    await this.signAndStore(metric, 'safekrypte-service-key');
+    await this.signAndStore(metric, 'safekrypte-flow-key');
 
     // Check for breach
-    if (uptimeBps < UPTIME_THRESHOLD_BPS) {
-      console.warn(`⚠️  Production uptime breach: ${(uptimeBps / 100).toFixed(2)}% < 99.50%`);
-      await this.emitBreachAlert('production_downtime', uptimeBps);
+    if (flowLpm < FLOW_THRESHOLD_LPM) {
+      console.warn(`⚠️  Low flow rate: ${flowLpm} LPM < ${FLOW_THRESHOLD_LPM} LPM`);
+      await this.emitBreachAlert('low_flow', flowLpm);
     }
   }
 
   /**
-   * Collect Operation Cost metric
+   * Collect Pressure metric
    */
-  private async collectOperationMetric(): Promise<void> {
-    const costPerUnit = await this.measureCost();
+  private async collectPressureMetric(): Promise<void> {
+    const pressureBar = await this.measurePressure();
 
     const metric: Omit<MetricProof, 'signature'> = {
-      proofId: `proof-${this.poolId}-ops-${Date.now()}`,
+      proofId: `proof-${this.poolId}-pressure-${Date.now()}`,
       poolId: this.poolId,
       policyHash: this.policyHash,
-      metricType: 'cost_per_unit_cents',
-      metricWindowStart: Date.now() - 604_800_000, // 7 days
+      metricType: 'pressure_bar',
+      metricWindowStart: Date.now() - 86_400_000, // 24 hours
       metricWindowEnd: Date.now(),
-      value: costPerUnit,
-      sourceService: 'mainframe-operation',
-      signerPubKey: '0xmock-ops-pubkey',
+      value: pressureBar,
+      sourceService: 'baywater-pressure',
+      signerPubKey: '0xmock-pressure-pubkey',
       createdAt: Date.now(),
     };
 
-    await this.signAndStore(metric, 'safekrypte-ops-key');
+    await this.signAndStore(metric, 'safekrypte-pressure-key');
 
-    if (costPerUnit > COST_THRESHOLD_CENTS) {
-      console.warn(`⚠️  Cost overrun: R${(costPerUnit / 100).toFixed(2)} > R0.50`);
-      await this.emitBreachAlert('cost_overrun', costPerUnit);
+    if (pressureBar < PRESSURE_THRESHOLD_BAR) {
+      console.warn(`⚠️  Low pressure: ${pressureBar} bar < ${PRESSURE_THRESHOLD_BAR} bar`);
+      await this.emitBreachAlert('low_pressure', pressureBar);
     }
   }
 
   /**
-   * Collect Maintenance MTTR metric
+   * Collect Leak Detection metric
    */
-  private async collectMaintenanceMetric(): Promise<void> {
-    const mttrMinutes = await this.measureMTTR();
+  private async collectLeakMetric(): Promise<void> {
+    const leakScore = await this.measureLeak();
 
     const metric: Omit<MetricProof, 'signature'> = {
-      proofId: `proof-${this.poolId}-mttr-${Date.now()}`,
+      proofId: `proof-${this.poolId}-leak-${Date.now()}`,
       poolId: this.poolId,
       policyHash: this.policyHash,
-      metricType: 'mttr_minutes',
-      metricWindowStart: Date.now() - 2_592_000_000, // 30 days
+      metricType: 'leak_anomaly_score',
+      metricWindowStart: Date.now() - 3_600_000, // 1 hour
       metricWindowEnd: Date.now(),
-      value: mttrMinutes,
-      sourceService: 'mainframe-maintenance',
-      signerPubKey: '0xmock-mttr-pubkey',
+      value: leakScore,
+      sourceService: 'baywater-leak',
+      signerPubKey: '0xmock-leak-pubkey',
       createdAt: Date.now(),
     };
 
-    await this.signAndStore(metric, 'safekrypte-mttr-key');
+    await this.signAndStore(metric, 'safekrypte-leak-key');
 
-    if (mttrMinutes > MTTR_THRESHOLD_MINUTES) {
-      console.warn(`⚠️  MTTR breach: ${mttrMinutes}m > 4320m (72h)`);
-      await this.emitBreachAlert('sla_breach', mttrMinutes);
+    if (leakScore > LEAK_THRESHOLD_SCORE) {
+      console.warn(`⚠️  Leak detected: ${leakScore} > ${LEAK_THRESHOLD_SCORE}`);
+      await this.emitBreachAlert('leak_anomaly', leakScore);
     }
   }
 
@@ -220,20 +220,20 @@ class TriadCollector {
 
   // ── Measurement functions (replace with real implementations) ──
 
-  private async measureUptime(): Promise<number> {
-    // In production: query service health endpoints
-    // For now: return simulated value with slight jitter
-    return 9950 + Math.floor(Math.random() * 50); // 9950-9999
+  private async measureFlow(): Promise<number> {
+    // In production: query smart meter API
+    // For now: return simulated flow rate with slight jitter
+    return 120 + Math.floor(Math.random() * 40); // 120-159 LPM
   }
 
-  private async measureCost(): Promise<number> {
-    // In production: query accounting system
-    return 40 + Math.floor(Math.random() * 20); // 40-59
+  private async measurePressure(): Promise<number> {
+    // In production: query acoustic logger sensors
+    return 2.5 + Math.random() * 0.5; // 2.5-3.0 bar
   }
 
-  private async measureMTTR(): Promise<number> {
-    // In production: query incident management system
-    return 60 + Math.floor(Math.random() * 240); // 60-299 minutes
+  private async measureLeak(): Promise<number> {
+    // In production: run anomaly detection on flow patterns
+    return Math.random() * 0.5; // 0.0-0.5 anomaly score
   }
 }
 

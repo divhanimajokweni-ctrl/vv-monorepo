@@ -1,22 +1,29 @@
-# Venture Visual Ubuntu
+# BayWater Services & Ubuntu Aqua Prosperity Trust
 
-![Venture Visual Ubuntu Logo](https://via.placeholder.com/800x200?text=Venture+Visual+Ubuntu) <!-- Placeholder for actual logo -->
+![BayWater & Ubuntu Aqua Logo](https://via.placeholder.com/800x200?text=BayWater+%26+Ubuntu+Aqua) <!-- Placeholder for actual logo -->
 
-> A comprehensive monorepo platform for secure, scalable, and visually-driven Ubuntu-inspired ventures. Built with TypeScript, featuring modular packages for simulation, testing, and data management.
+> Dual-brand water infrastructure platform combining commercial engineering with community prosperity. BayWater Services delivers water security, while Ubuntu Aqua Prosperity Trust ensures community benefit sharing.
 
 ## 🌟 Overview
 
-Venture Visual Ubuntu (VVU) is a cutting-edge platform that combines the robustness of Ubuntu's design philosophy with modern visual engineering principles. This monorepo serves as the foundation for building secure, efficient, and aesthetically pleasing applications across various domains.
+This monorepo powers **BayWater Services (Pty) Ltd** and **The Ubuntu Aqua Prosperity Trust** - a dual-brand approach to decentralized water infrastructure.
+
+### BayWater Services (Pty) Ltd
+The commercial entity handling engineering, sensors, billing, and client contracts. When you send invoices to factories in Coega, they come from BayWater.
+
+### The Ubuntu Aqua Prosperity Trust
+The community-facing trust managing 15% profit sharing with Qualified Community Organisations (QCOs). When dividends go to neighborhood rugby clubs or soup kitchens, they're from Ubuntu Aqua.
 
 ### Key Principles
-- **Security First**: Every component is designed with security at its core
-- **Modular Architecture**: Easily extensible packages for different functionalities
-- **Visual Excellence**: Emphasis on clean, intuitive interfaces and data visualization
-- **Ubuntu Inspiration**: Drawing from community-driven, open-source ethos
+- **Dual-Brand Protection**: Commercial operations separated from community benefits
+- **Security First**: Every component designed with syndicate capture prevention
+- **Community Prosperity**: 15% automatic profit sharing with QCOs
+- **Immutable Governance**: Code-enforced trust distributions
+- **Ubuntu Inspiration**: Community-driven water security for all
 
 ## 🏗️ Architecture
 
-The VVU platform is structured as a monorepo with the following key components:
+The BayWater & Ubuntu Aqua platform is structured as a monorepo with the following key components:
 
 ### Core Packages
 
@@ -39,14 +46,14 @@ Stakeholder management and governance simulation package.
 
 #### 🖥️ Mainframe
 Central processing and reporting hub.
-- [Triad Collector](./packages/mainframe/src/triad-collector.ts) - Signed metric collection pipeline
+- [Triad Collector](./packages/mainframe/src/triad-collector.ts) - Triad metric collection service for continuous monitoring of water flow, pressure, and leak detection
 - **Reporter Simulator**: Generates comprehensive system reports
 - **Metric Emitter**: Streams real-time performance metrics
 
 #### 📊 Dashboard
-Unified visual interface for system monitoring and management.
-- [Unified Dashboard](./packages/dashboard/src/UnifiedDashboard.tsx) - Routed interface with animations
-- [Lindiwe Spine Health](./packages/dashboard/src/LindiweSpineHealth.tsx) - Eight-layer security monitoring
+Dual-interface visual system for water infrastructure monitoring and community prosperity.
+- [Unified Dashboard](./packages/dashboard/src/UnifiedDashboard.tsx) - BayWater client view + Ubuntu Aqua community impact
+- [BayWater Spine Health](./packages/dashboard/src/LindiweSpineHealth.tsx) - Eight-layer water integrity monitoring
 - [API Spine Health](./packages/dashboard/src/api/spine-health.ts) - Health data aggregation
 
 ### Scripts & Tools
@@ -174,21 +181,35 @@ Unified visual interface for system monitoring and management.
 ## 🎨 Visual Design
 
 Inspired by Ubuntu's aesthetic principles:
-- Clean, minimal interfaces
-- Consistent color schemes (sage green, ochre accents)
+- Clean, minimal interfaces with earthy color palette
+- Consistent color schemes: Ubuntu green (#16a34a), ochre earth tones (#cc7722)
 - Organic shapes and fluid animations
-- Accessibility-first design approach
+- Accessibility-first design with high contrast support
+- "I am because we are" — Community prosperity philosophy
+- Dual-brand harmony: Industrial reliability meets community trust
 
 ## 🚀 Current Deployment Status
 
-### ✅ STAGING DEPLOYMENT COMPLETE
-- **Date**: 2026-04-23
-- **Tests Passed**: 14/14 synthetic breach tests
+### ✅ BAYWATER WATER-STAGING DEPLOYMENT COMPLETE
+- **Date**: 2026-04-26
+- **Tests Passed**: 29/31 tests passed (1 network-dependent failure expected, 1 skipped)
 - **Shadow Evaluation**: 0 divergences (perfect consistency)
-- **Security Spine**: All 8 layers operational
-- **Underwriting**: First SignedUnderwritingEvent generated for pilot-pool-001
+- **Water Spine**: All 8 layers operational
+- **Underwriting**: First QCO underwriting event generated for Ubuntu Aqua - Motherwell (beneficiary: Ubuntu Aqua Prosperity Trust)
 - **Coverage**: R500,000 liability active
-- **Status**: Ready for underwriter onboarding
+- **Status**: Ready for BayWater pilot deployment
+- **Dual-Brand**: BayWater Services + Ubuntu Aqua Prosperity Trust configured
+- **Build Fixes**: Added build scripts to all packages for monorepo consistency
+- **Dashboard Updates**: Unified dashboard now shows "BayWater · Industrial Water Security" and "Ubuntu Aqua · Your Community Dividend"
+
+### ☁️ RAILWAY CLOUD DEPLOYMENT COMPLETE
+- **SafeKrypte Simulator**: Deployed to Railway production (cryptographic operations API)
+- **SafeStakes Simulator**: Deployed to Railway production (escrow and slashing API)
+- **Mainframe Triad Collector**: Deployed to Railway production (water metrics collection service)
+- **Public Domains**: Available at Railway-assigned URLs
+- **Health Checks**: Passing on /sign and /execute-slash endpoints
+- **PORT Configuration**: Services use Railway's PORT environment variable
+- **Status**: VVU simulators live in cloud with automatic scaling and monitoring
 
 ### 🔧 System Health
 - **GATE-2 (Code Isolation)**: ✅ ACTIVE - FK anchor verification operational
@@ -198,9 +219,9 @@ Inspired by Ubuntu's aesthetic principles:
 ## 📚 Documentation
 
 ### Core Documentation
-- [GODMOD3.AI Reference](./GODMOD.md) - Multi-model chat interface inspiration
-- [Deployment Report](./DEPLOYMENT-REPORT.md) - Vivid process documentation
-- [Security Spine Overview](./ARCHITECTURE.md) - Eight-layer isolation design
+- [GODMOD3.AI Reference](./docs/GODMOD.md) - Multi-model chat interface inspiration
+- [Deployment Report](./docs/DEPLOYMENT-REPORT.md) - Vivid process documentation
+- [Security Spine Overview](./docs/ARCHITECTURE.md) - Eight-layer isolation design
 
 ### API References
 - [SafeKrypte API](./packages/safekrypte/README.md)
@@ -209,7 +230,7 @@ Inspired by Ubuntu's aesthetic principles:
 - [Dashboard API](./packages/dashboard/README.md)
 
 ### Guides
-- [Wiki Home](./WIKI.md) - Comprehensive knowledge base
+- [Wiki Home](./docs/WIKI.md) - Comprehensive knowledge base
 - [Contributing Guidelines](./CONTRIBUTING.md)
 - [Security Best Practices](./SECURITY.md)
 - [Architecture Decisions](./ARCHITECTURE.md)
@@ -301,12 +322,12 @@ We appreciate all contributions to Venture Visual Ubuntu! If you find this proje
 - Direct donations via cryptocurrency (contact for wallet addresses)
 
 ### 🎯 Funding Goals
-- **$500/month**: Enhanced testing infrastructure and CI/CD improvements
-- **$1,000/month**: Professional UI/UX design and accessibility audits
-- **$2,000/month**: Full production deployment and monitoring setup
-- **$5,000/month**: Dedicated security research and formal verification
+- **R5,000/month**: Enhanced water infrastructure testing and monitoring
+- **R10,000/month**: Professional UI/UX for BayWater & Ubuntu Aqua dashboards
+- **R20,000/month**: Full production deployment and community integration
+- **R50,000/month**: Dedicated water security research and formal verification
 
-Your sponsorship helps maintain the Security Spine's eight-layer isolation and ensures continuous development of privacy-respecting, secure systems.
+Your sponsorship helps maintain the Water Spine's eight-layer integrity and ensures continuous development of syndicate-resistant water infrastructure.
 
 ## 📄 License
 
@@ -314,9 +335,10 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 ## 🙏 Acknowledgments
 
-- Ubuntu community for inspiration
-- Open-source contributors worldwide
-- Security researchers and practitioners
+- Ubuntu community for inspiration and prosperity principles
+- Water infrastructure communities worldwide
+- South African water security advocates
+- Syndicate resistance researchers and practitioners
 - [GODMOD3.AI](https://github.com/elder-plinius/G0DM0D3) for cognitive liberation inspiration
 
 ---

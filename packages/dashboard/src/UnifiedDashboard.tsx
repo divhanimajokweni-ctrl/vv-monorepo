@@ -1,5 +1,6 @@
 // File: packages/dashboard/src/UnifiedDashboard.tsx
-// Purpose: Unified Venture Vision Ubuntu dashboard with minimal layout
+// Purpose: Dual-brand BayWater & Ubuntu Aqua dashboard
+// BayWater view for commercial clients, Ubuntu Aqua view for community impact
 // Enhanced with visual UI/UX effects, animations, high-quality scrolling, and elite accessibility
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -46,12 +47,12 @@ const UnifiedDashboard: React.FC = () => {
       switch (currentPage) {
         case 'spine-health':
           return <LindiweSpineHealth />;
-        case 'applications':
-          return <ApplicationsPage />;
+        case 'baywater-clients':
+          return <BayWaterClientsPage />;
+        case 'ubuntu-community':
+          return <UbuntuCommunityPage />;
         case 'infrastructure':
           return <InfrastructurePage />;
-        case 'layers':
-          return <LayersPage />;
         default:
           return <LindiweSpineHealth />;
       }
@@ -80,7 +81,7 @@ const UnifiedDashboard: React.FC = () => {
         fontFamily: "'Segoe UI', system-ui, sans-serif",
       }}
       role="application"
-      aria-label="Venture Vision Ubuntu Unified Dashboard"
+      aria-label="BayWater & Ubuntu Aqua Dual-Brand Dashboard"
     >
       {/* Sidebar Navigation */}
       <nav
@@ -122,7 +123,7 @@ const UnifiedDashboard: React.FC = () => {
             }}
             id="dashboard-title"
           >
-            🛡️ VVU Dashboard
+            💧 BayWater & Ubuntu Aqua Dashboard
           </h1>
         </header>
 
@@ -138,10 +139,10 @@ const UnifiedDashboard: React.FC = () => {
           aria-labelledby="dashboard-title"
         >
           {[
-            { key: 'spine-health', label: '🛡️ Spine Health', desc: 'Eight-layer security monitoring' },
-            { key: 'applications', label: '📱 Applications', desc: 'Prospective app routing' },
-            { key: 'infrastructure', label: '🏗️ Infrastructure', desc: 'System infrastructure overview' },
-            { key: 'layers', label: '📚 Layers', desc: 'Security spine layers detail' },
+            { key: 'spine-health', label: '💧 Water Spine Health', desc: 'Eight-layer water integrity monitoring' },
+            { key: 'baywater-clients', label: '🏭 BayWater Clients', desc: 'Commercial water infrastructure' },
+            { key: 'ubuntu-community', label: '🤝 Ubuntu Community', desc: 'QCO dividend distributions' },
+            { key: 'infrastructure', label: '🏗️ Infrastructure', desc: 'Dual-brand system overview' },
           ].map(({ key, label, desc }) => (
             <li key={key} role="none">
               <button
@@ -232,7 +233,23 @@ const UnifiedDashboard: React.FC = () => {
         </a>
       </main>
 
-      {/* Global styles */}
+        {/* Ubuntu-inspired footer */}
+        <footer style={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          background: 'linear-gradient(180deg, transparent 0%, #0a0a0f 100%)',
+          padding: '1rem',
+          textAlign: 'center',
+          color: '#8b8b9a',
+          fontSize: '0.9rem',
+          borderTop: '1px solid #2a2a35',
+        }}>
+          <p>"I am because we are" — Ubuntu philosophy guides our community prosperity</p>
+        </footer>
+
+        {/* Global styles */}
       <style>{`
         @keyframes pulse {
           0%, 100% { opacity: 0.3; }
@@ -244,6 +261,15 @@ const UnifiedDashboard: React.FC = () => {
           100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
+        /* Ubuntu earthy color palette */
+        :root {
+          --ubuntu-green: #16a34a;
+          --ubuntu-earth: #cc7722;
+          --ubuntu-dark: #0a0a0f;
+          --ubuntu-light: #d0d0dc;
+          --ubuntu-accent: #2a2a35;
+        }
+
         /* High-quality scrolling */
         ::-webkit-scrollbar {
           width: 8px;
@@ -251,11 +277,11 @@ const UnifiedDashboard: React.FC = () => {
         }
 
         ::-webkit-scrollbar-track {
-          background: #0a0a0f;
+          background: var(--ubuntu-dark);
         }
 
         ::-webkit-scrollbar-thumb {
-          background: #2a2a35;
+          background: var(--ubuntu-accent);
           border-radius: 4px;
         }
 
@@ -265,7 +291,7 @@ const UnifiedDashboard: React.FC = () => {
 
         /* Focus indicators for accessibility */
         *:focus {
-          outline: 2px solid #16a34a;
+          outline: 2px solid var(--ubuntu-green);
           outline-offset: 2px;
         }
 
@@ -486,48 +512,153 @@ const LayersPage: React.FC = () => (
   </div>
 );
 
-// Placeholder pages
-const ApplicationsPage: React.FC = () => (
-  <div style={{ padding: '2rem' }}>
-    <h2>📱 Venture Vision Ubuntu Applications</h2>
-    <p>Routing to prospective applications...</p>
-    <ul>
-      <li>Lindiwe Dashboard</li>
-      <li>SafeKrypte Management</li>
-      <li>SafeStakes Operations</li>
-      <li>Mainframe Monitoring</li>
-    </ul>
+// BayWater Commercial Clients Page
+const BayWaterClientsPage: React.FC = () => (
+  <div style={{ padding: '2rem', background: '#0a0a0f', minHeight: '100vh', color: '#d0d0dc' }}>
+    <h2 style={{ color: '#e8e8f4', marginBottom: '1rem' }}>🏭 BayWater · Industrial Water Security</h2>
+    <p style={{ marginBottom: '2rem' }}>Engineering, sensors, billing, and client contracts for water infrastructure.</p>
+
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+      <div style={cardStyle}>
+        <h3 style={cardTitleStyle}>📊 Client Dashboard</h3>
+        <ul style={listStyle}>
+          <li>Real-time water metrics</li>
+          <li>Infrastructure monitoring</li>
+          <li>Billing & invoicing</li>
+          <li>Maintenance scheduling</li>
+        </ul>
+      </div>
+
+      <div style={cardStyle}>
+        <h3 style={cardTitleStyle}>🔧 Engineering Portal</h3>
+        <ul style={listStyle}>
+          <li>Sensor deployment</li>
+          <li>System configuration</li>
+          <li>Performance analytics</li>
+          <li>Technical support</li>
+        </ul>
+      </div>
+
+      <div style={cardStyle}>
+        <h3 style={cardTitleStyle}>💰 Commercial Operations</h3>
+        <ul style={listStyle}>
+          <li>Contract management</li>
+          <li>Payment processing</li>
+          <li>Service level agreements</li>
+          <li>Client communications</li>
+        </ul>
+      </div>
+    </div>
   </div>
 );
 
+// Ubuntu Community Impact Page
+const UbuntuCommunityPage: React.FC = () => (
+  <div style={{ padding: '2rem', background: '#0a0a0f', minHeight: '100vh', color: '#d0d0dc' }}>
+    <h2 style={{ color: '#e8e8f4', marginBottom: '1rem' }}>🤝 Ubuntu Aqua · Your Community Dividend</h2>
+    <p style={{ marginBottom: '2rem' }}>15% profit sharing with Qualified Community Organisations (QCOs).</p>
+
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+      <div style={cardStyle}>
+        <h3 style={cardTitleStyle}>💰 Dividend Distributions</h3>
+        <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#16a34a', marginBottom: '1rem' }}>
+          R12,450.00
+        </div>
+        <p>Monthly community dividend pool</p>
+        <ul style={listStyle}>
+          <li>Mamelodi Water Trust</li>
+          <li>Soweto Community Co-op</li>
+          <li>Alexandra Development Org</li>
+        </ul>
+      </div>
+
+      <div style={cardStyle}>
+        <h3 style={cardTitleStyle}>📈 Impact Metrics</h3>
+        <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#d97706', marginBottom: '1rem' }}>
+          15.3%
+        </div>
+        <p>Average water savings achieved</p>
+        <ul style={listStyle}>
+          <li>Leak detection active</li>
+          <li>Community monitoring</li>
+          <li>Syndicate resistance</li>
+        </ul>
+      </div>
+
+      <div style={cardStyle}>
+        <h3 style={cardTitleStyle}>🏘️ QCO Network</h3>
+        <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#cc7722', marginBottom: '1rem' }}>
+          12
+        </div>
+        <p>Active community organizations</p>
+        <ul style={listStyle}>
+          <li>Rugby club partnerships</li>
+          <li>Soup kitchen support</li>
+          <li>Education programs</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+);
+
+// Infrastructure Overview Page
 const InfrastructurePage: React.FC = () => (
-  <div style={{ padding: '2rem' }}>
-    <h2>🏗️ System Infrastructure</h2>
-    <p>Overview of system infrastructure...</p>
-    <ul>
-      <li>Database Status</li>
-      <li>API Endpoints</li>
-      <li>Simulator Health</li>
-      <li>Deployment Pipeline</li>
-    </ul>
+  <div style={{ padding: '2rem', background: '#0a0a0f', minHeight: '100vh', color: '#d0d0dc' }}>
+    <h2 style={{ color: '#e8e8f4', marginBottom: '1rem' }}>🏗️ Dual-Brand Infrastructure</h2>
+    <p style={{ marginBottom: '2rem' }}>BayWater Services (commercial) + Ubuntu Aqua Trust (community) system overview.</p>
+
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+      <div style={cardStyle}>
+        <h3 style={cardTitleStyle}>🏭 BayWater Services</h3>
+        <ul style={listStyle}>
+          <li>Smart meter networks</li>
+          <li>Acoustic leak detection</li>
+          <li>Pressure monitoring</li>
+          <li>Commercial billing</li>
+        </ul>
+      </div>
+
+      <div style={cardStyle}>
+        <h3 style={cardTitleStyle}>🤝 Ubuntu Aqua Trust</h3>
+        <ul style={listStyle}>
+          <li>15% profit escrow</li>
+          <li>QCO distributions</li>
+          <li>Community monitoring</li>
+          <li>Syndicate defense</li>
+        </ul>
+      </div>
+
+      <div style={cardStyle}>
+        <h3 style={cardTitleStyle}>🛡️ Security Integration</h3>
+        <ul style={listStyle}>
+          <li>Immutable ledgers</li>
+          <li>Multisig controls</li>
+          <li>Shadow evaluation</li>
+          <li>Community oversight</li>
+        </ul>
+      </div>
+    </div>
   </div>
 );
 
-const LayersPage: React.FC = () => (
-  <div style={{ padding: '2rem' }}>
-    <h2>📚 Security Spine Layers</h2>
-    <p>Detailed view of the eight isolation layers...</p>
-    <ol>
-      <li>Schema Isolation</li>
-      <li>Code Isolation</li>
-      <li>Test Isolation</li>
-      <li>Pipeline Isolation</li>
-      <li>Shadow Isolation</li>
-      <li>Renewal Isolation</li>
-      <li>Key Isolation</li>
-      <li>Custody Isolation</li>
-    </ol>
-  </div>
-);
+// Shared card styles
+const cardStyle: React.CSSProperties = {
+  background: '#111118',
+  border: '1px solid #2a2a35',
+  borderRadius: '12px',
+  padding: '1.5rem',
+  transition: 'all 0.3s ease',
+};
+
+const cardTitleStyle: React.CSSProperties = {
+  color: '#e8e8f4',
+  marginBottom: '1rem',
+  fontSize: '1.2rem',
+};
+
+const listStyle: React.CSSProperties = {
+  color: '#8b8b9a',
+  lineHeight: '1.6',
+};
 
 export default UnifiedDashboard;

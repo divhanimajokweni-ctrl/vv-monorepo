@@ -12,4 +12,7 @@ app.post('/sign', (req, res) => {
   res.json({ signature });
 });
 
-app.listen(3001);
+const port = process.env.PORT || 3001;
+app.listen(port, () => {
+  console.log(`SafeKrypte simulator started on port ${port}`);
+});

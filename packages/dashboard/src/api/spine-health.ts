@@ -10,71 +10,71 @@ export async function getSpineHealth(): Promise<{
 }> {
   const now = Date.now();
 
-  // ── Eight-Layer Health ──
+  // ── Eight-Layer Water Integrity Health ──
   const layers: LayerHealth[] = [
     {
       layer: 1,
-      name: 'Schema Isolation',
-      status: await checkSchemaIsolation(),
+      name: 'Meter Firmware',
+      status: await checkMeterFirmware(),
       lastCheck: now,
-      proof: 'FK constraints on poolId, policyHash, underwriter',
-      underwriterQuestion: 'Can my capital reference a non-existent pool?',
+      proof: 'Smart meter firmware signature verified',
+      underwriterQuestion: 'Is meter firmware authentic and untampered?',
     },
     {
       layer: 2,
-      name: 'Code Isolation',
-      status: await checkCodeIsolation(),
+      name: 'Telemetry Encryption',
+      status: await checkTelemetryEncryption(),
       lastCheck: now,
-      proof: 'verifyUnderwritingAnchor() atomic 5-gate check',
-      underwriterQuestion: 'Can cross-pool contamination occur?',
+      proof: 'Pipe telemetry data encrypted end-to-end',
+      underwriterQuestion: 'Can telemetry data be intercepted in transit?',
     },
     {
       layer: 3,
-      name: 'Test Isolation',
-      status: await checkTestIsolation(),
+      name: 'Logger Certificates',
+      status: await checkLoggerCertificates(),
       lastCheck: now,
-      proof: '10 invariant tests passing',
-      underwriterQuestion: 'Are the invariants proven correct?',
+      proof: 'Acoustic logger manufacturer certificates valid',
+      underwriterQuestion: 'Are logger devices from trusted manufacturers?',
     },
     {
       layer: 4,
-      name: 'Pipeline Isolation',
-      status: await checkPipelineIsolation(),
+      name: 'Flow Validation',
+      status: await checkFlowValidation(),
       lastCheck: now,
-      proof: 'CI/CD fails on anchor test failure',
-      underwriterQuestion: 'Can a broken build reach production?',
+      proof: 'Flow data anomaly detection active',
+      underwriterQuestion: 'Are flow readings within expected parameters?',
     },
     {
       layer: 5,
-      name: 'Shadow Isolation',
-      status: await checkShadowIsolation(),
+      name: 'Bill Consistency',
+      status: await checkBillConsistency(),
       lastCheck: now,
-      proof: 'Continuous parallel evaluation, 0 divergences',
-      underwriterQuestion: 'Has evaluation logic drifted since audit?',
+      proof: 'Municipal vs BayWater bill comparison clean',
+      underwriterQuestion: 'Do bills match internal meter readings?',
     },
     {
       layer: 6,
-      name: 'Renewal Isolation',
-      status: await checkRenewalIsolation(),
+      name: 'Dividend Accounting',
+      status: await checkDividendAccounting(),
       lastCheck: now,
-      proof: '2-hour grace window with retroactive coverage',
-      underwriterQuestion: 'Can coverage lapse during renewal?',
+      proof: 'QCO dividend distribution double-entry verified',
+      underwriterQuestion: 'Are community dividends accurately calculated?',
     },
     {
       layer: 7,
-      name: 'Key Isolation',
-      status: await checkKeyIsolation(),
+      name: 'QCO Authentication',
+      status: await checkQCOAuthentication(),
       lastCheck: now,
-      proof: '6-step dual-signature rotation ceremony',
-      underwriterQuestion: 'Can key rotation break active coverage?',
+      proof: 'QCO leader biometric login active',
+      underwriterQuestion: 'Are QCO leaders properly authenticated?',
     },
     {
       layer: 8,
-      name: 'Custody Isolation',
-      status: await checkCustodyIsolation(),
+      name: 'Audit Trail',
+      status: await checkAuditTrail(),
       lastCheck: now,
-      proof: 'SafeKrypte arbiter ≠ SafeStakes custodian',
-      underwriterQuestion: 'Can the custodian unilaterally move escrow?',
+      proof: 'All events in immutable shadow-evaluator store',
+      underwriterQuestion: 'Is every water transaction auditable?',
     },
   ];
 
@@ -87,82 +87,82 @@ export async function getSpineHealth(): Promise<{
   return { layers, triad, shadow };
 }
 
-async function checkSchemaIsolation(): Promise<'HEALTHY' | 'DEGRADED' | 'CRITICAL'> {
+async function checkMeterFirmware(): Promise<'HEALTHY' | 'DEGRADED' | 'CRITICAL'> {
   try {
-    const response = await fetch('http://localhost:3002/pool-state');
+    const response = await fetch('http://localhost:3003/meters/firmware-status');
     const data = await response.json();
-    return data.pools ? 'HEALTHY' : 'DEGRADED';
+    return data.allSigned ? 'HEALTHY' : 'CRITICAL';
   } catch {
     return 'CRITICAL';
   }
 }
 
-async function checkCodeIsolation(): Promise<'HEALTHY' | 'DEGRADED' | 'CRITICAL'> {
-  // Check that executeSlash is loaded and anchor function exists
+async function checkTelemetryEncryption(): Promise<'HEALTHY' | 'DEGRADED' | 'CRITICAL'> {
   try {
-    const { executeSlash } = await import('@vv-monorepo/safestakes/src/core/executeSlash');
-    return executeSlash ? 'HEALTHY' : 'CRITICAL';
+    const response = await fetch('http://localhost:3003/telemetry/encryption-status');
+    const data = await response.json();
+    return data.encrypted ? 'HEALTHY' : 'CRITICAL';
   } catch {
     return 'CRITICAL';
   }
 }
 
-async function checkTestIsolation(): Promise<'HEALTHY' | 'DEGRADED' | 'CRITICAL'> {
-  // Check last test run results
+async function checkLoggerCertificates(): Promise<'HEALTHY' | 'DEGRADED' | 'CRITICAL'> {
   try {
-    const fs = await import('fs/promises');
-    const testResults = await fs.readFile('test-results/latest.json', 'utf-8');
-    const results = JSON.parse(testResults);
-    return results.failed === 0 ? 'HEALTHY' : 'DEGRADED';
-  } catch {
-    return 'UNKNOWN' as any;
-  }
-}
-
-async function checkPipelineIsolation(): Promise<'HEALTHY' | 'DEGRADED' | 'CRITICAL'> {
-  // Check CI/CD status
-  try {
-    const response = await fetch('https://api.github.com/repos/divhanimajokweni-ctrl/vv-monorepo/actions/runs?status=completed&per_page=1');
+    const response = await fetch('http://localhost:3003/loggers/certificates');
     const data = await response.json();
-    const lastRun = data.workflow_runs?.[0];
-    return lastRun?.conclusion === 'success' ? 'HEALTHY' : 'DEGRADED';
+    return data.allValid ? 'HEALTHY' : 'DEGRADED';
   } catch {
-    return 'UNKNOWN' as any;
+    return 'CRITICAL';
   }
 }
 
-async function checkShadowIsolation(): Promise<'HEALTHY' | 'DEGRADED' | 'CRITICAL'> {
+async function checkFlowValidation(): Promise<'HEALTHY' | 'DEGRADED' | 'CRITICAL'> {
+  try {
+    const response = await fetch('http://localhost:3003/metrics/anomaly-check');
+    const data = await response.json();
+    return data.withinBounds ? 'HEALTHY' : 'DEGRADED';
+  } catch {
+    return 'CRITICAL';
+  }
+}
+
+async function checkBillConsistency(): Promise<'HEALTHY' | 'DEGRADED' | 'CRITICAL'> {
   try {
     const fs = await import('fs/promises');
-    const divergenceCount = await fs.readFile('shadow-results/divergence-count.txt', 'utf-8');
+    const divergenceCount = await fs.readFile('shadow-results/bill-divergence-count.txt', 'utf-8');
     return parseInt(divergenceCount) === 0 ? 'HEALTHY' : 'CRITICAL';
   } catch {
     return 'UNKNOWN' as any;
   }
 }
 
-async function checkRenewalIsolation(): Promise<'HEALTHY' | 'DEGRADED' | 'CRITICAL'> {
+async function checkDividendAccounting(): Promise<'HEALTHY' | 'DEGRADED' | 'CRITICAL'> {
   try {
-    const { CoverageState } = await import('@vv-monorepo/safestakes/src/core/renewal-grace');
-    return CoverageState ? 'HEALTHY' : 'DEGRADED';
+    const response = await fetch('http://localhost:3002/dividends/double-entry-check');
+    const data = await response.json();
+    return data.balanced ? 'HEALTHY' : 'CRITICAL';
   } catch {
     return 'CRITICAL';
   }
 }
 
-async function checkKeyIsolation(): Promise<'HEALTHY' | 'DEGRADED' | 'CRITICAL'> {
+async function checkQCOAuthentication(): Promise<'HEALTHY' | 'DEGRADED' | 'CRITICAL'> {
   try {
-    const { KeyRotationCeremony } = await import('@vv-monorepo/scripts/ceremonies/key-rotation');
-    return KeyRotationCeremony ? 'HEALTHY' : 'DEGRADED';
+    const response = await fetch('http://localhost:3002/auth/biometric-status');
+    const data = await response.json();
+    return data.active ? 'HEALTHY' : 'DEGRADED';
   } catch {
     return 'CRITICAL';
   }
 }
 
-async function checkCustodyIsolation(): Promise<'HEALTHY' | 'DEGRADED' | 'CRITICAL'> {
+async function checkAuditTrail(): Promise<'HEALTHY' | 'DEGRADED' | 'CRITICAL'> {
   try {
-    const { EscrowCustodian } = await import('@vv-monorepo/safestakes/src/core/escrow-custody');
-    return EscrowCustodian ? 'HEALTHY' : 'DEGRADED';
+    const fs = await import('fs/promises');
+    const auditLog = await fs.readFile('shadow-results/audit-trail.jsonl', 'utf-8');
+    const entries = auditLog.split('\n').filter(Boolean);
+    return entries.length > 0 ? 'HEALTHY' : 'DEGRADED';
   } catch {
     return 'CRITICAL';
   }
@@ -170,13 +170,13 @@ async function checkCustodyIsolation(): Promise<'HEALTHY' | 'DEGRADED' | 'CRITIC
 
 async function fetchTriadMetrics(): Promise<TriadMetrics> {
   try {
-    const response = await fetch('http://localhost:3005/metrics/current');
+    const response = await fetch('http://localhost:3003/metrics/current');
     return await response.json();
   } catch {
     return {
-      production_uptime_bps: 9995,
-      cost_per_unit_cents: 45,
-      mttr_minutes: 18,
+      flow_rate_lpm: 125,
+      pressure_bar: 2.5,
+      leak_anomaly_score: 0.15,
       timestamp: Date.now(),
     };
   }

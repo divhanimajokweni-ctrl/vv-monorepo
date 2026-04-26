@@ -1,0 +1,18 @@
+[services.safekrypte]
+startCommand = "npx tsx packages/safekrypte/src/simulator.ts"
+healthcheckPath = "/sign"
+healthcheckTimeout = 300
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+[services.safestakes]
+startCommand = "npx tsx packages/safestakes/src/simulator.ts"
+healthcheckPath = "/execute-slash"
+healthcheckTimeout = 300
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+[services.mainframe]
+startCommand = "npx tsx packages/mainframe/src/index.ts"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10

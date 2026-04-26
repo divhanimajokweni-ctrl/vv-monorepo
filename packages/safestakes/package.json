@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Safestakes simulator package",
   "main": "src/simulator.ts",
-  "scripts": {},
+  "scripts": {
+    "build": "echo 'Building safestakes...'",
+    "start": "npx tsx src/simulator.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"

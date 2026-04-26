@@ -1,7 +1,7 @@
 // File: packages/dashboard/src/LindiweSpineHealth.tsx
-// Purpose: Real-time visualization of the eight-layer Security Spine.
+// Purpose: Real-time visualization of the eight-layer Water Spine Health.
 // Designed with Kowalski's principles: intentional motion, easing, timing.
-// Every panel answers one underwriter question with a single glance.
+// Every panel answers one water infrastructure integrity question with a single glance.
 
 import React, { useEffect, useState } from 'react';
 
@@ -18,12 +18,12 @@ interface LayerHealth {
 }
 
 /**
- * Mainframe Triad live metrics
+ * BayWater Triad live metrics
  */
 interface TriadMetrics {
-  production_uptime_bps: number;
-  cost_per_unit_cents: number;
-  mttr_minutes: number;
+  flow_rate_lpm: number;
+  pressure_bar: number;
+  leak_anomaly_score: number;
   timestamp: number;
 }
 
@@ -38,15 +38,15 @@ interface ShadowSummary {
 }
 
 /**
- * THE LINDIWE DASHBOARD
+ * THE BAYWATER WATER SPINE HEALTH DASHBOARD
  *
  * Design principles:
  * - Intentional motion: Status changes animate smoothly (300ms ease-out)
  * - Easing: Color transitions use cubic-bezier(0.4, 0, 0.2, 1)
  * - Timing: Data refreshes every 15s, pulses subtly on update
  *
- * Eight panels, one per isolation layer.
- * Plus Mainframe Triad metrics panel.
+ * Eight panels, one per water integrity layer.
+ * Plus BayWater Triad metrics panel.
  * Plus Shadow evaluation panel.
  */
 const LindiweSpineHealth: React.FC = () => {
@@ -134,10 +134,10 @@ const LindiweSpineHealth: React.FC = () => {
       }}>
         <div>
           <h1 style={{ margin: 0, color: '#e8e8f4', fontSize: '1.8rem' }}>
-            🛡️ Lindiwe Spine Health
+            💧 BayWater Spine Health
           </h1>
           <p style={{ margin: '0.3rem 0 0', color: '#8b8b9a', fontSize: '0.9rem' }}>
-            Eight-layer Security Spine · Continuous Proof of Correctness
+            Eight-layer Water Integrity Spine · Continuous Proof of Infrastructure Safety
           </p>
         </div>
         <div style={{ textAlign: 'right' }}>
@@ -247,7 +247,7 @@ const LindiweSpineHealth: React.FC = () => {
         ))}
       </div>
 
-      {/* Mainframe Triad Panel */}
+      {/* BayWater Triad Panel */}
       {triad && (
         <div style={{
           display: 'grid',
@@ -255,30 +255,30 @@ const LindiweSpineHealth: React.FC = () => {
           gap: '1rem',
           marginBottom: '2rem',
         }}>
-          <div style={metricPanelStyle(triad.production_uptime_bps >= 9950)}>
-            <div style={metricLabelStyle}>Production Uptime</div>
-            <div style={metricValueStyle}>{formatUptime(triad.production_uptime_bps)}</div>
-            <div style={metricThresholdStyle}>Threshold: 99.50%</div>
-            <div style={metricStatusStyle(triad.production_uptime_bps >= 9950)}>
-              {triad.production_uptime_bps >= 9950 ? '✅ Within SLA' : '🚨 BREACH'}
+          <div style={metricPanelStyle(triad.flow_rate_lpm >= 100)}>
+            <div style={metricLabelStyle}>Flow Rate</div>
+            <div style={metricValueStyle}>{triad.flow_rate_lpm} LPM</div>
+            <div style={metricThresholdStyle}>Threshold: ≥100 LPM</div>
+            <div style={metricStatusStyle(triad.flow_rate_lpm >= 100)}>
+              {triad.flow_rate_lpm >= 100 ? '✅ Adequate Flow' : '🚨 LOW FLOW'}
             </div>
           </div>
 
-          <div style={metricPanelStyle(triad.cost_per_unit_cents <= 50)}>
-            <div style={metricLabelStyle}>Cost Per Unit</div>
-            <div style={metricValueStyle}>{formatCurrency(triad.cost_per_unit_cents)}</div>
-            <div style={metricThresholdStyle}>Threshold: R0.50</div>
-            <div style={metricStatusStyle(triad.cost_per_unit_cents <= 50)}>
-              {triad.cost_per_unit_cents <= 50 ? '✅ Within SLA' : '⚠️ OVERRUN'}
+          <div style={metricPanelStyle(triad.pressure_bar >= 2.0)}>
+            <div style={metricLabelStyle}>Pressure</div>
+            <div style={metricValueStyle}>{triad.pressure_bar} bar</div>
+            <div style={metricThresholdStyle}>Threshold: ≥2.0 bar</div>
+            <div style={metricStatusStyle(triad.pressure_bar >= 2.0)}>
+              {triad.pressure_bar >= 2.0 ? '✅ Adequate Pressure' : '⚠️ LOW PRESSURE'}
             </div>
           </div>
 
-          <div style={metricPanelStyle(triad.mttr_minutes <= 4320)}>
-            <div style={metricLabelStyle}>MTTR (P0 Incidents)</div>
-            <div style={metricValueStyle}>{triad.mttr_minutes}m</div>
-            <div style={metricThresholdStyle}>Threshold: 72h (4320m)</div>
-            <div style={metricStatusStyle(triad.mttr_minutes <= 4320)}>
-              {triad.mttr_minutes <= 4320 ? '✅ Within SLA' : '🚨 BREACH'}
+          <div style={metricPanelStyle(triad.leak_anomaly_score <= 0.8)}>
+            <div style={metricLabelStyle}>Leak Detection</div>
+            <div style={metricValueStyle}>{(triad.leak_anomaly_score * 100).toFixed(1)}%</div>
+            <div style={metricThresholdStyle}>Threshold: ≤80%</div>
+            <div style={metricStatusStyle(triad.leak_anomaly_score <= 0.8)}>
+              {triad.leak_anomaly_score <= 0.8 ? '✅ No Leak Detected' : '🚨 LEAK ALERT'}
             </div>
           </div>
         </div>
@@ -351,8 +351,8 @@ const LindiweSpineHealth: React.FC = () => {
         fontSize: '0.75rem',
         borderTop: '1px solid #2a2a35',
       }}>
-        Venture Vision Ubuntu LLC · Lindiwe Dashboard v1.0 ·
-        "Make every future failure legible now."
+        BayWater Services · Water Spine Health v1.0 ·
+        "Make every infrastructure failure legible now."
       </footer>
 
       <style>{`

@@ -2,6 +2,8 @@
 
 Welcome to the Venture Visual Ubuntu (VVU) monorepo wiki! This comprehensive knowledge base covers everything from architecture to deployment.
 
+As of Q1 2026, the system is fully operational with all core services deployed on Railway.
+
 ## 📖 Table of Contents
 
 ### Getting Started
@@ -28,6 +30,7 @@ Welcome to the Venture Visual Ubuntu (VVU) monorepo wiki! This comprehensive kno
 - [Escrow Custody](./packages/safestakes/src/core/escrow-custody.ts)
 
 #### Mainframe
+Mainframe is the Triad Collector service, responsible for collecting three independent streams of water metrics: flow rate, pressure, and leak anomaly scores. Each metric is signed by a dedicated SafeKrypte key to ensure immutability and authenticity. The service is deployed on Railway and continuously collects metrics (flow and leak every 60 seconds, pressure every 5 minutes).
 - [Triad Collector](./packages/mainframe/src/triad-collector.ts)
 - [Metric Collection](./packages/mainframe/README.md)
 

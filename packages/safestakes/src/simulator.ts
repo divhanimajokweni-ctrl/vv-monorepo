@@ -17,4 +17,7 @@ app.post('/execute-slash', (req, res) => {
   }
 });
 
-app.listen(3002);
+const port = process.env.PORT || 3002;
+app.listen(port, () => {
+  console.log(`SafeStakes simulator started on port ${port}`);
+});
