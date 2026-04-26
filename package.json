@@ -7,7 +7,6 @@
   ],
   "scripts": {
     "start": "npx tsx packages/safestakes/src/simulator.ts",
-    "build": "npm run build --workspaces",
     "test": "vitest run",
     "fixtures:generate": "node scripts/generate-fixtures.js",
     "replay": "node scripts/replay.js",
