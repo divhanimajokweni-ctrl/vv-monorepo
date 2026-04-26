@@ -4,7 +4,8 @@
   "description": "Safekrypte simulator package",
   "main": "src/simulator.ts",
   "scripts": {
-    "build": "echo 'Building safekrypte...'"
+    "build": "echo 'Building safekrypte...'",
+    "start": "npx tsx src/simulator.ts"
   },
   "keywords": [],
   "author": "",

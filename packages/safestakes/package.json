@@ -4,7 +4,8 @@
   "description": "Safestakes simulator package",
   "main": "src/simulator.ts",
   "scripts": {
-    "build": "echo 'Building safestakes...'"
+    "build": "echo 'Building safestakes...'",
+    "start": "npx tsx src/simulator.ts"
   },
   "keywords": [],
   "author": "",
