@@ -11,3 +11,8 @@ healthcheckPath = "/execute-slash"
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
+
+[services.mainframe]
+startCommand = "npx tsx packages/mainframe/src/index.ts"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10

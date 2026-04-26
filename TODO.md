@@ -3,7 +3,7 @@
 ## Completed Tasks ✅
 
 ### High Priority
-- **Adapt packages/mainframe for water metrics collection (acoustic logger + smart meter data)**  
+- [x] **Adapt packages/mainframe for water metrics collection (acoustic logger + smart meter data)**  
   Updated triad-collector.ts and metric-emitter.ts for water metrics
 
 - **Update packages/safestakes escrow for 15% community profit share distribution to QCOs**  

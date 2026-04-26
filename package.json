@@ -17,16 +17,14 @@
     "shadow:compare": "tsx tools/cli/src/vv-shadow-diverge.ts"
   },
   "dependencies": {
-    "tsx": "^4.7.0"
+    "@kilocode/cli": "^7.2.24",
+    "opencode-ai": "^1.14.25"
   },
   "devDependencies": {
     "express": "^4.18.0",
-    "vitest": "^1.0.0"
+    "vitest": "^4.1.5"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@kilocode/cli": "^7.2.24"
-  }
+  "license": "ISC"
 }

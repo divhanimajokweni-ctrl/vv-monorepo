@@ -46,7 +46,7 @@ Stakeholder management and governance simulation package.
 
 #### 🖥️ Mainframe
 Central processing and reporting hub.
-- [Triad Collector](./packages/mainframe/src/triad-collector.ts) - Signed metric collection pipeline
+- [Triad Collector](./packages/mainframe/src/triad-collector.ts) - Triad metric collection service for continuous monitoring of water flow, pressure, and leak detection
 - **Reporter Simulator**: Generates comprehensive system reports
 - **Metric Emitter**: Streams real-time performance metrics
 
@@ -205,6 +205,7 @@ Inspired by Ubuntu's aesthetic principles:
 ### ☁️ RAILWAY CLOUD DEPLOYMENT COMPLETE
 - **SafeKrypte Simulator**: Deployed to Railway production (cryptographic operations API)
 - **SafeStakes Simulator**: Deployed to Railway production (escrow and slashing API)
+- **Mainframe Triad Collector**: Deployed to Railway production (water metrics collection service)
 - **Public Domains**: Available at Railway-assigned URLs
 - **Health Checks**: Passing on /sign and /execute-slash endpoints
 - **PORT Configuration**: Services use Railway's PORT environment variable
