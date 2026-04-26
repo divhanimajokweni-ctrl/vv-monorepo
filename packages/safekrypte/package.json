@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Safekrypte simulator package",
   "main": "src/simulator.ts",
-  "scripts": {},
+  "scripts": {
+    "build": "echo 'Building safekrypte...'"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"

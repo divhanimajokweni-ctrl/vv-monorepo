@@ -490,7 +490,7 @@ const LayersPage: React.FC = () => (
 // BayWater Commercial Clients Page
 const BayWaterClientsPage: React.FC = () => (
   <div style={{ padding: '2rem', background: '#0a0a0f', minHeight: '100vh', color: '#d0d0dc' }}>
-    <h2 style={{ color: '#e8e8f4', marginBottom: '1rem' }}>🏭 BayWater Services — Commercial Clients</h2>
+    <h2 style={{ color: '#e8e8f4', marginBottom: '1rem' }}>🏭 BayWater · Industrial Water Security</h2>
     <p style={{ marginBottom: '2rem' }}>Engineering, sensors, billing, and client contracts for water infrastructure.</p>
 
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
@@ -530,7 +530,7 @@ const BayWaterClientsPage: React.FC = () => (
 // Ubuntu Community Impact Page
 const UbuntuCommunityPage: React.FC = () => (
   <div style={{ padding: '2rem', background: '#0a0a0f', minHeight: '100vh', color: '#d0d0dc' }}>
-    <h2 style={{ color: '#e8e8f4', marginBottom: '1rem' }}>🤝 Ubuntu Aqua Prosperity Trust — Community Impact</h2>
+    <h2 style={{ color: '#e8e8f4', marginBottom: '1rem' }}>🤝 Ubuntu Aqua · Your Community Dividend</h2>
     <p style={{ marginBottom: '2rem' }}>15% profit sharing with Qualified Community Organisations (QCOs).</p>
 
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>

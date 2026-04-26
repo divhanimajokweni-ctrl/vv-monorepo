@@ -7,6 +7,8 @@ interface UnderwritingOptions {
   qco?: string;
   poolSize?: number; // in cents
   signer?: string;
+  beneficiary?: string;
+  escrow?: string;
 }
 
 async function generateFirstUnderwritingEvent(options: UnderwritingOptions = {}): Promise<SignedUnderwritingEvent> {
@@ -23,6 +25,8 @@ async function generateFirstUnderwritingEvent(options: UnderwritingOptions = {})
     stage: isQCO ? 'SOCIAL_RELIABILITY' : 'VIABILITY',
     inputs: {
       ...(isQCO && { qcoName: options.qco }),
+      ...(options.beneficiary && { beneficiary: options.beneficiary }),
+      ...(options.escrow && { escrow: options.escrow }),
     },
     outputs: {
       decision: 'PASS',
@@ -85,6 +89,10 @@ function parseArgs(): UnderwritingOptions {
       options.poolSize = parseInt(arg.split('=')[1]);
     } else if (arg.startsWith('--signer=')) {
       options.signer = arg.split('=')[1];
+    } else if (arg.startsWith('--beneficiary=')) {
+      options.beneficiary = arg.split('=')[1];
+    } else if (arg.startsWith('--escrow=')) {
+      options.escrow = arg.split('=')[1];
     }
   }
 

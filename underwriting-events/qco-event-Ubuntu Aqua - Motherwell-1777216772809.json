@@ -1,0 +1,23 @@
+{
+  "eventId": "qco-event-Ubuntu Aqua - Motherwell-1777216772809",
+  "poolId": "qco-ubuntu-aqua---motherwell",
+  "policyHash": "8f4e2d1a9b3c7f6e5d4a3b2c1d0e9f8a",
+  "stage": "SOCIAL_RELIABILITY",
+  "inputs": {
+    "qcoName": "Ubuntu Aqua - Motherwell"
+  },
+  "outputs": {
+    "decision": "PASS",
+    "liabilityCapCents": 50000000,
+    "premiumBps": 0,
+    "conditions": [
+      "water_savings_threshold",
+      "reporting_compliance",
+      "community_participation"
+    ]
+  },
+  "underwriter": "0xfirst-underwriter-001",
+  "signature": "0x756cccd8a9224",
+  "signedAt": 1777216772809,
+  "expiresAt": 1808752772809
+}
